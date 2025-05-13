@@ -4,6 +4,10 @@ create table public.users (
     email text unique not null,
     full_name text,
     avatar_url text,
+    locale text DEFAULT 'en'::text,
+    timezone text,
+    time_format numeric default '24'::numeric,
+    workspace_id "uuid",
     created_at timestamp with time zone default now(),
     updated_at timestamp with time zone default now(),
     constraint fk_auth_user foreign key (id) references auth.users(id) on delete cascade
@@ -33,3 +37,36 @@ for select using (auth.uid() = id);
 -- create a policy to allow users to update their own profile
 create policy update_own_profile on public.users
 for update using (auth.uid() = id);
+
+
+create policy select_own_avatar
+on "storage"."objects"
+as permissive
+for select
+to authenticated
+using (((bucket_id = 'avatars'::text) AND ((auth.uid())::text = (storage.foldername(name))[1])));
+
+
+create policy insert_own_avatar
+on "storage"."objects"
+as permissive
+for insert
+to authenticated
+with check (((bucket_id = 'avatars'::text) AND ((auth.uid())::text = (storage.foldername(name))[1])));
+
+
+create policy update_own_avatar
+on "storage"."objects"
+as permissive
+for update
+to authenticated
+using (((bucket_id = 'avatars'::text) AND ((auth.uid())::text = (storage.foldername(name))[1])));
+
+
+create policy delete_own_avatar
+on "storage"."objects"
+as permissive
+for delete
+to authenticated
+using (((bucket_id = 'avatars'::text) AND ((auth.uid())::text = (storage.foldername(name))[1])));
+    

@@ -29,8 +29,25 @@ double_confirm_changes = true
 enable_confirmations = true
 enable_signup = true
 
+# Custom email templates - Run `bun restart` to apply changes locally
+# https://supabase.com/docs/guides/local-development/customizing-email-templates
+[auth.email.template.magic_link]
+subject = "CRE Finder AI"
+content_path = "./supabase/templates/otp.html"
+
+[auth.email.template.confirmation]
+subject = "CRE Finder AI"
+content_path = "./supabase/templates/confirm.html"
+
+# Enable auth hooks - Run `bun restart` to apply changes locally
+# https://supabase.com/docs/guides/auth/auth-hooks#local-development
+[auth.hook.custom_access_token]
+enabled = false
+uri = "pg-functions://postgres/public/custom_access_token_hook"
+
 [analytics]
 enabled = true
 port = 54327
 vector_port = 54328
 backend = "postgres"
+

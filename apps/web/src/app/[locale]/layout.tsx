@@ -1,13 +1,13 @@
 import "@v1/ui/globals.css";
 import { cn } from "@v1/ui/cn";
+import { Toaster } from "@v1/ui/sonner";
 import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
 import type { Metadata } from "next";
 import { ThemeProvider } from "next-themes";
 
 export const metadata: Metadata = {
-  title: "Create v1",
-  description: "Production ready Next.js app",
+  title: "CRE Finder AI",
 };
 
 export const viewport = {
@@ -37,6 +37,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           {children}
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>

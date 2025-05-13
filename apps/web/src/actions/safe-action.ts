@@ -1,5 +1,6 @@
 import { logger } from "@v1/logger";
-import { getUser } from "@v1/supabase/queries";
+import { getUser } from "@v1/supabase/cached-queries";
+import { getUserQuery } from "@v1/supabase/queries";
 import { createClient } from "@v1/supabase/server";
 import {
   DEFAULT_SERVER_ERROR_MESSAGE,
@@ -51,10 +52,14 @@ export const authActionClient = actionClientWithMeta
     return result;
   })
   .use(async ({ next, metadata }) => {
-    const {
-      data: { user },
-    } = await getUser();
+    const cachedUser = await getUser();
     const supabase = createClient();
+
+    if (!cachedUser?.data) {
+      throw new Error("Unauthorized");
+    }
+
+    const user = cachedUser.data;
 
     if (!user) {
       throw new Error("Unauthorized");

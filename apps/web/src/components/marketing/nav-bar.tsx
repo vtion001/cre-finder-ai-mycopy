@@ -62,7 +62,7 @@ export const NavBar = () => {
                 </Button>
               </>
             ) : (
-              <Link href="/auth">
+              <Link href="/login">
                 <Button className="bg-blue-600 hover:bg-blue-700 text-white ml-4">
                   Get Started
                 </Button>
@@ -162,7 +162,7 @@ export const NavBar = () => {
               </>
             ) : (
               <div className="pt-2">
-                <Link href="/auth">
+                <Link href="/login">
                   <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">
                     Get Started
                   </Button>
