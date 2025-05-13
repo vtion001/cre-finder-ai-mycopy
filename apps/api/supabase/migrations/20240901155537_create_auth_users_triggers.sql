@@ -1,4 +1,4 @@
-create function public.handle_new_user() returns trigger
+create or replace function public.handle_new_user() returns trigger
 language plpgsql security definer set search_path = ''
 as $$
 begin
@@ -13,7 +13,7 @@ end;
 $$;
 
 -- trigger the function every time a user is created
-create trigger on_auth_user_created
+create or replace trigger on_auth_user_created
 after insert on auth.users
 for each row
 execute function public.handle_new_user();
