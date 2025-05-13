@@ -38,7 +38,7 @@ export async function middleware(request: NextRequest) {
     newUrl.pathname,
   );
 
-  if (!user && (!isAuthPage || newUrl.pathname === "/")) {
+  if (!user && !isAuthPage && newUrl.pathname !== "/") {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
