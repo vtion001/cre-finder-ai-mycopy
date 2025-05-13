@@ -31,6 +31,7 @@ import {
   SidebarMenuItem,
 } from "@v1/ui/sidebar";
 import Link from "next/link";
+import { Logo } from "../logo";
 // import { NavDocuments } from "./nav-documents";
 // import { NavMain } from "./nav-main";
 // import { NavSecondary } from "./nav-secondary";
@@ -163,15 +164,7 @@ export function AppSidebar({ user, ...props }: SidebarProps) {
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton
-              asChild
-              className="data-[slot=sidebar-menu-button]:!p-1.5"
-            >
-              <Link href="/">
-                {/* <BuildingIcon className="h-5 w-5" /> */}
-                <span className="text-base font-semibold">CRE Finder AI</span>
-              </Link>
-            </SidebarMenuButton>
+            <Logo href="/dashboard" size="md" className="px-2 py-1" />
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>

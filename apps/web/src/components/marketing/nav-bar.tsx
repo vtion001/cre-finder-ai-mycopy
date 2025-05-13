@@ -3,6 +3,7 @@
 import { Button } from "@v1/ui/button";
 import Link from "next/link";
 import { useState } from "react";
+import { Logo } from "../logo";
 
 export const NavBar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -17,9 +18,7 @@ export const NavBar = () => {
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <div className="flex-shrink-0 flex items-center">
-              <Link href="/" className="text-2xl font-bold text-blue-600">
-                CRE Finder AI
-              </Link>
+              <Logo href="/dashboard" size="md" className="px-2 py-1" />
             </div>
           </div>
 
