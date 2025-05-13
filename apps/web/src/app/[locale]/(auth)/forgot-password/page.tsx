@@ -1,5 +1,5 @@
-import { SignUpForm } from "@/components/forms/signup-form";
-import { Button } from "@v1/ui/button";
+import { ForgotPasswordForm } from "@/components/forms/forgot-password-form";
+
 import {
   Card,
   CardContent,
@@ -9,38 +9,40 @@ import {
   CardTitle,
 } from "@v1/ui/card";
 import { Separator } from "@v1/ui/separator";
-import { Building2 } from "lucide-react";
+import { ArrowLeft, Building2 } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
+import * as z from "zod";
 
 export const metadata: Metadata = {
-  title: "Sign Up - CRE Finder AI",
+  title: "Forgot Password - CRE Finder AI",
   description:
-    "Create a new account to access CRE Finder AI platform and services",
+    "Reset your password to regain access to your CRE Finder AI account",
 };
 
-export default function SignUp() {
+export default function ForgotPassword() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 px-4 py-8">
       <Card className="w-full max-w-md shadow-lg border-t-4 border-t-primary">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl text-center">Get Started</CardTitle>
+          <CardTitle className="text-2xl text-center">Reset Password</CardTitle>
           <CardDescription className="text-center">
-            Create a new account to discover properties with AI
+            Enter your email address and we'll send you a link to reset your
+            password
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <SignUpForm />
+          <ForgotPasswordForm />
         </CardContent>
         <CardFooter className="flex flex-col gap-4">
           <Separator />
-          <div className="text-sm text-center text-muted-foreground">
-            Already have an account?{" "}
+          <div className="flex justify-center">
             <Link
               href="/login"
-              className="text-primary font-medium hover:underline"
+              className="text-sm text-primary hover:underline font-medium inline-flex items-center"
             >
-              Sign in instead
+              <ArrowLeft className="mr-1 h-4 w-4" />
+              Back to login
             </Link>
           </div>
         </CardFooter>

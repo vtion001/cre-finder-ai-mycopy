@@ -1,7 +1,9 @@
 import type { EmailOtpType } from "@supabase/supabase-js";
 import type { NextRequest } from "next/server";
 
+import { updateUser } from "@v1/supabase/mutations";
 import { createClient } from "@v1/supabase/server";
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 export async function GET(request: NextRequest) {
@@ -13,14 +15,20 @@ export async function GET(request: NextRequest) {
   if (token_hash && type) {
     const supabase = createClient();
 
-    const { error } = await supabase.auth.verifyOtp({
+    const { error, data } = await supabase.auth.verifyOtp({
       type,
       token_hash,
     });
     if (!error) {
-      // redirect user to specified redirect URL or root of app
-      // redirect(next);
-      redirect("/dashboard");
+      console.log("verified", type, data);
+
+      if (type === "email_change" && data.user) {
+        console.log("updating user email", data.user.email, data.user.id);
+        await updateUser(supabase, { email: data.user.email });
+        revalidatePath(`user_${data.user.id}`);
+      }
+
+      redirect(next);
     }
   }
 

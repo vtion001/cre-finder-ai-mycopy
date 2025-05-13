@@ -1,7 +1,7 @@
 "use client";
 
 import { createClient } from "@v1/supabase/client";
-import { Button } from "@v1/ui/button";
+import { DropdownMenuItem } from "@v1/ui/dropdown-menu";
 import { Icons } from "@v1/ui/icons";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -21,13 +21,9 @@ export function SignOut() {
     router.push("/login");
   };
   return (
-    <Button
-      onClick={handleSignOut}
-      variant="outline"
-      className="font-mono gap-2 flex items-center"
-    >
-      <Icons.SignOut className="size-4" />
+    <DropdownMenuItem onClick={handleSignOut}>
+      <Icons.SignOut className="size-4 mr-2" />
       <span>{isLoading ? "Loading..." : "Sign out"}</span>
-    </Button>
+    </DropdownMenuItem>
   );
 }

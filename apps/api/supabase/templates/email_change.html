@@ -1,0 +1,12 @@
+<h2>Confirm email address change</h2>
+<p>Follow this link to confirm the update of your email address
+
+</p>
+<p>
+  <a
+    href="{{ .SiteURL }}/api/auth/confirm?token_hash={{ .TokenHash }}&type=email_change&next=/account"
+    >
+    Change email address
+    </a
+  >
+</p>

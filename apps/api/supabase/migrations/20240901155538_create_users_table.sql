@@ -3,11 +3,11 @@ create table public.users (
     id uuid primary key,
     email text unique not null,
     full_name text,
+    phone_number text,
     avatar_url text,
     locale text DEFAULT 'en'::text,
     timezone text,
     time_format numeric default '24'::numeric,
-    workspace_id "uuid",
     created_at timestamp with time zone default now(),
     updated_at timestamp with time zone default now(),
     constraint fk_auth_user foreign key (id) references auth.users(id) on delete cascade

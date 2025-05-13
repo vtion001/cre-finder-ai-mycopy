@@ -39,11 +39,21 @@ content_path = "./supabase/templates/otp.html"
 subject = "CRE Finder AI"
 content_path = "./supabase/templates/confirm.html"
 
+[auth.email.template.recovery]
+subject = "CRE Finder AI"
+content_path = "./supabase/templates/recovery.html"
+
+[auth.email.template.email_change]
+subject = "CRE Finder AI"
+content_path = "./supabase/templates/email_change.html"
+
 # Enable auth hooks - Run `bun restart` to apply changes locally
 # https://supabase.com/docs/guides/auth/auth-hooks#local-development
 [auth.hook.custom_access_token]
 enabled = false
 uri = "pg-functions://postgres/public/custom_access_token_hook"
+
+
 
 [analytics]
 enabled = true

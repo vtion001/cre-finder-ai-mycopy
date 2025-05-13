@@ -34,7 +34,9 @@ export async function middleware(request: NextRequest) {
   // Create a new URL without the locale in the pathname
   const newUrl = new URL(pathnameWithoutLocale || "/", request.url);
 
-  const isAuthPage = ["/login", "/signup"].includes(newUrl.pathname);
+  const isAuthPage = ["/login", "/signup", "/forgot-password"].includes(
+    newUrl.pathname,
+  );
 
   if (!user && (!isAuthPage || newUrl.pathname === "/")) {
     return NextResponse.redirect(new URL("/login", request.url));

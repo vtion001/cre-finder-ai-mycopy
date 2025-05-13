@@ -1,0 +1,123 @@
+"use client";
+
+import { PasswordInput } from "@/components/password-input";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { createClient } from "@v1/supabase/client";
+import { Button } from "@v1/ui/button";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@v1/ui/form";
+import { toast } from "@v1/ui/sonner";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+
+const updatePasswordSchema = z
+  .object({
+    newPassword: z
+      .string()
+      .min(8, { message: "Password must be at least 8 characters" })
+      .regex(/[A-Z]/, {
+        message: "Password must contain at least one uppercase letter",
+      })
+      .regex(/[a-z]/, {
+        message: "Password must contain at least one lowercase letter",
+      })
+      .regex(/[0-9]/, { message: "Password must contain at least one number" })
+      .regex(/[^A-Za-z0-9]/, {
+        message: "Password must contain at least one special character",
+      }),
+    confirmPassword: z
+      .string()
+      .min(1, { message: "Please confirm your password" }),
+  })
+  .refine((data) => data.newPassword === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
+
+type Inputs = z.infer<typeof updatePasswordSchema>;
+
+export function UpdatePasswordForm() {
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
+
+  const form = useForm<Inputs>({
+    resolver: zodResolver(updatePasswordSchema),
+    defaultValues: {
+      newPassword: "",
+      confirmPassword: "",
+    },
+  });
+
+  const supabase = createClient();
+
+  const onSubmit = async (values: Inputs) => {
+    setIsLoading(true);
+    try {
+      const { data, error } = await supabase.auth.updateUser({
+        password: values.newPassword,
+      });
+
+      if (error) {
+        toast.error("Failed to update password");
+      } else {
+        toast.success("Password updated successfully");
+      }
+
+      router.push("/account");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <FormField
+          control={form.control}
+          name="newPassword"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>New Password</FormLabel>
+              <FormControl>
+                <PasswordInput {...field} />
+              </FormControl>
+              <FormDescription className="text-xs">
+                Password must be at least 8 characters and include uppercase,
+                lowercase, number, and special character.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* Confirm Password Field */}
+        <FormField
+          control={form.control}
+          name="confirmPassword"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Confirm New Password</FormLabel>
+              <FormControl>
+                <PasswordInput {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <Button type="submit" className="w-full mt-6" disabled={isLoading}>
+          {isLoading ? "Updating..." : "Update Password"}
+        </Button>
+      </form>
+    </Form>
+  );
+}

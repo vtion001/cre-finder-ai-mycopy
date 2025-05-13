@@ -1,17 +1,21 @@
-import { logger } from "@v1/logger";
-import { createClient } from "@v1/supabase/server";
-import type { Database, Tables, TablesUpdate } from "../types";
+import type { Client, TablesUpdate } from "../types";
 
-export async function updateUser(userId: string, data: TablesUpdate<"users">) {
-  const supabase = createClient();
+export async function updateUser(
+  supabase: Client,
+  data: TablesUpdate<"users">,
+) {
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
 
-  try {
-    const result = await supabase.from("users").update(data).eq("id", userId);
-
-    return result;
-  } catch (error) {
-    logger.error(error);
-
-    throw error;
+  if (!session?.user) {
+    return;
   }
+
+  return supabase
+    .from("users")
+    .update(data)
+    .eq("id", session.user.id)
+    .select()
+    .single();
 }
