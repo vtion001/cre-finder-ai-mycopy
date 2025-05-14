@@ -3,7 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "sideEffects": false,
-  "files": ["tailwind.config.ts", "postcss.config.js", "globals.css"],
+  "files": [
+    "tailwind.config.ts",
+    "postcss.config.js",
+    "globals.css"
+  ],
   "scripts": {
     "clean": "rm -rf .turbo node_modules",
     "lint": "biome check .",
@@ -68,6 +72,8 @@
     "./toggle-group": "./src/components/toggle-group.tsx",
     "./toggle": "./src/components/toggle.tsx",
     "./tooltip": "./src/components/tooltip.tsx",
+    "./use-controllable-state": "./src/hooks/use-controllable-state.ts",
+    "./use-debounce": "./src/hooks/use-debounce.ts",
     "./use-mobile": "./src/hooks/use-mobile.tsx",
     "./tailwind.config": "./tailwind.config.ts",
     "./postcss": "./postcss.config.js"

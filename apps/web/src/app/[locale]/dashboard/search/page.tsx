@@ -1,4 +1,5 @@
 import { AccountSettings } from "@/components/account-settings";
+import { PropertySearchInterface } from "@/components/property-search-interface";
 
 import { AppSidebar } from "@/components/sidebar/app-sidebar";
 import { SiteHeader } from "@/components/site-header";
@@ -27,7 +28,9 @@ export default async function Search() {
       <AppSidebar user={user} variant="inset" />
       <SidebarInset>
         <SiteHeader title="Property Search" />
-        <div className="space-y-6 p-6 pb-16"></div>
+        <div className="space-y-6 p-6 pb-16">
+          <PropertySearchInterface />
+        </div>
       </SidebarInset>
     </SidebarProvider>
   );

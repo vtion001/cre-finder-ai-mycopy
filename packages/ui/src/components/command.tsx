@@ -1,11 +1,11 @@
 "use client";
 
-import { Dialog, DialogContent } from "@/components/dialog";
 import type { DialogProps } from "@radix-ui/react-dialog";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import { Command as CommandPrimitive } from "cmdk";
 import * as React from "react";
 import { cn } from "../utils";
+import { Dialog, DialogContent } from "./dialog";
 
 const Command = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive>,
@@ -139,6 +139,19 @@ const CommandShortcut = ({
 };
 CommandShortcut.displayName = "CommandShortcut";
 
+const CommandLoading = React.forwardRef<
+  React.ElementRef<typeof CommandPrimitive.Loading>,
+  React.ComponentPropsWithoutRef<typeof CommandPrimitive.Loading>
+>(({ className, ...props }, ref) => (
+  <CommandPrimitive.Loading
+    ref={ref}
+    className={cn("flex justify-center", className)}
+    {...props}
+  />
+));
+
+CommandLoading.displayName = CommandPrimitive.Loading.displayName;
+
 export {
   Command,
   CommandDialog,
@@ -149,4 +162,5 @@ export {
   CommandItem,
   CommandShortcut,
   CommandSeparator,
+  CommandLoading,
 };
