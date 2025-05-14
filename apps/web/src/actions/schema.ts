@@ -11,3 +11,18 @@ export const placeSuggestionSchema = z.object({
     }),
   ),
 });
+
+// Schema for RealEstate API location suggestions
+export const realEstateLocationSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  state_code: z.string(),
+  type: z.string(),
+  full_name: z.string(),
+});
+
+export const assetTypeSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  description: z.string().optional(),
+});

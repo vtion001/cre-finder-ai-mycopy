@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   title: "Dashboard - CRE Finder AI",
 };
 
-export default async function Dasbhoard() {
+export default async function Dashboard() {
   const cachedUser = await getUser();
 
   if (!cachedUser?.data) {
@@ -17,6 +17,13 @@ export default async function Dasbhoard() {
   }
 
   const user = cachedUser.data;
+
+  const hasCompletedOnboarding =
+    user.subscription_plan_id && user.selected_asset_type_id;
+
+  if (!hasCompletedOnboarding) {
+    redirect("/onboarding");
+  }
 
   return (
     <SidebarProvider>

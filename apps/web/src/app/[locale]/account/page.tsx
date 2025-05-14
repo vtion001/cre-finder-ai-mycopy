@@ -22,6 +22,13 @@ export default async function Account() {
 
   const user = cachedUser.data;
 
+  const hasCompletedOnboarding =
+    user.subscription_plan_id && user.selected_asset_type_id;
+
+  if (!hasCompletedOnboarding) {
+    redirect("/onboarding");
+  }
+
   return (
     <SidebarProvider>
       <AppSidebar user={user} variant="inset" />
