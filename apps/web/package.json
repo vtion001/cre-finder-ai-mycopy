@@ -12,6 +12,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@googlemaps/places": "^2.0.1",
+    "@tabler/icons-react": "^3.31.0",
     "@types/google-libphonenumber": "^7.4.30",
     "@v1/supabase": "workspace:*",
     "@v1/ui": "workspace:*",

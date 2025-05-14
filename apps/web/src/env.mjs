@@ -11,6 +11,8 @@ export const env = createEnv({
   },
   server: {
     SUPABASE_SERVICE_KEY: z.string(),
+    GOOGLE_API_KEY: z.string(),
+    REALESTATEAPI_API_KEY: z.string(),
   },
   client: {
     NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string(),
@@ -22,6 +24,8 @@ export const env = createEnv({
     PORT: process.env.PORT,
     SUPABASE_SERVICE_KEY: process.env.SUPABASE_SERVICE_KEY,
     VERCEL_URL: process.env.VERCEL_URL,
+    GOOGLE_API_KEY: process.env.GOOGLE_API_KEY,
+    REALESTATEAPI_API_KEY: process.env.REALESTATEAPI_API_KEY,
   },
   skipValidation: !!process.env.CI || !!process.env.SKIP_ENV_VALIDATION,
 });
