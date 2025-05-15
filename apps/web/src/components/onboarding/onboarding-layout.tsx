@@ -1,16 +1,11 @@
 "use client";
 
 import { Logo } from "@/components/logo";
+import { UserMenu } from "@/components/user-menu";
 import { Button } from "@v1/ui/button";
 import { Card, CardContent } from "@v1/ui/card";
 import { cn } from "@v1/ui/cn";
-import {
-  ArrowLeftIcon,
-  ArrowRightIcon,
-  CheckCircle2,
-  CheckIcon,
-} from "lucide-react";
-import Link from "next/link";
+import { ArrowLeftIcon, ArrowRightIcon, CheckCircle2 } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import type { ReactNode } from "react";
 
@@ -29,6 +24,11 @@ interface OnboardingLayoutProps {
   onNextClick?: () => void;
   onBackClick?: () => void;
   isNextLoading?: boolean;
+  user: {
+    id: string;
+    email?: string | null;
+    full_name?: string | null;
+  };
 }
 
 export function OnboardingLayout({
@@ -40,6 +40,7 @@ export function OnboardingLayout({
   onNextClick,
   onBackClick,
   isNextLoading = false,
+  user,
 }: OnboardingLayoutProps) {
   const pathname = usePathname();
   const router = useRouter();
@@ -73,6 +74,7 @@ export function OnboardingLayout({
       <header className="border-sidebar-border border-si bg-sidebar">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <Logo size="sm" />
+          <UserMenu user={user} />
         </div>
       </header>
 

@@ -32,7 +32,10 @@ export default async function LocationsPage() {
   const selectedAssetType = cachedUser.data.selected_asset_type_id;
 
   return (
-    <OnboardingLayout nextButtonDisabled={!selectedAssetType}>
+    <OnboardingLayout
+      nextButtonDisabled={!selectedAssetType}
+      user={cachedUser.data}
+    >
       <div className="max-w-3xl mx-auto">
         <Card className="shadow-lg border-t-4 border-t-primary">
           <CardContent className="p-6">

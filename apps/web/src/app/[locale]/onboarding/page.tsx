@@ -27,7 +27,11 @@ export default async function OnboardingPage() {
   const selectedPlan = cachedUser.data.subscription_plan_id;
 
   return (
-    <OnboardingLayout showBackButton={false} nextButtonDisabled={!selectedPlan}>
+    <OnboardingLayout
+      showBackButton={false}
+      nextButtonDisabled={!selectedPlan}
+      user={cachedUser.data}
+    >
       <div className="max-w-screen-lg mx-auto p-6">
         <PricingSelection plans={data ?? []} selectedPlan={selectedPlan} />
       </div>

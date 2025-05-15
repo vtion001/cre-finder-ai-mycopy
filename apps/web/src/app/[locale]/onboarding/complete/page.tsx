@@ -25,7 +25,7 @@ export default async function CompletePage() {
   }
 
   return (
-    <OnboardingLayout showNextButton={false}>
+    <OnboardingLayout showNextButton={false} user={cachedUser.data}>
       <div className="max-w-3xl mx-auto">
         <Card className="shadow-lg border-t-4 border-t-primary">
           <CardContent className="p-6">
