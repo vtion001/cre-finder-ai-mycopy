@@ -12,13 +12,12 @@ export const placeSuggestionSchema = z.object({
   ),
 });
 
-// Schema for RealEstate API location suggestions
-export const realEstateLocationSchema = z.object({
-  id: z.string(),
-  name: z.string(),
+export const locationSchema = z.object({
+  internal_id: z.string(),
   state_code: z.string(),
-  type: z.string(),
-  full_name: z.string(),
+  type: z.enum(["city", "county"]),
+  title: z.string(),
+  display_name: z.string().optional(),
 });
 
 export const assetTypeSchema = z.object({

@@ -1,8 +1,9 @@
 "use client";
 
 import { saveAssetTypeAction } from "@/actions/save-asset-type-action";
-import { saveUserCitiesAction } from "@/actions/save-user-cities-action";
-import type { realEstateLocationSchema } from "@/actions/schema";
+
+import { saveUserLocationsAction } from "@/actions/save-user-locations-action";
+import type { locationSchema } from "@/actions/schema";
 import { LocationSearch } from "@/components/location-search";
 import type { Tables } from "@v1/supabase/types";
 import { Label } from "@v1/ui/label";
@@ -14,28 +15,47 @@ import {
   SelectValue,
 } from "@v1/ui/select";
 import { useAction } from "next-safe-action/hooks";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import type { z } from "zod";
 
-type Location = z.infer<typeof realEstateLocationSchema>;
+type Location = z.infer<typeof locationSchema>;
+
 type AssetType = Tables<"asset_types">;
 
 export function LocationSelection({
+  plan,
   assetTypes,
   selectedAssetType,
-}: { assetTypes: AssetType[]; selectedAssetType?: string | null }) {
-  const [selectedLocations, setSelectedLocations] = useState<Location[]>([]);
-
+  selectedLocations,
+}: {
+  plan: Tables<"subscription_plans">;
+  assetTypes: AssetType[];
+  selectedAssetType?: string | null;
+  selectedLocations?: Location[];
+}) {
   const { executeAsync: saveAssetType } = useAction(saveAssetTypeAction);
 
-  const handleSelectLocation = (location: Location) => {
-    setSelectedLocations([...selectedLocations, location]);
+  const { executeAsync: saveUserLocations } = useAction(
+    saveUserLocationsAction,
+  );
+
+  const handleSelectLocation = async (location: Location) => {
+    // todo: handle multiple locations
+    await saveUserLocations({
+      locations: [location],
+      revalidatePath: "/onboarding/complete",
+    });
   };
 
-  const handleRemoveLocation = (locationId: string) => {
-    setSelectedLocations(
-      selectedLocations.filter((loc) => loc.id !== locationId),
+  const handleRemoveLocation = async (locationId: string) => {
+    const newLocations = selectedLocations?.filter(
+      (loc) => loc.internal_id !== locationId,
     );
+
+    await saveUserLocations({
+      locations: newLocations ?? [],
+      revalidatePath: "/onboarding/complete",
+    });
   };
 
   const handleSelectAssetType = async (assetTypeId: string) => {
@@ -78,7 +98,7 @@ export function LocationSelection({
           onSelectLocation={handleSelectLocation}
           selectedLocations={selectedLocations}
           onRemoveLocation={handleRemoveLocation}
-          maxSelections={5}
+          maxSelections={plan.county_access === "Single county" ? 1 : 5}
         />
       </div>
     </div>

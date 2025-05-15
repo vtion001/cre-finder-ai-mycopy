@@ -27,21 +27,41 @@ export default async function LocationsPage() {
 
   const supabase = createClient();
 
-  const { data } = await supabase.from("asset_types").select("*").order("name");
+  const { data: plan } = await supabase
+    .from("subscription_plans")
+    .select("*")
+    .eq("id", selectedPlan)
+    .single();
+
+  if (!plan) {
+    redirect("/onboarding");
+  }
+
+  const { data: assetTypes } = await supabase
+    .from("asset_types")
+    .select("*")
+    .order("name");
+
+  const { data: selectedLocations } = await supabase
+    .from("user_locations")
+    .select("*")
+    .eq("user_id", cachedUser.data.id);
 
   const selectedAssetType = cachedUser.data.selected_asset_type_id;
 
   return (
     <OnboardingLayout
-      nextButtonDisabled={!selectedAssetType}
+      nextButtonDisabled={!selectedAssetType || selectedLocations?.length === 0}
       user={cachedUser.data}
     >
       <div className="max-w-3xl mx-auto">
         <Card className="shadow-lg border-t-4 border-t-primary">
           <CardContent className="p-6">
             <LocationSelection
-              assetTypes={data ?? []}
+              plan={plan}
+              assetTypes={assetTypes ?? []}
               selectedAssetType={selectedAssetType}
+              selectedLocations={selectedLocations ?? []}
             />
           </CardContent>
         </Card>

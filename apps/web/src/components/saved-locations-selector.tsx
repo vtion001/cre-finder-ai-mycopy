@@ -1,8 +1,8 @@
 "use client";
 
-import type { realEstateLocationSchema } from "@/actions/schema";
+import type { locationSchema } from "@/actions/schema";
+import type { Tables } from "@v1/supabase/types";
 import { Badge } from "@v1/ui/badge";
-import { Button } from "@v1/ui/button";
 import { Card } from "@v1/ui/card";
 import { Checkbox } from "@v1/ui/checkbox";
 import { Label } from "@v1/ui/label";
@@ -11,7 +11,7 @@ import { BuildingIcon, MapPinIcon } from "lucide-react";
 import { useState } from "react";
 import type { z } from "zod";
 
-type Location = z.infer<typeof realEstateLocationSchema>;
+type Location = Tables<"user_locations">;
 
 interface SavedLocationsSelectorProps {
   savedLocations: Location[];
@@ -95,7 +95,7 @@ export function SavedLocationsSelector({
                     htmlFor={`location-${location.id}`}
                     className="font-normal cursor-pointer"
                   >
-                    {location.full_name}
+                    {location.display_name}
                   </Label>
                 </div>
               </div>

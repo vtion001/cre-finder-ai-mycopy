@@ -1,8 +1,43 @@
 "use server";
 
+import { title } from "node:process";
 import { env } from "@/env.mjs";
 import { z } from "zod";
 import { authActionClient } from "./safe-action";
+import { locationSchema } from "./schema";
+
+type AutocompleteCity = {
+  searchType: "C";
+  city: string;
+  state: string;
+  title: string;
+};
+
+type AutocompleteCounty = {
+  searchType: "N";
+  stateId: string;
+  county: string;
+  fips: string;
+  title: string;
+  countyId: string;
+  state: string;
+};
+
+type AutocompleteResult = AutocompleteCity | AutocompleteCounty;
+
+type AutocompleteResponse = {
+  input: {
+    search: string;
+    search_types: Array<string>;
+  };
+  data: Array<AutocompleteResult>;
+  totalResults: number;
+  returnedResults: number;
+  statusCode: number;
+  statusMessage: string;
+  live: string;
+  requestExecutionTimeMS: string;
+};
 
 export const getRealEstateLocationsAction = authActionClient
   .metadata({
@@ -31,7 +66,7 @@ export const getRealEstateLocationsAction = authActionClient
           },
           body: JSON.stringify({
             search: query,
-            search_types: [searchTypes.join(",")],
+            search_types: searchTypes,
           }),
         },
       );
@@ -40,36 +75,26 @@ export const getRealEstateLocationsAction = authActionClient
         throw new Error(`API responded with status: ${response.status}`);
       }
 
-      const data = await response.json();
+      const data = (await response.json()) as AutocompleteResponse;
 
-      // Define a type for the location data from the API
-      type ApiLocation = {
-        id: string;
-        name: string;
-        state_code: string;
-        type: string;
-        full_name: string;
-      };
+      // Normalize cities and counties into a common format
+      const normalizedLocations = data.data.map((item) => {
+        // Generate a unique ID for the location
+        const id =
+          `${item.searchType}-${item.state}-${item.searchType === "C" ? item.city : item.county}`
+            .toLowerCase()
+            .replace(/\s+/g, "-");
 
-      // Transform the API response to match our schema
-      const locations = data.data.map((location: ApiLocation) => ({
-        id: location.id,
-        name: location.name,
-        state_code: location.state_code,
-        type: location.type.toLowerCase(), // Normalize to lowercase
-        full_name: `${location.name}, ${location.state_code}`,
-      }));
+        return locationSchema.parse({
+          internal_id: id,
+          state_code: item.state,
+          title: item.searchType === "C" ? item.city : item.county,
+          type: "city",
+          display_name: item.title,
+        });
+      });
 
-      // Sort results: cities first, then counties
-      const sortedLocations = locations.sort(
-        (a: (typeof locations)[0], b: (typeof locations)[0]) => {
-          if (a.type === "city" && b.type !== "city") return -1;
-          if (a.type !== "city" && b.type === "city") return 1;
-          return a.name.localeCompare(b.name);
-        },
-      );
-
-      return sortedLocations as ApiLocation[];
+      return normalizedLocations;
     } catch (err) {
       console.error("Error fetching locations from RealEstate API:", err);
       return [];

@@ -14,7 +14,7 @@ export function OnboardingComplete() {
   return (
     <div className="text-center py-8 space-y-6">
       <div className="flex justify-center">
-        <CheckCircle2Icon className="h-16 w-16 text-accent-foreground" />
+        <CheckCircle2Icon className="h-16 w-16 text-green-500" />
       </div>
       <h1 className="text-2xl font-bold">Setup Complete!</h1>
       <p className="text-muted-foreground max-w-md mx-auto">

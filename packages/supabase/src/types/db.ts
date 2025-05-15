@@ -78,34 +78,43 @@ export type Database = {
         }
         Relationships: []
       }
-      user_cities: {
+      user_locations: {
         Row: {
-          city_name: string
           created_at: string | null
+          display_name: string
           id: string
-          place_id: string
+          internal_id: string
+          state_code: string
+          title: string
+          type: Database["public"]["Enums"]["location_type"]
           updated_at: string | null
           user_id: string
         }
         Insert: {
-          city_name: string
           created_at?: string | null
+          display_name: string
           id?: string
-          place_id: string
+          internal_id: string
+          state_code: string
+          title: string
+          type: Database["public"]["Enums"]["location_type"]
           updated_at?: string | null
           user_id: string
         }
         Update: {
-          city_name?: string
           created_at?: string | null
+          display_name?: string
           id?: string
-          place_id?: string
+          internal_id?: string
+          state_code?: string
+          title?: string
+          type?: Database["public"]["Enums"]["location_type"]
           updated_at?: string | null
           user_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: "user_cities_user_id_fkey"
+            foreignKeyName: "user_locations_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "users"
@@ -130,7 +139,6 @@ export type Database = {
           time_format: number | null
           timezone: string | null
           updated_at: string | null
-          workspace_id: string | null
         }
         Insert: {
           avatar_url?: string | null
@@ -148,7 +156,6 @@ export type Database = {
           time_format?: number | null
           timezone?: string | null
           updated_at?: string | null
-          workspace_id?: string | null
         }
         Update: {
           avatar_url?: string | null
@@ -166,7 +173,6 @@ export type Database = {
           time_format?: number | null
           timezone?: string | null
           updated_at?: string | null
-          workspace_id?: string | null
         }
         Relationships: [
           {
@@ -193,7 +199,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      location_type: "city" | "county"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -308,7 +314,9 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      location_type: ["city", "county"],
+    },
   },
 } as const
 

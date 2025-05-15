@@ -1,7 +1,6 @@
 "use client";
 
-import type { realEstateLocationSchema } from "@/actions/schema";
-import { SavedLocationsSelector } from "@/components/saved-locations-selector";
+import type { Tables } from "@v1/supabase/types";
 import { Badge } from "@v1/ui/badge";
 import { Button } from "@v1/ui/button";
 import { cn } from "@v1/ui/cn";
@@ -12,28 +11,29 @@ import {
 } from "@v1/ui/collapsible";
 import { BuildingIcon, MapPinIcon, SearchIcon } from "lucide-react";
 import { useState } from "react";
-import type { z } from "zod";
+import { SavedLocationsSelector } from "./saved-locations-selector";
 import { SearchResults } from "./search-results";
 
-type Location = z.infer<typeof realEstateLocationSchema>;
-
 interface PropertySearchInterfaceProps {
-  savedLocations: Location[];
+  savedLocations: Tables<"user_locations">[];
 }
 
 export function PropertySearchInterface({
   savedLocations,
 }: PropertySearchInterfaceProps) {
-  const [isLoading, setIsLoading] = useState(false);
   const [searchStatus, setSearchStatus] = useState<
     "idle" | "searching" | "completed"
   >("idle");
   const [isFiltersOpen, setIsFiltersOpen] = useState(true);
-  const [selectedLocations, setSelectedLocations] = useState<Location[]>([]);
+
+  const [selectedLocations, setSelectedLocations] = useState<
+    Tables<"user_locations">[]
+  >([]);
+
   const [activeFilterCount, setActiveFilterCount] = useState(0);
 
   // Handle selection of multiple locations from the saved locations selector
-  const handleSelectLocations = (locations: Location[]) => {
+  const handleSelectLocations = (locations: Tables<"user_locations">[]) => {
     setSelectedLocations(locations);
 
     // Update active filter count based on other filters (if any)
@@ -102,7 +102,7 @@ export function PropertySearchInterface({
                   ) : (
                     <MapPinIcon className="h-3 w-3" />
                   )}
-                  {location.full_name}
+                  {location.display_name}
                 </Badge>
               ))}
               {activeFilterCount > 0 && (

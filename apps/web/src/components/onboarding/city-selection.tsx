@@ -1,7 +1,7 @@
 "use client";
 
 import { getPlacesAction } from "@/actions/get-places-action";
-import { saveUserCitiesAction } from "@/actions/save-user-cities-action";
+import { saveUserCitiesAction } from "@/actions/save-user-locations-action";
 import type { assetTypeSchema, placeSuggestionSchema } from "@/actions/schema";
 import type { Tables } from "@v1/supabase/types";
 import { Badge } from "@v1/ui/badge";

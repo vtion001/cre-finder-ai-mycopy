@@ -1,10 +1,11 @@
 "use client";
 
 import { getRealEstateLocationsAction } from "@/actions/get-real-estate-locations-action";
-import type { realEstateLocationSchema } from "@/actions/schema";
+import type { locationSchema } from "@/actions/schema";
 import { Badge } from "@v1/ui/badge";
 import { Button } from "@v1/ui/button";
 import { Card } from "@v1/ui/card";
+import { cn } from "@v1/ui/cn";
 import { Input } from "@v1/ui/input";
 import { Label } from "@v1/ui/label";
 import { Tabs, TabsList, TabsTrigger } from "@v1/ui/tabs";
@@ -14,7 +15,7 @@ import { useAction } from "next-safe-action/hooks";
 import { useEffect, useState } from "react";
 import type { z } from "zod";
 
-type Location = z.infer<typeof realEstateLocationSchema>;
+type Location = z.infer<typeof locationSchema>;
 
 interface LocationSearchProps {
   onSelectLocation?: (location: Location) => void;
@@ -27,13 +28,12 @@ export function LocationSearch({
   onSelectLocation,
   selectedLocations = [],
   onRemoveLocation,
-  maxSelections = 5,
+  maxSelections = 1,
 }: LocationSearchProps) {
   const [query, setQuery] = useState("");
   const [searchType, setSearchType] = useState<"all" | "cities" | "counties">(
     "all",
   );
-  const [isInputFocused, setIsInputFocused] = useState(false);
 
   const {
     execute: fetchLocations,
@@ -62,18 +62,19 @@ export function LocationSearch({
   const handleSelectLocation = (location: Location) => {
     if (
       onSelectLocation &&
-      !selectedLocations.some((loc) => loc.id === location.id)
+      !selectedLocations.some((loc) => loc.internal_id === location.internal_id)
     ) {
       if (selectedLocations.length < maxSelections) {
         onSelectLocation(location);
-        setQuery("");
       }
     }
   };
 
   const filteredLocations = locations.filter(
     (location) =>
-      !selectedLocations.some((selected) => selected.id === location.id),
+      !selectedLocations.some(
+        (selected) => selected.internal_id === location.internal_id,
+      ),
   );
 
   const hasReachedMaxSelections = selectedLocations.length >= maxSelections;
@@ -98,12 +99,10 @@ export function LocationSearch({
 
             <div className="relative">
               <Input
-                id="location-search"
+                title="location-search"
                 placeholder="Enter city or county name..."
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                onFocus={() => setIsInputFocused(true)}
-                onBlur={() => setTimeout(() => setIsInputFocused(false), 200)}
                 disabled={hasReachedMaxSelections}
                 className="w-full"
               />
@@ -114,59 +113,75 @@ export function LocationSearch({
                 </div>
               )}
 
-              {isInputFocused &&
-                query.trim() !== "" &&
-                filteredLocations.length > 0 && (
-                  <Card className="absolute z-10 w-full mt-1 max-h-60 overflow-auto shadow-lg">
-                    <div className="p-1">
-                      {isLoading ? (
-                        <div className="p-2 text-center text-sm text-muted-foreground">
-                          Searching...
-                        </div>
-                      ) : (
-                        <div className="space-y-1">
-                          {filteredLocations.map((location) => (
-                            <Button
-                              key={location.id}
-                              variant="ghost"
-                              className="w-full justify-start text-left h-auto py-2"
-                              onClick={() => handleSelectLocation(location)}
-                            >
-                              <div className="flex items-center gap-2">
-                                {location.type === "city" ? (
-                                  <BuildingIcon className="h-4 w-4 text-primary" />
-                                ) : (
-                                  <MapPinIcon className="h-4 w-4 text-accent-foreground" />
-                                )}
-                                <div>
-                                  <div className="font-medium">
-                                    {location.full_name}
-                                  </div>
-                                  <div className="text-xs text-muted-foreground">
-                                    {location.type === "city"
-                                      ? "City"
-                                      : "County"}
-                                  </div>
-                                </div>
-                              </div>
-                            </Button>
-                          ))}
-                        </div>
-                      )}
+              {/* Fixed-height results container that's always visible */}
+              <Card className="w-full mt-3 border shadow-sm">
+                <div className="h-64 overflow-hidden">
+                  {isLoading ? (
+                    <div className="p-4 text-center text-sm text-muted-foreground h-full flex items-center justify-center">
+                      Searching...
                     </div>
-                  </Card>
-                )}
-
-              {isInputFocused &&
-                query.trim() !== "" &&
-                filteredLocations.length === 0 &&
-                !isLoading && (
-                  <Card className="absolute z-10 w-full mt-1 shadow-lg">
-                    <div className="p-4 text-center text-sm text-muted-foreground">
+                  ) : query.trim() === "" ? (
+                    <div className="p-4 text-center text-sm text-muted-foreground h-full flex items-center justify-center">
+                      Enter a search term to find locations
+                    </div>
+                  ) : filteredLocations.length > 0 ? (
+                    <div
+                      className={cn(
+                        "overflow-y-auto h-full",
+                        hasReachedMaxSelections
+                          ? "opacity-60 pointer-events-none"
+                          : "",
+                      )}
+                    >
+                      <table className="w-full">
+                        <tbody className="divide-y">
+                          {filteredLocations.map((location) => {
+                            return (
+                              <tr
+                                key={location.internal_id}
+                                className="hover:bg-muted/50 cursor-pointer"
+                                onClick={() => handleSelectLocation(location)}
+                                onKeyDown={(e) => {
+                                  if (e.key === "Enter" || e.key === " ") {
+                                    handleSelectLocation(location);
+                                  }
+                                }}
+                                tabIndex={0}
+                                role="button"
+                                aria-label={`Select ${location.display_name}`}
+                              >
+                                <td className="p-3">
+                                  <div className="flex items-center gap-2">
+                                    {location.type === "city" ? (
+                                      <BuildingIcon className="h-4 w-4 text-primary flex-shrink-0" />
+                                    ) : (
+                                      <MapPinIcon className="h-4 w-4 text-accent-foreground flex-shrink-0" />
+                                    )}
+                                    <div>
+                                      <div className="font-medium">
+                                        {location.display_name}
+                                      </div>
+                                      <div className="text-xs text-muted-foreground">
+                                        {location.type === "city"
+                                          ? "City"
+                                          : "County"}
+                                      </div>
+                                    </div>
+                                  </div>
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
+                  ) : (
+                    <div className="p-4 text-center text-sm text-muted-foreground h-full flex items-center justify-center">
                       No locations found. Try a different search term.
                     </div>
-                  </Card>
-                )}
+                  )}
+                </div>
+              </Card>
             </div>
           </Tabs>
         </div>
@@ -178,7 +193,7 @@ export function LocationSearch({
           <div className="mt-2 flex flex-wrap gap-2">
             {selectedLocations.map((location) => (
               <Badge
-                key={location.id}
+                key={location.internal_id}
                 variant="secondary"
                 className="flex items-center gap-1 py-1.5"
               >
@@ -187,13 +202,13 @@ export function LocationSearch({
                 ) : (
                   <MapPinIcon className="h-3 w-3 mr-1 text-accent-foreground" />
                 )}
-                {location.full_name}
+                {location.display_name}
                 {onRemoveLocation && (
                   <Button
                     variant="ghost"
                     size="sm"
                     className="h-4 w-4 p-0 ml-1 hover:bg-transparent"
-                    onClick={() => onRemoveLocation(location.id)}
+                    onClick={() => onRemoveLocation(location.internal_id)}
                   >
                     <XIcon className="h-3 w-3" />
                   </Button>

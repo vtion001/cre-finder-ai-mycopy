@@ -23,15 +23,20 @@ CREATE TABLE public.asset_types (
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT now()
 );
 
--- Create user_cities table
-CREATE TABLE public.user_cities (
+CREATE TYPE public.location_type AS ENUM ('city', 'county');
+
+-- Create user_locations table
+CREATE TABLE public.user_locations (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id UUID NOT NULL REFERENCES public.users(id) ON DELETE CASCADE,
-    city_name TEXT NOT NULL,
-    place_id TEXT NOT NULL,
+    internal_id TEXT NOT NULL,
+    title TEXT NOT NULL,
+    state_code TEXT NOT NULL,
+    type public.location_type NOT NULL,
+    display_name TEXT NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
-    UNIQUE(user_id, place_id)
+    UNIQUE(user_id, internal_id)
 );
 
 -- Add subscription related fields to users table
@@ -54,16 +59,16 @@ BEFORE UPDATE ON public.asset_types
 FOR EACH ROW
 EXECUTE FUNCTION update_updated_at();
 
--- Create a trigger to update the updated_at column for user_cities
-CREATE TRIGGER user_cities_updated_at
-BEFORE UPDATE ON public.user_cities
+-- Create a trigger to update the updated_at column for user_locations
+CREATE TRIGGER user_locations_updated_at
+BEFORE UPDATE ON public.user_locations
 FOR EACH ROW
 EXECUTE FUNCTION update_updated_at();
 
 -- Enable row level security for all tables
 ALTER TABLE public.subscription_plans ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.asset_types ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.user_cities ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.user_locations ENABLE ROW LEVEL SECURITY;
 
 -- Create policies for subscription_plans
 CREATE POLICY select_subscription_plans ON public.subscription_plans
@@ -73,17 +78,17 @@ FOR SELECT USING (true);
 CREATE POLICY select_asset_types ON public.asset_types
 FOR SELECT USING (true);
 
--- Create policies for user_cities
-CREATE POLICY select_own_cities ON public.user_cities
+-- Create policies for user_locations
+CREATE POLICY select_own_cities ON public.user_locations
 FOR SELECT USING (auth.uid() = user_id);
 
-CREATE POLICY insert_own_cities ON public.user_cities
+CREATE POLICY insert_own_cities ON public.user_locations
 FOR INSERT WITH CHECK (auth.uid() = user_id);
 
-CREATE POLICY update_own_cities ON public.user_cities
+CREATE POLICY update_own_cities ON public.user_locations
 FOR UPDATE USING (auth.uid() = user_id);
 
-CREATE POLICY delete_own_cities ON public.user_cities
+CREATE POLICY delete_own_cities ON public.user_locations
 FOR DELETE USING (auth.uid() = user_id);
 
 -- Insert default subscription plans

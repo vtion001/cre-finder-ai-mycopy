@@ -12,7 +12,7 @@ const saveAssetTypeSchema = z.object({
 export const saveAssetTypeAction = authActionClient
   .schema(saveAssetTypeSchema)
   .metadata({
-    name: "save-user-cities",
+    name: "save-user-locations",
   })
   .action(
     async ({
