@@ -22,7 +22,7 @@ export const metadata: Metadata = {
 
 export default function ForgotPassword() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 px-4 py-8">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-sidebar px-4 py-8">
       <Card className="w-full max-w-md shadow-lg border-t-4 border-t-primary">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl text-center">Reset Password</CardTitle>

@@ -1,5 +1,6 @@
 import { CredentialsSignInForm } from "@/components/forms/credentials-signin-form";
 import { OtpSignInForm } from "@/components/forms/otp-signin-form";
+import { Logo } from "@/components/logo";
 import { Button } from "@v1/ui/button";
 import {
   Card,
@@ -22,11 +23,10 @@ export const metadata: Metadata = {
 
 export default function Login() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 px-4 py-8">
-      {/* <div className="flex items-center gap-2 mb-6">
-        <Building2 className="h-8 w-8 text-primary" />
-        <h1 className="text-2xl font-bold text-primary">CRE Finder AI</h1>
-      </div> */}
+    <div className="flex flex-col items-center justify-center min-h-screen bg-sidebar px-4 py-8">
+      <div className="flex items-center gap-2 mb-6">
+        <Logo size="lg" />
+      </div>
       <Card className="w-full max-w-md shadow-lg border-t-4 border-t-primary">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl text-center">Welcome back</CardTitle>
