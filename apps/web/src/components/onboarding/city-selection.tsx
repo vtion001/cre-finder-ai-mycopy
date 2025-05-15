@@ -76,15 +76,16 @@ export function CitySelection({
   const handleContinue = async () => {
     if (!selectedAssetType || selectedCities.length === 0) return;
 
-    const result = await saveUserCities({
-      cities: selectedCities,
-      assetTypeId: selectedAssetType,
-      revalidatePath: "/onboarding/complete",
-    });
+    // todo
+    // const result = await saveUserCities({
+    //   cities: selectedCities,
+    //   assetTypeId: selectedAssetType,
+    //   revalidatePath: "/onboarding/complete",
+    // });
 
-    if (result?.data?.success) {
-      router.push("/onboarding/complete");
-    }
+    // if (result?.data?.success) {
+    router.push("/onboarding/complete");
+    // }
   };
 
   return (
