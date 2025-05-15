@@ -51,7 +51,7 @@ export function PropertySearchInterface({
   };
 
   return (
-    <div className="flex flex-col space-y-6 p-6 bg-gray-50">
+    <div className="flex flex-col space-y-6 p-6 bg-muted/50">
       <Collapsible
         open={isFiltersOpen}
         onOpenChange={setIsFiltersOpen}
@@ -95,7 +95,7 @@ export function PropertySearchInterface({
                 <Badge
                   key={location.id}
                   variant="outline"
-                  className="bg-orange-100 text-orange-800 hover:bg-orange-100 border-orange-200 flex items-center gap-1"
+                  className="bg-accent/20 text-accent-foreground hover:bg-accent/20 border-accent/30 flex items-center gap-1"
                 >
                   {location.type === "city" ? (
                     <BuildingIcon className="h-3 w-3" />
@@ -108,7 +108,7 @@ export function PropertySearchInterface({
               {activeFilterCount > 0 && (
                 <Badge
                   variant="outline"
-                  className="bg-blue-100 text-blue-800 hover:bg-blue-100 border-blue-200"
+                  className="bg-primary/20 text-primary hover:bg-primary/20 border-primary/30"
                 >
                   +{activeFilterCount} filters
                 </Badge>
@@ -118,7 +118,7 @@ export function PropertySearchInterface({
         </div>
 
         <CollapsibleContent className="mt-4">
-          <div className="bg-white rounded-md p-4 shadow-sm border">
+          <div className="bg-card rounded-md p-4 shadow-sm border">
             <SavedLocationsSelector
               savedLocations={savedLocations}
               onSelectLocations={handleSelectLocations}
@@ -144,8 +144,8 @@ export function PropertySearchInterface({
       <div className="space-y-4">
         {searchStatus !== "idle" && (
           <div className="flex items-center gap-2 text-sm">
-            <div className="flex h-6 w-6 items-center justify-center rounded-full bg-orange-100">
-              <span className="text-orange-600 text-xs">✓</span>
+            <div className="flex h-6 w-6 items-center justify-center rounded-full bg-accent/20">
+              <span className="text-accent-foreground text-xs">✓</span>
             </div>
             <span>Reviewing sample properties</span>
           </div>
@@ -153,15 +153,15 @@ export function PropertySearchInterface({
 
         {searchStatus === "searching" && (
           <div className="flex items-center gap-2 text-sm">
-            <div className="flex h-6 w-6 items-center justify-center rounded-full border-2 border-orange-500 border-t-transparent animate-spin" />
+            <div className="flex h-6 w-6 items-center justify-center rounded-full border-2 border-primary border-t-transparent animate-spin" />
             <span>Starting search for properties</span>
           </div>
         )}
 
         {searchStatus === "completed" && (
           <div className="flex items-center gap-2 text-sm">
-            <div className="flex h-6 w-6 items-center justify-center rounded-full bg-orange-100">
-              <span className="text-orange-600 text-xs">✓</span>
+            <div className="flex h-6 w-6 items-center justify-center rounded-full bg-accent/20">
+              <span className="text-accent-foreground text-xs">✓</span>
             </div>
             <span>Starting search for properties</span>
           </div>
@@ -172,14 +172,14 @@ export function PropertySearchInterface({
       {searchStatus === "completed" && (
         <div className="space-y-2">
           <div className="flex items-center gap-2">
-            <div className="flex h-6 w-6 items-center justify-center rounded-full bg-orange-100">
+            <div className="flex h-6 w-6 items-center justify-center rounded-full bg-accent/20">
               <svg
                 width="14"
                 height="14"
                 viewBox="0 0 24 24"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                className="text-orange-600"
+                className="text-accent-foreground"
               >
                 <path
                   d="M3 7.8L12 3L21 7.8M3 7.8V16.2L12 21L21 16.2V7.8M3 7.8L12 12L21 7.8M12 12V21"
@@ -193,7 +193,7 @@ export function PropertySearchInterface({
             <h2 className="text-lg font-medium">Preview results</h2>
             <Badge
               variant="outline"
-              className="bg-orange-100 text-orange-800 hover:bg-orange-100 border-orange-200"
+              className="bg-accent/20 text-accent-foreground hover:bg-accent/20 border-accent/30"
             >
               8 potential matches
             </Badge>
@@ -203,7 +203,7 @@ export function PropertySearchInterface({
             Review the first 7 properties based on your criteria.
           </p>
 
-          <div className="bg-white rounded-md shadow-sm border">
+          <div className="bg-card rounded-md shadow-sm border">
             <SearchResults />
           </div>
         </div>

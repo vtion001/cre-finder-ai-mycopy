@@ -69,8 +69,8 @@ export function OnboardingLayout({
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 flex flex-col">
-      <header className="border-b bg-white">
+    <div className="min-h-screen bg-gradient-to-b from-background to-muted/50 flex flex-col">
+      <header className="border-sidebar-border border-si bg-sidebar">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <Logo size="sm" />
         </div>
@@ -80,7 +80,7 @@ export function OnboardingLayout({
         <div className="w-full max-w-3xl mx-auto mb-8">
           {/* Progress line that sits behind the indicators */}
           <div className="relative">
-            <div className="absolute top-5 left-0 w-full h-0.5 bg-gray-200 -z-10" />
+            <div className="absolute top-5 left-0 w-full h-0.5 bg-border -z-10" />
 
             <div className="flex items-center justify-between">
               {steps.map((step, index) => {
@@ -96,7 +96,7 @@ export function OnboardingLayout({
                     <div
                       className={`
                     flex items-center justify-center h-10 w-10 rounded-full border-2 z-10
-                    ${isActive ? "bg-blue-600 border-blue-600 text-white" : "bg-white border-gray-300 text-gray-300"}
+                    ${isActive ? "bg-primary border-primary text-primary-foreground" : "bg-background border-muted-foreground/30 text-muted-foreground/50"}
                   `}
                     >
                       {isCompleted ? (
@@ -108,14 +108,14 @@ export function OnboardingLayout({
 
                     {/* Step label */}
                     <span
-                      className={`mt-2 text-sm font-medium ${isActive ? "text-blue-600" : "text-gray-500"}`}
+                      className={`mt-2 text-sm font-medium ${isActive ? "text-primary" : "text-muted-foreground"}`}
                     >
                       {step.label}
                     </span>
 
                     {/* Colored progress line for completed steps */}
                     {index < steps.length - 1 && isCompleted && (
-                      <div className="absolute top-5 left-1/2 w-full h-0.5 bg-blue-600" />
+                      <div className="absolute top-5 left-1/2 w-full h-0.5 bg-primary" />
                     )}
                   </div>
                 );

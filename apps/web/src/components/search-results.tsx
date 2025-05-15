@@ -257,7 +257,7 @@ export function SearchResults({
         <Button
           onClick={handleExport}
           disabled={isExporting || results.length === 0}
-          className="gap-2 bg-orange-500 hover:bg-orange-600 text-white"
+          className="gap-2 bg-primary hover:bg-primary/90 text-primary-foreground"
           size="sm"
         >
           <DownloadIcon className="h-4 w-4" />
@@ -267,7 +267,7 @@ export function SearchResults({
 
       <Table>
         <TableHeader>
-          <TableRow className="bg-gray-50 hover:bg-gray-50">
+          <TableRow className="bg-muted/50 hover:bg-muted/50">
             <TableHead className="w-[250px]">Name</TableHead>
             <TableHead>Company</TableHead>
             <TableHead className="text-center">Criteria matched</TableHead>
@@ -280,14 +280,14 @@ export function SearchResults({
               <TableCell>
                 <div className="flex items-center gap-3">
                   <Avatar className="h-8 w-8 rounded-full">
-                    <AvatarFallback className="bg-gray-100 text-gray-500">
+                    <AvatarFallback className="bg-muted text-muted-foreground">
                       {result.propertyType.substring(0, 1).toUpperCase()}
                     </AvatarFallback>
                   </Avatar>
                   <div>
                     <div className="font-medium flex items-center gap-1">
                       {result.address}
-                      <VerifiedIcon className="h-4 w-4 text-blue-600" />
+                      <VerifiedIcon className="h-4 w-4 text-primary" />
                     </div>
                     <div className="text-sm text-muted-foreground">
                       {result.propertyType.charAt(0).toUpperCase() +
@@ -301,13 +301,13 @@ export function SearchResults({
                 {result.city}, {result.state}
               </TableCell>
               <TableCell className="text-center">
-                <Badge className="bg-orange-100 text-orange-800 hover:bg-orange-100 border-orange-200">
+                <Badge className="bg-accent/20 text-accent-foreground hover:bg-accent/20 border-accent/30">
                   1 of 1
                 </Badge>
               </TableCell>
               <TableCell className="text-center">
                 <div className="flex justify-center">
-                  <CheckCircleIcon className="h-5 w-5 text-orange-500" />
+                  <CheckCircleIcon className="h-5 w-5 text-accent-foreground" />
                 </div>
               </TableCell>
             </TableRow>

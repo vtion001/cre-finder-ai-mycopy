@@ -53,7 +53,7 @@ export function SavedLocationsSelector({
 
   if (savedLocations.length === 0) {
     return (
-      <div className="text-center p-6 bg-gray-50 rounded-md border border-dashed">
+      <div className="text-center p-6 bg-muted/50 rounded-md border border-dashed">
         <p className="text-muted-foreground">
           You don't have any saved locations. Please add locations in your
           profile settings.
@@ -75,7 +75,7 @@ export function SavedLocationsSelector({
         {savedLocations.map((location) => (
           <Card
             key={location.id}
-            className="p-3 cursor-pointer hover:bg-gray-50 transition-colors"
+            className="p-3 cursor-pointer hover:bg-muted/50 transition-colors"
             onClick={() => handleToggleLocation(location)}
           >
             <div className="flex items-center justify-between">
@@ -87,9 +87,9 @@ export function SavedLocationsSelector({
                 />
                 <div className="flex items-center gap-2">
                   {location.type === "city" ? (
-                    <BuildingIcon className="h-4 w-4 text-blue-500" />
+                    <BuildingIcon className="h-4 w-4 text-primary" />
                   ) : (
-                    <MapPinIcon className="h-4 w-4 text-green-500" />
+                    <MapPinIcon className="h-4 w-4 text-accent-foreground" />
                   )}
                   <Label
                     htmlFor={`location-${location.id}`}

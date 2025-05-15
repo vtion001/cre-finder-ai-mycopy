@@ -6,20 +6,16 @@ import { Button } from "@v1/ui/button";
 import { cn } from "@v1/ui/cn";
 import { CheckIcon } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
-import { useState } from "react";
 
 export function PricingSelection({
   selectedPlan,
   plans,
-  onPlanSelected,
 }: {
   selectedPlan: string | null;
   plans: Tables<"subscription_plans">[];
   onPlanSelected?: (planId: string) => void;
 }) {
-  const { executeAsync: saveSubscription, isPending: isSaving } = useAction(
-    saveSubscriptionAction,
-  );
+  const { executeAsync: saveSubscription } = useAction(saveSubscriptionAction);
 
   const handleSelectPlan = async (planId: string) => {
     await saveSubscription({
@@ -45,22 +41,24 @@ export function PricingSelection({
               "border rounded-lg overflow-hidden transition-all h-full flex flex-col",
               selectedPlan === plan.id
                 ? "border-primary ring-2 ring-primary ring-opacity-50"
-                : "border-gray-200 hover:border-gray-300",
+                : "border-border hover:border-input",
             )}
           >
-            <div className="p-6 border-b bg-gray-50">
+            <div className="p-6 border-b bg-muted/50">
               <h3 className="text-xl font-semibold">{plan.name}</h3>
               <div className="mt-2 flex items-baseline">
                 <span className="text-3xl font-bold">{plan.price}</span>
               </div>
             </div>
             <div className="p-6 flex-grow">
-              <p className="text-sm text-gray-600 mb-4">{plan.description}</p>
+              <p className="text-sm text-muted-foreground mb-4">
+                {plan.description}
+              </p>
               <ul className="space-y-3 mb-6">
                 {/* @ts-expect-error */}
                 {plan.features?.map((feature, index) => (
                   <li key={index} className="flex items-start">
-                    <CheckIcon className="h-5 w-5 text-green-500 mr-2 flex-shrink-0" />
+                    <CheckIcon className="h-5 w-5 text-accent-foreground mr-2 flex-shrink-0" />
                     <span className="text-sm">{feature}</span>
                   </li>
                 ))}

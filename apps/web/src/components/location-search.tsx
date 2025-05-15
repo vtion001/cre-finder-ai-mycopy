@@ -109,7 +109,7 @@ export function LocationSearch({
               />
 
               {hasReachedMaxSelections && (
-                <div className="text-xs text-amber-600 mt-1">
+                <div className="text-xs text-warning mt-1">
                   Maximum of {maxSelections} locations reached
                 </div>
               )}
@@ -134,9 +134,9 @@ export function LocationSearch({
                             >
                               <div className="flex items-center gap-2">
                                 {location.type === "city" ? (
-                                  <BuildingIcon className="h-4 w-4 text-blue-500" />
+                                  <BuildingIcon className="h-4 w-4 text-primary" />
                                 ) : (
-                                  <MapPinIcon className="h-4 w-4 text-green-500" />
+                                  <MapPinIcon className="h-4 w-4 text-accent-foreground" />
                                 )}
                                 <div>
                                   <div className="font-medium">
@@ -183,9 +183,9 @@ export function LocationSearch({
                 className="flex items-center gap-1 py-1.5"
               >
                 {location.type === "city" ? (
-                  <BuildingIcon className="h-3 w-3 mr-1" />
+                  <BuildingIcon className="h-3 w-3 mr-1 text-primary" />
                 ) : (
-                  <MapPinIcon className="h-3 w-3 mr-1" />
+                  <MapPinIcon className="h-3 w-3 mr-1 text-accent-foreground" />
                 )}
                 {location.full_name}
                 {onRemoveLocation && (
