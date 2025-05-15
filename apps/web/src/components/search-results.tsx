@@ -23,6 +23,7 @@ import {
 import { toast } from "sonner";
 import * as XLSX from "xlsx";
 export type PropertyType =
+  | "SFR"
   | "office"
   | "retail"
   | "industrial"
@@ -31,18 +32,52 @@ export type PropertyType =
   | "hotel"
   | "mixed-use";
 
-export interface SearchResult {
-  id: string;
+export interface Address {
+  address: string;
+  county?: string;
+  fips?: string;
+  state: string;
+  street: string;
+  zip: string;
+  city?: string;
+}
+
+export interface MailAddress {
   address: string;
   city: string;
   state: string;
-  zipCode: string;
-  propertyType: PropertyType;
-  size: number;
-  price: number;
+  street: string;
+  zip: string;
+}
+
+export interface SearchResult {
+  id: string;
+  propertyId: string;
+  address: Address;
+  mailAddress?: MailAddress;
+  propertyType: string;
+  propertyUse: string;
+  landUse: string;
+  squareFeet: number;
+  lotSquareFeet: number;
+  assessedValue: number;
+  estimatedValue: number;
   yearBuilt: number;
-  description: string;
-  investmentType: string;
+  bedrooms: number;
+  bathrooms: number;
+  roomsCount: number;
+  stories: number;
+  ownerOccupied: boolean;
+  owner1FirstName?: string;
+  owner1LastName?: string;
+  owner2FirstName?: string;
+  owner2LastName?: string;
+  highEquity?: boolean;
+  equityPercent?: number;
+  estimatedEquity?: number;
+  openMortgageBalance?: number;
+  latitude?: number;
+  longitude?: number;
 }
 
 interface SearchResultsProps {
@@ -54,113 +89,174 @@ interface SearchResultsProps {
 
 const SAMPLE = [
   {
-    id: "property-0-1747294666928",
-    address: "683 Maple Dr",
-    city: "New York",
-    state: "AZ",
-    zipCode: "13663",
-    propertyType: "land",
-    size: 74822,
-    price: 6779856,
-    yearBuilt: 1998,
-    description: "A 74,822 sq ft land property built in 1998.",
-    investmentType: "Core",
-  },
-  {
-    id: "property-1-1747294666928",
-    address: "891 Main St",
-    city: "New York",
-    state: "IL",
-    zipCode: "96216",
-    propertyType: "retail",
-    size: 90126,
-    price: 8922311,
-    yearBuilt: 2004,
-    description: "A 90,126 sq ft retail property built in 2004.",
-    investmentType: "Core",
-  },
-  {
-    id: "property-2-1747294666928",
-    address: "845 Main Ln",
-    city: "New York",
-    state: "AZ",
-    zipCode: "91906",
-    propertyType: "hotel",
-    size: 89336,
-    price: 6719980,
-    yearBuilt: 1989,
-    description: "A 89,336 sq ft hotel property built in 1989.",
-    investmentType: "Development",
-  },
-  {
-    id: "property-3-1747294666928",
-    address: "176 Cedar Ave",
-    city: "New York",
-    state: "IL",
-    zipCode: "72887",
-    propertyType: "land",
-    size: 41233,
-    price: 317910,
-    yearBuilt: 1952,
-    description: "A 41,233 sq ft land property built in 1952.",
-    investmentType: "Core",
-  },
-  {
-    id: "property-4-1747294666928",
-    address: "1003 Oak Blvd",
-    city: "New York",
-    state: "IL",
-    zipCode: "36487",
-    propertyType: "hotel",
-    size: 61406,
-    price: 8528528,
-    yearBuilt: 1965,
-    description: "A 61,406 sq ft hotel property built in 1965.",
-    investmentType: "Value-Add",
-  },
-  {
-    id: "property-5-1747294666928",
-    address: "519 Cedar Blvd",
-    city: "New York",
-    state: "NY",
-    zipCode: "77985",
-    propertyType: "industrial",
-    size: 62313,
-    price: 6590555,
+    id: "700058523698",
+    propertyId: "700058523698",
+    address: {
+      address: "Laurel Branch Rd, , KY 40972",
+      county: "Clay County",
+      fips: "21051",
+      state: "KY",
+      street: "Laurel Branch Rd",
+      zip: "40972",
+    },
+    adjustableRate: false,
+    airConditioningAvailable: false,
+    apn: "146-00-00-006.00",
+    assessedImprovementValue: 0,
+    assessedLandValue: 0,
+    assessedValue: 40500,
+    assumable: false,
+    auction: false,
+    auctionDate: null,
+    basement: false,
+    bathrooms: 1,
+    bedrooms: 3,
+    cashBuyer: false,
+    corporateOwned: false,
+    death: false,
+    deck: false,
+    deckArea: 0,
+    equity: false,
+    equityPercent: 85,
+    estimatedEquity: 126089,
+    estimatedValue: 147000,
+    floodZone: false,
+    foreclosure: false,
+    forSale: false,
+    freeClear: false,
+    garage: false,
+    highEquity: true,
+    hoa: null,
+    inherited: false,
+    inStateAbsenteeOwner: false,
+    investorBuyer: false,
+    judgment: false,
+    landUse: "Single Family Residential",
+    lastMortgage1Amount: null,
+    lastSaleAmount: "0",
+    lastSaleArmsLength: null,
+    lastUpdateDate: "2025-04-16 00:00:00 UTC",
+    latitude: 37.24727597781644,
+    lenderName: "Chase Manhattan Bank Usa Na",
+    listingAmount: null,
+    loanTypeCode: "COV",
+    longitude: -83.64654668784793,
+    lotSquareFeet: 47175,
+    mailAddress: {
+      address: "Po Box 152, Oneida, KY 40972",
+      city: "Oneida",
+      state: "KY",
+      street: "Po Box 152",
+      zip: "40972",
+    },
+    maturityDateFirst: "2020-02-15",
+    MFH2to4: false,
+    MFH5plus: false,
+    mlsActive: false,
+    mlsCancelled: false,
+    mlsFailed: false,
+    mlsHasPhotos: false,
+    mlsListingPrice: null,
+    mlsPending: false,
+    mlsSold: false,
+    negativeEquity: false,
+    openMortgageBalance: 39200,
+    outOfStateAbsenteeOwner: false,
+    owner1FirstName: "Matthew",
+    owner1LastName: "Couch",
+    owner2FirstName: "Archie",
+    owner2LastName: "Couch",
+    ownerOccupied: true,
+    parcelAccountNumber: "114563",
+    patio: false,
+    patioArea: 0,
+    pool: false,
+    poolArea: 0,
+    preForeclosure: false,
+    pricePerSquareFoot: 0,
+    priorSaleAmount: null,
+    privateLender: false,
+    propertyType: "SFR",
+    propertyUse: "Single Family Residence",
+    propertyUseCode: 385,
+    rentAmount: null,
+    reo: false,
+    roomsCount: 6,
+    squareFeet: 1032,
+    stories: 1,
+    taxLien: null,
+    unitsCount: 0,
+    vacant: false,
     yearBuilt: 1977,
-    description: "A 62,313 sq ft industrial property built in 1977.",
-    investmentType: "Opportunistic",
+    yearsOwned: null,
   },
   {
-    id: "property-6-1747294666929",
-    address: "729 Broadway Ln",
-    city: "New York",
-    state: "NY",
-    zipCode: "90907",
-    propertyType: "land",
-    size: 72409,
-    price: 9575235,
-    yearBuilt: 1958,
-    description: "A 72,409 sq ft land property built in 1958.",
-    investmentType: "Opportunistic",
+    id: "700058523699",
+    propertyId: "700058523699",
+    address: {
+      address: "123 Main St, New York, NY 10001",
+      county: "New York County",
+      fips: "36061",
+      state: "NY",
+      street: "123 Main St",
+      zip: "10001",
+      city: "New York",
+    },
+    assessedValue: 750000,
+    estimatedValue: 850000,
+    bathrooms: 2,
+    bedrooms: 3,
+    equityPercent: 65,
+    estimatedEquity: 552500,
+    highEquity: true,
+    landUse: "Single Family Residential",
+    lotSquareFeet: 5000,
+    openMortgageBalance: 297500,
+    owner1FirstName: "John",
+    owner1LastName: "Smith",
+    ownerOccupied: true,
+    propertyType: "SFR",
+    propertyUse: "Single Family Residence",
+    roomsCount: 7,
+    squareFeet: 2200,
+    stories: 2,
+    yearBuilt: 1985,
   },
   {
-    id: "property-7-1747294666929",
-    address: "780 Broadway Ave",
-    city: "New York",
-    state: "IL",
-    zipCode: "19457",
-    propertyType: "hotel",
-    size: 21634,
-    price: 2814014,
-    yearBuilt: 1961,
-    description: "A 21,634 sq ft hotel property built in 1961.",
-    investmentType: "Core Plus",
+    id: "700058523700",
+    propertyId: "700058523700",
+    address: {
+      address: "456 Oak Ave, New York, NY 10002",
+      county: "New York County",
+      fips: "36061",
+      state: "NY",
+      street: "456 Oak Ave",
+      zip: "10002",
+      city: "New York",
+    },
+    assessedValue: 1200000,
+    estimatedValue: 1350000,
+    bathrooms: 3,
+    bedrooms: 4,
+    equityPercent: 75,
+    estimatedEquity: 1012500,
+    highEquity: true,
+    landUse: "Single Family Residential",
+    lotSquareFeet: 7500,
+    openMortgageBalance: 337500,
+    owner1FirstName: "Sarah",
+    owner1LastName: "Johnson",
+    ownerOccupied: false,
+    propertyType: "SFR",
+    propertyUse: "Single Family Residence",
+    roomsCount: 9,
+    squareFeet: 3100,
+    stories: 2,
+    yearBuilt: 1992,
   },
 ];
 
 export function SearchResults({
-  // @ts-expect-error
   results = SAMPLE,
   searchQuery = "New York",
   isLoading,
@@ -176,16 +272,34 @@ export function SearchResults({
     try {
       // Format data for Excel
       const exportData = results.map((result) => ({
-        Address: result.address,
-        City: result.city,
-        State: result.state,
-        "Zip Code": result.zipCode,
+        "Property ID": result.propertyId,
+        Address: result.address.address,
+        Street: result.address.street,
+        City: result.address.city || result.mailAddress?.city || "",
+        State: result.address.state,
+        Zip: result.address.zip,
+        County: result.address.county || "",
         "Property Type": result.propertyType,
-        "Size (sq ft)": result.size,
-        "Price ($)": result.price,
+        "Property Use": result.propertyUse,
+        "Land Use": result.landUse,
+        "Square Feet": result.squareFeet,
+        "Lot Size (sq ft)": result.lotSquareFeet,
+        "Assessed Value ($)": result.assessedValue,
+        "Estimated Value ($)": result.estimatedValue,
         "Year Built": result.yearBuilt,
-        "Investment Type": result.investmentType,
-        Description: result.description,
+        Bedrooms: result.bedrooms,
+        Bathrooms: result.bathrooms,
+        Rooms: result.roomsCount,
+        Stories: result.stories,
+        "Owner Occupied": result.ownerOccupied ? "Yes" : "No",
+        Owner:
+          result.owner1FirstName && result.owner1LastName
+            ? `${result.owner1FirstName} ${result.owner1LastName}`
+            : "",
+        "High Equity": result.highEquity ? "Yes" : "No",
+        "Equity %": result.equityPercent || 0,
+        "Estimated Equity ($)": result.estimatedEquity || 0,
+        "Mortgage Balance ($)": result.openMortgageBalance || 0,
       }));
 
       // Create worksheet
@@ -268,10 +382,10 @@ export function SearchResults({
       <Table>
         <TableHeader>
           <TableRow className="bg-muted/50 hover:bg-muted/50">
-            <TableHead className="w-[250px]">Name</TableHead>
-            <TableHead>Company</TableHead>
-            <TableHead className="text-center">Criteria matched</TableHead>
-            <TableHead className="text-center">CRE Property</TableHead>
+            <TableHead className="w-[250px]">Property</TableHead>
+            <TableHead>Location</TableHead>
+            <TableHead className="text-center">Owner</TableHead>
+            <TableHead className="text-center">Details</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -286,28 +400,40 @@ export function SearchResults({
                   </Avatar>
                   <div>
                     <div className="font-medium flex items-center gap-1">
-                      {result.address}
+                      {result.address.street}
                       <VerifiedIcon className="h-4 w-4 text-primary" />
                     </div>
                     <div className="text-sm text-muted-foreground">
-                      {result.propertyType.charAt(0).toUpperCase() +
-                        result.propertyType.slice(1)}{" "}
-                      Investor
+                      {result.propertyUse || result.landUse}
                     </div>
                   </div>
                 </div>
               </TableCell>
               <TableCell>
-                {result.city}, {result.state}
+                {result.address.city || result.mailAddress?.city || ""},{" "}
+                {result.address.state}
               </TableCell>
               <TableCell className="text-center">
-                <Badge className="bg-accent/20 text-accent-foreground hover:bg-accent/20 border-accent/30">
-                  1 of 1
-                </Badge>
+                {result.owner1FirstName && result.owner1LastName ? (
+                  <Badge className="bg-accent/20 text-accent-foreground hover:bg-accent/20 border-accent/30">
+                    {result.owner1FirstName} {result.owner1LastName}
+                  </Badge>
+                ) : (
+                  <Badge variant="outline">Unknown</Badge>
+                )}
               </TableCell>
               <TableCell className="text-center">
-                <div className="flex justify-center">
-                  <CheckCircleIcon className="h-5 w-5 text-accent-foreground" />
+                <div className="flex justify-center gap-2">
+                  {result.highEquity && (
+                    <Badge className="bg-primary/20 text-primary hover:bg-primary/20 border-primary/30">
+                      High Equity
+                    </Badge>
+                  )}
+                  {result.ownerOccupied && (
+                    <div title="Owner Occupied">
+                      <CheckCircleIcon className="h-5 w-5 text-accent-foreground" />
+                    </div>
+                  )}
                 </div>
               </TableCell>
             </TableRow>
