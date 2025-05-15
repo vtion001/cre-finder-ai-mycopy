@@ -19,7 +19,6 @@ import { LogOutIcon, UserIcon } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { ThemeToggle } from "./theme-toggle";
 
 interface UserMenuProps {
   user: {
