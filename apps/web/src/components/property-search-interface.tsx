@@ -4,15 +4,21 @@ import type { Tables } from "@v1/supabase/types";
 import { Badge } from "@v1/ui/badge";
 import { Button } from "@v1/ui/button";
 import { cn } from "@v1/ui/cn";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@v1/ui/collapsible";
-import { BuildingIcon, MapPinIcon, SearchIcon } from "lucide-react";
+import { Collapsible, CollapsibleTrigger } from "@v1/ui/collapsible";
 import { useState } from "react";
-import { SavedLocationsSelector } from "./saved-locations-selector";
+import { PropertyFiltersForm } from "./forms/property-filters-form";
 import { SearchResults } from "./search-results";
+
+// Define the filter type
+interface PropertyFilter {
+  buildingSizeMin?: number;
+  buildingSizeMax?: number;
+  lotSizeMin?: number;
+  lotSizeMax?: number;
+  lastSaleDate?: Date;
+  yearBuiltMin?: number;
+  yearBuiltMax?: number;
+}
 
 interface PropertySearchInterfaceProps {
   savedLocations: Tables<"user_locations">[];
@@ -26,22 +32,7 @@ export function PropertySearchInterface({
   >("idle");
   const [isFiltersOpen, setIsFiltersOpen] = useState(true);
 
-  const [selectedLocations, setSelectedLocations] = useState<
-    Tables<"user_locations">[]
-  >([]);
-
-  const [activeFilterCount, setActiveFilterCount] = useState(0);
-
-  // Handle selection of multiple locations from the saved locations selector
-  const handleSelectLocations = (locations: Tables<"user_locations">[]) => {
-    setSelectedLocations(locations);
-
-    // Update active filter count based on other filters (if any)
-    // This is a placeholder for future filter functionality
-    setActiveFilterCount(0);
-  };
-
-  const handleSearch = async () => {
+  const handleSearch = (filters: PropertyFilter) => {
     setSearchStatus("searching");
 
     // Simulate API call with a delay
@@ -87,60 +78,12 @@ export function PropertySearchInterface({
           </CollapsibleTrigger>
         </div>
 
-        <div className="flex items-center text-sm text-muted-foreground mt-1">
-          <span>Properties in</span>
-          {selectedLocations.length > 0 && (
-            <div className="flex flex-wrap gap-1 ml-2">
-              {selectedLocations.map((location) => (
-                <Badge
-                  key={location.id}
-                  variant="outline"
-                  className="bg-accent/20 text-accent-foreground hover:bg-accent/20 border-accent/30 flex items-center gap-1"
-                >
-                  {location.type === "city" ? (
-                    <BuildingIcon className="h-3 w-3" />
-                  ) : (
-                    <MapPinIcon className="h-3 w-3" />
-                  )}
-                  {location.display_name}
-                </Badge>
-              ))}
-              {activeFilterCount > 0 && (
-                <Badge
-                  variant="outline"
-                  className="bg-primary/20 text-primary hover:bg-primary/20 border-primary/30"
-                >
-                  +{activeFilterCount} filters
-                </Badge>
-              )}
-            </div>
-          )}
-        </div>
-
-        <CollapsibleContent className="mt-4">
-          <div className="bg-card rounded-md p-4 shadow-sm border">
-            <SavedLocationsSelector
-              savedLocations={savedLocations}
-              onSelectLocations={handleSelectLocations}
-              selectedLocations={selectedLocations}
-              maxSelections={3}
-            />
-
-            <div className="mt-4 flex justify-end">
-              <Button
-                variant="default"
-                className="flex items-center gap-2"
-                disabled={selectedLocations.length === 0}
-                onClick={handleSearch}
-              >
-                <SearchIcon className="h-4 w-4 mr-1" />
-                Search Properties
-              </Button>
-            </div>
-          </div>
-        </CollapsibleContent>
+        <PropertyFiltersForm
+          savedLocations={savedLocations}
+          onApplyFilters={handleSearch}
+        />
       </Collapsible>
-      {/* Search Status */}
+
       <div className="space-y-4">
         {searchStatus !== "idle" && (
           <div className="flex items-center gap-2 text-sm">

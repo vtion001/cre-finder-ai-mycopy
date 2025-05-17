@@ -14,44 +14,45 @@ import type { z } from "zod";
 type Location = Tables<"user_locations">;
 
 interface SavedLocationsSelectorProps {
-  savedLocations: Location[];
-  onSelectLocations: (locations: Location[]) => void;
-  selectedLocations?: Location[];
+  options: Location[];
+  onValueChange: (locations: Location[]) => void;
+  value?: Location[];
   maxSelections?: number;
 }
 
 export function SavedLocationsSelector({
-  savedLocations,
-  onSelectLocations,
-  selectedLocations = [],
+  options,
+  onValueChange,
+  value = [],
   maxSelections = 3,
 }: SavedLocationsSelectorProps) {
-  const [selected, setSelected] = useState<Location[]>(selectedLocations);
+  const handleToggleLocation = (location: Location, e?: React.MouseEvent) => {
+    // If this is triggered from a checkbox click, we want to stop here
+    // as the card click will handle the state change
+    if (e?.target instanceof HTMLInputElement) {
+      return;
+    }
 
-  const handleToggleLocation = (location: Location) => {
     let newSelected: Location[];
 
-    if (selected.some((loc) => loc.id === location.id)) {
-      // Remove location if already selected
-      newSelected = selected.filter((loc) => loc.id !== location.id);
+    if (value.some((loc) => loc.id === location.id)) {
+      newSelected = value.filter((loc) => loc.id !== location.id);
     } else {
-      // Add location if not at max selections
-      if (selected.length < maxSelections) {
-        newSelected = [...selected, location];
+      if (value.length < maxSelections) {
+        newSelected = [...value, location];
       } else {
-        return; // Don't add if at max selections
+        return;
       }
     }
 
-    setSelected(newSelected);
-    onSelectLocations(newSelected);
+    onValueChange(newSelected);
   };
 
   const isSelected = (locationId: string) => {
-    return selected.some((loc) => loc.id === locationId);
+    return value.some((loc) => loc.id === locationId);
   };
 
-  if (savedLocations.length === 0) {
+  if (options.length === 0) {
     return (
       <div className="text-center p-6 bg-muted/50 rounded-md border border-dashed">
         <p className="text-muted-foreground">
@@ -67,24 +68,29 @@ export function SavedLocationsSelector({
       <div className="flex justify-between items-center">
         <Label className="text-base">Your Locations</Label>
         <span className="text-xs text-muted-foreground">
-          {selected.length}/{maxSelections} selected
+          {value.length}/{maxSelections} selected
         </span>
       </div>
 
       <div className="grid gap-2">
-        {savedLocations.map((location) => (
+        {options.map((location) => (
           <Card
             key={location.id}
             className="p-3 cursor-pointer hover:bg-muted/50 transition-colors"
-            onClick={() => handleToggleLocation(location)}
+            onClick={(e) => handleToggleLocation(location, e)}
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <Checkbox
-                  checked={isSelected(location.id)}
-                  onCheckedChange={() => handleToggleLocation(location)}
-                  id={`location-${location.id}`}
-                />
+                <div
+                  onClick={(e) => e.stopPropagation()}
+                  onKeyDown={(e) => e.stopPropagation()}
+                  role="presentation"
+                >
+                  <Checkbox
+                    checked={isSelected(location.id)}
+                    id={`location-${location.id}`}
+                  />
+                </div>
                 <div className="flex items-center gap-2">
                   {location.type === "city" ? (
                     <BuildingIcon className="h-4 w-4 text-primary" />
