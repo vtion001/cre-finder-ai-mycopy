@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-import { Avatar, AvatarFallback } from "@v1/ui/avatar";
+import type { PropertySearchResult } from "@/lib/realestateapi";
 import { Badge } from "@v1/ui/badge";
 import { Button } from "@v1/ui/button";
 import { Skeleton } from "@v1/ui/skeleton";
@@ -14,253 +14,36 @@ import {
   TableHeader,
   TableRow,
 } from "@v1/ui/table";
-import {
-  BuildingIcon,
-  CheckCircleIcon,
-  DownloadIcon,
-  VerifiedIcon,
-} from "lucide-react";
+import { format, isValid, parse } from "date-fns";
+import { BuildingIcon, DownloadIcon, VerifiedIcon } from "lucide-react";
 import { toast } from "sonner";
 import * as XLSX from "xlsx";
-export type PropertyType =
-  | "SFR"
-  | "office"
-  | "retail"
-  | "industrial"
-  | "multifamily"
-  | "land"
-  | "hotel"
-  | "mixed-use";
 
-export interface Address {
-  address: string;
-  county?: string;
-  fips?: string;
-  state: string;
-  street: string;
-  zip: string;
-  city?: string;
-}
+// Helper function to format dates from yyyy-MM-dd to a more readable format
+const formatDate = (dateString: string): string => {
+  if (!dateString) return "N/A";
 
-export interface MailAddress {
-  address: string;
-  city: string;
-  state: string;
-  street: string;
-  zip: string;
-}
+  try {
+    // Parse the date string in yyyy-MM-dd format
+    const parsedDate = parse(dateString, "yyyy-MM-dd", new Date());
 
-export interface SearchResult {
-  id: string;
-  propertyId: string;
-  address: Address;
-  mailAddress?: MailAddress;
-  propertyType: string;
-  propertyUse: string;
-  landUse: string;
-  squareFeet: number;
-  lotSquareFeet: number;
-  assessedValue: number;
-  estimatedValue: number;
-  yearBuilt: number;
-  bedrooms: number;
-  bathrooms: number;
-  roomsCount: number;
-  stories: number;
-  ownerOccupied: boolean;
-  owner1FirstName?: string;
-  owner1LastName?: string;
-  owner2FirstName?: string;
-  owner2LastName?: string;
-  highEquity?: boolean;
-  equityPercent?: number;
-  estimatedEquity?: number;
-  openMortgageBalance?: number;
-  latitude?: number;
-  longitude?: number;
-}
+    // Check if the date is valid
+    if (!isValid(parsedDate)) return dateString;
+
+    // Format the date in a more readable format (e.g., "Jan 15, 2023")
+    return format(parsedDate, "MMM d, yyyy");
+  } catch (error) {
+    // If there's an error parsing the date, return the original string
+    return dateString;
+  }
+};
 
 interface SearchResultsProps {
   isLoading?: boolean;
-  results?: SearchResult[];
-
-  searchQuery?: string;
+  results: PropertySearchResult[];
 }
 
-const SAMPLE = [
-  {
-    id: "700058523698",
-    propertyId: "700058523698",
-    address: {
-      address: "Laurel Branch Rd, , KY 40972",
-      county: "Clay County",
-      fips: "21051",
-      state: "KY",
-      street: "Laurel Branch Rd",
-      zip: "40972",
-    },
-    adjustableRate: false,
-    airConditioningAvailable: false,
-    apn: "146-00-00-006.00",
-    assessedImprovementValue: 0,
-    assessedLandValue: 0,
-    assessedValue: 40500,
-    assumable: false,
-    auction: false,
-    auctionDate: null,
-    basement: false,
-    bathrooms: 1,
-    bedrooms: 3,
-    cashBuyer: false,
-    corporateOwned: false,
-    death: false,
-    deck: false,
-    deckArea: 0,
-    equity: false,
-    equityPercent: 85,
-    estimatedEquity: 126089,
-    estimatedValue: 147000,
-    floodZone: false,
-    foreclosure: false,
-    forSale: false,
-    freeClear: false,
-    garage: false,
-    highEquity: true,
-    hoa: null,
-    inherited: false,
-    inStateAbsenteeOwner: false,
-    investorBuyer: false,
-    judgment: false,
-    landUse: "Single Family Residential",
-    lastMortgage1Amount: null,
-    lastSaleAmount: "0",
-    lastSaleArmsLength: null,
-    lastUpdateDate: "2025-04-16 00:00:00 UTC",
-    latitude: 37.24727597781644,
-    lenderName: "Chase Manhattan Bank Usa Na",
-    listingAmount: null,
-    loanTypeCode: "COV",
-    longitude: -83.64654668784793,
-    lotSquareFeet: 47175,
-    mailAddress: {
-      address: "Po Box 152, Oneida, KY 40972",
-      city: "Oneida",
-      state: "KY",
-      street: "Po Box 152",
-      zip: "40972",
-    },
-    maturityDateFirst: "2020-02-15",
-    MFH2to4: false,
-    MFH5plus: false,
-    mlsActive: false,
-    mlsCancelled: false,
-    mlsFailed: false,
-    mlsHasPhotos: false,
-    mlsListingPrice: null,
-    mlsPending: false,
-    mlsSold: false,
-    negativeEquity: false,
-    openMortgageBalance: 39200,
-    outOfStateAbsenteeOwner: false,
-    owner1FirstName: "Matthew",
-    owner1LastName: "Couch",
-    owner2FirstName: "Archie",
-    owner2LastName: "Couch",
-    ownerOccupied: true,
-    parcelAccountNumber: "114563",
-    patio: false,
-    patioArea: 0,
-    pool: false,
-    poolArea: 0,
-    preForeclosure: false,
-    pricePerSquareFoot: 0,
-    priorSaleAmount: null,
-    privateLender: false,
-    propertyType: "SFR",
-    propertyUse: "Single Family Residence",
-    propertyUseCode: 385,
-    rentAmount: null,
-    reo: false,
-    roomsCount: 6,
-    squareFeet: 1032,
-    stories: 1,
-    taxLien: null,
-    unitsCount: 0,
-    vacant: false,
-    yearBuilt: 1977,
-    yearsOwned: null,
-  },
-  {
-    id: "700058523699",
-    propertyId: "700058523699",
-    address: {
-      address: "123 Main St, New York, NY 10001",
-      county: "New York County",
-      fips: "36061",
-      state: "NY",
-      street: "123 Main St",
-      zip: "10001",
-      city: "New York",
-    },
-    assessedValue: 750000,
-    estimatedValue: 850000,
-    bathrooms: 2,
-    bedrooms: 3,
-    equityPercent: 65,
-    estimatedEquity: 552500,
-    highEquity: true,
-    landUse: "Single Family Residential",
-    lotSquareFeet: 5000,
-    openMortgageBalance: 297500,
-    owner1FirstName: "John",
-    owner1LastName: "Smith",
-    ownerOccupied: true,
-    propertyType: "SFR",
-    propertyUse: "Single Family Residence",
-    roomsCount: 7,
-    squareFeet: 2200,
-    stories: 2,
-    yearBuilt: 1985,
-  },
-  {
-    id: "700058523700",
-    propertyId: "700058523700",
-    address: {
-      address: "456 Oak Ave, New York, NY 10002",
-      county: "New York County",
-      fips: "36061",
-      state: "NY",
-      street: "456 Oak Ave",
-      zip: "10002",
-      city: "New York",
-    },
-    assessedValue: 1200000,
-    estimatedValue: 1350000,
-    bathrooms: 3,
-    bedrooms: 4,
-    equityPercent: 75,
-    estimatedEquity: 1012500,
-    highEquity: true,
-    landUse: "Single Family Residential",
-    lotSquareFeet: 7500,
-    openMortgageBalance: 337500,
-    owner1FirstName: "Sarah",
-    owner1LastName: "Johnson",
-    ownerOccupied: false,
-    propertyType: "SFR",
-    propertyUse: "Single Family Residence",
-    roomsCount: 9,
-    squareFeet: 3100,
-    stories: 2,
-    yearBuilt: 1992,
-  },
-];
-
-export function SearchResults({
-  results = SAMPLE,
-  searchQuery = "New York",
-  isLoading,
-}: SearchResultsProps) {
+export function SearchResults({ results, isLoading }: SearchResultsProps) {
   const [isExporting, setIsExporting] = useState(false);
 
   // Handle export to Excel
@@ -270,36 +53,75 @@ export function SearchResults({
     setIsExporting(true);
 
     try {
-      // Format data for Excel
+      // Format data for Excel with all requested fields
       const exportData = results.map((result) => ({
+        // Basic Property Info
         "Property ID": result.propertyId,
         Address: result.address.address,
-        Street: result.address.street,
-        City: result.address.city || result.mailAddress?.city || "",
+        City: result.address.city || "",
         State: result.address.state,
         Zip: result.address.zip,
         County: result.address.county || "",
-        "Property Type": result.propertyType,
-        "Property Use": result.propertyUse,
-        "Land Use": result.landUse,
-        "Square Feet": result.squareFeet,
-        "Lot Size (sq ft)": result.lotSquareFeet,
-        "Assessed Value ($)": result.assessedValue,
-        "Estimated Value ($)": result.estimatedValue,
-        "Year Built": result.yearBuilt,
-        Bedrooms: result.bedrooms,
-        Bathrooms: result.bathrooms,
-        Rooms: result.roomsCount,
-        Stories: result.stories,
+
+        // Owner Information
+        "Owner 1 First Name": result.owner1FirstName || "",
+        "Owner 1 Last Name": result.owner1LastName || "",
+        "Owner 2 First Name": result.owner2FirstName || "",
+        "Owner 2 Last Name": result.owner2LastName || "",
+        "Owner 1 Type": result.corporateOwned ? "Corporate" : "Individual",
+        "Owner 2 Type": result.owner2FirstName ? "Individual" : "",
         "Owner Occupied": result.ownerOccupied ? "Yes" : "No",
-        Owner:
-          result.owner1FirstName && result.owner1LastName
-            ? `${result.owner1FirstName} ${result.owner1LastName}`
-            : "",
+
+        // Mailing Address
+        "Mailing Address": result.mailAddress?.address || "",
+        "Mailing City": result.mailAddress?.city || "",
+        "Mailing State": result.mailAddress?.state || "",
+        "Mailing Zip": result.mailAddress?.zip || "",
+
+        // Property Details
+        "Property Use": result.propertyUse || "",
+        "Property Use Code": result.propertyUseCode || "",
+        "Property Type": result.propertyType || "",
+        "Land Use": result.landUse || "",
+        "Lot Sq. Feet": result.lotSquareFeet || 0,
+        "Building Sq. Feet": result.squareFeet || 0,
+        "Year Built": result.yearBuilt || 0,
+        Bedrooms: result.bedrooms || 0,
+        Bathrooms: result.bathrooms || 0,
+        Stories: result.stories || 0,
+
+        // Financial Information
+        "Last Sale Date": result.lastSaleDate
+          ? formatDate(result.lastSaleDate)
+          : "",
+        "Last Sale Amount": result.lastSaleAmount || "",
+        "Assessed Value": result.assessedValue || 0,
+        "Estimated Value": result.estimatedValue || 0,
+        "Lender Name": result.lenderName || "",
+        "Loan Amount": result.lastMortgage1Amount || "",
+        "Loan Type": result.loanTypeCode || "",
+        "Interest Rate": result.adjustableRate ? "Adjustable" : "Fixed",
+        "Loan Recording Date": result.recordingDate
+          ? formatDate(result.recordingDate)
+          : "",
+        "Maturity Date": result.maturityDateFirst
+          ? formatDate(result.maturityDateFirst)
+          : "",
+        "Mortgage Balance": result.openMortgageBalance || 0,
         "High Equity": result.highEquity ? "Yes" : "No",
         "Equity %": result.equityPercent || 0,
-        "Estimated Equity ($)": result.estimatedEquity || 0,
-        "Mortgage Balance ($)": result.openMortgageBalance || 0,
+
+        // Skip Trace Information (placeholder fields as they don't exist in the API)
+        "Skip Trace Name":
+          `${result.owner1FirstName || ""} ${result.owner1LastName || ""}`.trim() ||
+          "N/A",
+        "Skip Trace Phone": "N/A", // Not available in the API
+        "Skip Trace Email": "N/A", // Not available in the API
+        "Skip Trace Most Recent Address": result.mailAddress?.address || "N/A",
+
+        // Additional Information
+        Latitude: result.latitude || "",
+        Longitude: result.longitude || "",
       }));
 
       // Create worksheet
@@ -309,8 +131,12 @@ export function SearchResults({
       const workbook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(workbook, worksheet, "Properties");
 
-      // Generate Excel file
-      XLSX.writeFile(workbook, `CREfinder_${searchQuery}_Results.xlsx`);
+      // Generate Excel file with timestamp
+      const timestamp = new Date()
+        .toISOString()
+        .replace(/[:.]/g, "-")
+        .substring(0, 19);
+      XLSX.writeFile(workbook, `CREfinder_PropertySearch_${timestamp}.xlsx`);
 
       toast.success("Results exported successfully");
     } catch (error) {
@@ -321,17 +147,6 @@ export function SearchResults({
     }
   };
 
-  // If no search has been performed yet
-  if (!searchQuery && !isLoading) {
-    return (
-      <div className="p-6 text-center text-muted-foreground">
-        <BuildingIcon className="mx-auto mb-2 h-12 w-12 opacity-20" />
-        <p>Enter a city name to search for properties</p>
-      </div>
-    );
-  }
-
-  // If loading
   if (isLoading) {
     return (
       <div className="p-6">
@@ -357,7 +172,7 @@ export function SearchResults({
     return (
       <div className="p-6 text-center text-muted-foreground">
         <BuildingIcon className="mx-auto mb-2 h-12 w-12 opacity-20" />
-        <p>No properties found for "{searchQuery}"</p>
+        <p>No properties found.</p>
         <p className="text-sm mt-2">
           Try adjusting your filters or search for a different city
         </p>
@@ -367,71 +182,148 @@ export function SearchResults({
 
   return (
     <div>
-      <div className="flex justify-end p-4 border-b">
+      <div className="flex justify-end items-center p-4 border-b">
         <Button
           onClick={handleExport}
           disabled={isExporting || results.length === 0}
           className="gap-2 bg-primary hover:bg-primary/90 text-primary-foreground"
-          size="sm"
         >
           <DownloadIcon className="h-4 w-4" />
-          {isExporting ? "Exporting..." : "Export to Excel"}
+          {isExporting ? "Exporting..." : "Export All Fields to Excel"}
         </Button>
       </div>
 
       <Table>
         <TableHeader>
           <TableRow className="bg-muted/50 hover:bg-muted/50">
-            <TableHead className="w-[250px]">Property</TableHead>
-            <TableHead>Location</TableHead>
-            <TableHead className="text-center">Owner</TableHead>
-            <TableHead className="text-center">Details</TableHead>
+            <TableHead className="w-[300px]">Address</TableHead>
+            <TableHead className="whitespace-nowrap w-[120px]">Owner</TableHead>
+            <TableHead>Property Use</TableHead>
+            <TableHead className="text-right whitespace-nowrap w-[120px]">
+              Building Size
+            </TableHead>
+            <TableHead className="text-right whitespace-nowrap w-[100px]">
+              Lot Size
+            </TableHead>
+            <TableHead className="whitespace-nowrap w-[100px]">
+              Last Sale
+            </TableHead>
+            <TableHead>Financial</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {results.map((result) => (
             <TableRow key={result.id}>
+              {/* Address */}
               <TableCell>
-                <div className="flex items-center gap-3">
-                  <Avatar className="h-8 w-8 rounded-full">
-                    <AvatarFallback className="bg-muted text-muted-foreground">
-                      {result.propertyType.substring(0, 1).toUpperCase()}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div>
-                    <div className="font-medium flex items-center gap-1">
-                      {result.address.street}
-                      <VerifiedIcon className="h-4 w-4 text-primary" />
-                    </div>
-                    <div className="text-sm text-muted-foreground">
-                      {result.propertyUse || result.landUse}
-                    </div>
+                <div>
+                  <div className="font-medium flex items-center gap-1">
+                    {result.address.street || result.address.address}
+                    <VerifiedIcon className="h-4 w-4 text-primary" />
+                  </div>
+                  <div className="text-sm text-muted-foreground">
+                    {result.address.city || result.mailAddress?.city || ""},{" "}
+                    {result.address.state} {result.address.zip}
+                  </div>
+                  <div className="text-xs text-muted-foreground mt-1">
+                    ID: {result.propertyId}
                   </div>
                 </div>
               </TableCell>
-              <TableCell>
-                {result.address.city || result.mailAddress?.city || ""},{" "}
-                {result.address.state}
+
+              {/* Owner */}
+              <TableCell className="whitespace-nowrap">
+                <div>
+                  {result.owner1FirstName && result.owner1LastName ? (
+                    <div className="font-medium">
+                      {result.owner1FirstName} {result.owner1LastName}
+                    </div>
+                  ) : (
+                    <div className="text-muted-foreground">Unknown</div>
+                  )}
+                  {result.owner2FirstName && result.owner2LastName && (
+                    <div className="text-sm text-muted-foreground">
+                      {result.owner2FirstName} {result.owner2LastName}
+                    </div>
+                  )}
+                  <div className="flex gap-1 mt-1">
+                    {result.ownerOccupied && (
+                      <Badge variant="outline" className="text-xs py-0 h-5">
+                        Occupied
+                      </Badge>
+                    )}
+                    {result.corporateOwned && (
+                      <Badge variant="outline" className="text-xs py-0 h-5">
+                        Corp
+                      </Badge>
+                    )}
+                  </div>
+                </div>
               </TableCell>
-              <TableCell className="text-center">
-                {result.owner1FirstName && result.owner1LastName ? (
-                  <Badge className="bg-accent/20 text-accent-foreground hover:bg-accent/20 border-accent/30">
-                    {result.owner1FirstName} {result.owner1LastName}
-                  </Badge>
+
+              {/* Property Use */}
+              <TableCell>
+                <div className="text-sm">
+                  {result.propertyUse || result.landUse || "N/A"}
+                  {result.propertyUseCode && (
+                    <div className="text-xs text-muted-foreground">
+                      Code: {result.propertyUseCode}
+                    </div>
+                  )}
+                </div>
+              </TableCell>
+
+              {/* Building Size */}
+              <TableCell className="text-right whitespace-nowrap">
+                {result.squareFeet ? (
+                  <div className="font-medium">
+                    {result.squareFeet.toLocaleString()} sq ft
+                  </div>
                 ) : (
-                  <Badge variant="outline">Unknown</Badge>
+                  <div className="text-muted-foreground">N/A</div>
                 )}
               </TableCell>
-              <TableCell className="text-center">
-                <div className="flex justify-center gap-2">
+
+              {/* Lot Size */}
+              <TableCell className="text-right whitespace-nowrap">
+                {result.lotSquareFeet ? (
+                  <div className="font-medium">
+                    {result.lotSquareFeet.toLocaleString()} sq ft
+                  </div>
+                ) : (
+                  <div className="text-muted-foreground">N/A</div>
+                )}
+              </TableCell>
+
+              {/* Last Sale */}
+              <TableCell className="whitespace-nowrap">
+                <div>
+                  {result.lastSaleDate ? (
+                    <div className="font-medium">
+                      {formatDate(result.lastSaleDate)}
+                    </div>
+                  ) : (
+                    <div className="text-muted-foreground">N/A</div>
+                  )}
+                  {result.lastSaleAmount && (
+                    <div className="text-sm text-muted-foreground">
+                      ${result.lastSaleAmount}
+                    </div>
+                  )}
+                </div>
+              </TableCell>
+
+              {/* Financial */}
+              <TableCell>
+                <div className="flex flex-col gap-1">
                   {result.highEquity && (
                     <Badge className="bg-primary/20 text-primary hover:bg-primary/20 border-primary/30">
                       High Equity
                     </Badge>
                   )}
-                  {result.ownerOccupied && (
-                    <div title="Owner Occupied">
-                      <CheckCircleIcon className="h-5 w-5 text-accent-foreground" />
+                  {result.lenderName && (
+                    <div className="text-xs text-muted-foreground">
+                      Lender: {result.lenderName}
                     </div>
                   )}
                 </div>

@@ -2,6 +2,7 @@
 
 import { title } from "node:process";
 import { env } from "@/env.mjs";
+import { getAutocomplete } from "@/lib/realestateapi";
 import { z } from "zod";
 import { authActionClient } from "./safe-action";
 import { locationSchema } from "./schema";
@@ -55,30 +56,13 @@ export const getRealEstateLocationsAction = authActionClient
         return [];
       }
 
-      const response = await fetch(
-        "https://api.realestateapi.com/v2/AutoComplete",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "x-api-key": env.REALESTATEAPI_API_KEY,
-            "x-user-id": "CREFinderAI",
-          },
-          body: JSON.stringify({
-            search: query,
-            search_types: searchTypes,
-          }),
-        },
-      );
-
-      if (!response.ok) {
-        throw new Error(`API responded with status: ${response.status}`);
-      }
-
-      const data = (await response.json()) as AutocompleteResponse;
+      const data = await getAutocomplete({
+        query,
+        searchTypes,
+      });
 
       // Normalize cities and counties into a common format
-      const normalizedLocations = data.data.map((item) => {
+      const normalizedLocations = data.map((item) => {
         // Generate a unique ID for the location
         const id =
           `${item.searchType}-${item.state}-${item.searchType === "C" ? item.city : item.county}`

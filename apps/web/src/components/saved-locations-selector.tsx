@@ -89,6 +89,7 @@ export function SavedLocationsSelector({
                   <Checkbox
                     checked={isSelected(location.id)}
                     id={`location-${location.id}`}
+                    onCheckedChange={() => handleToggleLocation(location)}
                   />
                 </div>
                 <div className="flex items-center gap-2">

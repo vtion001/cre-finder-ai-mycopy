@@ -17,6 +17,7 @@
     "@types/google-libphonenumber": "^7.4.30",
     "@v1/supabase": "workspace:*",
     "@v1/ui": "workspace:*",
+    "date-fns": "^4.1.0",
     "geist": "^1.4.2",
     "google-libphonenumber": "^3.2.40",
     "next": "14.2.7",

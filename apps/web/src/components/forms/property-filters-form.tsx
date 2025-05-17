@@ -364,20 +364,20 @@ export function PropertyFiltersForm({
                   </div>
                 </div>
               </div>
+
+              <div className="mt-4 flex justify-end">
+                <Button
+                  type="submit"
+                  variant="default"
+                  className="flex items-center gap-2"
+                  disabled={!form.formState.isValid}
+                >
+                  <SearchIcon className="h-4 w-4 mr-1" />
+                  Search Properties
+                </Button>
+              </div>
             </form>
           </Form>
-
-          <div className="mt-4 flex justify-end">
-            <Button
-              variant="default"
-              className="flex items-center gap-2"
-              disabled={!form.formState.isValid}
-              type="submit"
-            >
-              <SearchIcon className="h-4 w-4 mr-1" />
-              Search Properties
-            </Button>
-          </div>
         </div>
       </CollapsibleContent>
     </>
