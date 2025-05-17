@@ -1,37 +1,24 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { IconFilterX, IconSearch } from "@tabler/icons-react";
 import type { Tables } from "@v1/supabase/types";
 import { Badge } from "@v1/ui/badge";
 import { Button } from "@v1/ui/button";
 import { Calendar } from "@v1/ui/calendar";
 import { cn } from "@v1/ui/cn";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@v1/ui/collapsible";
+import { CollapsibleContent } from "@v1/ui/collapsible";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@v1/ui/form";
 import { Input } from "@v1/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@v1/ui/popover";
-import { Slider } from "@v1/ui/slider";
 import { format } from "date-fns";
-import {
-  BuildingIcon,
-  CalendarIcon,
-  FilterIcon,
-  MapPinIcon,
-  SearchIcon,
-} from "lucide-react";
-import { useState } from "react";
+import { BuildingIcon, CalendarIcon, MapPinIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { SavedLocationsSelector } from "../saved-locations-selector";
@@ -117,11 +104,13 @@ const filterSchema = z
 type FilterFormValues = z.infer<typeof filterSchema>;
 
 interface PropertyFiltersFormProps {
+  assetType: Tables<"asset_types">;
   savedLocations: Tables<"user_locations">[];
   onApplyFilters: (filters: FilterFormValues) => void;
 }
 
 export function PropertyFiltersForm({
+  assetType,
   savedLocations,
   onApplyFilters,
 }: PropertyFiltersFormProps) {
@@ -144,7 +133,7 @@ export function PropertyFiltersForm({
   return (
     <>
       <div className="flex items-center text-sm text-muted-foreground mt-1">
-        <span>Properties in</span>
+        <span>{assetType.name} properties in</span>
 
         <div className="flex flex-wrap gap-1 ml-2">
           {selectedLocations?.map((location) => (
@@ -367,12 +356,22 @@ export function PropertyFiltersForm({
 
               <div className="mt-4 flex justify-end">
                 <Button
+                  type="reset"
+                  variant="outline"
+                  className="mr-2"
+                  disabled={!form.formState.isDirty}
+                  onClick={() => form.reset()}
+                >
+                  <IconFilterX className="h-4 w-4 " />
+                  Clear
+                </Button>
+                <Button
                   type="submit"
                   variant="default"
                   className="flex items-center gap-2"
                   disabled={!form.formState.isValid}
                 >
-                  <SearchIcon className="h-4 w-4 mr-1" />
+                  <IconSearch className="h-4 w-4 " />
                   Search Properties
                 </Button>
               </div>

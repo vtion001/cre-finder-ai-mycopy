@@ -64,6 +64,7 @@ export const HeroSection = () => {
                               <option>Office</option>
                               <option>Industrial</option>
                               <option>Multifamily</option>
+                              <option>Storage Units</option>
                             </select>
                           </div>
                           <div className="flex-1">

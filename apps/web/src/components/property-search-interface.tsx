@@ -26,10 +26,12 @@ interface PropertyFilter {
 }
 
 interface PropertySearchInterfaceProps {
+  assetType: Tables<"asset_types">;
   savedLocations: Tables<"user_locations">[];
 }
 
 export function PropertySearchInterface({
+  assetType,
   savedLocations,
 }: PropertySearchInterfaceProps) {
   const [isFiltersOpen, setIsFiltersOpen] = useState(true);
@@ -97,6 +99,7 @@ export function PropertySearchInterface({
         </div>
 
         <PropertyFiltersForm
+          assetType={assetType}
           savedLocations={savedLocations}
           onApplyFilters={handleSearch}
         />

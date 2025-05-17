@@ -40,7 +40,7 @@ CREATE TABLE public.user_locations (
 );
 
 -- Add subscription related fields to users table
-ALTER TABLE public.users 
+ALTER TABLE public.users
 ADD COLUMN subscription_plan_id UUID REFERENCES public.subscription_plans(id),
 ADD COLUMN subscription_status TEXT DEFAULT 'inactive',
 ADD COLUMN subscription_start_date TIMESTAMP WITH TIME ZONE,
@@ -93,22 +93,22 @@ FOR DELETE USING (auth.uid() = user_id);
 
 -- Insert default subscription plans
 INSERT INTO public.subscription_plans (name, price, description, features, max_searches, max_skip_trace, county_access, asset_type_count, is_enterprise)
-VALUES 
-('Standard', '$499/month', 'Perfect for individual investors and small teams.', 
- '["Up to 500 property searches per month", "Skip-trace up to 500 properties", "Single county access", "1 asset type", "Email support", "Data export (CSV,Excel)"]'::jsonb, 
+VALUES
+('Standard', '$499/month', 'Perfect for individual investors and small teams.',
+ '["Up to 500 property searches per month", "Skip-trace up to 500 properties", "Single county access", "1 asset type", "Email support", "Data export (CSV,Excel)"]'::jsonb,
  500, 500, 'Single county', 1, false),
- 
-('Professional', '$999/month', 'For active investors and mid-sized investment firms.', 
- '["Up to 1000 property searches per month", "Skip-trace up to 1000 properties", "Single county access", "1 asset type", "Email support", "Data export (CSV,Excel)"]'::jsonb, 
+
+('Professional', '$999/month', 'For active investors and mid-sized investment firms.',
+ '["Up to 1000 property searches per month", "Skip-trace up to 1000 properties", "Single county access", "1 asset type", "Email support", "Data export (CSV,Excel)"]'::jsonb,
  1000, 1000, 'Single county', 1, false),
- 
-('Enterprise', 'Contact Us', 'For large investment firms and institutional investors.', 
- '["Multiple county access", "Multiple asset types", "All Professional features", "Dedicated account manager", "Phone & email support", "First access to AI outbound marketing system"]'::jsonb, 
+
+('Enterprise', 'Contact Us', 'For large investment firms and institutional investors.',
+ '["Multiple county access", "Multiple asset types", "All Professional features", "Dedicated account manager", "Phone & email support", "First access to AI outbound marketing system"]'::jsonb,
  5000, 5000, 'Multiple counties', 5, true);
 
 -- Insert default asset types
 INSERT INTO public.asset_types (name, description)
-VALUES 
+VALUES
 ('Residential', 'Single-family homes, condos, townhouses, and multi-family properties up to 4 units'),
 ('Multi-Family', 'Apartment buildings with 5+ units'),
 ('Office', 'Commercial office buildings and spaces'),
@@ -116,4 +116,5 @@ VALUES
 ('Industrial', 'Warehouses, manufacturing facilities, and distribution centers'),
 ('Land', 'Vacant land and development sites'),
 ('Hospitality', 'Hotels, motels, and resorts'),
+('Storage Unit', 'Self-storage facilities and storage unit complexes'),
 ('Mixed-Use', 'Properties with multiple uses (e.g., retail on ground floor, residential above)');
