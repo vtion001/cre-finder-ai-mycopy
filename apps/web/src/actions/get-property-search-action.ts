@@ -4,7 +4,6 @@ import { getPropertySearch } from "@/lib/realestateapi";
 import { z } from "zod";
 import { authActionClient } from "./safe-action";
 
-// Define the schema for the property search parameters
 const propertySearchSchema = z.object({
   size: z.number().optional(),
   building_size_min: z.number().optional(),
@@ -31,7 +30,7 @@ export const getPropertySearchAction = authActionClient
 
       // Call the real estate API
       const response = await getPropertySearch(params);
-      
+
       return response;
     } catch (error) {
       console.error("Error fetching properties:", error);

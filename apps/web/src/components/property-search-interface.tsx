@@ -10,20 +10,12 @@ import { Collapsible, CollapsibleTrigger } from "@v1/ui/collapsible";
 import { format } from "date-fns";
 import { useAction } from "next-safe-action/hooks";
 import { useState } from "react";
-import { PropertyFiltersForm } from "./forms/property-filters-form";
+import type { z } from "zod";
+import {
+  PropertyFiltersForm,
+  type filterSchema,
+} from "./forms/property-filters-form";
 import { SearchResults } from "./search-results";
-
-// Define the filter type
-interface PropertyFilter {
-  locations: Tables<"user_locations">[];
-  buildingSizeMin?: number;
-  buildingSizeMax?: number;
-  lotSizeMin?: number;
-  lotSizeMax?: number;
-  lastSaleDate?: Date;
-  yearBuiltMin?: number;
-  yearBuiltMax?: number;
-}
 
 interface PropertySearchInterfaceProps {
   assetType: Tables<"asset_types">;
@@ -43,22 +35,14 @@ export function PropertySearchInterface({
     result: { data: searchResponse },
   } = useAction(getPropertySearchAction);
 
-  const handleSearch = (filters: PropertyFilter) => {
-    const apiParams = {
-      size: 8, // Limit to 8 results as requested
-      building_size_min: filters.buildingSizeMin,
-      building_size_max: filters.buildingSizeMax,
-      lot_size_min: filters.lotSizeMin,
-      lot_size_max: filters.lotSizeMax,
-      last_sale_date: filters.lastSaleDate
-        ? format(filters.lastSaleDate, "yyyy-MM-dd")
+  const handleSearch = (filters: z.infer<typeof filterSchema>) => {
+    searchProperties({
+      ...filters,
+      size: 8, // Limit to 8 results
+      last_sale_date: filters.last_sale_date
+        ? format(filters.last_sale_date, "yyyy-MM-dd")
         : undefined,
-      year_min: filters.yearBuiltMin,
-      year_max: filters.yearBuiltMax,
-    };
-
-    // Call the server action
-    searchProperties(apiParams);
+    });
   };
 
   return (

@@ -155,10 +155,10 @@ export type PropertySearchResult = {
   parcelAccountNumber?: string;
   documentType?: string;
   documentTypeCode?: string;
-  lastSaleDate?: string;
+  last_sale_date?: string;
   maturityDateFirst?: string;
   mlsDaysOnMarket?: number;
-  mlsLastSaleDate?: string;
+  mlslast_sale_date?: string;
   mlsLastStatusDate?: string;
   mlsListingDate?: string;
   mlsSoldPrice?: number;

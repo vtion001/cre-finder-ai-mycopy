@@ -24,35 +24,35 @@ import { z } from "zod";
 import { SavedLocationsSelector } from "../saved-locations-selector";
 
 // Define the schema for the filter form
-const filterSchema = z
+export const filterSchema = z
   .object({
     locations: z.array(z.custom<Tables<"user_locations">>()).min(1),
-    buildingSizeMin: z.coerce
+    building_size_min: z.coerce
       .number()
       .min(0, "Must be a positive number")
       .optional(),
-    buildingSizeMax: z.coerce
+    building_size_max: z.coerce
       .number()
       .min(0, "Must be a positive number")
       .optional(),
-    lotSizeMin: z.coerce
+    lot_size_min: z.coerce
       .number()
       .min(0, "Must be a positive number")
       .optional(),
-    lotSizeMax: z.coerce
+    lot_size_max: z.coerce
       .number()
       .min(0, "Must be a positive number")
       .optional(),
-    lastSaleDate: z.date().optional(),
-    yearBuiltMin: z.coerce
+    last_sale_date: z.date().optional(),
+    year_min: z.coerce
       .number()
-      .min(1800, "Year must be after 1800")
+      .min(1900, "Year must be after 1900")
       .max(
         new Date().getFullYear(),
         `Year must be before ${new Date().getFullYear() + 1}`,
       )
       .optional(),
-    yearBuiltMax: z.coerce
+    year_max: z.coerce
       .number()
       .min(1800, "Year must be after 1800")
       .max(
@@ -64,40 +64,40 @@ const filterSchema = z
   .refine(
     (data) => {
       // If both min and max are provided, ensure min <= max
-      if (data.buildingSizeMin && data.buildingSizeMax) {
-        return data.buildingSizeMin <= data.buildingSizeMax;
+      if (data.building_size_min && data.building_size_max) {
+        return data.building_size_min <= data.building_size_max;
       }
       return true;
     },
     {
       message: "Minimum building size must be less than or equal to maximum",
-      path: ["buildingSizeMin"],
+      path: ["building_size_min"],
     },
   )
   .refine(
     (data) => {
       // If both min and max are provided, ensure min <= max
-      if (data.lotSizeMin && data.lotSizeMax) {
-        return data.lotSizeMin <= data.lotSizeMax;
+      if (data.lot_size_min && data.lot_size_max) {
+        return data.lot_size_min <= data.lot_size_max;
       }
       return true;
     },
     {
       message: "Minimum lot size must be less than or equal to maximum",
-      path: ["lotSizeMin"],
+      path: ["lot_size_min"],
     },
   )
   .refine(
     (data) => {
       // If both min and max are provided, ensure min <= max
-      if (data.yearBuiltMin && data.yearBuiltMax) {
-        return data.yearBuiltMin <= data.yearBuiltMax;
+      if (data.year_min && data.year_max) {
+        return data.year_min <= data.year_max;
       }
       return true;
     },
     {
       message: "Minimum year built must be less than or equal to maximum",
-      path: ["yearBuiltMin"],
+      path: ["year_min"],
     },
   );
 
@@ -190,7 +190,7 @@ export function PropertyFiltersForm({
                   <div className="grid grid-cols-2 gap-4">
                     <FormField
                       control={form.control}
-                      name="buildingSizeMin"
+                      name="building_size_min"
                       render={({ field }) => (
                         <FormItem>
                           <FormControl>
@@ -207,7 +207,7 @@ export function PropertyFiltersForm({
                     />
                     <FormField
                       control={form.control}
-                      name="buildingSizeMax"
+                      name="building_size_max"
                       render={({ field }) => (
                         <FormItem>
                           <FormControl>
@@ -231,7 +231,7 @@ export function PropertyFiltersForm({
                   <div className="grid grid-cols-2 gap-4">
                     <FormField
                       control={form.control}
-                      name="lotSizeMin"
+                      name="lot_size_min"
                       render={({ field }) => (
                         <FormItem>
                           <FormControl>
@@ -248,7 +248,7 @@ export function PropertyFiltersForm({
                     />
                     <FormField
                       control={form.control}
-                      name="lotSizeMax"
+                      name="lot_size_max"
                       render={({ field }) => (
                         <FormItem>
                           <FormControl>
@@ -271,7 +271,7 @@ export function PropertyFiltersForm({
                   <h3 className="text-sm font-medium">Last Sale Date</h3>
                   <FormField
                     control={form.control}
-                    name="lastSaleDate"
+                    name="last_sale_date"
                     render={({ field }) => (
                       <FormItem className="flex flex-col space-y-4  ">
                         <Popover>
@@ -318,7 +318,7 @@ export function PropertyFiltersForm({
                   <div className="grid grid-cols-2 gap-4">
                     <FormField
                       control={form.control}
-                      name="yearBuiltMin"
+                      name="year_min"
                       render={({ field }) => (
                         <FormItem>
                           <FormControl>
@@ -335,7 +335,7 @@ export function PropertyFiltersForm({
                     />
                     <FormField
                       control={form.control}
-                      name="yearBuiltMax"
+                      name="year_max"
                       render={({ field }) => (
                         <FormItem>
                           <FormControl>

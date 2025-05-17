@@ -91,8 +91,8 @@ export function SearchResults({ results, isLoading }: SearchResultsProps) {
         Stories: result.stories || 0,
 
         // Financial Information
-        "Last Sale Date": result.lastSaleDate
-          ? formatDate(result.lastSaleDate)
+        "Last Sale Date": result.last_sale_date
+          ? formatDate(result.last_sale_date)
           : "",
         "Last Sale Amount": result.lastSaleAmount || "",
         "Assessed Value": result.assessedValue || 0,
@@ -298,9 +298,9 @@ export function SearchResults({ results, isLoading }: SearchResultsProps) {
               {/* Last Sale */}
               <TableCell className="whitespace-nowrap">
                 <div>
-                  {result.lastSaleDate ? (
+                  {result.last_sale_date ? (
                     <div className="font-medium">
-                      {formatDate(result.lastSaleDate)}
+                      {formatDate(result.last_sale_date)}
                     </div>
                   ) : (
                     <div className="text-muted-foreground">N/A</div>
