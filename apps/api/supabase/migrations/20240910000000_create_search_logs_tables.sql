@@ -1,3 +1,6 @@
+CREATE TYPE public.search_status AS ENUM ('preview', 'pending', 'completed', 'failed');
+
+
 -- Create search_logs table
 CREATE TABLE public.search_logs (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -9,6 +12,9 @@ CREATE TABLE public.search_logs (
     search_parameters JSONB NOT NULL,
     result_count INTEGER NOT NULL,
     execution_time_ms INTEGER,
+
+    status public.search_status NOT NULL DEFAULT 'preview',
+
     created_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT now()
 );
