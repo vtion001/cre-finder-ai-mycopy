@@ -11,3 +11,38 @@ export function formatNumber(
     ...options,
   }).format(value ?? 0);
 }
+
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+export const formatSearchParams = (params: any) => {
+  if (!params) return "N/A";
+
+  const parts = [];
+
+  if (params.building_size_min || params.building_size_max) {
+    const min = params.building_size_min
+      ? formatNumber(params.building_size_min)
+      : "Any";
+    const max = params.building_size_max
+      ? formatNumber(params.building_size_max)
+      : "Any";
+    parts.push(`Building Size: ${min} - ${max} sqft`);
+  }
+
+  if (params.lot_size_min || params.lot_size_max) {
+    const min = params.lot_size_min ? formatNumber(params.lot_size_min) : "Any";
+    const max = params.lot_size_max ? formatNumber(params.lot_size_max) : "Any";
+    parts.push(`Lot Size: ${min} - ${max} sqft`);
+  }
+
+  if (params.year_min || params.year_max) {
+    const min = params.year_min || "Any";
+    const max = params.year_max || "Any";
+    parts.push(`Year Built: ${min} - ${max}`);
+  }
+
+  if (params.last_sale_date) {
+    parts.push(`Last Sale Date: ${params.last_sale_date}`);
+  }
+
+  return parts.join(" • ");
+};

@@ -1,6 +1,5 @@
 "use client";
 
-import type { locationSchema } from "@/actions/schema";
 import type { Tables } from "@v1/supabase/types";
 import { Badge } from "@v1/ui/badge";
 import { Card } from "@v1/ui/card";
@@ -8,15 +7,13 @@ import { Checkbox } from "@v1/ui/checkbox";
 import { Label } from "@v1/ui/label";
 import { Skeleton } from "@v1/ui/skeleton";
 import { BuildingIcon, MapPinIcon } from "lucide-react";
-import { useState } from "react";
-import type { z } from "zod";
 
 type Location = Tables<"user_locations">;
 
 interface SavedLocationsSelectorProps {
   options: Location[];
-  onValueChange: (locations: Location[]) => void;
-  value?: Location[];
+  onValueChange: (locationIds: string[]) => void;
+  value?: string[];
   maxSelections?: number;
 }
 
@@ -33,13 +30,13 @@ export function SavedLocationsSelector({
       return;
     }
 
-    let newSelected: Location[];
+    let newSelected: string[];
 
-    if (value.some((loc) => loc.id === location.id)) {
-      newSelected = value.filter((loc) => loc.id !== location.id);
+    if (value.includes(location.id)) {
+      newSelected = value.filter((id) => id !== location.id);
     } else {
       if (value.length < maxSelections) {
-        newSelected = [...value, location];
+        newSelected = [...value, location.id];
       } else {
         return;
       }
@@ -49,7 +46,7 @@ export function SavedLocationsSelector({
   };
 
   const isSelected = (locationId: string) => {
-    return value.some((loc) => loc.id === locationId);
+    return value.includes(locationId);
   };
 
   if (options.length === 0) {

@@ -1,6 +1,11 @@
 "use client";
 
-import { CreditCardIcon, HelpCircleIcon, SearchIcon } from "lucide-react";
+import {
+  CreditCardIcon,
+  HelpCircleIcon,
+  HistoryIcon,
+  SearchIcon,
+} from "lucide-react";
 import type * as React from "react";
 
 import type { Tables } from "@v1/supabase/types";
@@ -23,6 +28,11 @@ const data = {
       title: "Property Search",
       url: "/dashboard/search",
       icon: SearchIcon,
+    },
+    {
+      title: "Search History",
+      url: "/dashboard/history",
+      icon: HistoryIcon,
     },
     {
       title: "Credits",

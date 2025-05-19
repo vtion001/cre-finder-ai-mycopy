@@ -5,6 +5,7 @@ import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
 import type { Metadata } from "next";
 import { ThemeProvider } from "next-themes";
+import { NuqsAdapter } from "nuqs/adapters/next";
 
 export const metadata: Metadata = {
   title: "CRE Finder AI",
@@ -30,15 +31,17 @@ export default function RootLayout({
           "antialiased",
         )}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="light"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-          <Toaster />
-        </ThemeProvider>
+        <NuqsAdapter>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="light"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+            <Toaster />
+          </ThemeProvider>
+        </NuqsAdapter>
       </body>
     </html>
   );

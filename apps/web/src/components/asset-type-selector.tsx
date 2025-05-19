@@ -6,19 +6,19 @@ import { Label } from "@v1/ui/label";
 import { useState } from "react";
 
 interface AssetTypeSelectorProps {
-  assetTypes: Tables<"asset_types">[];
-  selectedAssetTypeIndex: number;
-  onAssetTypeChange: (index: number) => void;
+  options: Tables<"asset_types">[];
+  value: string;
+  onValueChange: (id: string) => void;
   variant?: "default" | "compact";
 }
 
 export function AssetTypeSelector({
-  assetTypes,
-  selectedAssetTypeIndex,
-  onAssetTypeChange,
+  options,
+  value,
+  onValueChange,
   variant = "default",
 }: AssetTypeSelectorProps) {
-  if (assetTypes.length === 0) {
+  if (options.length === 0) {
     return (
       <div className="text-center p-4 bg-muted/50 rounded-md border border-dashed">
         <p className="text-muted-foreground">
@@ -29,7 +29,7 @@ export function AssetTypeSelector({
     );
   }
 
-  if (assetTypes.length === 1) {
+  if (options.length === 1) {
     return null;
   }
 
@@ -42,12 +42,12 @@ export function AssetTypeSelector({
       )}
 
       <div className="flex flex-wrap gap-2">
-        {assetTypes.map((type, index) => (
+        {options.map((type, index) => (
           <Badge
             key={type.id}
-            variant={index === selectedAssetTypeIndex ? "default" : "outline"}
+            variant={type.id === value ? "default" : "outline"}
             className="cursor-pointer"
-            onClick={() => onAssetTypeChange(index)}
+            onClick={() => onValueChange(type.id)}
           >
             {type.name}
           </Badge>
