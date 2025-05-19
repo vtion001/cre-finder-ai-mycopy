@@ -62,8 +62,6 @@ export function SearchHistoryTable({
   const [isSaveFavoriteDialogOpen, setIsSaveFavoriteDialogOpen] =
     useState(false);
 
-  const handleReRunSearch = async (data: Tables<"search_logs">) => {};
-
   if (isLoading) {
     return (
       <div className="space-y-4">
@@ -149,14 +147,6 @@ export function SearchHistoryTable({
                       title="Save as favorite"
                     >
                       <StarIcon className="h-4 w-4" />
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="icon"
-                      onClick={() => handleReRunSearch(searchLog)}
-                      title="Re-run search"
-                    >
-                      <PlayIcon className="h-4 w-4" />
                     </Button>
                   </div>
                 </TableCell>

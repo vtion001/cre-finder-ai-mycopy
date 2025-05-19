@@ -46,8 +46,6 @@ export function FavoriteSearches({ favoriteSearches }: FavoriteSearchesProps) {
   >(null);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
-  const handleReRunSearch = async (searchLog: Tables<"search_logs">) => {};
-
   const handleDeleteFavorite = async () => {
     if (!selectedFavorite) return;
 
@@ -113,14 +111,6 @@ export function FavoriteSearches({ favoriteSearches }: FavoriteSearchesProps) {
                 </TableCell>
                 <TableCell className="text-right">
                   <div className="flex justify-end gap-2">
-                    <Button
-                      variant="outline"
-                      size="icon"
-                      onClick={() => handleReRunSearch(favorite.search_logs)}
-                      title="Run search"
-                    >
-                      <PlayIcon className="h-4 w-4" />
-                    </Button>
                     <Button
                       variant="outline"
                       size="icon"

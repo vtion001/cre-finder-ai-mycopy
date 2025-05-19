@@ -40,10 +40,6 @@ export function SearchFiltersForm({
   savedLocations,
   onApplyFilters,
 }: SearchFiltersFormProps) {
-  const [values, setValues] = useQueryStates(parsers, {
-    history: "push",
-  });
-
   const defaultValues = {
     location_id: savedLocations[0]?.id,
     asset_type_id: assetTypes[0]?.id,
@@ -52,18 +48,7 @@ export function SearchFiltersForm({
   const form = useForm<FilterFormValues>({
     mode: "onChange",
     resolver: zodResolver(searchFiltersSchema),
-    defaultValues: values.form
-      ? {
-          ...defaultValues,
-          ...values.form,
-        }
-      : defaultValues,
-  });
-
-  const formValues = form.watch();
-
-  useDebounce(formValues, 300, (debouncedValues) => {
-    setValues({ form: debouncedValues });
+    defaultValues,
   });
 
   function onSubmit(data: FilterFormValues) {
