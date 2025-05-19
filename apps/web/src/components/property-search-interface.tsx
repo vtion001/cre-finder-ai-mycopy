@@ -1,6 +1,7 @@
 "use client";
 
 import { getPropertySearchAction } from "@/actions/get-property-search-action";
+import { AssetTypeSelector } from "@/components/asset-type-selector";
 import { formatNumber } from "@/lib/format";
 import type { Tables } from "@v1/supabase/types";
 import { Badge } from "@v1/ui/badge";
@@ -18,14 +19,33 @@ import {
 import { SearchResults } from "./search-results";
 
 interface PropertySearchInterfaceProps {
-  assetType: Tables<"asset_types">;
+  assetTypes: Tables<"asset_types">[];
   savedLocations: Tables<"user_locations">[];
 }
 
 export function PropertySearchInterface({
-  assetType,
+  assetTypes,
   savedLocations,
 }: PropertySearchInterfaceProps) {
+  // Default to the first asset type, or handle empty array case
+  const [selectedAssetTypeIndex, setSelectedAssetTypeIndex] = useState(0);
+  const currentAssetType =
+    assetTypes.length > 0 ? assetTypes[selectedAssetTypeIndex] : null;
+
+  // If no asset types are available, show a message
+  if (!currentAssetType) {
+    return (
+      <div className="flex flex-col items-center justify-center p-12">
+        <h2 className="text-xl font-medium mb-2">No Asset Types Selected</h2>
+        <p className="text-muted-foreground text-center mb-4">
+          Please select at least one asset type in your onboarding settings.
+        </p>
+        <Button asChild>
+          <a href="/onboarding/cities">Go to Settings</a>
+        </Button>
+      </div>
+    );
+  }
   const [isFiltersOpen, setIsFiltersOpen] = useState(true);
 
   const {
@@ -82,11 +102,19 @@ export function PropertySearchInterface({
           </CollapsibleTrigger>
         </div>
 
-        <PropertyFiltersForm
-          assetType={assetType}
-          savedLocations={savedLocations}
-          onApplyFilters={handleSearch}
-        />
+        <div className="mb-4">
+          <AssetTypeSelector
+            assetTypes={assetTypes}
+            selectedAssetTypeIndex={selectedAssetTypeIndex}
+            onAssetTypeChange={setSelectedAssetTypeIndex}
+            variant="compact"
+          />
+          <PropertyFiltersForm
+            assetType={currentAssetType}
+            savedLocations={savedLocations}
+            onApplyFilters={handleSearch}
+          />
+        </div>
       </Collapsible>
 
       <div className="space-y-4">

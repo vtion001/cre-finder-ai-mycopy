@@ -1,6 +1,8 @@
-import { LocationSelection } from "@/components/onboarding/location-selection";
+import { LocationSearch } from "@/components/location-search";
+import { AssetTypeSelection } from "@/components/onboarding/asset-type-selection";
 import { OnboardingLayout } from "@/components/onboarding/onboarding-layout";
 import { getUser } from "@v1/supabase/cached-queries";
+import { getUserAssetTypesQuery } from "@v1/supabase/queries";
 import { createClient } from "@v1/supabase/server";
 import { Card, CardContent } from "@v1/ui/card";
 import type { Metadata } from "next";
@@ -47,22 +49,48 @@ export default async function LocationsPage() {
     .select("*")
     .eq("user_id", cachedUser.data.id);
 
-  const selectedAssetType = cachedUser.data.selected_asset_type_id;
+  const { data: selectedAssetTypes } = await getUserAssetTypesQuery(
+    supabase,
+    cachedUser.data.id,
+  );
 
   return (
     <OnboardingLayout
-      nextButtonDisabled={!selectedAssetType || selectedLocations?.length === 0}
+      nextButtonDisabled={
+        !selectedAssetTypes ||
+        selectedAssetTypes.length === 0 ||
+        !selectedLocations ||
+        selectedLocations.length === 0
+      }
       user={cachedUser.data}
     >
       <div className="max-w-3xl mx-auto">
         <Card className="shadow-lg border-t-4 border-t-primary">
           <CardContent className="p-6">
-            <LocationSelection
-              plan={plan}
-              assetTypes={assetTypes ?? []}
-              selectedAssetType={selectedAssetType}
-              selectedLocations={selectedLocations ?? []}
-            />
+            <div className="space-y-6">
+              <div className="text-center mb-8">
+                <h1 className="text-2xl font-bold">
+                  Select Your Target Locations
+                </h1>
+                <p className="text-muted-foreground mt-2">
+                  Choose the cities or counties where you want to search for
+                  properties
+                </p>
+              </div>
+
+              <div className="space-y-6">
+                <AssetTypeSelection
+                  assetTypes={assetTypes ?? []}
+                  selectedAssetTypes={selectedAssetTypes ?? []}
+                  maxSelections={plan.asset_type_count}
+                />
+
+                <LocationSearch
+                  selectedLocations={selectedLocations ?? []}
+                  maxSelections={plan.county_access === "Single county" ? 1 : 5}
+                />
+              </div>
+            </div>
           </CardContent>
         </Card>
       </div>

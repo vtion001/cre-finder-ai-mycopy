@@ -45,7 +45,6 @@ ADD COLUMN subscription_plan_id UUID REFERENCES public.subscription_plans(id),
 ADD COLUMN subscription_status TEXT DEFAULT 'inactive',
 ADD COLUMN subscription_start_date TIMESTAMP WITH TIME ZONE,
 ADD COLUMN subscription_end_date TIMESTAMP WITH TIME ZONE,
-ADD COLUMN selected_asset_type_id UUID REFERENCES public.asset_types(id);
 
 -- Create a trigger to update the updated_at column for subscription_plans
 CREATE TRIGGER subscription_plans_updated_at

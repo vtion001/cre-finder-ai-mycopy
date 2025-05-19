@@ -1,6 +1,7 @@
 "use client";
 
 import { getRealEstateLocationsAction } from "@/actions/get-real-estate-locations-action";
+import { saveUserLocationsAction } from "@/actions/save-user-locations-action";
 import type { locationSchema } from "@/actions/schema";
 import { Badge } from "@v1/ui/badge";
 import { Button } from "@v1/ui/button";
@@ -18,17 +19,15 @@ import type { z } from "zod";
 type Location = z.infer<typeof locationSchema>;
 
 interface LocationSearchProps {
-  onSelectLocation?: (location: Location) => void;
-  selectedLocations?: Location[];
-  onRemoveLocation?: (locationId: string) => void;
+  selectedLocations: Location[];
   maxSelections?: number;
+  revalidatePath?: string;
 }
 
 export function LocationSearch({
-  onSelectLocation,
-  selectedLocations = [],
-  onRemoveLocation,
+  selectedLocations,
   maxSelections = 1,
+  revalidatePath = "/onboarding/complete",
 }: LocationSearchProps) {
   const [query, setQuery] = useState("");
   const [searchType, setSearchType] = useState<"all" | "cities" | "counties">(
@@ -40,6 +39,10 @@ export function LocationSearch({
     isPending: isLoading,
     result: { data: locations = [] },
   } = useAction(getRealEstateLocationsAction);
+
+  const { executeAsync: saveUserLocations } = useAction(
+    saveUserLocationsAction,
+  );
 
   const debouncedQuery = useDebounce(query, 500);
 
@@ -59,15 +62,31 @@ export function LocationSearch({
     }
   }, [debouncedQuery, fetchLocations, searchType]);
 
-  const handleSelectLocation = (location: Location) => {
+  const handleSelectLocation = async (location: Location) => {
     if (
-      onSelectLocation &&
       !selectedLocations.some((loc) => loc.internal_id === location.internal_id)
     ) {
       if (selectedLocations.length < maxSelections) {
-        onSelectLocation(location);
+        // Add the new location to the existing locations
+        await saveUserLocations({
+          locations: [...selectedLocations, location],
+          revalidatePath,
+        });
       }
     }
+  };
+
+  const handleRemoveLocation = async (locationId: string) => {
+    // Filter out the location to remove
+    const newLocations = selectedLocations.filter(
+      (loc) => loc.internal_id !== locationId,
+    );
+
+    // Save the updated locations
+    await saveUserLocations({
+      locations: newLocations,
+      revalidatePath,
+    });
   };
 
   const filteredLocations = locations.filter(
@@ -203,16 +222,14 @@ export function LocationSearch({
                   <MapPinIcon className="h-3 w-3 mr-1 text-accent-foreground" />
                 )}
                 {location.display_name}
-                {onRemoveLocation && (
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="h-4 w-4 p-0 ml-1 hover:bg-transparent"
-                    onClick={() => onRemoveLocation(location.internal_id)}
-                  >
-                    <XIcon className="h-3 w-3" />
-                  </Button>
-                )}
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-4 w-4 p-0 ml-1 hover:bg-transparent"
+                  onClick={() => handleRemoveLocation(location.internal_id)}
+                >
+                  <XIcon className="h-3 w-3" />
+                </Button>
               </Badge>
             ))}
           </div>

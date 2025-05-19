@@ -2,6 +2,7 @@ import { PropertySearchInterface } from "@/components/property-search-interface"
 import { AppSidebar } from "@/components/sidebar/app-sidebar";
 import { SiteHeader } from "@/components/site-header";
 import { getUser } from "@v1/supabase/cached-queries";
+import { getUserAssetTypesQuery } from "@v1/supabase/queries";
 import { createClient } from "@v1/supabase/server";
 import { SidebarInset, SidebarProvider } from "@v1/ui/sidebar";
 import type { Metadata } from "next";
@@ -15,14 +16,10 @@ export const metadata: Metadata = {
 export default async function Search() {
   const cachedUser = await getUser();
 
-  const user = cachedUser.data;
+  const user = cachedUser?.data;
 
   if (!user) {
     redirect("/login");
-  }
-
-  if (!user.selected_asset_type_id) {
-    redirect("/onboarding");
   }
 
   // Fetch user's saved locations
@@ -33,13 +30,17 @@ export default async function Search() {
     .select("*")
     .eq("user_id", user.id);
 
-  const { data: selectedAssetType } = await supabase
-    .from("asset_types")
-    .select("*")
-    .eq("id", user.selected_asset_type_id)
-    .single();
+  // Fetch user's selected asset types
+  const { data: selectedAssetTypes } = await getUserAssetTypesQuery(
+    supabase,
+    user.id,
+  );
 
-  if (!selectedAssetType || !selectedLocations?.length) {
+  if (
+    !selectedAssetTypes ||
+    selectedAssetTypes.length === 0 ||
+    !selectedLocations?.length
+  ) {
     redirect("/onboarding");
   }
 
@@ -50,7 +51,7 @@ export default async function Search() {
         <SiteHeader title="Property Search" />
         <div className="space-y-6 p-6 pb-16">
           <PropertySearchInterface
-            assetType={selectedAssetType}
+            assetTypes={selectedAssetTypes ?? []}
             savedLocations={selectedLocations ?? []}
           />
         </div>

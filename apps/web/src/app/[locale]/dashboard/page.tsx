@@ -18,8 +18,7 @@ export default async function Dashboard() {
 
   const user = cachedUser.data;
 
-  const hasCompletedOnboarding =
-    user.subscription_plan_id && user.selected_asset_type_id;
+  const hasCompletedOnboarding = user.subscription_plan_id;
 
   if (!hasCompletedOnboarding) {
     redirect("/onboarding");
