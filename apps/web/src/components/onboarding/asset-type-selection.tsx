@@ -20,7 +20,6 @@ export function AssetTypeSelection({
   assetTypes,
   selectedAssetTypes,
   maxSelections,
-  revalidatePath = "/onboarding/complete",
 }: AssetTypeSelectionProps) {
   const [selectedAssetTypeIds, setSelectedAssetTypeIds] = useState<string[]>(
     selectedAssetTypes.map((type) => type.id),
@@ -56,7 +55,6 @@ export function AssetTypeSelection({
     // Save to the database
     await saveUserAssetTypes({
       assetTypeIds: newSelectedAssetTypeIds,
-      revalidatePath,
     });
   };
 

@@ -12,6 +12,7 @@ import { Collapsible, CollapsibleTrigger } from "@v1/ui/collapsible";
 import { HistoryIcon, StarIcon } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { useRouter } from "next/navigation";
+import { useQueryState } from "nuqs";
 import { useEffect, useState } from "react";
 import type { z } from "zod";
 import { SearchFiltersForm } from "./forms/search-filters-form";
@@ -28,6 +29,8 @@ export function PropertySearchInterface({
 }: PropertySearchInterfaceProps) {
   const router = useRouter();
 
+  const [id, setId] = useQueryState("id");
+
   const [isSaveFavoriteDialogOpen, setIsSaveFavoriteDialogOpen] =
     useState(false);
   const [lastSearchLogId, setLastSearchLogId] = useState<string | null>(null);
@@ -39,10 +42,15 @@ export function PropertySearchInterface({
     isPending: isLoading,
     status,
     result: { data: searchResponse },
-  } = useAction(getPropertySearchAction);
+  } = useAction(getPropertySearchAction, {
+    onSuccess: ({ data }) => {
+      if (data?.searchLogId) setId(data.searchLogId);
+    },
+  });
 
   const handleSearch = (filters: z.infer<typeof searchFiltersSchema>) => {
     searchProperties({
+      searchId: id || undefined,
       ...filters,
     });
   };
@@ -94,7 +102,7 @@ export function PropertySearchInterface({
           <SearchFiltersForm
             assetTypes={assetTypes}
             savedLocations={savedLocations}
-            onApplyFilters={handleSearch}
+            onSubmit={handleSearch}
           />
         </div>
       </Collapsible>

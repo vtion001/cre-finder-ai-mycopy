@@ -20,7 +20,6 @@ export function PricingSelection({
   const handleSelectPlan = async (planId: string) => {
     await saveSubscription({
       subscriptionPlanId: planId,
-      revalidatePath: "/onboarding/cities",
     });
   };
 

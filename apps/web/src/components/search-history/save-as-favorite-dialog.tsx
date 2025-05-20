@@ -49,7 +49,6 @@ export function SaveAsFavoriteDialog({
       await saveSearchAsFavoriteAction({
         searchLogId: searchLog.id,
         name: name.trim(),
-        revalidatePath: "/dashboard/history",
       });
 
       toast.success("Search saved to favorites");

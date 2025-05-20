@@ -1,7 +1,6 @@
 import { OnboardingLayout } from "@/components/onboarding/onboarding-layout";
 import { PricingSelection } from "@/components/onboarding/pricing-selection";
-import { getUser } from "@v1/supabase/cached-queries";
-import { createClient } from "@v1/supabase/client";
+import { getPlans, getUser } from "@v1/supabase/cached-queries";
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 
@@ -17,12 +16,7 @@ export default async function OnboardingPage() {
     redirect("/login");
   }
 
-  const supabase = createClient();
-
-  const { data } = await supabase
-    .from("subscription_plans")
-    .select("*")
-    .order("max_searches");
+  const { data: plans } = await getPlans();
 
   const selectedPlan = cachedUser.data.subscription_plan_id;
 
@@ -33,7 +27,7 @@ export default async function OnboardingPage() {
       user={cachedUser.data}
     >
       <div className="max-w-screen-lg mx-auto p-6">
-        <PricingSelection plans={data ?? []} selectedPlan={selectedPlan} />
+        <PricingSelection plans={plans ?? []} selectedPlan={selectedPlan} />
       </div>
     </OnboardingLayout>
   );

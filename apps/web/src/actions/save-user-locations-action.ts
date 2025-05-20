@@ -43,6 +43,7 @@ export const saveUserLocationsAction = authActionClient
       }
 
       revalidateTag(`user_${user.id}`);
+      revalidateTag(`user_locations_${user.id}`);
 
       return { success: true };
     },

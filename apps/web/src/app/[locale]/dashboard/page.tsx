@@ -1,6 +1,10 @@
 import { AppSidebar } from "@/components/sidebar/app-sidebar";
 import { SiteHeader } from "@/components/site-header";
-import { getUser } from "@v1/supabase/cached-queries";
+import {
+  getUser,
+  getUserAssetTypes,
+  getUserLocations,
+} from "@v1/supabase/cached-queries";
 import { SidebarInset, SidebarProvider } from "@v1/ui/sidebar";
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
@@ -18,7 +22,13 @@ export default async function Dashboard() {
 
   const user = cachedUser.data;
 
-  const hasCompletedOnboarding = user.subscription_plan_id;
+  const [{ data: assetTypes }, { data: locations }] = await Promise.all([
+    getUserAssetTypes(),
+    getUserLocations(),
+  ]);
+
+  const hasCompletedOnboarding =
+    user.subscription_plan_id && assetTypes?.length && locations?.length;
 
   if (!hasCompletedOnboarding) {
     redirect("/onboarding");

@@ -23,8 +23,8 @@ import {
   TableRow,
 } from "@v1/ui/table";
 import { format } from "date-fns";
-import { BookmarkIcon, PlayIcon, StarIcon, TrashIcon } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { StarIcon, TrashIcon } from "lucide-react";
+
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -37,7 +37,6 @@ interface FavoriteSearchesProps {
 }
 
 export function FavoriteSearches({ favoriteSearches }: FavoriteSearchesProps) {
-  const router = useRouter();
   const [selectedFavorite, setSelectedFavorite] = useState<
     | (Tables<"favorite_searches"> & {
         search_logs: Tables<"search_logs">;
@@ -52,7 +51,6 @@ export function FavoriteSearches({ favoriteSearches }: FavoriteSearchesProps) {
     try {
       await deleteFavoriteSearchAction({
         favoriteSearchId: selectedFavorite.id,
-        revalidatePath: "/dashboard/history",
       });
 
       toast.success("Favorite search removed");
@@ -101,7 +99,10 @@ export function FavoriteSearches({ favoriteSearches }: FavoriteSearchesProps) {
                 </TableCell>
                 <TableCell>
                   <div className="text-sm">
-                    {formatSearchParams(favorite.search_logs.search_parameters)}
+                    {formatSearchParams(
+                      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+                      favorite.search_logs.search_parameters as any,
+                    )}
                   </div>
                 </TableCell>
                 <TableCell className="text-right">

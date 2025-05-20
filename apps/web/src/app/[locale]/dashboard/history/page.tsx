@@ -2,9 +2,11 @@ import { FavoriteSearches } from "@/components/search-history/favorite-searches"
 import { SearchHistoryTable } from "@/components/search-history/search-history-table";
 import { AppSidebar } from "@/components/sidebar/app-sidebar";
 import { SiteHeader } from "@/components/site-header";
-import { getUser } from "@v1/supabase/cached-queries";
-import { getFavoriteSearches, getSearchHistory } from "@v1/supabase/queries";
-import { createClient } from "@v1/supabase/server";
+import {
+  getFavoriteSearches,
+  getSearchHistory,
+  getUser,
+} from "@v1/supabase/cached-queries";
 import { SidebarInset, SidebarProvider } from "@v1/ui/sidebar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@v1/ui/tabs";
 import type { Metadata } from "next";
@@ -24,11 +26,8 @@ export default async function SearchHistoryPage() {
     redirect("/login");
   }
 
-  const supabase = createClient();
-
-  const { data: favorites } = await getFavoriteSearches(supabase, user.id);
-  const { data: history } = await getSearchHistory(supabase, {
-    userId: user.id,
+  const { data: favorites } = await getFavoriteSearches();
+  const { data: history } = await getSearchHistory({
     page: 1,
     pageSize: 10,
   });

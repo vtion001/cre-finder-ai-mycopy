@@ -1,9 +1,12 @@
 import { LocationSearch } from "@/components/location-search";
 import { AssetTypeSelection } from "@/components/onboarding/asset-type-selection";
 import { OnboardingLayout } from "@/components/onboarding/onboarding-layout";
-import { getUser } from "@v1/supabase/cached-queries";
-import { getUserAssetTypesQuery } from "@v1/supabase/queries";
-import { createClient } from "@v1/supabase/server";
+import {
+  getAssetTypes,
+  getUser,
+  getUserAssetTypes,
+  getUserLocations,
+} from "@v1/supabase/cached-queries";
 import { Card, CardContent } from "@v1/ui/card";
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
@@ -21,38 +24,15 @@ export default async function LocationsPage() {
     redirect("/login");
   }
 
-  const selectedPlan = cachedUser.data.subscription_plan_id;
+  const subscription = cachedUser.data.subscription;
 
-  if (!selectedPlan) {
+  if (!subscription) {
     redirect("/onboarding");
   }
 
-  const supabase = createClient();
-
-  const { data: plan } = await supabase
-    .from("subscription_plans")
-    .select("*")
-    .eq("id", selectedPlan)
-    .single();
-
-  if (!plan) {
-    redirect("/onboarding");
-  }
-
-  const { data: assetTypes } = await supabase
-    .from("asset_types")
-    .select("*")
-    .order("name");
-
-  const { data: selectedLocations } = await supabase
-    .from("user_locations")
-    .select("*")
-    .eq("user_id", cachedUser.data.id);
-
-  const { data: selectedAssetTypes } = await getUserAssetTypesQuery(
-    supabase,
-    cachedUser.data.id,
-  );
+  const { data: assetTypes } = await getAssetTypes();
+  const { data: selectedLocations } = await getUserLocations();
+  const { data: selectedAssetTypes } = await getUserAssetTypes();
 
   return (
     <OnboardingLayout
@@ -82,12 +62,14 @@ export default async function LocationsPage() {
                 <AssetTypeSelection
                   assetTypes={assetTypes ?? []}
                   selectedAssetTypes={selectedAssetTypes ?? []}
-                  maxSelections={plan.asset_type_count}
+                  maxSelections={subscription.asset_type_count}
                 />
 
                 <LocationSearch
                   selectedLocations={selectedLocations ?? []}
-                  maxSelections={plan.county_access === "Single county" ? 1 : 5}
+                  maxSelections={
+                    subscription.county_access === "Single county" ? 1 : 5
+                  }
                 />
               </div>
             </div>

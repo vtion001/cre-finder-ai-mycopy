@@ -96,7 +96,7 @@ export const locationSchema = z.object({
   state_code: z.string(),
   type: z.enum(["city", "county"]),
   title: z.string(),
-  display_name: z.string().optional(),
+  display_name: z.string(),
 });
 
 export const assetTypeSchema = z.object({

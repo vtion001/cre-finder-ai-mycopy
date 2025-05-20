@@ -43,6 +43,7 @@ export const saveUserAssetTypesAction = authActionClient
       }
 
       revalidateTag(`user_${user.id}`);
+      revalidateTag(`asset_types_${user.id}`);
 
       return { success: true };
     },

@@ -1,7 +1,7 @@
 "use server";
 
 import type { Enums } from "@v1/supabase/types";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { z } from "zod";
 import { authActionClient } from "./safe-action";
 
@@ -47,9 +47,7 @@ export const saveSearchAsFavoriteAction = authActionClient
         .select()
         .single();
 
-      if (pathToRevalidate) {
-        revalidatePath(pathToRevalidate);
-      }
+      revalidateTag(`favorite_searches_${user.id}`);
 
       return { success: true, data };
     },
@@ -65,19 +63,17 @@ export const deleteFavoriteSearchAction = authActionClient
       parsedInput: { favoriteSearchId, revalidatePath: pathToRevalidate },
       ctx: { user, supabase },
     }) => {
-      const { error } = await supabase
+      await supabase
         .from("favorite_searches")
         .delete()
         .eq("id", favoriteSearchId)
         .eq("user_id", user.id);
 
-      if (error) {
-        throw new Error(`Failed to delete favorite: ${error.message}`);
-      }
-
       if (pathToRevalidate) {
         revalidatePath(pathToRevalidate);
       }
+
+      revalidateTag(`favorite_searches_${user.id}`);
 
       return { success: true };
     },
@@ -99,19 +95,17 @@ export const updateSearchLogStatusAction = authActionClient
       parsedInput: { searchLogId, status, revalidatePath: pathToRevalidate },
       ctx: { user, supabase },
     }) => {
-      const { error } = await supabase
+      await supabase
         .from("search_logs")
         .update({ status })
         .eq("id", searchLogId)
         .eq("user_id", user.id);
 
-      if (error) {
-        throw new Error(`Failed to update search log status: ${error.message}`);
-      }
-
       if (pathToRevalidate) {
         revalidatePath(pathToRevalidate);
       }
+
+      revalidateTag(`search_logs_${user.id}`);
 
       return { success: true };
     },

@@ -21,13 +21,11 @@ type Location = z.infer<typeof locationSchema>;
 interface LocationSearchProps {
   selectedLocations: Location[];
   maxSelections?: number;
-  revalidatePath?: string;
 }
 
 export function LocationSearch({
   selectedLocations,
   maxSelections = 1,
-  revalidatePath = "/onboarding/complete",
 }: LocationSearchProps) {
   const [query, setQuery] = useState("");
   const [searchType, setSearchType] = useState<"all" | "cities" | "counties">(
@@ -70,7 +68,6 @@ export function LocationSearch({
         // Add the new location to the existing locations
         await saveUserLocations({
           locations: [...selectedLocations, location],
-          revalidatePath,
         });
       }
     }
@@ -85,7 +82,6 @@ export function LocationSearch({
     // Save the updated locations
     await saveUserLocations({
       locations: newLocations,
-      revalidatePath,
     });
   };
 

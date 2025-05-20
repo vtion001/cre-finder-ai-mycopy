@@ -4,6 +4,7 @@ import { getPropertySearch } from "@/lib/realestateapi";
 import { createClient } from "@v1/supabase/server";
 import type { Json } from "@v1/supabase/types";
 import { format } from "date-fns";
+import { revalidateTag } from "next/cache";
 import { z } from "zod";
 import { authActionClient } from "./safe-action";
 import { searchFiltersSchema } from "./schema";
@@ -15,13 +16,20 @@ export const getPropertySearchAction = authActionClient
   .schema(
     searchFiltersSchema.and(
       z.object({
+        searchId: z.string().optional(),
         size: z.number().optional(),
       }),
     ),
   )
   .action(
     async ({
-      parsedInput: { size, location_id, asset_type_id, ...parsedInput },
+      parsedInput: {
+        size,
+        searchId,
+        location_id,
+        asset_type_id,
+        ...parsedInput
+      },
       ctx: { user },
     }) => {
       const supabase = createClient();
@@ -64,7 +72,8 @@ export const getPropertySearchAction = authActionClient
 
       const { data: searchLog } = await supabase
         .from("search_logs")
-        .insert({
+        .upsert({
+          id: searchId,
           user_id: user.id,
           asset_type_id,
           location_id,
@@ -74,6 +83,8 @@ export const getPropertySearchAction = authActionClient
         })
         .select()
         .single();
+
+      revalidateTag(`search_history_${user.id}`);
 
       return {
         ...response,

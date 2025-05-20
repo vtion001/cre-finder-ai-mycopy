@@ -171,6 +171,16 @@ export function SearchHistoryTable({
                     <Button
                       variant="outline"
                       size="icon"
+                      onClick={() =>
+                        router.push(`/dashboard/search?id=${searchLog.id}`)
+                      }
+                      title="ReRun search"
+                    >
+                      <PlayIcon className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="icon"
                       onClick={() => {
                         setSelectedSearchLog(searchLog);
                         setIsSaveFavoriteDialogOpen(true);

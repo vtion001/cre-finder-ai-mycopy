@@ -1,6 +1,10 @@
 import { OnboardingComplete } from "@/components/onboarding/onboarding-complete";
 import { OnboardingLayout } from "@/components/onboarding/onboarding-layout";
-import { getUser } from "@v1/supabase/cached-queries";
+import {
+  getUser,
+  getUserAssetTypes,
+  getUserLocations,
+} from "@v1/supabase/cached-queries";
 import { Card, CardContent } from "@v1/ui/card";
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
@@ -17,10 +21,17 @@ export default async function CompletePage() {
     redirect("/login");
   }
 
-  const selectedPlan = cachedUser.data.subscription_plan_id;
+  const [{ data: assetTypes }, { data: locations }] = await Promise.all([
+    getUserAssetTypes(),
+    getUserLocations(),
+  ]);
 
-  // Check if user has a subscription plan and selected cities
-  if (!selectedPlan) {
+  const hasCompletedOnboarding =
+    cachedUser.data.subscription_plan_id &&
+    assetTypes?.length &&
+    locations?.length;
+
+  if (!hasCompletedOnboarding) {
     redirect("/onboarding");
   }
 

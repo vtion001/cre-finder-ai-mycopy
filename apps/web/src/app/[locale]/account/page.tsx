@@ -2,7 +2,11 @@ import { AccountSettings } from "@/components/account-settings";
 
 import { AppSidebar } from "@/components/sidebar/app-sidebar";
 import { SiteHeader } from "@/components/site-header";
-import { getUser } from "@v1/supabase/cached-queries";
+import {
+  getUser,
+  getUserAssetTypes,
+  getUserLocations,
+} from "@v1/supabase/cached-queries";
 import { Separator } from "@v1/ui/separator";
 import { SidebarInset, SidebarProvider } from "@v1/ui/sidebar";
 import type { Metadata } from "next";
@@ -22,8 +26,13 @@ export default async function Account() {
 
   const user = cachedUser.data;
 
+  const [{ data: assetTypes }, { data: locations }] = await Promise.all([
+    getUserAssetTypes(),
+    getUserLocations(),
+  ]);
+
   const hasCompletedOnboarding =
-    user.subscription_plan_id && user.selected_asset_type_id;
+    user.subscription_plan_id && assetTypes?.length && locations?.length;
 
   if (!hasCompletedOnboarding) {
     redirect("/onboarding");

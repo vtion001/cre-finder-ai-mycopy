@@ -32,16 +32,15 @@ type FilterFormValues = z.infer<typeof searchFiltersSchema>;
 interface SearchFiltersFormProps {
   assetTypes: Tables<"asset_types">[];
   savedLocations: Tables<"user_locations">[];
-  onApplyFilters: (filters: FilterFormValues) => void;
+  onSubmit: (filters: FilterFormValues) => void;
 }
 
 export function SearchFiltersForm({
   assetTypes,
   savedLocations,
-  onApplyFilters,
+  onSubmit,
 }: SearchFiltersFormProps) {
   const defaultValues = {
-    location_id: savedLocations[0]?.id,
     asset_type_id: assetTypes[0]?.id,
   };
 
@@ -51,8 +50,8 @@ export function SearchFiltersForm({
     defaultValues,
   });
 
-  function onSubmit(data: FilterFormValues) {
-    onApplyFilters({
+  function handleSubmit(data: FilterFormValues) {
+    onSubmit({
       ...data,
     });
   }
@@ -67,14 +66,14 @@ export function SearchFiltersForm({
   const assetType = assetTypes.find((type) => type.id === assetTypeId);
 
   const activeFilterCount = Object.keys(form.getValues()).reduce((acc, key) => {
-    if (key === "locations") return acc;
+    if (key === "location_id" || key === "asset_type_id") return acc;
     if (form.getValues(key as keyof FilterFormValues)) return acc + 1;
     return acc;
   }, 0);
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
         <FormField
           control={form.control}
           name="asset_type_id"
