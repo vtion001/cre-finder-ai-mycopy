@@ -224,7 +224,7 @@ export async function getAutocomplete({
   return data.data;
 }
 
-interface GetPropertySearchParams {
+export interface GetPropertySearchParams {
   count?: boolean;
   ids_only?: false;
   obfuscate?: false;

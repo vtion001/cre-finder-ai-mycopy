@@ -63,7 +63,7 @@ export async function getSearchHistory(
       `
       *,
       asset_types(name),
-      user_locations(name)
+      user_locations(display_name)
       `,
     )
     .eq("user_id", userId)

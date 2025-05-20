@@ -1,6 +1,7 @@
 "use client";
 
 import { formatNumber, formatSearchParams } from "@/lib/format";
+import type { GetPropertySearchParams } from "@/lib/realestateapi";
 import type { Tables } from "@v1/supabase/types";
 import { Badge } from "@v1/ui/badge";
 import { Button } from "@v1/ui/button";
@@ -28,19 +29,10 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { SaveAsFavoriteDialog } from "./save-as-favorite-dialog";
 
-type SearchParams = {
-  locations?: string[] | undefined;
-  building_size_min?: number | undefined;
-  building_size_max?: number | undefined;
-  lot_size_min?: number | undefined;
-  lot_size_max?: number | undefined;
-  last_sale_date?: Date | undefined;
-  year_min?: number | undefined;
-  year_max?: number | undefined;
-};
-
 type SearchLog = Tables<"search_logs"> & {
-  search_parameters: SearchParams;
+  search_parameters: GetPropertySearchParams;
+  asset_types: Pick<Tables<"asset_types">, "name">;
+  user_locations: Pick<Tables<"user_locations">, "display_name">;
 };
 
 interface SearchHistoryTableProps {
@@ -110,6 +102,7 @@ export function SearchHistoryTable({
           <TableHeader>
             <TableRow className="bg-muted/50 hover:bg-muted/50">
               <TableHead>Date & Time</TableHead>
+              <TableHead className="w-[20%]">Location & Asset Type</TableHead>
               <TableHead className="w-[40%]">Search Parameters</TableHead>
               <TableHead className="text-right">Results</TableHead>
               <TableHead className="text-center">Status</TableHead>
@@ -127,6 +120,16 @@ export function SearchHistoryTable({
                     <span className="text-xs text-muted-foreground flex items-center gap-1">
                       <ClockIcon className="h-3 w-3" />
                       {format(new Date(searchLog.created_at!), "h:mm a")}
+                    </span>
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <div className="flex flex-col">
+                    <span className="font-medium">
+                      {searchLog.user_locations.display_name}
+                    </span>
+                    <span className="text-xs text-muted-foreground">
+                      {searchLog.asset_types.name}
                     </span>
                   </div>
                 </TableCell>

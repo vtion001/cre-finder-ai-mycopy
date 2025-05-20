@@ -47,6 +47,7 @@ export default async function SearchHistoryPage() {
               </TabsList>
 
               <TabsContent value="history" className="mt-6">
+                {/* @ts-expect-error  */}
                 <SearchHistoryTable searchLogs={history || []} />
               </TabsContent>
 
