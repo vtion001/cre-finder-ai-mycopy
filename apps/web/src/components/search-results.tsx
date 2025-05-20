@@ -1,5 +1,6 @@
 "use client";
 
+import { updateSearchLogStatusAction } from "@/actions/search-history-actions";
 import { useState } from "react";
 
 import type { PropertySearchResult } from "@/lib/realestateapi";
@@ -41,13 +42,18 @@ const formatDate = (dateString: string): string => {
 interface SearchResultsProps {
   isLoading?: boolean;
   results: PropertySearchResult[];
+  searchLogId?: string;
 }
 
-export function SearchResults({ results, isLoading }: SearchResultsProps) {
+export function SearchResults({
+  results,
+  isLoading,
+  searchLogId,
+}: SearchResultsProps) {
   const [isExporting, setIsExporting] = useState(false);
 
   // Handle export to Excel
-  const handleExport = () => {
+  const handleExport = async () => {
     if (results.length === 0) return;
 
     setIsExporting(true);
@@ -137,6 +143,19 @@ export function SearchResults({ results, isLoading }: SearchResultsProps) {
         .replace(/[:.]/g, "-")
         .substring(0, 19);
       XLSX.writeFile(workbook, `CREfinder_PropertySearch_${timestamp}.xlsx`);
+
+      // Update search log status if searchLogId is provided
+      if (searchLogId) {
+        try {
+          await updateSearchLogStatusAction({
+            searchLogId,
+            status: "completed",
+          });
+        } catch (error) {
+          console.error("Failed to update search log status:", error);
+          // Don't show error to user as the export was successful
+        }
+      }
 
       toast.success("Results exported successfully");
     } catch (error) {

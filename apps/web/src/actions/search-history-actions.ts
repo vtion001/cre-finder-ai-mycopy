@@ -1,5 +1,6 @@
 "use server";
 
+import type { Enums } from "@v1/supabase/types";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { authActionClient } from "./safe-action";
@@ -72,6 +73,40 @@ export const deleteFavoriteSearchAction = authActionClient
 
       if (error) {
         throw new Error(`Failed to delete favorite: ${error.message}`);
+      }
+
+      if (pathToRevalidate) {
+        revalidatePath(pathToRevalidate);
+      }
+
+      return { success: true };
+    },
+  );
+
+const updateSearchLogStatusSchema = z.object({
+  searchLogId: z.string().uuid(),
+  status: z.custom<Enums<"search_status">>(),
+  revalidatePath: z.string().optional(),
+});
+
+export const updateSearchLogStatusAction = authActionClient
+  .schema(updateSearchLogStatusSchema)
+  .metadata({
+    name: "update-search-log-status",
+  })
+  .action(
+    async ({
+      parsedInput: { searchLogId, status, revalidatePath: pathToRevalidate },
+      ctx: { user, supabase },
+    }) => {
+      const { error } = await supabase
+        .from("search_logs")
+        .update({ status })
+        .eq("id", searchLogId)
+        .eq("user_id", user.id);
+
+      if (error) {
+        throw new Error(`Failed to update search log status: ${error.message}`);
       }
 
       if (pathToRevalidate) {

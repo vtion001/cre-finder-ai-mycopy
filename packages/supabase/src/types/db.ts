@@ -84,6 +84,7 @@ export type Database = {
           location_id: string
           result_count: number
           search_parameters: Json
+          status: Database["public"]["Enums"]["search_status"]
           updated_at: string | null
           user_id: string
         }
@@ -95,6 +96,7 @@ export type Database = {
           location_id: string
           result_count: number
           search_parameters: Json
+          status?: Database["public"]["Enums"]["search_status"]
           updated_at?: string | null
           user_id: string
         }
@@ -106,6 +108,7 @@ export type Database = {
           location_id?: string
           result_count?: number
           search_parameters?: Json
+          status?: Database["public"]["Enums"]["search_status"]
           updated_at?: string | null
           user_id?: string
         }
@@ -329,6 +332,7 @@ export type Database = {
     }
     Enums: {
       location_type: "city" | "county"
+      search_status: "preview" | "pending" | "completed" | "failed"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -445,6 +449,7 @@ export const Constants = {
   public: {
     Enums: {
       location_type: ["city", "county"],
+      search_status: ["preview", "pending", "completed", "failed"],
     },
   },
 } as const

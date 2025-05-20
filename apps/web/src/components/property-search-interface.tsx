@@ -199,6 +199,7 @@ export function PropertySearchInterface({
             <SearchResults
               results={searchResponse?.data ?? []}
               isLoading={isLoading}
+              searchLogId={lastSearchLogId || undefined}
             />
           </div>
 

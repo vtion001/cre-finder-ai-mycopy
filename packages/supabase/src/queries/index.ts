@@ -59,7 +59,13 @@ export async function getSearchHistory(
   // Get search history with pagination
   const { data: searchLogs, error } = await supabase
     .from("search_logs")
-    .select("*")
+    .select(
+      `
+      *,
+      asset_types(name),
+      user_locations(name)
+      `,
+    )
     .eq("user_id", userId)
     .order("created_at", { ascending: false })
     .range(offset, offset + pageSize - 1);

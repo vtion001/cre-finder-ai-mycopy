@@ -16,12 +16,15 @@ import {
 } from "@v1/ui/table";
 import { format } from "date-fns";
 import {
+  CheckCircleIcon,
   ClockIcon,
+  DownloadIcon,
   HistoryIcon,
   PlayIcon,
   SearchIcon,
   StarIcon,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { SaveAsFavoriteDialog } from "./save-as-favorite-dialog";
 
@@ -56,6 +59,7 @@ export function SearchHistoryTable({
   isLoading = false,
   pagination,
 }: SearchHistoryTableProps) {
+  const router = useRouter();
   const [selectedSearchLog, setSelectedSearchLog] =
     useState<Tables<"search_logs"> | null>(null);
 
@@ -106,8 +110,9 @@ export function SearchHistoryTable({
           <TableHeader>
             <TableRow className="bg-muted/50 hover:bg-muted/50">
               <TableHead>Date & Time</TableHead>
-              <TableHead className="w-[50%]">Search Parameters</TableHead>
+              <TableHead className="w-[40%]">Search Parameters</TableHead>
               <TableHead className="text-right">Results</TableHead>
+              <TableHead className="text-center">Status</TableHead>
               <TableHead className="text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
@@ -134,6 +139,29 @@ export function SearchHistoryTable({
                   <Badge variant="outline">
                     {formatNumber(searchLog.result_count)} results
                   </Badge>
+                </TableCell>
+                <TableCell className="text-center">
+                  {searchLog.status === "completed" ? (
+                    <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-100 border-blue-200 flex items-center gap-1 mx-auto">
+                      <CheckCircleIcon className="h-3 w-3" />
+                      Completed
+                    </Badge>
+                  ) : searchLog.status === "pending" ? (
+                    <Badge className="bg-yellow-100 text-yellow-800 hover:bg-yellow-100 border-yellow-200 flex items-center gap-1 mx-auto">
+                      <ClockIcon className="h-3 w-3" />
+                      Pending
+                    </Badge>
+                  ) : searchLog.status === "failed" ? (
+                    <Badge className="bg-red-100 text-red-800 hover:bg-red-100 border-red-200 flex items-center gap-1 mx-auto">
+                      <span className="text-xs">!</span>
+                      Failed
+                    </Badge>
+                  ) : (
+                    <Badge className="bg-gray-100 text-gray-800 hover:bg-gray-100 border-gray-200 flex items-center gap-1 mx-auto">
+                      <SearchIcon className="h-3 w-3" />
+                      Preview
+                    </Badge>
+                  )}
                 </TableCell>
                 <TableCell className="text-right">
                   <div className="flex justify-end gap-2">
