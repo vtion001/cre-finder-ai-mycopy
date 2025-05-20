@@ -70,21 +70,31 @@ export const getPropertySearchAction = authActionClient
 
       const executionTime = Date.now() - startTime;
 
-      const { data: searchLog } = await supabase
+      const { data: searchLog, error } = await supabase
         .from("search_logs")
-        .upsert({
-          id: searchId,
-          user_id: user.id,
-          asset_type_id,
-          location_id,
-          search_parameters: params as unknown as Json,
-          result_count: response.resultCount,
-          execution_time_ms: executionTime,
-        })
+        .upsert(
+          {
+            id: searchId,
+            user_id: user.id,
+            asset_type_id,
+            location_id,
+            search_parameters: params as unknown as Json,
+            result_count: response.resultCount,
+            execution_time_ms: executionTime,
+          },
+          {
+            onConflict: "id",
+          },
+        )
         .select()
         .single();
 
+      if (error) {
+        throw new Error(`Failed to save search log: ${error.message}`);
+      }
+
       revalidateTag(`search_history_${user.id}`);
+      revalidateTag(`search_log_${searchLog?.id}`);
 
       return {
         ...response,

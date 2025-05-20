@@ -30,24 +30,25 @@ import { SavedLocationsSelector } from "../saved-locations-selector";
 
 type FilterFormValues = z.infer<typeof searchFiltersSchema>;
 interface SearchFiltersFormProps {
+  intialValues?: FilterFormValues;
   assetTypes: Tables<"asset_types">[];
   savedLocations: Tables<"user_locations">[];
   onSubmit: (filters: FilterFormValues) => void;
 }
 
 export function SearchFiltersForm({
+  intialValues,
   assetTypes,
   savedLocations,
   onSubmit,
 }: SearchFiltersFormProps) {
-  const defaultValues = {
-    asset_type_id: assetTypes[0]?.id,
-  };
-
   const form = useForm<FilterFormValues>({
     mode: "onChange",
     resolver: zodResolver(searchFiltersSchema),
-    defaultValues,
+    values: intialValues,
+    defaultValues: {
+      asset_type_id: intialValues?.asset_type_id ?? assetTypes[0]?.id,
+    },
   });
 
   function handleSubmit(data: FilterFormValues) {

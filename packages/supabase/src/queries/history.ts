@@ -62,3 +62,17 @@ export async function getSearchHistoryQuery(
     },
   };
 }
+
+export async function getSearchLogQuery(supabase: Client, searchLogId: string) {
+  const { data, error } = await supabase
+    .from("search_logs")
+    .select("*")
+    .eq("id", searchLogId)
+    .single();
+
+  if (error) {
+    throw new Error(`Failed to get search log: ${error.message}`);
+  }
+
+  return { data, error };
+}

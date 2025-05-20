@@ -1,7 +1,9 @@
 import { PropertySearchInterface } from "@/components/property-search-interface";
 import { AppSidebar } from "@/components/sidebar/app-sidebar";
 import { SiteHeader } from "@/components/site-header";
+import type { GetPropertySearchParams } from "@/lib/realestateapi";
 import {
+  getSearchLog,
   getUser,
   getUserAssetTypes,
   getUserLocations,
@@ -20,7 +22,7 @@ export default async function Page({
 }: {
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
-  const searchId = searchParams?.id;
+  const searchId = searchParams?.id?.toString();
 
   const cachedUser = await getUser();
 
@@ -29,6 +31,18 @@ export default async function Page({
   if (!user) {
     redirect("/login");
   }
+
+  const { data: log } = searchId
+    ? await getSearchLog(searchId)
+    : { data: null };
+
+  const formValues = log
+    ? {
+        location_id: log.location_id,
+        asset_type_id: log.asset_type_id,
+        ...(log.search_parameters as unknown as object),
+      }
+    : undefined;
 
   const { data: locations } = await getUserLocations();
   const { data: assetTypes } = await getUserAssetTypes();
@@ -44,6 +58,8 @@ export default async function Page({
         <SiteHeader title="Property Search" />
         <div className="space-y-6 p-6 pb-16">
           <PropertySearchInterface
+            // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+            initialValues={formValues as any}
             assetTypes={assetTypes ?? []}
             savedLocations={locations ?? []}
           />

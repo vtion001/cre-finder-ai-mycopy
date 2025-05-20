@@ -19,11 +19,13 @@ import { SearchFiltersForm } from "./forms/search-filters-form";
 import { SearchResults } from "./search-results";
 
 interface PropertySearchInterfaceProps {
+  initialValues?: z.infer<typeof searchFiltersSchema>;
   assetTypes: Tables<"asset_types">[];
   savedLocations: Tables<"user_locations">[];
 }
 
 export function PropertySearchInterface({
+  initialValues,
   assetTypes,
   savedLocations,
 }: PropertySearchInterfaceProps) {
@@ -100,6 +102,7 @@ export function PropertySearchInterface({
 
         <div className="mb-4">
           <SearchFiltersForm
+            intialValues={initialValues}
             assetTypes={assetTypes}
             savedLocations={savedLocations}
             onSubmit={handleSearch}

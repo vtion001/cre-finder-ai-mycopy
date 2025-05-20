@@ -6,6 +6,7 @@ import {
   type GetSearchHistoryParams,
   getFavoriteSearchesQuery,
   getSearchHistoryQuery,
+  getSearchLogQuery,
 } from "./history";
 import {
   getAssetTypesQuery,
@@ -145,6 +146,22 @@ export const getSearchHistory = async (params: GetSearchHistoryParams) => {
     },
     // @ts-expect-error
   )(userId, params);
+};
+
+export const getSearchLog = async (searchLogId: string) => {
+  const supabase = createClient();
+
+  return unstable_cache(
+    async () => {
+      return getSearchLogQuery(supabase, searchLogId);
+    },
+    ["search_log", searchLogId],
+    {
+      tags: [`search_log_${searchLogId}`],
+      revalidate: 180,
+    },
+    // @ts-expect-error
+  )(searchLogId);
 };
 
 export const getFavoriteSearches = async () => {

@@ -52,6 +52,9 @@ FOR SELECT USING (auth.uid() = user_id);
 CREATE POLICY insert_own_search_logs ON public.search_logs
 FOR INSERT WITH CHECK (auth.uid() = user_id);
 
+CREATE POLICY update_own_search_logs ON public.search_logs
+FOR UPDATE USING (auth.uid() = user_id);
+
 CREATE POLICY delete_own_search_logs ON public.search_logs
 FOR DELETE USING (auth.uid() = user_id);
 
