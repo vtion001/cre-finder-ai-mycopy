@@ -237,6 +237,10 @@ interface GetPropertySearchParams {
   last_sale_date?: string; // "YYYY-MM-DD"
   year_min?: number;
   year_max?: number;
+  property_use_code?: number[];
+  city?: string;
+  county?: string;
+  state?: string;
 }
 
 export async function getPropertySearch(params: GetPropertySearchParams) {
@@ -249,7 +253,10 @@ export async function getPropertySearch(params: GetPropertySearchParams) {
         "x-api-key": env.REALESTATEAPI_API_KEY,
         "x-user-id": "CREFinderAI",
       },
-      body: JSON.stringify(params),
+      body: JSON.stringify({
+        ...params,
+        count: true,
+      }),
     },
   );
 

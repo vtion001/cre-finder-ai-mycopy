@@ -103,4 +103,5 @@ export const assetTypeSchema = z.object({
   id: z.string(),
   name: z.string(),
   description: z.string().optional(),
+  use_codes: z.array(z.number()).optional(),
 });

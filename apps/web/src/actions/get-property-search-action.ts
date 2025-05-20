@@ -24,23 +24,43 @@ export const getPropertySearchAction = authActionClient
       parsedInput: { size, location_id, asset_type_id, ...parsedInput },
       ctx: { user },
     }) => {
+      const supabase = createClient();
+
+      const { data: location } = await supabase
+        .from("user_locations")
+        .select("*")
+        .eq("id", location_id)
+        .single();
+
+      const { data: assetType } = await supabase
+        .from("asset_types")
+        .select("use_codes")
+        .eq("id", asset_type_id)
+        .single();
+
+      if (!location || !assetType) {
+        throw new Error("Location or asset type not found");
+      }
+
       const params = {
         ...parsedInput,
+        last_sale_date: parsedInput.last_sale_date
+          ? format(parsedInput.last_sale_date, "yyyy-MM-dd")
+          : undefined,
+        property_use_code: assetType?.use_codes || undefined,
+
+        city: location.type === "city" ? location.title : undefined,
+        county: location.type === "county" ? location.title : undefined,
+        state: location?.state_code,
+
         size: size || 8,
       };
 
       const startTime = Date.now();
 
-      const response = await getPropertySearch({
-        ...params,
-        last_sale_date: params.last_sale_date
-          ? format(params.last_sale_date, "yyyy-MM-dd")
-          : undefined,
-      });
+      const response = await getPropertySearch(params);
 
       const executionTime = Date.now() - startTime;
-
-      const supabase = createClient();
 
       const { data: searchLog } = await supabase
         .from("search_logs")
