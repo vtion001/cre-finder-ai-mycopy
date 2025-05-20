@@ -17,6 +17,7 @@ import {
 } from "@v1/ui/table";
 import { format, isValid, parse } from "date-fns";
 import { BuildingIcon, DownloadIcon, VerifiedIcon } from "lucide-react";
+import { revalidateTag } from "next/cache";
 import { toast } from "sonner";
 import * as XLSX from "xlsx";
 
@@ -54,8 +55,6 @@ export function SearchResults({
 
   // Handle export to Excel
   const handleExport = async () => {
-    if (results.length === 0) return;
-
     setIsExporting(true);
 
     try {
@@ -151,6 +150,20 @@ export function SearchResults({
             searchLogId,
             status: "completed",
           });
+
+          // Note: The updateSearchLogStatusAction already revalidates the credit_usage tag,
+          // but we're adding this as a fallback in case the server action fails to revalidate
+          try {
+            // We need to get the user ID to revalidate the credit usage tag
+            const response = await fetch("/api/user-id");
+            const { userId } = await response.json();
+            if (userId) {
+              revalidateTag(`credit_usage_${userId}`);
+            }
+          } catch (e) {
+            // Silently fail if we can't get the user ID
+            console.error("Failed to revalidate credit usage tag:", e);
+          }
         } catch (error) {
           console.error("Failed to update search log status:", error);
           // Don't show error to user as the export was successful
@@ -189,12 +202,24 @@ export function SearchResults({
   // If no results found
   if (results.length === 0) {
     return (
-      <div className="p-6 text-center text-muted-foreground">
-        <BuildingIcon className="mx-auto mb-2 h-12 w-12 opacity-20" />
-        <p>No properties found.</p>
-        <p className="text-sm mt-2">
-          Try adjusting your filters or search for a different city
-        </p>
+      <div>
+        <div className="flex justify-end items-center p-4 border-b">
+          <Button
+            onClick={handleExport}
+            disabled={isExporting}
+            className="gap-2 bg-primary hover:bg-primary/90 text-primary-foreground"
+          >
+            <DownloadIcon className="h-4 w-4" />
+            {isExporting ? "Exporting..." : "Export All Fields to Excel"}
+          </Button>
+        </div>
+        <div className="p-6 text-center text-muted-foreground">
+          <BuildingIcon className="mx-auto mb-2 h-12 w-12 opacity-20" />
+          <p>No properties found.</p>
+          <p className="text-sm mt-2">
+            Try adjusting your filters or search for a different city
+          </p>
+        </div>{" "}
       </div>
     );
   }

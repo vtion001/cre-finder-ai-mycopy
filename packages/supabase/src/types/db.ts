@@ -331,7 +331,13 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      calculate_user_credit_usage: {
+        Args: Record<PropertyKey, never> | { user_id: string }
+        Returns: {
+          consumed_credits: number
+          max_allowed_credits: number
+        }[]
+      }
     }
     Enums: {
       location_type: "city" | "county"

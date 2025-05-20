@@ -13,3 +13,8 @@ export async function getUserQuery(supabase: Client, userId: string) {
 
   return { data, error };
 }
+
+// Export all query functions
+export * from "./credits";
+export * from "./history";
+export * from "./onboarding";

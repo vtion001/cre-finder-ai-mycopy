@@ -2,6 +2,7 @@ import { unstable_cache } from "next/cache";
 import { cache } from "react";
 import { getUserQuery } from ".";
 import { createClient } from "../clients/server";
+import { getUserCreditUsageQuery } from "./credits";
 import {
   type GetSearchHistoryParams,
   getFavoriteSearchesQuery,
@@ -183,6 +184,30 @@ export const getFavoriteSearches = async () => {
     {
       tags: [`favorite_searches_${userId}`],
       revalidate: 180,
+    },
+    // @ts-expect-error
+  )(userId);
+};
+
+export const getUserCreditUsage = async () => {
+  const supabase = createClient();
+
+  const user = await getUser();
+
+  if (!user?.data) {
+    throw new Error("unauthorized");
+  }
+
+  const userId = user.data.id;
+
+  return unstable_cache(
+    async () => {
+      return getUserCreditUsageQuery(supabase, userId);
+    },
+    ["credit_usage", userId],
+    {
+      tags: [`credit_usage_${userId}`, `search_history_${userId}`],
+      revalidate: 1, // Shorter revalidation time for credit usage
     },
     // @ts-expect-error
   )(userId);

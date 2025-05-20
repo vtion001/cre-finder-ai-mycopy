@@ -36,7 +36,7 @@ const data = {
     },
     {
       title: "Credits",
-      url: "/account/credits",
+      url: "/dashboard/credits",
       icon: CreditCardIcon,
     },
   ],

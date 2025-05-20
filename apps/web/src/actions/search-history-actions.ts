@@ -106,6 +106,12 @@ export const updateSearchLogStatusAction = authActionClient
       }
 
       revalidateTag(`search_logs_${user.id}`);
+      revalidateTag(`search_history_${user.id}`);
+
+      // Also revalidate credit usage when status is updated to "completed"
+      if (status === "completed") {
+        revalidateTag(`credit_usage_${user.id}`);
+      }
 
       return { success: true };
     },
