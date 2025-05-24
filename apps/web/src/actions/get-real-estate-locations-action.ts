@@ -71,7 +71,7 @@ export const getRealEstateLocationsAction = authActionClient
           internal_id: id,
           state_code: item.state,
           title: item.searchType === "C" ? item.city : item.county,
-          type: "city",
+          type: item.searchType === "C" ? "city" : "county",
           display_name: item.title,
         });
       });
