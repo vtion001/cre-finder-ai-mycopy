@@ -1,8 +1,10 @@
+import { productMetadataSchema } from "@/actions/schema";
 import { LocationSearch } from "@/components/location-search";
 import { AssetTypeSelection } from "@/components/onboarding/asset-type-selection";
 import { OnboardingLayout } from "@/components/onboarding/onboarding-layout";
 import {
   getAssetTypes,
+  getSubscription,
   getUser,
   getUserAssetTypes,
   getUserLocations,
@@ -24,11 +26,15 @@ export default async function LocationsPage() {
     redirect("/login");
   }
 
-  const subscription = cachedUser.data.subscription;
+  const subscription = await getSubscription();
 
   if (!subscription) {
     redirect("/onboarding");
   }
+
+  const metadata = productMetadataSchema.parse(
+    subscription.prices?.products?.metadata,
+  );
 
   const { data: assetTypes } = await getAssetTypes();
   const { data: selectedLocations } = await getUserLocations();
@@ -62,13 +68,13 @@ export default async function LocationsPage() {
                 <AssetTypeSelection
                   assetTypes={assetTypes ?? []}
                   selectedAssetTypes={selectedAssetTypes ?? []}
-                  maxSelections={subscription.asset_type_count}
+                  maxSelections={metadata.asset_type_count}
                 />
 
                 <LocationSearch
                   selectedLocations={selectedLocations ?? []}
                   maxSelections={
-                    subscription.county_access === "Single county" ? 1 : 5
+                    metadata.county_access === "Single county" ? 1 : 5
                   }
                 />
               </div>

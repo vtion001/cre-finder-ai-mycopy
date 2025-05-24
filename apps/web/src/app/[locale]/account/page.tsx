@@ -31,8 +31,7 @@ export default async function Account() {
     getUserLocations(),
   ]);
 
-  const hasCompletedOnboarding =
-    user.subscription_plan_id && assetTypes?.length && locations?.length;
+  const hasCompletedOnboarding = assetTypes?.length && locations?.length;
 
   if (!hasCompletedOnboarding) {
     redirect("/onboarding");

@@ -20,15 +20,6 @@ export async function getUserLocationsQuery(supabase: Client, userId: string) {
   return { data, error };
 }
 
-export async function getPlansQuery(supabase: Client) {
-  const { data, error } = await supabase
-    .from("subscription_plans")
-    .select("*")
-    .order("max_searches");
-
-  return { data, error };
-}
-
 export async function getAssetTypesQuery(supabase: Client) {
   const { data, error } = await supabase
     .from("asset_types")

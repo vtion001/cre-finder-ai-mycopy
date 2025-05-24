@@ -105,3 +105,11 @@ export const assetTypeSchema = z.object({
   description: z.string().optional(),
   use_codes: z.array(z.number()).optional(),
 });
+
+export const productMetadataSchema = z.object({
+  max_searches: z.coerce.number(),
+  max_skip_trace: z.coerce.number(),
+  county_access: z.string(),
+  asset_type_count: z.coerce.number(),
+  is_enterprise: z.coerce.boolean(),
+});

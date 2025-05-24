@@ -11,10 +11,10 @@ import {
 } from "./history";
 import {
   getAssetTypesQuery,
-  getPlansQuery,
   getUserAssetTypesQuery,
   getUserLocationsQuery,
 } from "./onboarding";
+import { getSubscriptionQuery } from "./stripe";
 
 export const getSession = cache(async () => {
   const supabase = createClient();
@@ -110,21 +110,6 @@ export const getUserLocations = async () => {
   )(userId);
 };
 
-export const getPlans = async () => {
-  const supabase = createClient();
-
-  return unstable_cache(
-    async () => {
-      return getPlansQuery(supabase);
-    },
-    ["subscription_plans"],
-    {
-      tags: ["subscription_plans"],
-      revalidate: 180,
-    },
-  )();
-};
-
 export const getSearchHistory = async (params: GetSearchHistoryParams) => {
   const supabase = createClient();
 
@@ -211,4 +196,24 @@ export const getUserCreditUsage = async () => {
     },
     // @ts-expect-error
   )(userId);
+};
+
+export const getSubscription = async () => {
+  const supabase = createClient();
+  const user = await getUser();
+
+  if (!user?.data) {
+    return null;
+  }
+
+  return unstable_cache(
+    async () => {
+      return getSubscriptionQuery(supabase);
+    },
+    ["subscriptions", user.data.id],
+    {
+      tags: [`subscriptions_${user.data.id}`],
+      revalidate: 3600,
+    },
+  )();
 };

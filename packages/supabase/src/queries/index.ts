@@ -3,10 +3,7 @@ import type { Client } from "../types";
 export async function getUserQuery(supabase: Client, userId: string) {
   const { data, error } = await supabase
     .from("users")
-    .select(`
-      *,
-      subscription:subscription_plan_id(*)
-      `)
+    .select()
     .eq("id", userId)
     .single()
     .throwOnError();

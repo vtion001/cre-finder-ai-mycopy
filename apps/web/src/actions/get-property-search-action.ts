@@ -64,11 +64,9 @@ export const getPropertySearchAction = authActionClient
         size: size || 8,
       };
 
-      const startTime = Date.now();
-
       const response = await getPropertySearch(params);
 
-      const executionTime = Date.now() - startTime;
+      const executionTime = Number.parseInt(response.requestExecutionTimeMS);
 
       const { data: searchLog, error } = await supabase
         .from("search_logs")

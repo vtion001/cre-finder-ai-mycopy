@@ -13,6 +13,7 @@
     "@v1/logger": "workspace:*",
     "react": "^18.3.1",
     "server-only": "^0.0.1",
+    "stripe": "16.9.0",
     "supabase": "^2.22.12"
   },
   "devDependencies": {
@@ -26,6 +27,8 @@
     "./middleware": "./src/clients/middleware.ts",
     "./queries": "./src/queries/index.ts",
     "./cached-queries": "./src/queries/cached-queries.ts",
+    "./stripe": "./src/queries/stripe/index.ts",
+    "./stripe-admin": "./src/queries/stripe/admin.ts",
     "./types": "./src/types/index.ts"
   }
 }

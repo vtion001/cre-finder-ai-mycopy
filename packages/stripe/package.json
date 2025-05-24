@@ -1,0 +1,29 @@
+{
+  "name": "@v1/stripe",
+  "version": "1.0.0",
+  "main": "src/index.ts",
+  "private": true,
+  "sideEffects": false,
+  "scripts": {
+    "dev": "stripe listen --forward-to localhost:3000/api/webhook/stripe",
+    "fixtures": "stripe fixtures ./src/fixtures/stripe-fixtures.json",
+    "clean": "rm -rf .turbo node_modules",
+    "lint": "biome check .",
+    "format": "biome --write .",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.3"
+  },
+  "dependencies": {
+    "@stripe/stripe-js": "^5.2.0",
+    "stripe": "16.9.0",
+    "typescript": "^5.8.3"
+  },
+  "exports": {
+    "./config": "./src/config.ts",
+    "./server": "./src/server.ts",
+    "./client": "./src/client.ts",
+    "./helpers": "./src/utils/helpers.ts"
+  }
+}

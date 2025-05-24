@@ -1,0 +1,85 @@
+{
+    "_meta": {
+        "template_version": 0
+    },
+    "fixtures": [
+        {
+            "name": "prod_standard",
+            "path": "/v1/products",
+            "method": "post",
+            "params": {
+                "name": "Standard",
+                "description": "Perfect for individual investors and small teams.",
+                "metadata": {
+                    "max_searches": 500,
+                    "max_skip_trace": 500,
+                    "county_access": "Single county",
+                    "asset_type_count": 1,
+                    "is_enterprise": false
+                }
+            }
+        },
+        {
+            "name": "price_standard_month",
+            "path": "/v1/prices",
+            "method": "post",
+            "params": {
+                "product": "${prod_standard:id}",
+                "currency": "usd",
+                "billing_scheme": "per_unit",
+                "unit_amount": 49900,
+                "recurring": {
+                    "interval": "month",
+                    "interval_count": 1
+                }
+            }
+        },
+        {
+            "name": "prod_professional",
+            "path": "/v1/products",
+            "method": "post",
+            "params": {
+                "name": "Professional",
+                "description": "For active investors and mid-sized investment firms.",
+                "metadata": {
+                    "max_searches": 1000,
+                    "max_skip_trace": 1000,
+                    "county_access": "Single county",
+                    "asset_type_count": 1,
+                    "is_enterprise": false
+                }
+            }
+        },
+        {
+            "name": "price_professional_month",
+            "path": "/v1/prices",
+            "method": "post",
+            "params": {
+                "product": "${prod_professional:id}",
+                "currency": "usd",
+                "billing_scheme": "per_unit",
+                "unit_amount": 99900,
+                "recurring": {
+                    "interval": "month",
+                    "interval_count": 1
+                }
+            }
+        },
+        {
+            "name": "prod_enterprise",
+            "path": "/v1/products",
+            "method": "post",
+            "params": {
+                "name": "Enterprise",
+                "description": "For large investment firms and institutional investors.",
+                "metadata": {
+                    "max_searches": 5000,
+                    "max_skip_trace": 5000,
+                    "county_access": "Multiple counties",
+                    "asset_type_count": 5,
+                    "is_enterprise": true
+                }
+            }
+        }
+    ]
+}
