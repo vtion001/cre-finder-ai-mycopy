@@ -36,6 +36,42 @@ export type Database = {
         }
         Relationships: []
       }
+      credit_transactions: {
+        Row: {
+          created_at: string | null
+          credit_amount: number
+          description: string | null
+          expires_at: string | null
+          id: string
+          reference_id: string | null
+          transaction_type: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          credit_amount: number
+          description?: string | null
+          expires_at?: string | null
+          id?: string
+          reference_id?: string | null
+          transaction_type: string
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          credit_amount?: number
+          description?: string | null
+          expires_at?: string | null
+          id?: string
+          reference_id?: string | null
+          transaction_type?: string
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       customers: {
         Row: {
           id: string
@@ -231,51 +267,6 @@ export type Database = {
           },
         ]
       }
-      subscription_plans: {
-        Row: {
-          asset_type_count: number
-          county_access: string
-          created_at: string | null
-          description: string | null
-          features: Json | null
-          id: string
-          is_enterprise: boolean | null
-          max_searches: number
-          max_skip_trace: number
-          name: string
-          price: string
-          updated_at: string | null
-        }
-        Insert: {
-          asset_type_count: number
-          county_access: string
-          created_at?: string | null
-          description?: string | null
-          features?: Json | null
-          id?: string
-          is_enterprise?: boolean | null
-          max_searches: number
-          max_skip_trace: number
-          name: string
-          price: string
-          updated_at?: string | null
-        }
-        Update: {
-          asset_type_count?: number
-          county_access?: string
-          created_at?: string | null
-          description?: string | null
-          features?: Json | null
-          id?: string
-          is_enterprise?: boolean | null
-          max_searches?: number
-          max_skip_trace?: number
-          name?: string
-          price?: string
-          updated_at?: string | null
-        }
-        Relationships: []
-      }
       subscriptions: {
         Row: {
           cancel_at: string | null
@@ -431,10 +422,6 @@ export type Database = {
           id: string
           locale: string | null
           phone_number: string | null
-          subscription_end_date: string | null
-          subscription_plan_id: string | null
-          subscription_start_date: string | null
-          subscription_status: string | null
           time_format: number | null
           timezone: string | null
           updated_at: string | null
@@ -448,10 +435,6 @@ export type Database = {
           id: string
           locale?: string | null
           phone_number?: string | null
-          subscription_end_date?: string | null
-          subscription_plan_id?: string | null
-          subscription_start_date?: string | null
-          subscription_status?: string | null
           time_format?: number | null
           timezone?: string | null
           updated_at?: string | null
@@ -465,23 +448,11 @@ export type Database = {
           id?: string
           locale?: string | null
           phone_number?: string | null
-          subscription_end_date?: string | null
-          subscription_plan_id?: string | null
-          subscription_start_date?: string | null
-          subscription_status?: string | null
           time_format?: number | null
           timezone?: string | null
           updated_at?: string | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "users_subscription_plan_id_fkey"
-            columns: ["subscription_plan_id"]
-            isOneToOne: false
-            referencedRelation: "subscription_plans"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
     }
     Views: {
@@ -492,11 +463,20 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: {
           consumed_credits: number
-          max_allowed_credits: number
+          subscription_credits: number
+          extra_credits_available: number
+          extra_credits_expiring_soon: number
+          total_available_credits: number
+          remaining_credits: number
         }[]
+      }
+      consume_user_credits: {
+        Args: { credits_to_consume?: number }
+        Returns: boolean
       }
     }
     Enums: {
+      credit_movement_type: "purchase" | "bonus" | "refund" | "adjustment"
       location_type: "city" | "county"
       pricing_plan_interval: "day" | "week" | "month" | "year"
       pricing_type: "one_time" | "recurring"
@@ -625,6 +605,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      credit_movement_type: ["purchase", "bonus", "refund", "adjustment"],
       location_type: ["city", "county"],
       pricing_plan_interval: ["day", "week", "month", "year"],
       pricing_type: ["one_time", "recurring"],

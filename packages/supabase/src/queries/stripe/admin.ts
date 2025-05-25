@@ -291,3 +291,27 @@ export const manageSubscriptionStatusChange = async (
 
   return { userId: uuid };
 };
+
+export async function insertUserCredits(
+  userId: string,
+  amount: number,
+  paymentIntentId: string,
+) {
+  const { data, error } = await supabaseAdmin
+    .from("credit_transactions")
+    .insert({
+      user_id: userId,
+      credit_amount: amount,
+      transaction_type: "purchase",
+      reference_id: paymentIntentId,
+    });
+
+  if (error) {
+    throw new Error(`Failed to add credits: ${error.message}`);
+  }
+
+  return {
+    data,
+    error,
+  };
+}

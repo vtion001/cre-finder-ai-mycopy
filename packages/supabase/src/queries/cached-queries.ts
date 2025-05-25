@@ -2,7 +2,7 @@ import { unstable_cache } from "next/cache";
 import { cache } from "react";
 import { getUserQuery } from ".";
 import { createClient } from "../clients/server";
-import { getUserCreditUsageQuery } from "./credits";
+import { getCreditTransactionsQuery, getUserCreditUsageQuery } from "./credits";
 import {
   type GetSearchHistoryParams,
   getFavoriteSearchesQuery,
@@ -187,12 +187,36 @@ export const getUserCreditUsage = async () => {
 
   return unstable_cache(
     async () => {
-      return getUserCreditUsageQuery(supabase, userId);
+      return getUserCreditUsageQuery(supabase);
     },
     ["credit_usage", userId],
     {
       tags: [`credit_usage_${userId}`, `search_history_${userId}`],
       revalidate: 1, // Shorter revalidation time for credit usage
+    },
+    // @ts-expect-error
+  )(userId);
+};
+
+export const getCreditTransactions = async () => {
+  const supabase = createClient();
+
+  const user = await getUser();
+
+  if (!user?.data) {
+    throw new Error("unauthorized");
+  }
+
+  const userId = user.data.id;
+
+  return unstable_cache(
+    async () => {
+      return getCreditTransactionsQuery(supabase);
+    },
+    ["credit_transactions", userId],
+    {
+      tags: [`credit_transactions_${userId}`],
+      revalidate: 60, // Cache for 1 minute
     },
     // @ts-expect-error
   )(userId);

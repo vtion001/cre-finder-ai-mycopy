@@ -1,7 +1,6 @@
 "use client";
 
-import { getUserCreditUsage } from "@v1/supabase/cached-queries";
-import { Database, Tables } from "@v1/supabase/types";
+import type { Database } from "@v1/supabase/types";
 import {
   Card,
   CardContent,
@@ -14,21 +13,16 @@ import { Progress } from "@v1/ui/progress";
 export function CreditUsageDisplay({
   data,
 }: {
-  data: {
-    consumedCredits: number;
-    maxAllowedCredits: number;
-    remainingCredits: number;
-  };
+  data: Database["public"]["Functions"]["calculate_user_credit_usage"]["Returns"][0];
 }) {
-  const { consumedCredits, maxAllowedCredits, remainingCredits } = data || {
-    consumedCredits: 0,
-    maxAllowedCredits: 0,
-    remainingCredits: 0,
-  };
-
   const usagePercentage =
-    maxAllowedCredits > 0
-      ? Math.min(Math.round((consumedCredits / maxAllowedCredits) * 100), 100)
+    data.total_available_credits > 0
+      ? Math.min(
+          Math.round(
+            (data.consumed_credits / data.total_available_credits) * 100,
+          ),
+          100,
+        )
       : 0;
 
   return (
@@ -43,14 +37,15 @@ export function CreditUsageDisplay({
         <div className="space-y-4">
           <div className="flex justify-between items-center">
             <span className="text-sm text-muted-foreground">
-              {consumedCredits} of {maxAllowedCredits} credits used
+              {data.consumed_credits} of {data.total_available_credits} credits
+              used
             </span>
             <span className="text-sm font-medium">{usagePercentage}%</span>
           </div>
           <Progress value={usagePercentage} className="h-2" />
           <div className="flex justify-between items-center">
             <span className="text-sm text-muted-foreground">
-              {remainingCredits} credits remaining
+              {data.remaining_credits} credits remaining
             </span>
           </div>
         </div>

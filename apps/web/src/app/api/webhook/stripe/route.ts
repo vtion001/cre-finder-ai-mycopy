@@ -1,7 +1,9 @@
 import { stripe } from "@v1/stripe/config";
+import { createClient } from "@v1/supabase/server";
 import {
   deletePriceRecord,
   deleteProductRecord,
+  insertUserCredits,
   manageSubscriptionStatusChange,
   upsertPriceRecord,
   upsertProductRecord,
@@ -85,6 +87,9 @@ export async function POST(req: Request) {
 
             revalidateTag(`user_${userId}`);
             revalidateTag(`subscriptions_${userId}`);
+          } else if (checkoutSession.mode === "payment") {
+            // Handle one-time payments (credit purchases)
+            await handleCreditPurchase(checkoutSession);
           }
 
           break;
@@ -107,4 +112,45 @@ export async function POST(req: Request) {
     });
   }
   return new Response(JSON.stringify({ received: true }));
+}
+
+/**
+ * Handle credit purchase from Stripe checkout session
+ */
+async function handleCreditPurchase(checkoutSession: Stripe.Checkout.Session) {
+  try {
+    // Check if this is a credit purchase
+    const productType = checkoutSession.metadata?.product_type;
+    if (productType !== "credits") {
+      console.log("Not a credit purchase, skipping");
+      return;
+    }
+
+    const creditAmount = Number.parseInt(
+      checkoutSession.metadata?.credit_amount || "0",
+    );
+    const userId = checkoutSession.metadata?.user_id;
+    const paymentIntentId = checkoutSession.payment_intent as string;
+
+    if (!creditAmount || !userId) {
+      throw new Error(
+        "Missing credit amount or user ID in checkout session metadata",
+      );
+    }
+
+    console.log(
+      `Processing credit purchase: ${creditAmount} credits for user ${userId}`,
+    );
+
+    await insertUserCredits(userId, creditAmount, paymentIntentId);
+
+    console.log(`Successfully added ${creditAmount} credits to user ${userId}`);
+
+    // Revalidate credit-related cache tags
+    revalidateTag(`credit_usage_${userId}`);
+    revalidateTag(`user_${userId}`);
+  } catch (error) {
+    console.error("Error handling credit purchase:", error);
+    throw error;
+  }
 }
