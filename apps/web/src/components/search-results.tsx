@@ -4,6 +4,7 @@ import { updateSearchLogStatusAction } from "@/actions/search-history-actions";
 import { useState } from "react";
 
 import type { PropertySearchResult } from "@/lib/realestateapi";
+import type { Database } from "@v1/supabase/types";
 import { Badge } from "@v1/ui/badge";
 import { Button } from "@v1/ui/button";
 import { Skeleton } from "@v1/ui/skeleton";
@@ -16,10 +17,16 @@ import {
   TableRow,
 } from "@v1/ui/table";
 import { format, isValid, parse } from "date-fns";
-import { BuildingIcon, DownloadIcon, VerifiedIcon } from "lucide-react";
+import {
+  AlertTriangleIcon,
+  BuildingIcon,
+  DownloadIcon,
+  VerifiedIcon,
+} from "lucide-react";
 import { revalidateTag } from "next/cache";
 import { toast } from "sonner";
 import * as XLSX from "xlsx";
+import { TopUpDialog } from "./top-up-dialog";
 
 // Helper function to format dates from yyyy-MM-dd to a more readable format
 const formatDate = (dateString: string): string => {
@@ -44,17 +51,70 @@ interface SearchResultsProps {
   isLoading?: boolean;
   results: PropertySearchResult[];
   searchLogId?: string;
+  creditData: Database["public"]["Functions"]["calculate_user_credit_usage"]["Returns"][0];
+  resultCount: number;
 }
 
 export function SearchResults({
   results,
   isLoading,
   searchLogId,
+  creditData,
+  resultCount,
 }: SearchResultsProps) {
   const [isExporting, setIsExporting] = useState(false);
+  const [isTopUpOpen, setIsTopUpOpen] = useState(false);
+
+  // Check if user has enough credits for export
+  const hasInsufficientCredits = creditData.remaining_credits < resultCount;
+
+  // Credit warning component
+  const CreditWarning = () => (
+    <div className="bg-yellow-50 dark:bg-yellow-950 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4 mb-4">
+      <div className="flex items-start gap-3">
+        <AlertTriangleIcon className="h-5 w-5 text-yellow-600 dark:text-yellow-400 mt-0.5 flex-shrink-0" />
+        <div className="flex-1">
+          <h3 className="font-medium text-yellow-800 dark:text-yellow-200">
+            Insufficient Credits
+          </h3>
+          <p className="text-sm text-yellow-700 dark:text-yellow-300 mt-1">
+            You need at least {resultCount.toLocaleString()} credit
+            {resultCount > 1 ? "s" : ""} to export search results. This search
+            found{" "}
+            <span className="font-medium">{resultCount.toLocaleString()}</span>{" "}
+            properties. You currently have{" "}
+            <span className="font-medium">{creditData.remaining_credits}</span>{" "}
+            credits remaining.
+          </p>
+          <div className="flex gap-2 mt-3">
+            <Button
+              size="sm"
+              onClick={() => setIsTopUpOpen(true)}
+              className="bg-yellow-600 hover:bg-yellow-700 text-white"
+            >
+              Add Credits
+            </Button>
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={() => window.location.reload()}
+              className="border-yellow-300 text-yellow-700 hover:bg-yellow-50 dark:border-yellow-700 dark:text-yellow-300 dark:hover:bg-yellow-950"
+            >
+              Refine Search
+            </Button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 
   // Handle export to Excel
   const handleExport = async () => {
+    // Check credits before proceeding
+    if (hasInsufficientCredits) {
+      toast.error("Insufficient credits to export results");
+      return;
+    }
     setIsExporting(true);
 
     try {
@@ -203,11 +263,16 @@ export function SearchResults({
   if (results.length === 0) {
     return (
       <div>
+        {hasInsufficientCredits && (
+          <div className="p-4 border-b">
+            <CreditWarning />
+          </div>
+        )}
         <div className="flex justify-end items-center p-4 border-b">
           <Button
             onClick={handleExport}
-            disabled={isExporting}
-            className="gap-2 bg-primary hover:bg-primary/90 text-primary-foreground"
+            disabled={isExporting || hasInsufficientCredits}
+            className="gap-2 bg-primary hover:bg-primary/90 text-primary-foreground disabled:opacity-50"
           >
             <DownloadIcon className="h-4 w-4" />
             {isExporting ? "Exporting..." : "Export All Fields to Excel"}
@@ -219,18 +284,30 @@ export function SearchResults({
           <p className="text-sm mt-2">
             Try adjusting your filters or search for a different city
           </p>
-        </div>{" "}
+        </div>
+        <TopUpDialog
+          open={isTopUpOpen}
+          onOpenChange={setIsTopUpOpen}
+          amount={resultCount - creditData.remaining_credits}
+        />
       </div>
     );
   }
 
   return (
     <div>
+      {hasInsufficientCredits && (
+        <div className="p-4 border-b">
+          <CreditWarning />
+        </div>
+      )}
       <div className="flex justify-end items-center p-4 border-b">
         <Button
           onClick={handleExport}
-          disabled={isExporting || results.length === 0}
-          className="gap-2 bg-primary hover:bg-primary/90 text-primary-foreground"
+          disabled={
+            isExporting || results.length === 0 || hasInsufficientCredits
+          }
+          className="gap-2 bg-primary hover:bg-primary/90 text-primary-foreground disabled:opacity-50"
         >
           <DownloadIcon className="h-4 w-4" />
           {isExporting ? "Exporting..." : "Export All Fields to Excel"}
@@ -376,6 +453,7 @@ export function SearchResults({
           ))}
         </TableBody>
       </Table>
+      <TopUpDialog open={isTopUpOpen} onOpenChange={setIsTopUpOpen} />
     </div>
   );
 }

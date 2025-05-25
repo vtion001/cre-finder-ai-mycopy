@@ -6,6 +6,7 @@ import {
   getSearchLog,
   getUser,
   getUserAssetTypes,
+  getUserCreditUsage,
   getUserLocations,
 } from "@v1/supabase/cached-queries";
 import { SidebarInset, SidebarProvider } from "@v1/ui/sidebar";
@@ -46,6 +47,7 @@ export default async function Page({
 
   const { data: locations } = await getUserLocations();
   const { data: assetTypes } = await getUserAssetTypes();
+  const { data: creditData } = await getUserCreditUsage();
 
   if (!assetTypes?.length || !locations?.length) {
     redirect("/onboarding");
@@ -62,6 +64,7 @@ export default async function Page({
             initialValues={formValues as any}
             assetTypes={assetTypes ?? []}
             savedLocations={locations ?? []}
+            creditData={creditData}
           />
         </div>
       </SidebarInset>

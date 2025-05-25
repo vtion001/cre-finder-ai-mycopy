@@ -17,12 +17,15 @@ import { useState } from "react";
 interface TopUpDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  amount?: number;
 }
 
 const PRESET_AMOUNTS = [50, 100, 150, 200];
 
-export function TopUpDialog({ open, onOpenChange }: TopUpDialogProps) {
-  const [customAmount, setCustomAmount] = useState("50.00");
+export function TopUpDialog({ open, onOpenChange, amount }: TopUpDialogProps) {
+  const [customAmount, setCustomAmount] = useState(
+    amount?.toFixed(2) || "50.00",
+  );
   const [selectedPreset, setSelectedPreset] = useState<number | null>(50);
   const [isLoading, setIsLoading] = useState(false);
 

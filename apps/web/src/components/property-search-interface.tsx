@@ -4,7 +4,7 @@ import { getPropertySearchAction } from "@/actions/get-property-search-action";
 import type { searchFiltersSchema } from "@/actions/schema";
 import { SaveAsFavoriteDialog } from "@/components/search-history/save-as-favorite-dialog";
 import { formatNumber } from "@/lib/format";
-import type { Tables } from "@v1/supabase/types";
+import type { Database, Tables } from "@v1/supabase/types";
 import { Badge } from "@v1/ui/badge";
 import { Button } from "@v1/ui/button";
 import { cn } from "@v1/ui/cn";
@@ -22,12 +22,14 @@ interface PropertySearchInterfaceProps {
   initialValues?: z.infer<typeof searchFiltersSchema>;
   assetTypes: Tables<"asset_types">[];
   savedLocations: Tables<"user_locations">[];
+  creditData: Database["public"]["Functions"]["calculate_user_credit_usage"]["Returns"][0];
 }
 
 export function PropertySearchInterface({
   initialValues,
   assetTypes,
   savedLocations,
+  creditData,
 }: PropertySearchInterfaceProps) {
   const router = useRouter();
 
@@ -211,6 +213,8 @@ export function PropertySearchInterface({
               results={searchResponse?.data ?? []}
               isLoading={isLoading}
               searchLogId={lastSearchLogId || undefined}
+              creditData={creditData}
+              resultCount={searchResponse?.resultCount || 0}
             />
           </div>
 
