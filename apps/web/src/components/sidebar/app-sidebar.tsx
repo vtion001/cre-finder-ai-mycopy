@@ -1,6 +1,8 @@
 "use client";
 
 import {
+  ClipboardIcon,
+  ClipboardListIcon,
   CreditCardIcon,
   HelpCircleIcon,
   HistoryIcon,
@@ -38,6 +40,11 @@ const data = {
       title: "Credits",
       url: "/dashboard/credits",
       icon: CreditCardIcon,
+    },
+    {
+      title: "Records",
+      url: "/dashboard/records",
+      icon: ClipboardListIcon,
     },
   ],
   navSecondary: [

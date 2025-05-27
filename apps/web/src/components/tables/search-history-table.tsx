@@ -27,7 +27,7 @@ import {
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { SaveAsFavoriteDialog } from "./save-as-favorite-dialog";
+import { SaveAsFavoriteDialog } from "../save-as-favorite-dialog";
 
 type SearchLog = Tables<"search_logs"> & {
   search_parameters: GetPropertySearchParams;

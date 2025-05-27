@@ -52,7 +52,7 @@ export type PropertySearchResult = {
   assessedValue: number;
   assumable: boolean;
   auction: boolean;
-  auctionDate: string;
+  auctionDate: string | null;
   basement: boolean;
   bathrooms?: number;
   bedrooms?: number;
@@ -225,7 +225,6 @@ export async function getAutocomplete({
 }
 
 export interface GetPropertySearchParams {
-  count?: boolean;
   ids_only?: false;
   obfuscate?: false;
   summary?: false;

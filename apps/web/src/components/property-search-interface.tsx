@@ -2,7 +2,7 @@
 
 import { getPropertySearchAction } from "@/actions/get-property-search-action";
 import type { searchFiltersSchema } from "@/actions/schema";
-import { SaveAsFavoriteDialog } from "@/components/search-history/save-as-favorite-dialog";
+import { SaveAsFavoriteDialog } from "@/components/save-as-favorite-dialog";
 import { formatNumber } from "@/lib/format";
 import type { Database, Tables } from "@v1/supabase/types";
 import { Badge } from "@v1/ui/badge";
@@ -16,7 +16,7 @@ import { useQueryState } from "nuqs";
 import { useEffect, useState } from "react";
 import type { z } from "zod";
 import { SearchFiltersForm } from "./forms/search-filters-form";
-import { SearchResults } from "./search-results";
+import { PreviewResults } from "./preview-results";
 
 interface PropertySearchInterfaceProps {
   initialValues?: z.infer<typeof searchFiltersSchema>;
@@ -37,13 +37,11 @@ export function PropertySearchInterface({
 
   const [isSaveFavoriteDialogOpen, setIsSaveFavoriteDialogOpen] =
     useState(false);
-  const [lastSearchLogId, setLastSearchLogId] = useState<string | null>(null);
 
   const [isFiltersOpen, setIsFiltersOpen] = useState(true);
 
   const {
     execute: searchProperties,
-    isPending: isLoading,
     status,
     result: { data: searchResponse },
   } = useAction(getPropertySearchAction, {
@@ -58,12 +56,6 @@ export function PropertySearchInterface({
       ...filters,
     });
   };
-
-  useEffect(() => {
-    if (searchResponse?.searchLogId) {
-      setLastSearchLogId(searchResponse.searchLogId);
-    }
-  }, [searchResponse]);
 
   return (
     <div className="flex flex-col space-y-6 p-6">
@@ -202,18 +194,17 @@ export function PropertySearchInterface({
             </div>
           </div>
 
-          <SearchResults
-            results={searchResponse?.data ?? []}
-            isLoading={isLoading}
-            searchLogId={lastSearchLogId || undefined}
-            creditData={creditData}
-            resultCount={searchResponse?.resultCount || 0}
-          />
+          {id && (
+            <PreviewResults
+              searchLogId={id}
+              creditData={creditData}
+              resultCount={searchResponse?.resultCount || 0}
+            />
+          )}
 
-          {/* Save as Favorite Dialog */}
-          {lastSearchLogId && (
+          {id && (
             <SaveAsFavoriteDialog
-              searchLog={{ id: lastSearchLogId }}
+              searchLog={{ id }}
               open={isSaveFavoriteDialogOpen}
               onOpenChange={setIsSaveFavoriteDialogOpen}
             />

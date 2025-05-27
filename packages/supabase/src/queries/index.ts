@@ -15,3 +15,4 @@ export async function getUserQuery(supabase: Client, userId: string) {
 export * from "./credits";
 export * from "./history";
 export * from "./onboarding";
+export * from "./records";

@@ -1,7 +1,7 @@
-import { CreditTransactionsTable } from "@/components/credit-transactions/credit-transactions-table";
-import { CreditUsageDisplay } from "@/components/credit-usage/credit-usage-display";
+import { CreditUsageDisplay } from "@/components/credit-usage-display";
 import { AppSidebar } from "@/components/sidebar/app-sidebar";
 import { SiteHeader } from "@/components/site-header";
+import { CreditTransactionsTable } from "@/components/tables/credit-transactions-table";
 import {
   IconCreditCard,
   IconTrendingUp,

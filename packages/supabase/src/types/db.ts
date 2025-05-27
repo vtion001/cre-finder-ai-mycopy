@@ -206,6 +206,336 @@ export type Database = {
         }
         Relationships: []
       }
+      property_records: {
+        Row: {
+          absentee_owner: boolean | null
+          address: string
+          adjustable_rate: boolean | null
+          assessed_value: number | null
+          bathrooms: number | null
+          bedrooms: number | null
+          city: string | null
+          corporate_owned: boolean | null
+          county: string | null
+          created_at: string | null
+          document_type: string | null
+          document_type_code: string | null
+          equity_percent: number | null
+          estimated_value: number | null
+          fips: string | null
+          high_equity: boolean | null
+          id: string
+          judgment: boolean | null
+          land_use: string | null
+          last_mortgage1_amount: string | null
+          last_sale_amount: string | null
+          last_sale_arms_length: boolean | null
+          last_sale_date: string | null
+          last_update_date: string | null
+          latitude: number | null
+          lender_name: string | null
+          listing_amount: string | null
+          loan_type_code: string | null
+          longitude: number | null
+          lot_square_feet: number | null
+          mail_address: string | null
+          mail_city: string | null
+          mail_state: string | null
+          mail_street: string | null
+          mail_zip: string | null
+          maturity_date_first: string | null
+          median_income: string | null
+          mfh_2_to_4: boolean | null
+          mfh_5_plus: boolean | null
+          mls_active: boolean | null
+          mls_cancelled: boolean | null
+          mls_days_on_market: number | null
+          mls_failed: boolean | null
+          mls_has_photos: boolean | null
+          mls_last_sale_date: string | null
+          mls_last_status_date: string | null
+          mls_listing_date: string | null
+          mls_listing_price: number | null
+          mls_pending: boolean | null
+          mls_sold: boolean | null
+          mls_sold_price: number | null
+          mls_status: string | null
+          mls_type: string | null
+          negative_equity: boolean | null
+          neighborhood: Json | null
+          open_mortgage_balance: number | null
+          out_of_state_absentee_owner: boolean | null
+          owner_occupied: boolean | null
+          owner1_first_name: string | null
+          owner1_last_name: string
+          owner2_first_name: string | null
+          owner2_last_name: string | null
+          parcel_account_number: string | null
+          patio: boolean | null
+          patio_area: number | null
+          pool: boolean | null
+          pool_area: number | null
+          portfolio_purchased_last_12_months: number | null
+          portfolio_purchased_last_6_months: number | null
+          pre_foreclosure: boolean | null
+          price_per_square_foot: number | null
+          prior_owner_individual: boolean | null
+          prior_owner_months_owned: string | null
+          prior_sale_amount: string | null
+          private_lender: boolean | null
+          property_id: string
+          property_type: string | null
+          property_use: string | null
+          property_use_code: number | null
+          recording_date: string | null
+          rent_amount: string | null
+          reo: boolean | null
+          rooms_count: number | null
+          search_log_id: string
+          square_feet: number | null
+          state: string
+          stories: number | null
+          street: string | null
+          suggested_rent: string | null
+          tax_delinquent_year: string | null
+          tax_lien: boolean | null
+          total_portfolio_equity: string | null
+          total_portfolio_mortgage_balance: string | null
+          total_portfolio_value: string | null
+          total_properties_owned: string | null
+          units_count: number | null
+          updated_at: string | null
+          user_id: string
+          vacant: boolean | null
+          year_built: number | null
+          years_owned: number | null
+          zip: string
+        }
+        Insert: {
+          absentee_owner?: boolean | null
+          address: string
+          adjustable_rate?: boolean | null
+          assessed_value?: number | null
+          bathrooms?: number | null
+          bedrooms?: number | null
+          city?: string | null
+          corporate_owned?: boolean | null
+          county?: string | null
+          created_at?: string | null
+          document_type?: string | null
+          document_type_code?: string | null
+          equity_percent?: number | null
+          estimated_value?: number | null
+          fips?: string | null
+          high_equity?: boolean | null
+          id?: string
+          judgment?: boolean | null
+          land_use?: string | null
+          last_mortgage1_amount?: string | null
+          last_sale_amount?: string | null
+          last_sale_arms_length?: boolean | null
+          last_sale_date?: string | null
+          last_update_date?: string | null
+          latitude?: number | null
+          lender_name?: string | null
+          listing_amount?: string | null
+          loan_type_code?: string | null
+          longitude?: number | null
+          lot_square_feet?: number | null
+          mail_address?: string | null
+          mail_city?: string | null
+          mail_state?: string | null
+          mail_street?: string | null
+          mail_zip?: string | null
+          maturity_date_first?: string | null
+          median_income?: string | null
+          mfh_2_to_4?: boolean | null
+          mfh_5_plus?: boolean | null
+          mls_active?: boolean | null
+          mls_cancelled?: boolean | null
+          mls_days_on_market?: number | null
+          mls_failed?: boolean | null
+          mls_has_photos?: boolean | null
+          mls_last_sale_date?: string | null
+          mls_last_status_date?: string | null
+          mls_listing_date?: string | null
+          mls_listing_price?: number | null
+          mls_pending?: boolean | null
+          mls_sold?: boolean | null
+          mls_sold_price?: number | null
+          mls_status?: string | null
+          mls_type?: string | null
+          negative_equity?: boolean | null
+          neighborhood?: Json | null
+          open_mortgage_balance?: number | null
+          out_of_state_absentee_owner?: boolean | null
+          owner_occupied?: boolean | null
+          owner1_first_name?: string | null
+          owner1_last_name: string
+          owner2_first_name?: string | null
+          owner2_last_name?: string | null
+          parcel_account_number?: string | null
+          patio?: boolean | null
+          patio_area?: number | null
+          pool?: boolean | null
+          pool_area?: number | null
+          portfolio_purchased_last_12_months?: number | null
+          portfolio_purchased_last_6_months?: number | null
+          pre_foreclosure?: boolean | null
+          price_per_square_foot?: number | null
+          prior_owner_individual?: boolean | null
+          prior_owner_months_owned?: string | null
+          prior_sale_amount?: string | null
+          private_lender?: boolean | null
+          property_id: string
+          property_type?: string | null
+          property_use?: string | null
+          property_use_code?: number | null
+          recording_date?: string | null
+          rent_amount?: string | null
+          reo?: boolean | null
+          rooms_count?: number | null
+          search_log_id: string
+          square_feet?: number | null
+          state: string
+          stories?: number | null
+          street?: string | null
+          suggested_rent?: string | null
+          tax_delinquent_year?: string | null
+          tax_lien?: boolean | null
+          total_portfolio_equity?: string | null
+          total_portfolio_mortgage_balance?: string | null
+          total_portfolio_value?: string | null
+          total_properties_owned?: string | null
+          units_count?: number | null
+          updated_at?: string | null
+          user_id: string
+          vacant?: boolean | null
+          year_built?: number | null
+          years_owned?: number | null
+          zip: string
+        }
+        Update: {
+          absentee_owner?: boolean | null
+          address?: string
+          adjustable_rate?: boolean | null
+          assessed_value?: number | null
+          bathrooms?: number | null
+          bedrooms?: number | null
+          city?: string | null
+          corporate_owned?: boolean | null
+          county?: string | null
+          created_at?: string | null
+          document_type?: string | null
+          document_type_code?: string | null
+          equity_percent?: number | null
+          estimated_value?: number | null
+          fips?: string | null
+          high_equity?: boolean | null
+          id?: string
+          judgment?: boolean | null
+          land_use?: string | null
+          last_mortgage1_amount?: string | null
+          last_sale_amount?: string | null
+          last_sale_arms_length?: boolean | null
+          last_sale_date?: string | null
+          last_update_date?: string | null
+          latitude?: number | null
+          lender_name?: string | null
+          listing_amount?: string | null
+          loan_type_code?: string | null
+          longitude?: number | null
+          lot_square_feet?: number | null
+          mail_address?: string | null
+          mail_city?: string | null
+          mail_state?: string | null
+          mail_street?: string | null
+          mail_zip?: string | null
+          maturity_date_first?: string | null
+          median_income?: string | null
+          mfh_2_to_4?: boolean | null
+          mfh_5_plus?: boolean | null
+          mls_active?: boolean | null
+          mls_cancelled?: boolean | null
+          mls_days_on_market?: number | null
+          mls_failed?: boolean | null
+          mls_has_photos?: boolean | null
+          mls_last_sale_date?: string | null
+          mls_last_status_date?: string | null
+          mls_listing_date?: string | null
+          mls_listing_price?: number | null
+          mls_pending?: boolean | null
+          mls_sold?: boolean | null
+          mls_sold_price?: number | null
+          mls_status?: string | null
+          mls_type?: string | null
+          negative_equity?: boolean | null
+          neighborhood?: Json | null
+          open_mortgage_balance?: number | null
+          out_of_state_absentee_owner?: boolean | null
+          owner_occupied?: boolean | null
+          owner1_first_name?: string | null
+          owner1_last_name?: string
+          owner2_first_name?: string | null
+          owner2_last_name?: string | null
+          parcel_account_number?: string | null
+          patio?: boolean | null
+          patio_area?: number | null
+          pool?: boolean | null
+          pool_area?: number | null
+          portfolio_purchased_last_12_months?: number | null
+          portfolio_purchased_last_6_months?: number | null
+          pre_foreclosure?: boolean | null
+          price_per_square_foot?: number | null
+          prior_owner_individual?: boolean | null
+          prior_owner_months_owned?: string | null
+          prior_sale_amount?: string | null
+          private_lender?: boolean | null
+          property_id?: string
+          property_type?: string | null
+          property_use?: string | null
+          property_use_code?: number | null
+          recording_date?: string | null
+          rent_amount?: string | null
+          reo?: boolean | null
+          rooms_count?: number | null
+          search_log_id?: string
+          square_feet?: number | null
+          state?: string
+          stories?: number | null
+          street?: string | null
+          suggested_rent?: string | null
+          tax_delinquent_year?: string | null
+          tax_lien?: boolean | null
+          total_portfolio_equity?: string | null
+          total_portfolio_mortgage_balance?: string | null
+          total_portfolio_value?: string | null
+          total_properties_owned?: string | null
+          units_count?: number | null
+          updated_at?: string | null
+          user_id?: string
+          vacant?: boolean | null
+          year_built?: number | null
+          years_owned?: number | null
+          zip?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "property_records_search_log_id_fkey"
+            columns: ["search_log_id"]
+            isOneToOne: false
+            referencedRelation: "search_logs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "property_records_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       search_logs: {
         Row: {
           asset_type_id: string

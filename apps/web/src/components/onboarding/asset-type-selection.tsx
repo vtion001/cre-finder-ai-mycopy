@@ -2,8 +2,6 @@
 
 import { saveUserAssetTypesAction } from "@/actions/save-user-asset-types-action";
 import type { Tables } from "@v1/supabase/types";
-import { Badge } from "@v1/ui/badge";
-import { Button } from "@v1/ui/button";
 import { Checkbox } from "@v1/ui/checkbox";
 import { Label } from "@v1/ui/label";
 import { useAction } from "next-safe-action/hooks";

@@ -1,7 +1,6 @@
 import { PropertySearchInterface } from "@/components/property-search-interface";
 import { AppSidebar } from "@/components/sidebar/app-sidebar";
 import { SiteHeader } from "@/components/site-header";
-import type { GetPropertySearchParams } from "@/lib/realestateapi";
 import {
   getSearchLog,
   getUser,

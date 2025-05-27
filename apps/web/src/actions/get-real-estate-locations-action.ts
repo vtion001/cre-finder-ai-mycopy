@@ -5,39 +5,6 @@ import { z } from "zod";
 import { authActionClient } from "./safe-action";
 import { locationSchema } from "./schema";
 
-type AutocompleteCity = {
-  searchType: "C";
-  city: string;
-  state: string;
-  title: string;
-};
-
-type AutocompleteCounty = {
-  searchType: "N";
-  stateId: string;
-  county: string;
-  fips: string;
-  title: string;
-  countyId: string;
-  state: string;
-};
-
-type AutocompleteResult = AutocompleteCity | AutocompleteCounty;
-
-type AutocompleteResponse = {
-  input: {
-    search: string;
-    search_types: Array<string>;
-  };
-  data: Array<AutocompleteResult>;
-  totalResults: number;
-  returnedResults: number;
-  statusCode: number;
-  statusMessage: string;
-  live: string;
-  requestExecutionTimeMS: string;
-};
-
 export const getRealEstateLocationsAction = authActionClient
   .metadata({
     name: "get-real-estate-locations",

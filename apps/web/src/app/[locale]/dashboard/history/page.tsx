@@ -1,7 +1,7 @@
-import { FavoriteSearches } from "@/components/search-history/favorite-searches";
-import { SearchHistoryTable } from "@/components/search-history/search-history-table";
 import { AppSidebar } from "@/components/sidebar/app-sidebar";
 import { SiteHeader } from "@/components/site-header";
+import { FavoriteSearches } from "@/components/tables/favorite-searches";
+import { SearchHistoryTable } from "@/components/tables/search-history-table";
 import {
   getFavoriteSearches,
   getSearchHistory,

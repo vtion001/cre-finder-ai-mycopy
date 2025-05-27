@@ -1,56 +1,25 @@
 "use client";
 
-import { useState } from "react";
-
-import type { PropertySearchResult } from "@/lib/realestateapi";
 import type { Database } from "@v1/supabase/types";
 import { Card, CardContent, CardDescription, CardHeader } from "@v1/ui/card";
 import { Separator } from "@v1/ui/separator";
-import { Skeleton } from "@v1/ui/skeleton";
 import { BuildingIcon, CreditCardIcon, TrendingUpIcon } from "lucide-react";
 import { CreditWarning } from "./credit-warning";
 import { ExportButton } from "./export-button";
-import { TopUpDialog } from "./top-up-dialog";
 
-interface SearchResultsProps {
+interface PreviewResultsProps {
   isLoading?: boolean;
-  results: PropertySearchResult[];
-  searchLogId?: string;
+  searchLogId: string;
   creditData: Database["public"]["Functions"]["calculate_user_credit_usage"]["Returns"][0];
   resultCount: number;
 }
 
-export function SearchResults({
-  results,
-  isLoading,
+export function PreviewResults({
   searchLogId,
   creditData,
   resultCount,
-}: SearchResultsProps) {
-  const [isTopUpOpen, setIsTopUpOpen] = useState(false);
-
-  // Check if user has enough credits for export
+}: PreviewResultsProps) {
   const hasInsufficientCredits = creditData.remaining_credits < resultCount;
-
-  if (isLoading) {
-    return (
-      <div className="p-6">
-        <div className="flex justify-between mb-4">
-          <Skeleton className="h-8 w-40" />
-          <Skeleton className="h-8 w-32" />
-        </div>
-        <div className="space-y-2">
-          {Array(5)
-            .fill(0)
-            .map((_, i) => (
-              <div key={i} className="flex items-center space-x-4">
-                <Skeleton className="h-12 w-full" />
-              </div>
-            ))}
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="bg-card rounded-md p-4 space-y-6 shadow-sm border">
@@ -135,15 +104,9 @@ export function SearchResults({
         {hasInsufficientCredits ? (
           <CreditWarning resultCount={resultCount} creditData={creditData} />
         ) : (
-          <ExportButton
-            results={results}
-            searchLogId={searchLogId}
-            resultCount={resultCount}
-          />
+          <ExportButton searchLogId={searchLogId} resultCount={resultCount} />
         )}
       </div>
-
-      <TopUpDialog open={isTopUpOpen} onOpenChange={setIsTopUpOpen} />
     </div>
   );
 }
