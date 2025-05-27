@@ -45,73 +45,6 @@ EXECUTE FUNCTION update_updated_at();
 
 CREATE OR REPLACE FUNCTION public.calculate_user_credit_usage()
 RETURNS TABLE (
-    consumed_credits INTEGER,
-    available_credits INTEGER,
-    expiring_credits INTEGER,
-    remaining_credits INTEGER
-) 
-LANGUAGE plpgsql
-SECURITY DEFINER
-SET search_path = public
-AS $$
-DECLARE
-    current_period_start TIMESTAMP WITH TIME ZONE;
-    current_period_end TIMESTAMP WITH TIME ZONE;
-    total_available INTEGER := 0;
-    total_expiring INTEGER := 0;
-    total_consumed INTEGER := 0;
-BEGIN
-    -- Set current period (monthly)
-    current_period_start := date_trunc('month', now());
-    current_period_end := (date_trunc('month', now()) + interval '1 month');
-    
-    -- Calculate available credits from all positive transactions (non-expired)
-    SELECT 
-        COALESCE(SUM(credit_amount), 0) INTO total_available
-    FROM 
-        credit_transactions
-    WHERE 
-        user_id = auth.uid()
-        AND (expires_at IS NULL OR expires_at > now())
-        AND credit_amount > 0; -- Only count positive credit additions
-    
-    -- Calculate credits expiring in the next 7 days
-    SELECT 
-        COALESCE(SUM(credit_amount), 0) INTO total_expiring
-    FROM 
-        credit_transactions
-    WHERE 
-        user_id = auth.uid()
-        AND expires_at IS NOT NULL
-        AND expires_at > now()
-        AND expires_at <= (now() + interval '7 days')
-        AND credit_amount > 0;
-    
-    -- Calculate consumed credits from negative transactions in current period
-    SELECT 
-        COALESCE(ABS(SUM(credit_amount)), 0) INTO total_consumed
-    FROM 
-        credit_transactions
-    WHERE 
-        user_id = auth.uid()
-        AND credit_amount < 0 -- Only count negative transactions (consumption)
-        AND created_at >= current_period_start
-        AND created_at < current_period_end;
-    
-    -- Set return values
-    consumed_credits := total_consumed;
-    available_credits := total_available;
-    expiring_credits := total_expiring;
-    remaining_credits := total_available - total_consumed;
-    
-    -- Return the results
-    RETURN NEXT;
-    RETURN;
-END;
-$$;
-
-CREATE OR REPLACE FUNCTION public.calculate_user_credit_usage()
-RETURNS TABLE (
     total_consumed INTEGER,
     total_available INTEGER,
     total_extra INTEGER,
@@ -190,6 +123,44 @@ BEGIN
     RETURN;
 END;
 $$;
+
+CREATE OR REPLACE FUNCTION public.consume_user_credits(
+    credits_to_consume INTEGER DEFAULT 1
+)
+RETURNS BOOLEAN
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public
+AS $$
+DECLARE
+    usage_data RECORD;
+BEGIN
+    -- Get current usage data
+    SELECT * INTO usage_data
+    FROM calculate_user_credit_usage();
+    
+    -- Check if user has enough remaining credits
+    IF usage_data.remaining_credits < credits_to_consume THEN
+        RETURN FALSE; -- Not enough credits
+    END IF;
+    
+    -- Create a negative transaction to represent credit consumption
+    INSERT INTO credit_transactions (
+        user_id,
+        transaction_type,
+        credit_amount,
+        description
+    ) VALUES (
+        auth.uid(),
+        'adjustment',
+        -credits_to_consume,
+        'Credits consumed for search'
+    );
+    
+    RETURN TRUE; -- Successfully consumed credits
+END;
+$$;
+
 -- Grant execute permissions
 GRANT
 EXECUTE ON FUNCTION public.calculate_user_credit_usage () TO authenticated;
