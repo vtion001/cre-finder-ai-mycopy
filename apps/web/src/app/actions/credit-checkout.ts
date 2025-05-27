@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 export async function createCreditCheckoutSession(creditAmount: number) {
   const { errorRedirect, sessionId } = await checkoutWithStripeForCredits(
     creditAmount,
-    "/dashboard/credits"
+    "/dashboard/credits",
   );
 
   if (errorRedirect) {
