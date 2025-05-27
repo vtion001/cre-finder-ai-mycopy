@@ -20,7 +20,7 @@ interface TopUpDialogProps {
   amount?: number;
 }
 
-const PRESET_AMOUNTS = [50, 100, 150, 200];
+const PRESET_AMOUNTS = [100, 500, 1000, 2000];
 
 export function TopUpDialog({ open, onOpenChange, amount }: TopUpDialogProps) {
   const [customAmount, setCustomAmount] = useState(
@@ -141,8 +141,8 @@ export function TopUpDialog({ open, onOpenChange, amount }: TopUpDialogProps) {
           </Button>
           <Button
             onClick={handlePay}
-            disabled={isLoading}
-            className="flex-1 h-12 text-base font-medium bg-muted text-muted-foreground hover:bg-muted/80"
+            disabled={isLoading || Number(customAmount) <= 0}
+            className="flex-1 h-12 text-base font-medium "
           >
             {isLoading ? "Processing..." : "Pay"}
           </Button>

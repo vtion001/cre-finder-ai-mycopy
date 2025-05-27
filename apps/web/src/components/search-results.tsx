@@ -1,51 +1,16 @@
 "use client";
 
-import { updateSearchLogStatusAction } from "@/actions/search-history-actions";
 import { useState } from "react";
 
 import type { PropertySearchResult } from "@/lib/realestateapi";
 import type { Database } from "@v1/supabase/types";
-import { Badge } from "@v1/ui/badge";
-import { Button } from "@v1/ui/button";
+import { Card, CardContent, CardDescription, CardHeader } from "@v1/ui/card";
+import { Separator } from "@v1/ui/separator";
 import { Skeleton } from "@v1/ui/skeleton";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@v1/ui/table";
-import { format, isValid, parse } from "date-fns";
-import {
-  AlertTriangleIcon,
-  BuildingIcon,
-  DownloadIcon,
-  VerifiedIcon,
-} from "lucide-react";
-import { revalidateTag } from "next/cache";
-import { toast } from "sonner";
-import * as XLSX from "xlsx";
+import { BuildingIcon, CreditCardIcon, TrendingUpIcon } from "lucide-react";
+import { CreditWarning } from "./credit-warning";
+import { ExportButton } from "./export-button";
 import { TopUpDialog } from "./top-up-dialog";
-
-// Helper function to format dates from yyyy-MM-dd to a more readable format
-const formatDate = (dateString: string): string => {
-  if (!dateString) return "N/A";
-
-  try {
-    // Parse the date string in yyyy-MM-dd format
-    const parsedDate = parse(dateString, "yyyy-MM-dd", new Date());
-
-    // Check if the date is valid
-    if (!isValid(parsedDate)) return dateString;
-
-    // Format the date in a more readable format (e.g., "Jan 15, 2023")
-    return format(parsedDate, "MMM d, yyyy");
-  } catch (error) {
-    // If there's an error parsing the date, return the original string
-    return dateString;
-  }
-};
 
 interface SearchResultsProps {
   isLoading?: boolean;
@@ -62,182 +27,10 @@ export function SearchResults({
   creditData,
   resultCount,
 }: SearchResultsProps) {
-  const [isExporting, setIsExporting] = useState(false);
   const [isTopUpOpen, setIsTopUpOpen] = useState(false);
 
   // Check if user has enough credits for export
   const hasInsufficientCredits = creditData.remaining_credits < resultCount;
-
-  // Credit warning component
-  const CreditWarning = () => (
-    <div className="bg-yellow-50 dark:bg-yellow-950 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4 mb-4">
-      <div className="flex items-start gap-3">
-        <AlertTriangleIcon className="h-5 w-5 text-yellow-600 dark:text-yellow-400 mt-0.5 flex-shrink-0" />
-        <div className="flex-1">
-          <h3 className="font-medium text-yellow-800 dark:text-yellow-200">
-            Insufficient Credits
-          </h3>
-          <p className="text-sm text-yellow-700 dark:text-yellow-300 mt-1">
-            You need at least {resultCount.toLocaleString()} credit
-            {resultCount > 1 ? "s" : ""} to export search results. This search
-            found{" "}
-            <span className="font-medium">{resultCount.toLocaleString()}</span>{" "}
-            properties. You currently have{" "}
-            <span className="font-medium">{creditData.remaining_credits}</span>{" "}
-            credits remaining.
-          </p>
-          <div className="flex gap-2 mt-3">
-            <Button
-              size="sm"
-              onClick={() => setIsTopUpOpen(true)}
-              className="bg-yellow-600 hover:bg-yellow-700 text-white"
-            >
-              Add Credits
-            </Button>
-            <Button
-              size="sm"
-              variant="outline"
-              onClick={() => window.location.reload()}
-              className="border-yellow-300 text-yellow-700 hover:bg-yellow-50 dark:border-yellow-700 dark:text-yellow-300 dark:hover:bg-yellow-950"
-            >
-              Refine Search
-            </Button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-
-  // Handle export to Excel
-  const handleExport = async () => {
-    // Check credits before proceeding
-    if (hasInsufficientCredits) {
-      toast.error("Insufficient credits to export results");
-      return;
-    }
-    setIsExporting(true);
-
-    try {
-      // Format data for Excel with all requested fields
-      const exportData = results.map((result) => ({
-        // Basic Property Info
-        "Property ID": result.propertyId,
-        Address: result.address.address,
-        City: result.address.city || "",
-        State: result.address.state,
-        Zip: result.address.zip,
-        County: result.address.county || "",
-
-        // Owner Information
-        "Owner 1 First Name": result.owner1FirstName || "",
-        "Owner 1 Last Name": result.owner1LastName || "",
-        "Owner 2 First Name": result.owner2FirstName || "",
-        "Owner 2 Last Name": result.owner2LastName || "",
-        "Owner 1 Type": result.corporateOwned ? "Corporate" : "Individual",
-        "Owner 2 Type": result.owner2FirstName ? "Individual" : "",
-        "Owner Occupied": result.ownerOccupied ? "Yes" : "No",
-
-        // Mailing Address
-        "Mailing Address": result.mailAddress?.address || "",
-        "Mailing City": result.mailAddress?.city || "",
-        "Mailing State": result.mailAddress?.state || "",
-        "Mailing Zip": result.mailAddress?.zip || "",
-
-        // Property Details
-        "Property Use": result.propertyUse || "",
-        "Property Use Code": result.propertyUseCode || "",
-        "Property Type": result.propertyType || "",
-        "Land Use": result.landUse || "",
-        "Lot Sq. Feet": result.lotSquareFeet || 0,
-        "Building Sq. Feet": result.squareFeet || 0,
-        "Year Built": result.yearBuilt || 0,
-        Bedrooms: result.bedrooms || 0,
-        Bathrooms: result.bathrooms || 0,
-        Stories: result.stories || 0,
-
-        // Financial Information
-        "Last Sale Date": result.last_sale_date
-          ? formatDate(result.last_sale_date)
-          : "",
-        "Last Sale Amount": result.lastSaleAmount || "",
-        "Assessed Value": result.assessedValue || 0,
-        "Estimated Value": result.estimatedValue || 0,
-        "Lender Name": result.lenderName || "",
-        "Loan Amount": result.lastMortgage1Amount || "",
-        "Loan Type": result.loanTypeCode || "",
-        "Interest Rate": result.adjustableRate ? "Adjustable" : "Fixed",
-        "Loan Recording Date": result.recordingDate
-          ? formatDate(result.recordingDate)
-          : "",
-        "Maturity Date": result.maturityDateFirst
-          ? formatDate(result.maturityDateFirst)
-          : "",
-        "Mortgage Balance": result.openMortgageBalance || 0,
-        "High Equity": result.highEquity ? "Yes" : "No",
-        "Equity %": result.equityPercent || 0,
-
-        // Skip Trace Information (placeholder fields as they don't exist in the API)
-        "Skip Trace Name":
-          `${result.owner1FirstName || ""} ${result.owner1LastName || ""}`.trim() ||
-          "N/A",
-        "Skip Trace Phone": "N/A", // Not available in the API
-        "Skip Trace Email": "N/A", // Not available in the API
-        "Skip Trace Most Recent Address": result.mailAddress?.address || "N/A",
-
-        // Additional Information
-        Latitude: result.latitude || "",
-        Longitude: result.longitude || "",
-      }));
-
-      // Create worksheet
-      const worksheet = XLSX.utils.json_to_sheet(exportData);
-
-      // Create workbook
-      const workbook = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(workbook, worksheet, "Properties");
-
-      // Generate Excel file with timestamp
-      const timestamp = new Date()
-        .toISOString()
-        .replace(/[:.]/g, "-")
-        .substring(0, 19);
-      XLSX.writeFile(workbook, `CREfinder_PropertySearch_${timestamp}.xlsx`);
-
-      // Update search log status if searchLogId is provided
-      if (searchLogId) {
-        try {
-          await updateSearchLogStatusAction({
-            searchLogId,
-            status: "completed",
-          });
-
-          // Note: The updateSearchLogStatusAction already revalidates the credit_usage tag,
-          // but we're adding this as a fallback in case the server action fails to revalidate
-          try {
-            // We need to get the user ID to revalidate the credit usage tag
-            const response = await fetch("/api/user-id");
-            const { userId } = await response.json();
-            if (userId) {
-              revalidateTag(`credit_usage_${userId}`);
-            }
-          } catch (e) {
-            // Silently fail if we can't get the user ID
-            console.error("Failed to revalidate credit usage tag:", e);
-          }
-        } catch (error) {
-          console.error("Failed to update search log status:", error);
-          // Don't show error to user as the export was successful
-        }
-      }
-
-      toast.success("Results exported successfully");
-    } catch (error) {
-      console.error("Export error:", error);
-      toast.error("Failed to export results");
-    } finally {
-      setIsExporting(false);
-    }
-  };
 
   if (isLoading) {
     return (
@@ -259,200 +52,97 @@ export function SearchResults({
     );
   }
 
-  // If no results found
-  if (results.length === 0) {
-    return (
-      <div>
-        {hasInsufficientCredits && (
-          <div className="p-4 border-b">
-            <CreditWarning />
-          </div>
-        )}
-        <div className="flex justify-end items-center p-4 border-b">
-          <Button
-            onClick={handleExport}
-            disabled={isExporting || hasInsufficientCredits}
-            className="gap-2 bg-primary hover:bg-primary/90 text-primary-foreground disabled:opacity-50"
-          >
-            <DownloadIcon className="h-4 w-4" />
-            {isExporting ? "Exporting..." : "Export All Fields to Excel"}
-          </Button>
-        </div>
-        <div className="p-6 text-center text-muted-foreground">
-          <BuildingIcon className="mx-auto mb-2 h-12 w-12 opacity-20" />
-          <p>No properties found.</p>
-          <p className="text-sm mt-2">
-            Try adjusting your filters or search for a different city
-          </p>
-        </div>
-        <TopUpDialog
-          open={isTopUpOpen}
-          onOpenChange={setIsTopUpOpen}
-          amount={resultCount - creditData.remaining_credits}
-        />
-      </div>
-    );
-  }
-
   return (
-    <div>
-      {hasInsufficientCredits && (
-        <div className="p-4 border-b">
-          <CreditWarning />
-        </div>
-      )}
-      <div className="flex justify-end items-center p-4 border-b">
-        <Button
-          onClick={handleExport}
-          disabled={
-            isExporting || results.length === 0 || hasInsufficientCredits
-          }
-          className="gap-2 bg-primary hover:bg-primary/90 text-primary-foreground disabled:opacity-50"
-        >
-          <DownloadIcon className="h-4 w-4" />
-          {isExporting ? "Exporting..." : "Export All Fields to Excel"}
-        </Button>
+    <div className="bg-card rounded-md p-4 space-y-6 shadow-sm border">
+      {/* Metric Boxes */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6">
+        <Card>
+          <CardHeader className="pb-3">
+            <CardDescription className="text-sm text-muted-foreground">
+              Potential properties
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center gap-3">
+              <div className="p-2 rounded-lg bg-primary/10">
+                <BuildingIcon className="h-5 w-5 text-primary" />
+              </div>
+              <div>
+                <div className="text-2xl font-bold">
+                  {resultCount.toLocaleString()}
+                </div>
+                <div className="text-sm text-muted-foreground">
+                  Properties found
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="pb-3">
+            <CardDescription className="text-sm text-muted-foreground">
+              Cost
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center gap-3">
+              <div className="p-2 rounded-lg bg-accent/60">
+                <CreditCardIcon className="h-5 w-5 text-accent-foreground" />
+              </div>
+              <div>
+                <div className="text-2xl font-bold">{resultCount} credits</div>
+                <div className="text-sm text-muted-foreground">Export cost</div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="pb-3">
+            <CardDescription className="text-sm text-muted-foreground">
+              Balance Overage
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center gap-3">
+              <div
+                className={`p-2 rounded-lg ${hasInsufficientCredits ? "bg-destructive/10" : "bg-primary/10"}`}
+              >
+                <TrendingUpIcon
+                  className={`h-5 w-5 ${hasInsufficientCredits ? "text-destructive" : "text-primary"}`}
+                />
+              </div>
+              <div>
+                <div className="text-2xl font-bold">
+                  {hasInsufficientCredits
+                    ? `${resultCount - creditData.remaining_credits} credits`
+                    : "0 credits"}
+                </div>
+                <div className="text-sm text-muted-foreground">
+                  {hasInsufficientCredits
+                    ? "Credits needed"
+                    : "Sufficient balance"}
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
       </div>
 
-      <Table>
-        <TableHeader>
-          <TableRow className="bg-muted/50 hover:bg-muted/50">
-            <TableHead className="w-[300px]">Address</TableHead>
-            <TableHead className="whitespace-nowrap w-[120px]">Owner</TableHead>
-            <TableHead>Property Use</TableHead>
-            <TableHead className="text-right whitespace-nowrap w-[120px]">
-              Building Size
-            </TableHead>
-            <TableHead className="text-right whitespace-nowrap w-[100px]">
-              Lot Size
-            </TableHead>
-            <TableHead className="whitespace-nowrap w-[100px]">
-              Last Sale
-            </TableHead>
-            <TableHead>Financial</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {results.map((result) => (
-            <TableRow key={result.id}>
-              {/* Address */}
-              <TableCell>
-                <div>
-                  <div className="font-medium flex items-center gap-1">
-                    {result.address.street || result.address.address}
-                    <VerifiedIcon className="h-4 w-4 text-primary" />
-                  </div>
-                  <div className="text-sm text-muted-foreground">
-                    {result.address.city || result.mailAddress?.city || ""},{" "}
-                    {result.address.state} {result.address.zip}
-                  </div>
-                  <div className="text-xs text-muted-foreground mt-1">
-                    ID: {result.propertyId}
-                  </div>
-                </div>
-              </TableCell>
+      <Separator />
+      <div className="p-4">
+        {hasInsufficientCredits ? (
+          <CreditWarning resultCount={resultCount} creditData={creditData} />
+        ) : (
+          <ExportButton
+            results={results}
+            searchLogId={searchLogId}
+            resultCount={resultCount}
+          />
+        )}
+      </div>
 
-              {/* Owner */}
-              <TableCell className="whitespace-nowrap">
-                <div>
-                  {result.owner1FirstName && result.owner1LastName ? (
-                    <div className="font-medium">
-                      {result.owner1FirstName} {result.owner1LastName}
-                    </div>
-                  ) : (
-                    <div className="text-muted-foreground">Unknown</div>
-                  )}
-                  {result.owner2FirstName && result.owner2LastName && (
-                    <div className="text-sm text-muted-foreground">
-                      {result.owner2FirstName} {result.owner2LastName}
-                    </div>
-                  )}
-                  <div className="flex gap-1 mt-1">
-                    {result.ownerOccupied && (
-                      <Badge variant="outline" className="text-xs py-0 h-5">
-                        Occupied
-                      </Badge>
-                    )}
-                    {result.corporateOwned && (
-                      <Badge variant="outline" className="text-xs py-0 h-5">
-                        Corp
-                      </Badge>
-                    )}
-                  </div>
-                </div>
-              </TableCell>
-
-              {/* Property Use */}
-              <TableCell>
-                <div className="text-sm">
-                  {result.propertyUse || result.landUse || "N/A"}
-                  {result.propertyUseCode && (
-                    <div className="text-xs text-muted-foreground">
-                      Code: {result.propertyUseCode}
-                    </div>
-                  )}
-                </div>
-              </TableCell>
-
-              {/* Building Size */}
-              <TableCell className="text-right whitespace-nowrap">
-                {result.squareFeet ? (
-                  <div className="font-medium">
-                    {result.squareFeet.toLocaleString()} sq ft
-                  </div>
-                ) : (
-                  <div className="text-muted-foreground">N/A</div>
-                )}
-              </TableCell>
-
-              {/* Lot Size */}
-              <TableCell className="text-right whitespace-nowrap">
-                {result.lotSquareFeet ? (
-                  <div className="font-medium">
-                    {result.lotSquareFeet.toLocaleString()} sq ft
-                  </div>
-                ) : (
-                  <div className="text-muted-foreground">N/A</div>
-                )}
-              </TableCell>
-
-              {/* Last Sale */}
-              <TableCell className="whitespace-nowrap">
-                <div>
-                  {result.last_sale_date ? (
-                    <div className="font-medium">
-                      {formatDate(result.last_sale_date)}
-                    </div>
-                  ) : (
-                    <div className="text-muted-foreground">N/A</div>
-                  )}
-                  {result.lastSaleAmount && (
-                    <div className="text-sm text-muted-foreground">
-                      ${result.lastSaleAmount}
-                    </div>
-                  )}
-                </div>
-              </TableCell>
-
-              {/* Financial */}
-              <TableCell>
-                <div className="flex flex-col gap-1">
-                  {result.highEquity && (
-                    <Badge className="bg-primary/20 text-primary hover:bg-primary/20 border-primary/30">
-                      High Equity
-                    </Badge>
-                  )}
-                  {result.lenderName && (
-                    <div className="text-xs text-muted-foreground">
-                      Lender: {result.lenderName}
-                    </div>
-                  )}
-                </div>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
       <TopUpDialog open={isTopUpOpen} onOpenChange={setIsTopUpOpen} />
     </div>
   );

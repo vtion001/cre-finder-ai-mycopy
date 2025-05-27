@@ -1,7 +1,6 @@
 "use client";
 
 import { searchFiltersSchema } from "@/actions/schema";
-import { parsers } from "@/lib/search/property-filters";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { IconFilterX, IconSearch } from "@tabler/icons-react";
 import type { Tables } from "@v1/supabase/types";
@@ -17,16 +16,14 @@ import {
   FormItem,
   FormMessage,
 } from "@v1/ui/form";
-import { Input } from "@v1/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@v1/ui/popover";
-import { useDebounce } from "@v1/ui/use-debounce";
 import { format } from "date-fns";
 import { BuildingIcon, CalendarIcon, MapPinIcon } from "lucide-react";
-import { useQueryStates } from "nuqs";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
 import { AssetTypeSelector } from "../asset-type-selector";
 import { SavedLocationsSelector } from "../saved-locations-selector";
+import { RangeSliderField } from "./range-slider-field";
 
 type FilterFormValues = z.infer<typeof searchFiltersSchema>;
 interface SearchFiltersFormProps {
@@ -144,85 +141,29 @@ export function SearchFiltersForm({
 
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               {/* Building Size */}
-              <div className="space-y-4">
-                <h3 className="text-sm font-medium">Building Size (sq ft)</h3>
-                <div className="grid grid-cols-2 gap-4">
-                  <FormField
-                    control={form.control}
-                    name="building_size_min"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <Input
-                            type="number"
-                            placeholder="Min sq ft"
-                            {...field}
-                            value={field.value || ""}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="building_size_max"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <Input
-                            type="number"
-                            placeholder="Max sq ft"
-                            {...field}
-                            value={field.value || ""}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              </div>
+              <RangeSliderField
+                control={form.control}
+                minName="building_size_min"
+                maxName="building_size_max"
+                label="Building Size (sq ft)"
+                min={0}
+                max={50000}
+                step={100}
+                minPlaceholder="Min sq ft"
+                maxPlaceholder="Max sq ft"
+              />
 
-              <div className="space-y-4">
-                <h3 className="text-sm font-medium">Lot Size (sq ft)</h3>
-                <div className="grid grid-cols-2 gap-4">
-                  <FormField
-                    control={form.control}
-                    name="lot_size_min"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <Input
-                            type="number"
-                            placeholder="Min sq ft"
-                            {...field}
-                            value={field.value || ""}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="lot_size_max"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <Input
-                            type="number"
-                            placeholder="Max sq ft"
-                            {...field}
-                            value={field.value || ""}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              </div>
+              <RangeSliderField
+                control={form.control}
+                minName="lot_size_min"
+                maxName="lot_size_max"
+                label="Lot Size (sq ft)"
+                min={0}
+                max={100000}
+                step={500}
+                minPlaceholder="Min sq ft"
+                maxPlaceholder="Max sq ft"
+              />
 
               <div className="space-y-4">
                 <h3 className="text-sm font-medium">Last Sale Date</h3>
@@ -268,49 +209,22 @@ export function SearchFiltersForm({
                 />
               </div>
 
-              <div className="space-y-4">
-                <h3 className="text-sm font-medium">Year Built</h3>
-                <div className="grid grid-cols-2 gap-4">
-                  <FormField
-                    control={form.control}
-                    name="year_min"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <Input
-                            type="number"
-                            placeholder="Min year"
-                            {...field}
-                            value={field.value || ""}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="year_max"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <Input
-                            type="number"
-                            placeholder="Max year"
-                            {...field}
-                            value={field.value || ""}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              </div>
+              <RangeSliderField
+                control={form.control}
+                minName="year_min"
+                maxName="year_max"
+                label="Year Built"
+                min={1900}
+                max={new Date().getFullYear()}
+                step={1}
+                minPlaceholder="Min year"
+                maxPlaceholder="Max year"
+              />
             </div>
 
             <div className="mt-4 flex justify-end">
               <Button
+                size="lg"
                 type="reset"
                 variant="outline"
                 className="mr-2"
@@ -321,6 +235,7 @@ export function SearchFiltersForm({
                 Clear
               </Button>
               <Button
+                size="lg"
                 type="submit"
                 variant="default"
                 className="flex items-center gap-2"

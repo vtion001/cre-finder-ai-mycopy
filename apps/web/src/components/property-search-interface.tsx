@@ -66,7 +66,7 @@ export function PropertySearchInterface({
   }, [searchResponse]);
 
   return (
-    <div className="flex flex-col space-y-6 p-6 bg-muted/50">
+    <div className="flex flex-col space-y-6 p-6">
       <Collapsible
         open={isFiltersOpen}
         onOpenChange={setIsFiltersOpen}
@@ -148,7 +148,6 @@ export function PropertySearchInterface({
         )}
       </div>
 
-      {/* Preview Results */}
       {status === "hasSucceeded" && (
         <div className="space-y-2">
           <div className="flex items-center justify-between">
@@ -203,20 +202,13 @@ export function PropertySearchInterface({
             </div>
           </div>
 
-          <p className="text-sm text-muted-foreground">
-            Review the first {formatNumber(searchResponse?.recordCount)}{" "}
-            properties based on your criteria.
-          </p>
-
-          <div className="bg-card rounded-md shadow-sm border">
-            <SearchResults
-              results={searchResponse?.data ?? []}
-              isLoading={isLoading}
-              searchLogId={lastSearchLogId || undefined}
-              creditData={creditData}
-              resultCount={searchResponse?.resultCount || 0}
-            />
-          </div>
+          <SearchResults
+            results={searchResponse?.data ?? []}
+            isLoading={isLoading}
+            searchLogId={lastSearchLogId || undefined}
+            creditData={creditData}
+            resultCount={searchResponse?.resultCount || 0}
+          />
 
           {/* Save as Favorite Dialog */}
           {lastSearchLogId && (

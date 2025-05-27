@@ -20,7 +20,7 @@ export function CreditIndicator({
     <>
       <div className="flex items-center gap-2">
         {/* Credit display */}
-        <div className="flex items-center gap-2 rounded-lg border bg-background px-3 py-1.5 text-sm">
+        <div className="flex items-center gap-2 border bg-background text-sm h-10 rounded-md px-4 py-2">
           <WalletIcon className="h-4 w-4 text-muted-foreground" />
           <span className="font-medium">
             {credits.remaining_credits.toLocaleString()}
@@ -30,7 +30,7 @@ export function CreditIndicator({
         {/* Add funds button */}
         <Button
           variant={isLowCredits ? "default" : "outline"}
-          size="sm"
+          size="lg"
           onClick={() => setIsTopUpOpen(true)}
           className={cn("flex items-center gap-1.5")}
         >
