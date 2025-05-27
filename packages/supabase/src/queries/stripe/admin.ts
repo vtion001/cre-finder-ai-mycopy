@@ -292,6 +292,77 @@ export const manageSubscriptionStatusChange = async (
   return { userId: uuid };
 };
 
+export const manageSubscriptionCredits = async (
+  subscriptionId: string,
+  customerId: string,
+  description: string,
+) => {
+  // Get customer's UUID from mapping table.
+  const { data: customerData, error: noCustomerError } = await supabaseAdmin
+    .from("customers")
+    .select("id")
+    .eq("stripe_customer_id", customerId)
+    .single();
+
+  if (noCustomerError)
+    throw new Error(`Customer lookup failed: ${noCustomerError.message}`);
+
+  const { id: userId } = customerData!;
+
+  const subscription = await stripe.subscriptions.retrieve(subscriptionId, {
+    expand: ["default_payment_method"],
+  });
+
+  if (subscription.status === "active" || subscription.status === "trialing") {
+    const priceId = subscription.items.data[0]?.price.id;
+    if (!priceId) {
+      console.warn("No price ID found in subscription");
+      return { userId };
+    }
+
+    // Get the product metadata to find max_searches
+    const { data: priceData } = await supabaseAdmin
+      .from("prices")
+      .select("product_id")
+      .eq("id", priceId)
+      .single();
+
+    if (priceData?.product_id) {
+      const { data: productData } = await supabaseAdmin
+        .from("products")
+        .select("metadata")
+        .eq("id", priceData.product_id)
+        .single();
+
+      const metadata = productData?.metadata as Record<
+        string,
+        string | number
+      > | null;
+
+      const maxSearches = metadata
+        ? Number.parseInt(String(metadata.max_searches))
+        : 0;
+      if (maxSearches > 0) {
+        const { data, error } = await supabaseAdmin
+          .from("credit_transactions")
+          .insert({
+            user_id: userId,
+            credit_amount: maxSearches,
+            transaction_type: "subscription",
+            reference_id: subscription.id,
+            description,
+          });
+
+        console.log(
+          `Added ${maxSearches} subscription credits for user [${userId}]`,
+        );
+      }
+    }
+  }
+
+  return { userId };
+};
+
 export async function insertUserCredits(
   userId: string,
   amount: number,
@@ -303,6 +374,7 @@ export async function insertUserCredits(
       user_id: userId,
       credit_amount: amount,
       transaction_type: "purchase",
+      description: `Purchase of ${amount} extra credits`,
       reference_id: paymentIntentId,
     });
 

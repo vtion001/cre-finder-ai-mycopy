@@ -462,11 +462,10 @@ export type Database = {
       calculate_user_credit_usage: {
         Args: Record<PropertyKey, never>
         Returns: {
-          consumed_credits: number
-          subscription_credits: number
-          extra_credits_available: number
-          extra_credits_expiring_soon: number
-          total_available_credits: number
+          total_consumed: number
+          total_available: number
+          total_extra: number
+          total_expiring_soon: number
           remaining_credits: number
         }[]
       }
@@ -476,7 +475,12 @@ export type Database = {
       }
     }
     Enums: {
-      credit_movement_type: "purchase" | "bonus" | "refund" | "adjustment"
+      credit_movement_type:
+        | "subscription"
+        | "purchase"
+        | "bonus"
+        | "refund"
+        | "adjustment"
       location_type: "city" | "county"
       pricing_plan_interval: "day" | "week" | "month" | "year"
       pricing_type: "one_time" | "recurring"
@@ -605,7 +609,13 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      credit_movement_type: ["purchase", "bonus", "refund", "adjustment"],
+      credit_movement_type: [
+        "subscription",
+        "purchase",
+        "bonus",
+        "refund",
+        "adjustment",
+      ],
       location_type: ["city", "county"],
       pricing_plan_interval: ["day", "week", "month", "year"],
       pricing_type: ["one_time", "recurring"],

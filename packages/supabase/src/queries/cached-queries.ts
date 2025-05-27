@@ -215,7 +215,7 @@ export const getCreditTransactions = async () => {
     },
     ["credit_transactions", userId],
     {
-      tags: [`credit_transactions_${userId}`],
+      tags: [`credit_usage_${userId}`],
       revalidate: 60, // Cache for 1 minute
     },
     // @ts-expect-error

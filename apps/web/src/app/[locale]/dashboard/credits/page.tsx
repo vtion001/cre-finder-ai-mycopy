@@ -67,9 +67,7 @@ export default async function CreditsPage() {
                   <IconCreditCard className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">
-                    {data.extra_credits_available}
-                  </div>
+                  <div className="text-2xl font-bold">{data.total_extra}</div>
                   <p className="text-xs text-muted-foreground">
                     Lifetime credit purchases
                   </p>
@@ -86,7 +84,7 @@ export default async function CreditsPage() {
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">
-                    {data.consumed_credits}
+                    {data.total_consumed}
                   </div>
                   <p className="text-xs text-muted-foreground">
                     Credits used in current billing cycle

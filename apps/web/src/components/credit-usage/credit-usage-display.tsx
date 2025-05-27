@@ -16,11 +16,9 @@ export function CreditUsageDisplay({
   data: Database["public"]["Functions"]["calculate_user_credit_usage"]["Returns"][0];
 }) {
   const usagePercentage =
-    data.total_available_credits > 0
+    data.total_available > 0
       ? Math.min(
-          Math.round(
-            (data.consumed_credits / data.total_available_credits) * 100,
-          ),
+          Math.round((data.total_consumed / data.total_available) * 100),
           100,
         )
       : 0;
@@ -37,8 +35,7 @@ export function CreditUsageDisplay({
         <div className="space-y-4">
           <div className="flex justify-between items-center">
             <span className="text-sm text-muted-foreground">
-              {data.consumed_credits} of {data.total_available_credits} credits
-              used
+              {data.total_consumed} of {data.total_available} credits used
             </span>
             <span className="text-sm font-medium">{usagePercentage}%</span>
           </div>

@@ -1,11 +1,12 @@
 -- Create credit movements table to track all credit transactions
-CREATE TYPE public.credit_movement_type AS ENUM ('purchase', 'bonus', 'refund', 'adjustment');
+CREATE TYPE public.credit_movement_type AS ENUM ('subscription', 'purchase', 'bonus', 'refund', 'adjustment');
 
 CREATE TABLE IF NOT EXISTS public.credit_transactions (
     id UUID DEFAULT gen_random_uuid () PRIMARY KEY,
     user_id UUID NOT NULL REFERENCES auth.users (id) ON DELETE CASCADE,
     transaction_type TEXT NOT NULL CHECK (
         transaction_type IN (
+            'subscription',
             'purchase',
             'bonus',
             'refund',
@@ -42,14 +43,11 @@ BEFORE UPDATE ON public.credit_transactions
 FOR EACH ROW
 EXECUTE FUNCTION update_updated_at();
 
--- Updated function with extra credits support
 CREATE OR REPLACE FUNCTION public.calculate_user_credit_usage()
 RETURNS TABLE (
     consumed_credits INTEGER,
-    subscription_credits INTEGER,
-    extra_credits_available INTEGER,
-    extra_credits_expiring_soon INTEGER,
-    total_available_credits INTEGER,
+    available_credits INTEGER,
+    expiring_credits INTEGER,
     remaining_credits INTEGER
 ) 
 LANGUAGE plpgsql
@@ -59,46 +57,17 @@ AS $$
 DECLARE
     current_period_start TIMESTAMP WITH TIME ZONE;
     current_period_end TIMESTAMP WITH TIME ZONE;
-    subscription_max_credits INTEGER := 0;
-    extra_credits INTEGER := 0;
-    expiring_credits INTEGER := 0;
-    subscription_active BOOLEAN := FALSE;
+    total_available INTEGER := 0;
+    total_expiring INTEGER := 0;
+    total_consumed INTEGER := 0;
 BEGIN
+    -- Set current period (monthly)
+    current_period_start := date_trunc('month', now());
+    current_period_end := (date_trunc('month', now()) + interval '1 month');
     
-    -- Get the user's active subscription details and credit limit
+    -- Calculate available credits from all positive transactions (non-expired)
     SELECT 
-        s.current_period_start,
-        s.current_period_end,
-        COALESCE((prod.metadata->>'max_searches')::INTEGER, 0)
-    INTO 
-        current_period_start, 
-        current_period_end, 
-        subscription_max_credits
-    FROM 
-        subscriptions s
-        JOIN prices p ON s.price_id = p.id
-        JOIN products prod ON p.product_id = prod.id
-    WHERE 
-        s.user_id = auth.uid()
-        AND s.status IN ('active', 'trialing')
-    ORDER BY s.created DESC
-    LIMIT 1;
-    
-    -- Check if we found an active subscription
-    IF current_period_start IS NOT NULL THEN
-        subscription_active := TRUE;
-    END IF;
-    
-    -- If no active subscription, set up free tier or basic limits
-    IF NOT subscription_active THEN
-        subscription_max_credits := 0; -- Or set to free tier limit like 10
-        current_period_start := date_trunc('month', now());
-        current_period_end := (date_trunc('month', now()) + interval '1 month');
-    END IF;
-    
-    -- Calculate available extra credits (non-expired)
-    SELECT 
-        COALESCE(SUM(credit_amount), 0) INTO extra_credits
+        COALESCE(SUM(credit_amount), 0) INTO total_available
     FROM 
         credit_transactions
     WHERE 
@@ -108,7 +77,7 @@ BEGIN
     
     -- Calculate credits expiring in the next 7 days
     SELECT 
-        COALESCE(SUM(credit_amount), 0) INTO expiring_credits
+        COALESCE(SUM(credit_amount), 0) INTO total_expiring
     FROM 
         credit_transactions
     WHERE 
@@ -118,23 +87,22 @@ BEGIN
         AND expires_at <= (now() + interval '7 days')
         AND credit_amount > 0;
     
-    -- Count consumed credits in the current billing period
+    -- Calculate consumed credits from negative transactions in current period
     SELECT 
-        COALESCE(SUM(result_count)::INTEGER, 0) INTO consumed_credits
+        COALESCE(ABS(SUM(credit_amount)), 0) INTO total_consumed
     FROM 
-        search_logs
+        credit_transactions
     WHERE 
-        search_logs.user_id = auth.uid()
-        AND status = 'completed'
+        user_id = auth.uid()
+        AND credit_amount < 0 -- Only count negative transactions (consumption)
         AND created_at >= current_period_start
         AND created_at < current_period_end;
-
-    -- Calculate totals
-    subscription_credits := subscription_max_credits;
-    extra_credits_available := extra_credits;
-    extra_credits_expiring_soon := expiring_credits;
-    total_available_credits := subscription_max_credits + extra_credits;
-    remaining_credits := total_available_credits - consumed_credits;
+    
+    -- Set return values
+    consumed_credits := total_consumed;
+    available_credits := total_available;
+    expiring_credits := total_expiring;
+    remaining_credits := total_available - total_consumed;
     
     -- Return the results
     RETURN NEXT;
@@ -142,60 +110,86 @@ BEGIN
 END;
 $$;
 
--- Function to consume credits (call this when a search is completed)
-CREATE OR REPLACE FUNCTION public.consume_user_credits(
-    credits_to_consume INTEGER DEFAULT 1
-)
-RETURNS BOOLEAN
+CREATE OR REPLACE FUNCTION public.calculate_user_credit_usage()
+RETURNS TABLE (
+    total_consumed INTEGER,
+    total_available INTEGER,
+    total_extra INTEGER,
+    total_expiring_soon INTEGER,
+    remaining_credits INTEGER
+) 
 LANGUAGE plpgsql
 SECURITY DEFINER
 SET search_path = public
 AS $$
 DECLARE
-    usage_data RECORD;
-    remaining_to_consume INTEGER;
-    credits_from_subscription INTEGER;
-    credits_from_extras INTEGER;
+    current_period_start TIMESTAMP WITH TIME ZONE;
+    current_period_end TIMESTAMP WITH TIME ZONE;
+    available_credits INTEGER := 0;
+    extra_credits INTEGER := 0;
+    expiring_soon_credits INTEGER := 0;
+    consumed_credits INTEGER := 0;
 BEGIN
-    -- Get current usage data
-    SELECT * INTO usage_data
-    FROM calculate_user_credit_usage();
+    -- Set current period (monthly)
+    current_period_start := date_trunc('month', now());
+    current_period_end := (date_trunc('month', now()) + interval '1 month');
     
-    -- Check if user has enough credits
-    IF (usage_data.total_available_credits - usage_data.consumed_credits) < credits_to_consume THEN
-        RETURN FALSE; -- Not enough credits
-    END IF;
+    -- Calculate available credits from all positive transactions (non-expired)
+    SELECT 
+        COALESCE(SUM(credit_amount), 0) INTO available_credits
+    FROM 
+        credit_transactions
+    WHERE 
+        user_id = auth.uid()
+        AND (expires_at IS NULL OR expires_at > now())
+        AND credit_amount > 0; -- Only count positive credit additions
     
-    remaining_to_consume := credits_to_consume;
+    -- Calculate available extra credits (purchased credits, non-expired)
+    SELECT 
+        COALESCE(SUM(credit_amount), 0) INTO extra_credits
+    FROM 
+        credit_transactions
+    WHERE 
+        user_id = auth.uid()
+        AND transaction_type = 'purchase'
+        AND (expires_at IS NULL OR expires_at > now())
+        AND credit_amount > 0;
     
-    -- First, consume from subscription credits if available
-    credits_from_subscription := LEAST(
-        remaining_to_consume,
-        GREATEST(0, usage_data.subscription_credits - usage_data.consumed_credits)
-    );
+    -- Calculate credits expiring in the next 7 days
+    SELECT 
+        COALESCE(SUM(credit_amount), 0) INTO expiring_soon_credits
+    FROM 
+        credit_transactions
+    WHERE 
+        user_id = auth.uid()
+        AND expires_at IS NOT NULL
+        AND expires_at > now()
+        AND expires_at <= (now() + interval '7 days')
+        AND credit_amount > 0;
     
-    remaining_to_consume := remaining_to_consume - credits_from_subscription;
+    -- Calculate consumed credits from negative transactions in current period
+    SELECT 
+        COALESCE(ABS(SUM(credit_amount)), 0) INTO consumed_credits
+    FROM 
+        credit_transactions
+    WHERE 
+        user_id = auth.uid()
+        AND credit_amount < 0 -- Only count negative transactions (consumption)
+        AND created_at >= current_period_start
+        AND created_at < current_period_end;
     
-    -- If we still need to consume more, deduct from extra credits
-    IF remaining_to_consume > 0 THEN
-        -- Create a negative transaction to represent consumption of extra credits
-        INSERT INTO credit_transactions (
-            user_id,
-            transaction_type,
-            credit_amount,
-            description
-        ) VALUES (
-            auth.uid(),
-            'adjustment',
-            -remaining_to_consume,
-            'Credits consumed for search'
-        );
-    END IF;
+    -- Set return values
+    total_consumed := consumed_credits;
+    total_available := available_credits;
+    total_extra := extra_credits;
+    total_expiring_soon := expiring_soon_credits;
+    remaining_credits := available_credits - consumed_credits;
     
-    RETURN TRUE; -- Successfully consumed credits
+    -- Return the results
+    RETURN NEXT;
+    RETURN;
 END;
 $$;
-
 -- Grant execute permissions
 GRANT
 EXECUTE ON FUNCTION public.calculate_user_credit_usage () TO authenticated;
@@ -204,6 +198,55 @@ GRANT
 EXECUTE ON FUNCTION public.consume_user_credits (INTEGER) TO authenticated;
 
 -- Update function comments
-COMMENT ON FUNCTION public.calculate_user_credit_usage IS 'Calculates a user''s credit usage including subscription and extra credits for the current billing period';
+COMMENT ON FUNCTION public.calculate_user_credit_usage IS 'Calculates a user''s credit usage based on credit transactions for the current billing period';
 
-COMMENT ON FUNCTION public.consume_user_credits IS 'Consumes credits when a search is completed';
+COMMENT ON FUNCTION public.consume_user_credits IS 'Consumes credits by creating a negative credit transaction';
+
+-- Create function to handle credit consumption when search is completed
+CREATE OR REPLACE FUNCTION public.consume_credits_on_search_completion()
+RETURNS TRIGGER
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public
+AS $$
+DECLARE
+    credits_to_consume INTEGER;
+    consumption_successful BOOLEAN;
+BEGIN
+    -- Only proceed if status changed to 'completed'
+    IF NEW.status = 'completed' AND (OLD.status IS NULL OR OLD.status != 'completed') THEN
+        
+
+        credits_to_consume := NEW.result_count;
+        
+        SELECT consume_user_credits(credits_to_consume) INTO consumption_successful;
+        
+        -- If credit consumption failed, prevent the status update
+        IF NOT consumption_successful THEN
+            RAISE EXCEPTION 'Insufficient credits to complete search. Required: %, Available: %', 
+                credits_to_consume,
+                (SELECT remaining_credits FROM calculate_user_credit_usage());
+        END IF;
+        
+        -- Log the credit consumption for audit purposes
+        RAISE NOTICE 'Consumed % credits for search % by user %', 
+            credits_to_consume, NEW.id, NEW.user_id;
+            
+    END IF;
+    
+    RETURN NEW;
+END;
+$$;
+
+-- Create the trigger
+CREATE TRIGGER search_completion_credit_consumption
+    AFTER UPDATE ON public.search_logs
+    FOR EACH ROW
+    EXECUTE FUNCTION public.consume_credits_on_search_completion();
+
+-- Grant necessary permissions
+GRANT
+EXECUTE ON FUNCTION public.consume_credits_on_search_completion () TO authenticated;
+
+-- Add comment for documentation
+COMMENT ON FUNCTION public.consume_credits_on_search_completion () IS 'Automatically consumes user credits when a search log status is changed to completed';

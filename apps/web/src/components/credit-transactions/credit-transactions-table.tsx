@@ -30,6 +30,7 @@ interface CreditTransactionsTableProps {
 
 const getTransactionIcon = (type: string) => {
   switch (type) {
+    case "subscription":
     case "purchase":
       return <CreditCardIcon className="h-4 w-4" />;
     case "bonus":
@@ -47,6 +48,16 @@ const getTransactionBadge = (type: string, amount: number) => {
   const isPositive = amount > 0;
 
   switch (type) {
+    case "subscription":
+      return (
+        <Badge
+          variant="secondary"
+          className="bg-blue-50 text-blue-700 hover:bg-blue-50 border-blue-200 dark:bg-blue-950 dark:text-blue-300 dark:border-blue-800 flex items-center gap-1"
+        >
+          <CreditCardIcon className="h-3 w-3" />
+          Subscription
+        </Badge>
+      );
     case "purchase":
       return (
         <Badge

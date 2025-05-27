@@ -8,6 +8,7 @@ import { IconDownload } from "@tabler/icons-react";
 import { Button } from "@v1/ui/button";
 import { format, isValid, parse } from "date-fns";
 import { DownloadIcon } from "lucide-react";
+import { useAction } from "next-safe-action/hooks";
 import { revalidateTag } from "next/cache";
 import { toast } from "sonner";
 import * as XLSX from "xlsx";
@@ -43,6 +44,8 @@ export function ExportButton({
   resultCount,
 }: ExportButtonProps) {
   const [isExporting, setIsExporting] = useState(false);
+
+  const { executeAsync } = useAction(updateSearchLogStatusAction);
 
   // Handle export to Excel
   const handleExport = async () => {
@@ -136,29 +139,10 @@ export function ExportButton({
 
       // Update search log status if searchLogId is provided
       if (searchLogId) {
-        try {
-          await updateSearchLogStatusAction({
-            searchLogId,
-            status: "completed",
-          });
-
-          // Note: The updateSearchLogStatusAction already revalidates the credit_usage tag,
-          // but we're adding this as a fallback in case the server action fails to revalidate
-          try {
-            // We need to get the user ID to revalidate the credit usage tag
-            const response = await fetch("/api/user-id");
-            const { userId } = await response.json();
-            if (userId) {
-              revalidateTag(`credit_usage_${userId}`);
-            }
-          } catch (e) {
-            // Silently fail if we can't get the user ID
-            console.error("Failed to revalidate credit usage tag:", e);
-          }
-        } catch (error) {
-          console.error("Failed to update search log status:", error);
-          // Don't show error to user as the export was successful
-        }
+        await executeAsync({
+          searchLogId,
+          status: "completed",
+        });
       }
 
       toast.success("Results exported successfully");
@@ -192,7 +176,7 @@ export function ExportButton({
       <Button
         size="lg"
         onClick={handleExport}
-        disabled={isExporting || results.length === 0}
+        disabled={isExporting}
         className="flex items-center gap-1.5"
       >
         <DownloadIcon className="h-3 w-3" />

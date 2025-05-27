@@ -1,9 +1,9 @@
 import { stripe } from "@v1/stripe/config";
-import { createClient } from "@v1/supabase/server";
 import {
   deletePriceRecord,
   deleteProductRecord,
   insertUserCredits,
+  manageSubscriptionCredits,
   manageSubscriptionStatusChange,
   upsertPriceRecord,
   upsertProductRecord,
@@ -22,6 +22,7 @@ const relevantEvents = new Set([
   "customer.subscription.created",
   "customer.subscription.updated",
   "customer.subscription.deleted",
+  "invoice.payment_succeeded",
 ]);
 
 export async function POST(req: Request) {
@@ -77,6 +78,7 @@ export async function POST(req: Request) {
         }
         case "checkout.session.completed": {
           const checkoutSession = event.data.object as Stripe.Checkout.Session;
+
           if (checkoutSession.mode === "subscription") {
             const subscriptionId = checkoutSession.subscription;
             const { userId } = await manageSubscriptionStatusChange(
@@ -90,6 +92,29 @@ export async function POST(req: Request) {
           } else if (checkoutSession.mode === "payment") {
             // Handle one-time payments (credit purchases)
             await handleCreditPurchase(checkoutSession);
+          }
+
+          break;
+        }
+
+        case "invoice.payment_succeeded": {
+          // Payment succeeded - this indicates a successful subscription renewal
+          const invoice = event.data.object as Stripe.Invoice;
+
+          if (invoice.subscription) {
+            const subscriptionId = invoice.subscription;
+
+            console.log(
+              `Processing subscription credits for subscription [${subscriptionId}]`,
+            );
+
+            const { userId } = await manageSubscriptionCredits(
+              subscriptionId as string,
+              invoice.customer as string,
+              "Subscription credits",
+            );
+
+            revalidateTag(`credit_usage_${userId}`);
           }
 
           break;
