@@ -10,7 +10,7 @@
       "recommended": true,
       "a11y": {
         "noSvgWithoutTitle": "off",
-        "useValidAnchor": "warn"
+        "useValidAnchor": "off"
       },
       "style": {
         "noNonNullAssertion": "off"
