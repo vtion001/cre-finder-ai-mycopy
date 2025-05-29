@@ -87,48 +87,6 @@ export type Database = {
         }
         Relationships: []
       }
-      favorite_searches: {
-        Row: {
-          created_at: string | null
-          id: string
-          name: string
-          search_log_id: string
-          updated_at: string | null
-          user_id: string
-        }
-        Insert: {
-          created_at?: string | null
-          id?: string
-          name: string
-          search_log_id: string
-          updated_at?: string | null
-          user_id: string
-        }
-        Update: {
-          created_at?: string | null
-          id?: string
-          name?: string
-          search_log_id?: string
-          updated_at?: string | null
-          user_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "favorite_searches_search_log_id_fkey"
-            columns: ["search_log_id"]
-            isOneToOne: false
-            referencedRelation: "search_logs"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "favorite_searches_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       prices: {
         Row: {
           active: boolean | null

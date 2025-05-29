@@ -1,21 +1,5 @@
 import type { Client } from "../types";
 
-export async function getFavoriteSearchesQuery(
-  supabase: Client,
-  userId: string,
-) {
-  const { data, error } = await supabase
-    .from("favorite_searches")
-    .select(`
-        *,
-        search_logs(*)
-    `)
-    .eq("user_id", userId)
-    .order("created_at", { ascending: false });
-
-  return { data, error };
-}
-
 export interface GetSearchHistoryParams {
   page: number;
   pageSize: number;

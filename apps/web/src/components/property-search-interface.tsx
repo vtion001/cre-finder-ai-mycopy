@@ -2,18 +2,17 @@
 
 import { getPropertySearchAction } from "@/actions/get-property-search-action";
 import type { searchFiltersSchema } from "@/actions/schema";
-import { SaveAsFavoriteDialog } from "@/components/save-as-favorite-dialog";
 import { formatNumber } from "@/lib/format";
 import type { Database, Tables } from "@v1/supabase/types";
 import { Badge } from "@v1/ui/badge";
 import { Button } from "@v1/ui/button";
 import { cn } from "@v1/ui/cn";
 import { Collapsible, CollapsibleTrigger } from "@v1/ui/collapsible";
-import { HistoryIcon, StarIcon } from "lucide-react";
+import { HistoryIcon } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { useRouter } from "next/navigation";
 import { useQueryState } from "nuqs";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import type { z } from "zod";
 import { SearchFiltersForm } from "./forms/search-filters-form";
 import { PreviewResults } from "./preview-results";
@@ -34,9 +33,6 @@ export function PropertySearchInterface({
   const router = useRouter();
 
   const [id, setId] = useQueryState("id");
-
-  const [isSaveFavoriteDialogOpen, setIsSaveFavoriteDialogOpen] =
-    useState(false);
 
   const [isFiltersOpen, setIsFiltersOpen] = useState(true);
 
@@ -175,16 +171,6 @@ export function PropertySearchInterface({
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => setIsSaveFavoriteDialogOpen(true)}
-                className="flex items-center gap-1"
-              >
-                <StarIcon className="h-4 w-4 text-yellow-500" />
-                Save Search
-              </Button>
-
-              <Button
-                variant="outline"
-                size="sm"
                 onClick={() => router.push("/dashboard/history")}
                 className="flex items-center gap-1"
               >
@@ -199,14 +185,6 @@ export function PropertySearchInterface({
               searchLogId={id}
               creditData={creditData}
               resultCount={searchResponse?.resultCount || 0}
-            />
-          )}
-
-          {id && (
-            <SaveAsFavoriteDialog
-              searchLog={{ id }}
-              open={isSaveFavoriteDialogOpen}
-              onOpenChange={setIsSaveFavoriteDialogOpen}
             />
           )}
         </div>

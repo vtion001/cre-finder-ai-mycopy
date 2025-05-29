@@ -27,7 +27,6 @@ import {
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { SaveAsFavoriteDialog } from "../save-as-favorite-dialog";
 
 type SearchLog = Tables<"search_logs"> & {
   search_parameters: GetPropertySearchParams;
@@ -52,11 +51,6 @@ export function SearchHistoryTable({
   pagination,
 }: SearchHistoryTableProps) {
   const router = useRouter();
-  const [selectedSearchLog, setSelectedSearchLog] =
-    useState<Tables<"search_logs"> | null>(null);
-
-  const [isSaveFavoriteDialogOpen, setIsSaveFavoriteDialogOpen] =
-    useState(false);
 
   if (isLoading) {
     return (
@@ -168,27 +162,29 @@ export function SearchHistoryTable({
                 </TableCell>
                 <TableCell className="text-right">
                   <div className="flex justify-end gap-2">
-                    <Button
-                      variant="outline"
-                      size="icon"
-                      onClick={() =>
-                        router.push(`/dashboard/search?id=${searchLog.id}`)
-                      }
-                      title="ReRun search"
-                    >
-                      <PlayIcon className="h-4 w-4" />
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="icon"
-                      onClick={() => {
-                        setSelectedSearchLog(searchLog);
-                        setIsSaveFavoriteDialogOpen(true);
-                      }}
-                      title="Save as favorite"
-                    >
-                      <StarIcon className="h-4 w-4" />
-                    </Button>
+                    {searchLog.status === "preview" ? (
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        onClick={() =>
+                          router.push(`/dashboard/search?id=${searchLog.id}`)
+                        }
+                        title="Re-run search"
+                      >
+                        <PlayIcon className="h-4 w-4" />
+                      </Button>
+                    ) : searchLog.status === "completed" ? (
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        onClick={() =>
+                          router.push(`/dashboard/records?id=${searchLog.id}`)
+                        }
+                        title="Manage records"
+                      >
+                        <DownloadIcon className="h-4 w-4" />
+                      </Button>
+                    ) : null}
                   </div>
                 </TableCell>
               </TableRow>
@@ -201,14 +197,6 @@ export function SearchHistoryTable({
         <div className="flex justify-center mt-4">
           <Pagination />
         </div>
-      )}
-
-      {selectedSearchLog && (
-        <SaveAsFavoriteDialog
-          searchLog={selectedSearchLog}
-          open={isSaveFavoriteDialogOpen}
-          onOpenChange={setIsSaveFavoriteDialogOpen}
-        />
       )}
     </div>
   );

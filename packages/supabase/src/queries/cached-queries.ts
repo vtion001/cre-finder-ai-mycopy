@@ -5,7 +5,6 @@ import { createClient } from "../clients/server";
 import { getCreditTransactionsQuery, getUserCreditUsageQuery } from "./credits";
 import {
   type GetSearchHistoryParams,
-  getFavoriteSearchesQuery,
   getSearchHistoryQuery,
   getSearchLogQuery,
 } from "./history";
@@ -14,6 +13,7 @@ import {
   getUserAssetTypesQuery,
   getUserLocationsQuery,
 } from "./onboarding";
+import { getPropertyRecordsBySearchLogQuery } from "./records";
 import { getSubscriptionQuery } from "./stripe";
 
 export const getSession = cache(async () => {
@@ -150,30 +150,6 @@ export const getSearchLog = async (searchLogId: string) => {
   )(searchLogId);
 };
 
-export const getFavoriteSearches = async () => {
-  const supabase = createClient();
-
-  const user = await getUser();
-
-  if (!user?.data) {
-    throw new Error("unauthorized");
-  }
-
-  const userId = user.data.id;
-
-  return unstable_cache(
-    async () => {
-      return getFavoriteSearchesQuery(supabase, userId);
-    },
-    ["favorite_searches", userId],
-    {
-      tags: [`favorite_searches_${userId}`],
-      revalidate: 180,
-    },
-    // @ts-expect-error
-  )(userId);
-};
-
 export const getUserCreditUsage = async () => {
   const supabase = createClient();
 
@@ -240,4 +216,32 @@ export const getSubscription = async () => {
       revalidate: 3600,
     },
   )();
+};
+
+export const getPropertyRecordsBySearchLog = async () => {
+  const supabase = createClient();
+
+  const user = await getUser();
+
+  if (!user?.data) {
+    throw new Error("unauthorized");
+  }
+
+  const userId = user.data.id;
+
+  return unstable_cache(
+    async () => {
+      return getPropertyRecordsBySearchLogQuery(supabase, userId);
+    },
+    ["property_records_by_search_log", userId],
+    {
+      tags: [
+        `property_records_by_search_log_${userId}`,
+        `property_records_${userId}`,
+        `search_history_${userId}`,
+      ],
+      revalidate: 180,
+    },
+    // @ts-expect-error
+  )(userId);
 };
