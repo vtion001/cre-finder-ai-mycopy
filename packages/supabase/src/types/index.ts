@@ -10,7 +10,7 @@ import type { Database } from "./db";
  */
 declare module "@supabase/supabase-js" {
   interface UserMetadata extends DefaultUserMetadata {
-    // ...other properties
+    role: string | null;
   }
 }
 

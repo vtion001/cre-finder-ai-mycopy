@@ -31,7 +31,7 @@ export function PhoneInput({
 }: PhoneInputProps) {
   const { inputValue, handlePhoneValueChange, inputRef, country, setCountry } =
     usePhoneInput({
-      defaultCountry: "br",
+      defaultCountry: "us",
       value,
       countries: defaultCountries,
       onChange: (data) => {

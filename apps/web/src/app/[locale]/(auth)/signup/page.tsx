@@ -28,26 +28,20 @@ export default function SignUp() {
       </div>
       <Card className="w-full max-w-md shadow-lg border-t-4 border-t-primary">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl text-center">Get Started</CardTitle>
+          <CardTitle className="text-2xl text-center">Sign Up</CardTitle>
           <CardDescription className="text-center">
-            Create a new account to discover properties with AI
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <SignUpForm />
-        </CardContent>
-        <CardFooter className="flex flex-col gap-4">
-          <Separator />
-          <div className="text-sm text-center text-muted-foreground">
             Already have an account?{" "}
             <Link
               href="/login"
               className="text-primary font-medium hover:underline"
             >
-              Sign in instead
+              Log in
             </Link>
-          </div>
-        </CardFooter>
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <SignUpForm />
+        </CardContent>
       </Card>
 
       <p className="text-xs text-muted-foreground mt-8">

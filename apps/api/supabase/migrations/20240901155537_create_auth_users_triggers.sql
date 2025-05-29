@@ -2,11 +2,13 @@ create or replace function public.handle_new_user() returns trigger
 language plpgsql security definer set search_path = ''
 as $$
 begin
-    insert into public.users (id, email, full_name)
+    insert into public.users (id, email, full_name, phone_number, role)
     values (
         new.id,
         new.email,
-        new.raw_user_meta_data ->> 'full_name'
+        new.raw_user_meta_data ->> 'full_name',
+        new.raw_user_meta_data ->> 'phone_number',
+        new.raw_user_meta_data ->> 'role'
     );
     return new;
 end;
