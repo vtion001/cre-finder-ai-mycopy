@@ -1,6 +1,6 @@
 "use client";
 
-import { getPropertySearchAction } from "@/actions/get-property-search-action";
+import { previewSearchAction } from "@/actions/property-search";
 import type { searchFiltersSchema } from "@/actions/schema";
 import { formatNumber } from "@/lib/format";
 import type { Database, Tables } from "@v1/supabase/types";
@@ -37,17 +37,17 @@ export function PropertySearchInterface({
   const [isFiltersOpen, setIsFiltersOpen] = useState(true);
 
   const {
-    execute: searchProperties,
+    execute: previewSearch,
     status,
     result: { data: searchResponse },
-  } = useAction(getPropertySearchAction, {
+  } = useAction(previewSearchAction, {
     onSuccess: ({ data }) => {
       if (data?.searchLogId) setId(data.searchLogId);
     },
   });
 
   const handleSearch = (filters: z.infer<typeof searchFiltersSchema>) => {
-    searchProperties({
+    previewSearch({
       searchId: id || undefined,
       ...filters,
     });

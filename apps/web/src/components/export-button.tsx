@@ -1,8 +1,8 @@
 "use client";
 
-import { exportSearchResultsAction } from "@/actions/export-search-results-action";
 import { useState } from "react";
 
+import { completeSearchAction } from "@/actions/property-search";
 import { IconDownload } from "@tabler/icons-react";
 import { Button } from "@v1/ui/button";
 import { DownloadIcon } from "lucide-react";
@@ -15,7 +15,7 @@ interface ExportButtonProps {
 }
 
 export function ExportButton({ searchLogId, resultCount }: ExportButtonProps) {
-  const { execute, isExecuting } = useAction(exportSearchResultsAction, {
+  const { execute, isExecuting } = useAction(completeSearchAction, {
     onSuccess: ({ data: result }) => {
       toast.success(
         `Successfully exported ${result?.recordsInserted} property records to database`,

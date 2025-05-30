@@ -242,7 +242,10 @@ export interface GetPropertySearchParams {
   state?: string;
 }
 
-export async function getPropertySearch(params: GetPropertySearchParams) {
+export async function getPropertySearch(
+  params: GetPropertySearchParams,
+  count = true,
+) {
   const response = await fetch(
     "https://api.realestateapi.com/v2/PropertySearch",
     {
@@ -254,7 +257,7 @@ export async function getPropertySearch(params: GetPropertySearchParams) {
       },
       body: JSON.stringify({
         ...params,
-        count: true,
+        count,
       }),
     },
   );

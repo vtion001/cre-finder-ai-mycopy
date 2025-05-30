@@ -1,20 +1,216 @@
-"use server";
-
-import { getPropertySearch } from "@/lib/realestateapi";
-import type { PropertySearchResult } from "@/lib/realestateapi";
-import { createClient } from "@v1/supabase/server";
 import type { Json } from "@v1/supabase/types";
-import { revalidateTag } from "next/cache";
-import { z } from "zod";
-import { mockPropertySearchResponse } from "./mock";
-import { authActionClient } from "./safe-action";
+import type { GooglePlaceResult } from "./google-places";
+import type { PropertySearchResult } from "./realestateapi";
 
-const exportSearchResultsSchema = z.object({
-  searchLogId: z.string().uuid(),
-});
+export function mergePropertySearchResults(
+  realEstateResults: PropertySearchResult[],
+  googlePlacesResults: PropertySearchResult[],
+): PropertySearchResult[] {
+  const uniqueProperties = new Map<string, PropertySearchResult>();
+
+  for (const property of realEstateResults) {
+    const key =
+      `${property.address.address}_${property.address.zip}`.toLowerCase();
+    uniqueProperties.set(key, property);
+  }
+
+  for (const property of googlePlacesResults) {
+    const key =
+      `${property.address.address}_${property.address.zip}`.toLowerCase();
+    if (!uniqueProperties.has(key)) {
+      uniqueProperties.set(key, property);
+    }
+  }
+
+  return Array.from(uniqueProperties.values());
+}
+
+export function transformGooglePlaceToPropertyResult(
+  place: GooglePlaceResult,
+): PropertySearchResult {
+  // Parse address components
+  const { city, state, zip } = parseAddressComponents(place.formatted_address);
+
+  const propertyId = `google_places_${place.place_id}`;
+
+  return {
+    // Required fields
+    id: propertyId,
+    propertyId: propertyId,
+    apn: `GP-${place.place_id}`,
+
+    // Address information
+    address: {
+      address: place.formatted_address,
+      city: city,
+      county: "", // Not available from Google Places
+      fips: "", // Not available from Google Places
+      state: state,
+      street: place.name, // Use business name as street
+      zip: zip,
+    },
+
+    // Owner information (not available from Google Places)
+    owner1LastName: "Unknown",
+    owner1FirstName: "",
+    owner2FirstName: "",
+    owner2LastName: "",
+
+    // Property details
+    propertyType: "Storage Facility",
+    propertyUse: "Self Storage",
+    propertyUseCode: 229, // Storage facility use code
+
+    // Location data
+    latitude: place.geometry.location.lat,
+    longitude: place.geometry.location.lng,
+
+    // Business information (when available)
+    companyName: place.name,
+
+    // Default values for required fields
+    absenteeOwner: false,
+    adjustableRate: false,
+    airConditioningAvailable: false,
+    assessedImprovementValue: 0,
+    assessedLandValue: 0,
+    assessedValue: 0,
+    assumable: false,
+    auction: false,
+    auctionDate: null,
+    basement: false,
+    bathrooms: 0,
+    bedrooms: 0,
+    cashBuyer: false,
+    corporateOwned: true, // Most storage facilities are corporate owned
+    death: false,
+    deck: false,
+    deckArea: 0,
+    equity: false,
+    equityPercent: 0,
+    estimatedEquity: 0,
+    estimatedValue: 0,
+    floodZone: false,
+    floodZoneDescription: "",
+    floodZoneType: "",
+    foreclosure: false,
+    forSale: false,
+    freeClear: false,
+    garage: false,
+    highEquity: false,
+    hoa: false,
+    inherited: false,
+    inStateAbsenteeOwner: false,
+    investorBuyer: false,
+    judgment: false,
+    landUse: "Commercial",
+    lastMortgage1Amount: "",
+    lastSaleAmount: "",
+    lastSaleArmsLength: false,
+    lastUpdateDate: "",
+    lenderName: "",
+    listingAmount: "",
+    loanTypeCode: "",
+    lotSquareFeet: 0,
+    mailAddress: {
+      address: place.formatted_address,
+      city: city,
+      county: "",
+      state: state,
+      street: place.name,
+      zip: zip,
+    },
+    medianIncome: "",
+    MFH2to4: false,
+    MFH5plus: false,
+    mlsActive: false,
+    mlsCancelled: false,
+    mlsFailed: false,
+    mlsHasPhotos: false,
+    mlsListingPrice: 0,
+    mlsPending: false,
+    mlsSold: false,
+    negativeEquity: false,
+    neighborhood: {
+      center: `${place.geometry.location.lat},${place.geometry.location.lng}`,
+      id: place.place_id,
+      name: place.vicinity || city,
+      type: "business_area",
+    },
+    openMortgageBalance: 0,
+    outOfStateAbsenteeOwner: false,
+    ownerOccupied: false,
+    patio: false,
+    patioArea: 0,
+    pool: false,
+    poolArea: 0,
+    portfolioPurchasedLast12Months: 0,
+    portfolioPurchasedLast6Months: 0,
+    preForeclosure: false,
+    pricePerSquareFoot: 0,
+    priorSaleAmount: "",
+    privateLender: false,
+    rentAmount: "",
+    reo: false,
+    roomsCount: 0,
+    squareFeet: 0,
+    stories: 1,
+    suggestedRent: "",
+    taxLien: false,
+    totalPortfolioEquity: "",
+    totalPortfolioMortgageBalance: "",
+    totalPortfolioValue: "",
+    totalPropertiesOwned: "",
+    unitsCount: 0,
+    vacant: false,
+    yearBuilt: 0,
+    yearsOwned: 0,
+    parcelAccountNumber: "",
+    documentType: "",
+    documentTypeCode: "",
+    last_sale_date: "",
+    maturityDateFirst: "",
+    mlsDaysOnMarket: 0,
+    mlslast_sale_date: "",
+    mlsLastStatusDate: "",
+    mlsListingDate: "",
+    mlsSoldPrice: 0,
+    mlsStatus: "",
+    mlsType: "",
+    priorOwnerIndividual: false,
+    priorOwnerMonthsOwned: "",
+    recordingDate: "",
+    taxDelinquentYear: "",
+  };
+}
+
+function parseAddressComponents(formattedAddress: string): {
+  city: string;
+  state: string;
+  zip: string;
+} {
+  // Extract ZIP code
+  const zipMatch = formattedAddress.match(/\b\d{5}(-\d{4})?\b/);
+  const zip = zipMatch ? zipMatch[0] : "";
+
+  // Extract state (2-letter state code)
+  const stateMatch = formattedAddress.match(/\b[A-Z]{2}\b/);
+  const state = stateMatch ? stateMatch[0] : "";
+
+  // Extract city (part before state)
+  let city = "";
+  if (state) {
+    const stateIndex = formattedAddress.indexOf(state);
+    const beforeState = formattedAddress.substring(0, stateIndex).trim();
+    const parts = beforeState.split(", ");
+    city = parts[parts.length - 1] || "";
+  }
+
+  return { city, state, zip };
+}
 
 // Helper function to convert PropertySearchResult to database record
-function mapPropertyToRecord(
+export function mapPropertyToRecord(
   property: PropertySearchResult,
   searchLogId: string,
   userId: string,
@@ -156,77 +352,3 @@ function mapPropertyToRecord(
       : null,
   };
 }
-
-export const exportSearchResultsAction = authActionClient
-  .schema(exportSearchResultsSchema)
-  .metadata({
-    name: "export-search-results",
-  })
-  .action(async ({ parsedInput: { searchLogId }, ctx: { user } }) => {
-    const supabase = createClient();
-
-    const { data: searchLog, error: searchLogError } = await supabase
-      .from("search_logs")
-      .select("*")
-      .eq("id", searchLogId)
-      .eq("user_id", user.id)
-      .single();
-
-    if (searchLogError || !searchLog) {
-      throw new Error("Search log not found");
-    }
-
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-    const searchParams = searchLog.search_parameters as any;
-
-    // const response = await getPropertySearch({
-    //   ...searchParams,
-    // });
-
-    // if (!response.data || response.data.length === 0) {
-    //   throw new Error("No property data found");
-    // }
-
-    const response = mockPropertySearchResponse;
-
-    const propertyRecords = response.data.map((property) =>
-      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-      mapPropertyToRecord(property as any, searchLogId, user.id),
-    );
-
-    const { error: insertError } = await supabase
-      .from("property_records")
-      .insert(propertyRecords);
-
-    if (insertError) {
-      throw new Error(
-        `Failed to insert property records: ${insertError.message}`,
-      );
-    }
-
-    // Update search log status to completed
-    const { error: updateError } = await supabase
-      .from("search_logs")
-      .update({ status: "completed" })
-      .eq("id", searchLogId)
-      .eq("user_id", user.id);
-
-    if (updateError) {
-      throw new Error(
-        `Failed to update search log status: ${updateError.message}`,
-      );
-    }
-
-    // Revalidate relevant tags
-    revalidateTag(`search_logs_${user.id}`);
-    revalidateTag(`search_history_${user.id}`);
-    revalidateTag(`credit_usage_${user.id}`);
-    revalidateTag(`property_records_${user.id}`);
-    revalidateTag(`property_records_by_search_log_${user.id}`);
-
-    return {
-      success: true,
-      recordsInserted: propertyRecords.length,
-      searchLogId,
-    };
-  });
