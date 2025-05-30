@@ -20,8 +20,6 @@ export default async function Dashboard() {
     redirect("/login");
   }
 
-  const user = cachedUser.data;
-
   const [{ data: assetTypes }, { data: locations }] = await Promise.all([
     getUserAssetTypes(),
     getUserLocations(),
@@ -33,13 +31,5 @@ export default async function Dashboard() {
     redirect("/onboarding");
   }
 
-  return (
-    <SidebarProvider>
-      <AppSidebar user={user} variant="inset" />
-      <SidebarInset>
-        <SiteHeader title="Dashboard" />
-        <div className="space-y-6 p-6 pb-16">{/* TODO */}</div>
-      </SidebarInset>
-    </SidebarProvider>
-  );
+  return redirect("/dashboard/search");
 }
