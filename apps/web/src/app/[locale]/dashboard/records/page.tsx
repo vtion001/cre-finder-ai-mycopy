@@ -1,9 +1,12 @@
+import { QueryInput } from "@/components/query-input";
+import { RecordsSummary } from "@/components/records-summary";
 import { AppSidebar } from "@/components/sidebar/app-sidebar";
 import { SiteHeader } from "@/components/site-header";
-import { PropertyRecordsTable } from "@/components/tables/property-records-table";
-import { getUser } from "@v1/supabase/cached-queries";
-import { getPropertyRecordsQuery } from "@v1/supabase/queries";
-import { createClient } from "@v1/supabase/server";
+import { PropertyRecords } from "@/components/property-records";
+import {
+  getPropertyRecordsBySearchLog,
+  getUser,
+} from "@v1/supabase/cached-queries";
 import { SidebarInset, SidebarProvider } from "@v1/ui/sidebar";
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
@@ -22,9 +25,7 @@ export default async function RecordsPage() {
     redirect("/login");
   }
 
-  const supabase = createClient();
-
-  const { data: records } = await getPropertyRecordsQuery(supabase, user.id);
+  const { data } = await getPropertyRecordsBySearchLog();
 
   return (
     <SidebarProvider>
@@ -32,7 +33,13 @@ export default async function RecordsPage() {
       <SidebarInset>
         <SiteHeader title="Property Records" />
         <div className="space-y-6 p-6 pb-16">
-          <PropertyRecordsTable records={records || []} />
+          <div className="space-y-4">
+            <RecordsSummary data={data || []} />
+
+            <QueryInput placeholder="Search by location, asset type, address, or owner..." />
+
+            <PropertyRecords data={data || []} />
+          </div>
         </div>
       </SidebarInset>
     </SidebarProvider>

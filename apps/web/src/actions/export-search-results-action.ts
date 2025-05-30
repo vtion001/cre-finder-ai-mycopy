@@ -221,7 +221,8 @@ export const exportSearchResultsAction = authActionClient
     revalidateTag(`search_logs_${user.id}`);
     revalidateTag(`search_history_${user.id}`);
     revalidateTag(`credit_usage_${user.id}`);
-    revalidateTag(`property_records_${searchLogId}`);
+    revalidateTag(`property_records_${user.id}`);
+    revalidateTag(`property_records_by_search_log_${user.id}`);
 
     return {
       success: true,
