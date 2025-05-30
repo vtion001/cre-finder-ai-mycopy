@@ -54,7 +54,7 @@ export function PropertySearchInterface({
   };
 
   return (
-    <div className="flex flex-col space-y-6 p-6">
+    <div className="flex flex-col space-y-6 p-4 sm:p-6">
       <Collapsible
         open={isFiltersOpen}
         onOpenChange={setIsFiltersOpen}
@@ -66,7 +66,9 @@ export function PropertySearchInterface({
               variant="ghost"
               className="p-0 flex items-center gap-2 hover:bg-transparent"
             >
-              <h2 className="text-lg font-medium">Filters & search criteria</h2>
+              <h2 className="text-base sm:text-lg font-medium">
+                Filters & search criteria
+              </h2>
               <svg
                 width="16"
                 height="16"
@@ -138,30 +140,34 @@ export function PropertySearchInterface({
 
       {status === "hasSucceeded" && (
         <div className="space-y-2">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div className="flex h-6 w-6 items-center justify-center rounded-full bg-accent/20">
-                <svg
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="text-accent-foreground"
-                >
-                  <path
-                    d="M3 7.8L12 3L21 7.8M3 7.8V16.2L12 21L21 16.2V7.8M3 7.8L12 12L21 7.8M12 12V21"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
+          <div className="flex flex-col space-y-3 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
+            <div className="flex flex-col space-y-2 sm:flex-row sm:items-center sm:gap-2 sm:space-y-0">
+              <div className="flex items-center gap-2">
+                <div className="flex h-6 w-6 items-center justify-center rounded-full bg-accent/20">
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="text-accent-foreground"
+                  >
+                    <path
+                      d="M3 7.8L12 3L21 7.8M3 7.8V16.2L12 21L21 16.2V7.8M3 7.8L12 12L21 7.8M12 12V21"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </div>
+                <h2 className="text-base sm:text-lg font-medium">
+                  Preview results
+                </h2>
               </div>
-              <h2 className="text-lg font-medium">Preview results</h2>
               <Badge
                 variant="outline"
-                className="bg-accent/20 text-accent-foreground hover:bg-accent/20 border-accent/30"
+                className="bg-accent/20 text-accent-foreground hover:bg-accent/20 border-accent/30 w-fit"
               >
                 {formatNumber(searchResponse?.resultCount)} potential matches
               </Badge>
@@ -175,7 +181,7 @@ export function PropertySearchInterface({
                 className="flex items-center gap-1"
               >
                 <HistoryIcon className="h-4 w-4" />
-                History
+                <span className="hidden sm:inline">History</span>
               </Button>
             </div>
           </div>

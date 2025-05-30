@@ -148,77 +148,88 @@ export function CreditTransactionsTable({
 
   return (
     <div className="space-y-4">
-      <div className="border rounded-md">
-        <Table>
-          <TableHeader>
-            <TableRow className="bg-muted/50 hover:bg-muted/50">
-              <TableHead>Date & Time</TableHead>
-              <TableHead>Type</TableHead>
-              <TableHead>Description</TableHead>
-              <TableHead className="text-right">Amount</TableHead>
-              <TableHead className="text-center">Expires</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {transactions.map((transaction) => (
-              <TableRow key={transaction.id}>
-                <TableCell>
-                  <div className="flex items-center gap-2">
-                    {getTransactionIcon(transaction.transaction_type)}
-                    <div className="flex flex-col">
-                      <span className="font-medium">
+      <div className="border rounded-md overflow-hidden">
+        <div className="overflow-x-auto">
+          <Table>
+            <TableHeader>
+              <TableRow className="bg-muted/50 hover:bg-muted/50">
+                <TableHead className="min-w-[140px]">Date & Time</TableHead>
+                <TableHead className="min-w-[120px]">Type</TableHead>
+                <TableHead className="min-w-[200px]">Description</TableHead>
+                <TableHead className="text-right min-w-[100px]">
+                  Amount
+                </TableHead>
+                <TableHead className="text-center min-w-[120px]">
+                  Expires
+                </TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {transactions.map((transaction) => (
+                <TableRow key={transaction.id}>
+                  <TableCell>
+                    <div className="flex items-center gap-2">
+                      {getTransactionIcon(transaction.transaction_type)}
+                      <div className="flex flex-col">
+                        <span className="font-medium">
+                          {format(
+                            new Date(transaction.created_at!),
+                            "MMM d, yyyy",
+                          )}
+                        </span>
+                        <span className="text-xs text-muted-foreground">
+                          {format(new Date(transaction.created_at!), "h:mm a")}
+                        </span>
+                      </div>
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    {getTransactionBadge(
+                      transaction.transaction_type,
+                      transaction.credit_amount,
+                    )}
+                  </TableCell>
+                  <TableCell>
+                    <div className="text-sm">
+                      {transaction.description || "No description"}
+                    </div>
+                    {transaction.reference_id && (
+                      <div className="text-xs text-muted-foreground mt-1">
+                        Ref: {transaction.reference_id}
+                      </div>
+                    )}
+                  </TableCell>
+                  <TableCell className="text-right">
+                    <span
+                      className={`font-medium ${
+                        transaction.credit_amount > 0
+                          ? "text-green-600 dark:text-green-400"
+                          : "text-red-600 dark:text-red-400"
+                      }`}
+                    >
+                      {transaction.credit_amount > 0 ? "+" : ""}
+                      {transaction.credit_amount.toLocaleString()}
+                    </span>
+                  </TableCell>
+                  <TableCell className="text-center">
+                    {transaction.expires_at ? (
+                      <div className="text-sm">
                         {format(
-                          new Date(transaction.created_at!),
+                          new Date(transaction.expires_at),
                           "MMM d, yyyy",
                         )}
+                      </div>
+                    ) : (
+                      <span className="text-muted-foreground text-sm">
+                        Never
                       </span>
-                      <span className="text-xs text-muted-foreground">
-                        {format(new Date(transaction.created_at!), "h:mm a")}
-                      </span>
-                    </div>
-                  </div>
-                </TableCell>
-                <TableCell>
-                  {getTransactionBadge(
-                    transaction.transaction_type,
-                    transaction.credit_amount,
-                  )}
-                </TableCell>
-                <TableCell>
-                  <div className="text-sm">
-                    {transaction.description || "No description"}
-                  </div>
-                  {transaction.reference_id && (
-                    <div className="text-xs text-muted-foreground mt-1">
-                      Ref: {transaction.reference_id}
-                    </div>
-                  )}
-                </TableCell>
-                <TableCell className="text-right">
-                  <span
-                    className={`font-medium ${
-                      transaction.credit_amount > 0
-                        ? "text-green-600 dark:text-green-400"
-                        : "text-red-600 dark:text-red-400"
-                    }`}
-                  >
-                    {transaction.credit_amount > 0 ? "+" : ""}
-                    {transaction.credit_amount.toLocaleString()}
-                  </span>
-                </TableCell>
-                <TableCell className="text-center">
-                  {transaction.expires_at ? (
-                    <div className="text-sm">
-                      {format(new Date(transaction.expires_at), "MMM d, yyyy")}
-                    </div>
-                  ) : (
-                    <span className="text-muted-foreground text-sm">Never</span>
-                  )}
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+                    )}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
       </div>
     </div>
   );

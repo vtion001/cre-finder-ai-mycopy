@@ -22,9 +22,9 @@ export function PreviewResults({
   const hasInsufficientCredits = creditData.remaining_credits < resultCount;
 
   return (
-    <div className="bg-card rounded-md p-4 space-y-6 shadow-sm border">
+    <div className="bg-card rounded-md p-3 sm:p-4 space-y-4 sm:space-y-6 shadow-sm border">
       {/* Metric Boxes */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 p-3 sm:p-6">
         <Card>
           <CardHeader className="pb-3">
             <CardDescription className="text-sm text-muted-foreground">
@@ -37,7 +37,7 @@ export function PreviewResults({
                 <BuildingIcon className="h-5 w-5 text-primary" />
               </div>
               <div>
-                <div className="text-2xl font-bold">
+                <div className="text-xl sm:text-2xl font-bold">
                   {resultCount.toLocaleString()}
                 </div>
                 <div className="text-sm text-muted-foreground">
@@ -60,14 +60,16 @@ export function PreviewResults({
                 <CreditCardIcon className="h-5 w-5 text-accent-foreground" />
               </div>
               <div>
-                <div className="text-2xl font-bold">{resultCount} credits</div>
+                <div className="text-xl sm:text-2xl font-bold">
+                  {resultCount} credits
+                </div>
                 <div className="text-sm text-muted-foreground">Export cost</div>
               </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="sm:col-span-2 lg:col-span-1">
           <CardHeader className="pb-3">
             <CardDescription className="text-sm text-muted-foreground">
               Balance Overage
@@ -83,7 +85,7 @@ export function PreviewResults({
                 />
               </div>
               <div>
-                <div className="text-2xl font-bold">
+                <div className="text-xl sm:text-2xl font-bold">
                   {hasInsufficientCredits
                     ? `${resultCount - creditData.remaining_credits} credits`
                     : "0 credits"}

@@ -1,8 +1,8 @@
+import { PropertyRecords } from "@/components/property-records";
 import { QueryInput } from "@/components/query-input";
 import { RecordsSummary } from "@/components/records-summary";
 import { AppSidebar } from "@/components/sidebar/app-sidebar";
 import { SiteHeader } from "@/components/site-header";
-import { PropertyRecords } from "@/components/property-records";
 import {
   getPropertyRecordsBySearchLog,
   getUser,
@@ -32,7 +32,7 @@ export default async function RecordsPage() {
       <AppSidebar user={user} variant="inset" />
       <SidebarInset>
         <SiteHeader title="Property Records" />
-        <div className="space-y-6 p-6 pb-16">
+        <div className="space-y-4 sm:space-y-6 p-4 sm:p-6 pb-16">
           <div className="space-y-4">
             <RecordsSummary data={data || []} />
 

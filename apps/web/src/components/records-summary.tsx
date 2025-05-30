@@ -11,8 +11,6 @@ type SearchLogWithRecords = Tables<"search_logs"> & {
   property_records: Tables<"property_records">[];
 };
 
-
-
 export function RecordsSummary({
   data: searchLogsWithRecords,
 }: { data: SearchLogWithRecords[] }) {
@@ -27,7 +25,7 @@ export function RecordsSummary({
   );
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
       <Card>
         <CardContent className="p-4">
           <div className="flex items-center gap-3">
@@ -36,7 +34,7 @@ export function RecordsSummary({
             </div>
             <div>
               <p className="text-sm text-muted-foreground">Total Records</p>
-              <p className="text-2xl font-semibold">
+              <p className="text-xl sm:text-2xl font-semibold">
                 {formatNumber(totalRecords)}
               </p>
             </div>
@@ -54,7 +52,7 @@ export function RecordsSummary({
               <p className="text-sm text-muted-foreground">
                 Completed Searches
               </p>
-              <p className="text-2xl font-semibold">
+              <p className="text-xl sm:text-2xl font-semibold">
                 {formatNumber(totalSearches)}
               </p>
             </div>
@@ -62,7 +60,7 @@ export function RecordsSummary({
         </CardContent>
       </Card>
 
-      <Card>
+      <Card className="sm:col-span-2 lg:col-span-1">
         <CardContent className="p-4">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-green-500/10 rounded-lg">
@@ -72,7 +70,7 @@ export function RecordsSummary({
               <p className="text-sm text-muted-foreground">
                 Total Results Found
               </p>
-              <p className="text-2xl font-semibold">
+              <p className="text-xl sm:text-2xl font-semibold">
                 {formatNumber(totalResults)}
               </p>
             </div>

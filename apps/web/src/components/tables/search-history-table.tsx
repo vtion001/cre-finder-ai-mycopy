@@ -91,106 +91,118 @@ export function SearchHistoryTable({
 
   return (
     <div className="space-y-4">
-      <div className="border rounded-md">
-        <Table>
-          <TableHeader>
-            <TableRow className="bg-muted/50 hover:bg-muted/50">
-              <TableHead>Date & Time</TableHead>
-              <TableHead className="w-[20%]">Location & Asset Type</TableHead>
-              <TableHead className="w-[40%]">Search Parameters</TableHead>
-              <TableHead className="text-right">Results</TableHead>
-              <TableHead className="text-center">Status</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {searchLogs.map((searchLog) => (
-              <TableRow key={searchLog.id}>
-                <TableCell>
-                  <div className="flex flex-col">
-                    <span className="font-medium">
-                      {format(new Date(searchLog.created_at!), "MMM d, yyyy")}
-                    </span>
-                    <span className="text-xs text-muted-foreground flex items-center gap-1">
-                      <ClockIcon className="h-3 w-3" />
-                      {format(new Date(searchLog.created_at!), "h:mm a")}
-                    </span>
-                  </div>
-                </TableCell>
-                <TableCell>
-                  <div className="flex flex-col">
-                    <span className="font-medium">
-                      {searchLog.user_locations.display_name}
-                    </span>
-                    <span className="text-xs text-muted-foreground">
-                      {searchLog.asset_types.name}
-                    </span>
-                  </div>
-                </TableCell>
-                <TableCell>
-                  <div className="text-sm">
-                    {formatSearchParams(searchLog.search_parameters)}
-                  </div>
-                </TableCell>
-                <TableCell className="text-right">
-                  <Badge variant="outline">
-                    {formatNumber(searchLog.result_count)} results
-                  </Badge>
-                </TableCell>
-                <TableCell className="text-center">
-                  {searchLog.status === "completed" ? (
-                    <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-100 border-blue-200 flex items-center gap-1 mx-auto">
-                      <CheckCircleIcon className="h-3 w-3" />
-                      Completed
-                    </Badge>
-                  ) : searchLog.status === "pending" ? (
-                    <Badge className="bg-yellow-100 text-yellow-800 hover:bg-yellow-100 border-yellow-200 flex items-center gap-1 mx-auto">
-                      <ClockIcon className="h-3 w-3" />
-                      Pending
-                    </Badge>
-                  ) : searchLog.status === "failed" ? (
-                    <Badge className="bg-red-100 text-red-800 hover:bg-red-100 border-red-200 flex items-center gap-1 mx-auto">
-                      <span className="text-xs">!</span>
-                      Failed
-                    </Badge>
-                  ) : (
-                    <Badge className="bg-gray-100 text-gray-800 hover:bg-gray-100 border-gray-200 flex items-center gap-1 mx-auto">
-                      <SearchIcon className="h-3 w-3" />
-                      Preview
-                    </Badge>
-                  )}
-                </TableCell>
-                <TableCell className="text-right">
-                  <div className="flex justify-end gap-2">
-                    {searchLog.status === "preview" ? (
-                      <Button
-                        variant="outline"
-                        size="icon"
-                        onClick={() =>
-                          router.push(`/dashboard/search?id=${searchLog.id}`)
-                        }
-                        title="Re-run search"
-                      >
-                        <PlayIcon className="h-4 w-4" />
-                      </Button>
-                    ) : searchLog.status === "completed" ? (
-                      <Button
-                        variant="outline"
-                        size="icon"
-                        onClick={() =>
-                          router.push(`/dashboard/records?id=${searchLog.id}`)
-                        }
-                        title="Manage records"
-                      >
-                        <DownloadIcon className="h-4 w-4" />
-                      </Button>
-                    ) : null}
-                  </div>
-                </TableCell>
+      <div className="border rounded-md overflow-hidden">
+        <div className="overflow-x-auto">
+          <Table>
+            <TableHeader>
+              <TableRow className="bg-muted/50 hover:bg-muted/50">
+                <TableHead className="min-w-[140px]">Date & Time</TableHead>
+                <TableHead className="min-w-[180px]">
+                  Location & Asset Type
+                </TableHead>
+                <TableHead className="min-w-[200px]">
+                  Search Parameters
+                </TableHead>
+                <TableHead className="text-right min-w-[100px]">
+                  Results
+                </TableHead>
+                <TableHead className="text-center min-w-[100px]">
+                  Status
+                </TableHead>
+                <TableHead className="text-right min-w-[100px]">
+                  Actions
+                </TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {searchLogs.map((searchLog) => (
+                <TableRow key={searchLog.id}>
+                  <TableCell>
+                    <div className="flex flex-col">
+                      <span className="font-medium">
+                        {format(new Date(searchLog.created_at!), "MMM d, yyyy")}
+                      </span>
+                      <span className="text-xs text-muted-foreground flex items-center gap-1">
+                        <ClockIcon className="h-3 w-3" />
+                        {format(new Date(searchLog.created_at!), "h:mm a")}
+                      </span>
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex flex-col">
+                      <span className="font-medium">
+                        {searchLog.user_locations.display_name}
+                      </span>
+                      <span className="text-xs text-muted-foreground">
+                        {searchLog.asset_types.name}
+                      </span>
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <div className="text-sm">
+                      {formatSearchParams(searchLog.search_parameters)}
+                    </div>
+                  </TableCell>
+                  <TableCell className="text-right">
+                    <Badge variant="outline">
+                      {formatNumber(searchLog.result_count)} results
+                    </Badge>
+                  </TableCell>
+                  <TableCell className="text-center">
+                    {searchLog.status === "completed" ? (
+                      <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-100 border-blue-200 flex items-center gap-1 mx-auto">
+                        <CheckCircleIcon className="h-3 w-3" />
+                        Completed
+                      </Badge>
+                    ) : searchLog.status === "pending" ? (
+                      <Badge className="bg-yellow-100 text-yellow-800 hover:bg-yellow-100 border-yellow-200 flex items-center gap-1 mx-auto">
+                        <ClockIcon className="h-3 w-3" />
+                        Pending
+                      </Badge>
+                    ) : searchLog.status === "failed" ? (
+                      <Badge className="bg-red-100 text-red-800 hover:bg-red-100 border-red-200 flex items-center gap-1 mx-auto">
+                        <span className="text-xs">!</span>
+                        Failed
+                      </Badge>
+                    ) : (
+                      <Badge className="bg-gray-100 text-gray-800 hover:bg-gray-100 border-gray-200 flex items-center gap-1 mx-auto">
+                        <SearchIcon className="h-3 w-3" />
+                        Preview
+                      </Badge>
+                    )}
+                  </TableCell>
+                  <TableCell className="text-right">
+                    <div className="flex justify-end gap-2">
+                      {searchLog.status === "preview" ? (
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          onClick={() =>
+                            router.push(`/dashboard/search?id=${searchLog.id}`)
+                          }
+                          title="Re-run search"
+                        >
+                          <PlayIcon className="h-4 w-4" />
+                        </Button>
+                      ) : searchLog.status === "completed" ? (
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          onClick={() =>
+                            router.push(`/dashboard/records?id=${searchLog.id}`)
+                          }
+                          title="Manage records"
+                        >
+                          <DownloadIcon className="h-4 w-4" />
+                        </Button>
+                      ) : null}
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
       </div>
 
       {pagination && pagination.pageCount > 1 && (

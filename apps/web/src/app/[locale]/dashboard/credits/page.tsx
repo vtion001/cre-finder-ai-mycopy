@@ -37,7 +37,7 @@ export default async function CreditsPage() {
       <AppSidebar user={user.data} variant="inset" />
       <SidebarInset>
         <SiteHeader title="Credits" />
-        <div className="space-y-6 p-6 pb-16">
+        <div className="space-y-4 sm:space-y-6 p-4 sm:p-6 pb-16">
           <div className="mx-auto flex w-full flex-col space-y-6">
             <div className="grid gap-6 md:grid-cols-3">
               {/* Current Balance */}

@@ -93,14 +93,14 @@ export function PropertyRecords({ data }: PropertyRecordsProps) {
           return (
             <Card key={searchLog.id}>
               <CardHeader>
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col space-y-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
                   <div className="flex flex-col items-start">
                     <CardTitle className="text-base font-medium">
                       {searchLog.user_locations.display_name} •{" "}
                       {searchLog.asset_types.name}
                     </CardTitle>
-                    <div className="flex items-center gap-4 text-sm text-muted-foreground mt-1">
-                      <span>
+                    <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-sm text-muted-foreground mt-1">
+                      <span className="whitespace-nowrap">
                         {format(
                           new Date(searchLog.created_at!),
                           "MMM d, yyyy 'at' h:mm a",
@@ -124,16 +124,16 @@ export function PropertyRecords({ data }: PropertyRecordsProps) {
                       )}
                     </div>
                   </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 w-full sm:w-auto">
                     <DownloadButton data={searchLog.property_records} />
                     <Button
                       variant="outline"
                       size="sm"
                       onClick={() => setSelectedId(searchLog.id)}
-                      className="flex items-center gap-2"
+                      className="flex items-center gap-2 flex-1 sm:flex-none"
                     >
                       <EyeIcon className="h-4 w-4" />
-                      Details
+                      <span className="sm:inline">Details</span>
                     </Button>
                   </div>
                 </div>
@@ -144,9 +144,9 @@ export function PropertyRecords({ data }: PropertyRecordsProps) {
       )}
 
       <Dialog open={!!selectedId} onOpenChange={() => setSelectedId(null)}>
-        <DialogContent className="max-w-6xl max-h-[80vh] overflow-y-auto">
+        <DialogContent className="max-w-6xl max-h-[80vh] overflow-y-auto w-[95vw] sm:w-full">
           <DialogHeader>
-            <DialogTitle>
+            <DialogTitle className="text-sm sm:text-base">
               {selected && (
                 <>
                   Property Records - {selected.user_locations.display_name} •{" "}
@@ -158,9 +158,9 @@ export function PropertyRecords({ data }: PropertyRecordsProps) {
 
           {selected && (
             <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                  <span>
+              <div className="flex flex-col space-y-3 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
+                <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-sm text-muted-foreground">
+                  <span className="whitespace-nowrap">
                     {format(
                       new Date(selected.created_at!),
                       "MMM d, yyyy 'at' h:mm a",

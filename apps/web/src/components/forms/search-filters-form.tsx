@@ -120,7 +120,7 @@ export function SearchFiltersForm({
         </div>
 
         <CollapsibleContent className="mt-4">
-          <div className="bg-card rounded-md p-4 space-y-6 shadow-sm border">
+          <div className="bg-card rounded-md p-3 sm:p-4 space-y-4 sm:space-y-6 shadow-sm border">
             <FormField
               control={form.control}
               name="location_id"
@@ -139,7 +139,7 @@ export function SearchFiltersForm({
               )}
             />
 
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+            <div className="grid grid-cols-1 gap-4 sm:gap-6 lg:grid-cols-2">
               {/* Building Size */}
               <RangeSliderField
                 control={form.control}
@@ -171,7 +171,7 @@ export function SearchFiltersForm({
                   control={form.control}
                   name="last_sale_date"
                   render={({ field }) => (
-                    <FormItem className="flex flex-col space-y-4  ">
+                    <FormItem className="flex flex-col space-y-4">
                       <Popover>
                         <PopoverTrigger asChild>
                           <FormControl>
@@ -222,26 +222,26 @@ export function SearchFiltersForm({
               />
             </div>
 
-            <div className="mt-4 flex justify-end">
+            <div className="mt-4 flex flex-col sm:flex-row gap-2 sm:justify-end">
               <Button
                 size="lg"
                 type="reset"
                 variant="outline"
-                className="mr-2"
+                className="w-full sm:w-auto"
                 disabled={!form.formState.isDirty}
                 onClick={() => form.reset()}
               >
-                <IconFilterX className="h-4 w-4 " />
-                Clear
+                <IconFilterX className="h-4 w-4" />
+                <span className="ml-2">Clear</span>
               </Button>
               <Button
                 size="lg"
                 type="submit"
                 variant="default"
-                className="flex items-center gap-2"
+                className="flex items-center gap-2 w-full sm:w-auto"
                 disabled={!form.formState.isValid}
               >
-                <IconSearch className="h-4 w-4 " />
+                <IconSearch className="h-4 w-4" />
                 Search Properties
               </Button>
             </div>

@@ -122,15 +122,15 @@ export function PricingSelection({ user, subscription, products }: Props) {
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8">
       <div className="text-center">
-        <h1 className="text-2xl font-bold">Choose Your Plan</h1>
-        <p className="text-muted-foreground mt-2">
+        <h1 className="text-xl sm:text-2xl font-bold">Choose Your Plan</h1>
+        <p className="text-muted-foreground mt-2 text-sm sm:text-base">
           Select the plan that best fits your investment needs
         </p>
       </div>
 
-      <div className="grid gap-8 md:grid-cols-2">
+      <div className="grid gap-6 sm:gap-8 lg:grid-cols-2">
         {products.map(({ prices, ...product }) =>
           prices.map((price) => {
             if (!price) return null;
@@ -156,13 +156,17 @@ export function PricingSelection({ user, subscription, products }: Props) {
                     : "border-border hover:border-input",
                 )}
               >
-                <div className="p-6 border-b bg-muted/50">
-                  <h3 className="text-xl font-semibold">{product.name}</h3>
+                <div className="p-4 sm:p-6 border-b bg-muted/50">
+                  <h3 className="text-lg sm:text-xl font-semibold">
+                    {product.name}
+                  </h3>
                   <div className="mt-2 flex items-baseline">
-                    <span className="text-3xl font-bold">{priceString}</span>
+                    <span className="text-2xl sm:text-3xl font-bold">
+                      {priceString}
+                    </span>
                   </div>
                 </div>
-                <div className="p-6 flex-grow">
+                <div className="p-4 sm:p-6 flex-grow">
                   <p className="text-sm text-muted-foreground mb-4">
                     {product.description}
                   </p>
@@ -175,7 +179,7 @@ export function PricingSelection({ user, subscription, products }: Props) {
                     ))}
                   </ul>
                 </div>
-                <div className="px-6 pb-6 mt-auto">
+                <div className="px-4 sm:px-6 pb-4 sm:pb-6 mt-auto">
                   <Button
                     variant={isActive ? "default" : "outline"}
                     disabled={priceIdLoading === price.id}

@@ -30,7 +30,7 @@ export default async function SearchHistoryPage() {
       <AppSidebar user={user} variant="inset" />
       <SidebarInset>
         <SiteHeader title="Search History" />
-        <div className="space-y-6 p-6 pb-16">
+        <div className="space-y-4 sm:space-y-6 p-4 sm:p-6 pb-16">
           {/* @ts-expect-error  */}
           <SearchHistoryTable searchLogs={history || []} />
         </div>

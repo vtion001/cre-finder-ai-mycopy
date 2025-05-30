@@ -57,7 +57,7 @@ export default async function Page({
       <AppSidebar user={user} variant="inset" />
       <SidebarInset>
         <SiteHeader title="Property Search" />
-        <div className="space-y-6 p-6 pb-16">
+        <div className="space-y-4 sm:space-y-6 p-4 sm:p-6 pb-16">
           <PropertySearchInterface
             // biome-ignore lint/suspicious/noExplicitAny: <explanation>
             initialValues={formValues as any}
