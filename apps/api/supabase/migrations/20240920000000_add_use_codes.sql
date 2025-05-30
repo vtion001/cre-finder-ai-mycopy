@@ -40,8 +40,9 @@ WHERE name = 'Hospitality';
 
 -- Storage Unit: Self-storage facilities and storage unit complexes
 UPDATE public.asset_types
-SET use_codes = '{229, 196, 236, 202, 235, 238, 448}'
+SET use_codes = '{229, 196, 236, 202, 235, 238, 448, 356}'
 WHERE name = 'Storage Unit';
+
 
 -- Mixed-Use: Properties with multiple uses (e.g., retail on ground floor, residential above)
 UPDATE public.asset_types

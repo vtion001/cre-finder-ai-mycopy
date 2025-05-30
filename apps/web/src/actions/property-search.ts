@@ -206,6 +206,9 @@ async function getResults(
       transformGooglePlaceToPropertyResult(place),
     );
 
+    console.log("Google Places Results;", googleResults.length);
+    console.log("realestateapi Results", realEstateResponse.resultCount);
+
     const mergedData = mergePropertySearchResults(
       realEstateResponse.data,
       googleResults,
