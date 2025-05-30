@@ -66,10 +66,12 @@ export const previewSearchAction = authActionClient
 
       const isStorageUnitSearch = assetType?.name === "Storage Unit";
 
+      const countOnly = true;
+
       const { response, executionTime } = await getResults(
         params,
         isStorageUnitSearch,
-        true,
+        countOnly,
       );
 
       const { data: searchLog, error } = await supabase
@@ -132,10 +134,13 @@ export const completeSearchAction = authActionClient
 
     const searchParams = searchLog.search_parameters as GetPropertySearchParams;
 
+    // We are fetching the full results
+    const countOnly = false;
+
     const { response, executionTime } = await getResults(
       searchParams,
       isStorageUnitSearch,
-      true,
+      countOnly,
     );
 
     const propertyRecords = response.data.map((property) =>
