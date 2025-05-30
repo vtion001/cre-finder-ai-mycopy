@@ -1,9 +1,16 @@
 import { getUserCreditUsage } from "@v1/supabase/cached-queries";
 import { Separator } from "@v1/ui/separator";
 import { SidebarTrigger } from "@v1/ui/sidebar";
+import type { ReactNode } from "react";
 import { CreditIndicator } from "./credit-indicator";
 
-export async function SiteHeader({ title }: { title: string }) {
+export async function SiteHeader({
+  title,
+  children,
+}: {
+  title: string;
+  children?: ReactNode;
+}) {
   const credits = await getUserCreditUsage();
 
   return (
@@ -15,7 +22,8 @@ export async function SiteHeader({ title }: { title: string }) {
           className="mx-1 sm:mx-2 data-[orientation=vertical]:h-4"
         />
         <h1 className="text-sm sm:text-base font-medium truncate">{title}</h1>
-        <div className="ml-auto">
+        <div className="ml-auto flex items-center gap-2">
+          {children}
           <CreditIndicator credits={credits.data} />
         </div>
       </div>

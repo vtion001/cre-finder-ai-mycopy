@@ -1,10 +1,12 @@
 import { PropertyRecords } from "@/components/property-records";
 import { QueryInput } from "@/components/query-input";
 import { RecordsSummary } from "@/components/records-summary";
+import { SearchHistoryDialog } from "@/components/search-history-dialog";
 import { AppSidebar } from "@/components/sidebar/app-sidebar";
 import { SiteHeader } from "@/components/site-header";
 import {
   getPropertyRecordsBySearchLog,
+  getRecentSearchActivity,
   getUser,
 } from "@v1/supabase/cached-queries";
 import { SidebarInset, SidebarProvider } from "@v1/ui/sidebar";
@@ -12,8 +14,8 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
-  title: "Record Managament - CRE Finder AI",
-  description: "View and manage your property records",
+  title: "Property Records - CRE Finder AI",
+  description: "View your search history and manage exported property records",
 };
 
 export default async function RecordsPage() {
@@ -26,12 +28,16 @@ export default async function RecordsPage() {
   }
 
   const { data } = await getPropertyRecordsBySearchLog();
+  const { data: recentActivity } = await getRecentSearchActivity();
 
   return (
     <SidebarProvider>
       <AppSidebar user={user} variant="inset" />
       <SidebarInset>
-        <SiteHeader title="Property Records" />
+        <SiteHeader title="Property Records">
+          {/* @ts-expect-error  */}
+          <SearchHistoryDialog searchLogs={recentActivity || []} />
+        </SiteHeader>
         <div className="space-y-4 sm:space-y-6 p-4 sm:p-6 pb-16">
           <div className="space-y-4">
             <RecordsSummary data={data || []} />

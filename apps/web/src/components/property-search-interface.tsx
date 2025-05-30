@@ -8,9 +8,7 @@ import { Badge } from "@v1/ui/badge";
 import { Button } from "@v1/ui/button";
 import { cn } from "@v1/ui/cn";
 import { Collapsible, CollapsibleTrigger } from "@v1/ui/collapsible";
-import { HistoryIcon } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
-import { useRouter } from "next/navigation";
 import { useQueryState } from "nuqs";
 import { useState } from "react";
 import type { z } from "zod";
@@ -30,8 +28,6 @@ export function PropertySearchInterface({
   savedLocations,
   creditData,
 }: PropertySearchInterfaceProps) {
-  const router = useRouter();
-
   const [id, setId] = useQueryState("id");
 
   const [isFiltersOpen, setIsFiltersOpen] = useState(true);
@@ -171,18 +167,6 @@ export function PropertySearchInterface({
               >
                 {formatNumber(searchResponse?.resultCount)} potential matches
               </Badge>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => router.push("/dashboard/history")}
-                className="flex items-center gap-1"
-              >
-                <HistoryIcon className="h-4 w-4" />
-                <span className="hidden sm:inline">History</span>
-              </Button>
             </div>
           </div>
 

@@ -3,11 +3,7 @@ import { cache } from "react";
 import { getUserQuery } from ".";
 import { createClient } from "../clients/server";
 import { getCreditTransactionsQuery, getUserCreditUsageQuery } from "./credits";
-import {
-  type GetSearchHistoryParams,
-  getSearchHistoryQuery,
-  getSearchLogQuery,
-} from "./history";
+import { getRecentSearchActivityQuery, getSearchLogQuery } from "./history";
 import {
   getAssetTypesQuery,
   getUserAssetTypesQuery,
@@ -110,30 +106,6 @@ export const getUserLocations = async () => {
   )(userId);
 };
 
-export const getSearchHistory = async (params: GetSearchHistoryParams) => {
-  const supabase = createClient();
-
-  const user = await getUser();
-
-  if (!user?.data) {
-    throw new Error("unauthorized");
-  }
-
-  const userId = user.data.id;
-
-  return unstable_cache(
-    async () => {
-      return getSearchHistoryQuery(supabase, userId, params);
-    },
-    ["search_history", userId],
-    {
-      tags: [`search_history_${userId}`],
-      revalidate: 180,
-    },
-    // @ts-expect-error
-  )(userId, params);
-};
-
 export const getSearchLog = async (searchLogId: string) => {
   const supabase = createClient();
 
@@ -148,6 +120,30 @@ export const getSearchLog = async (searchLogId: string) => {
     },
     // @ts-expect-error
   )(searchLogId);
+};
+
+export const getRecentSearchActivity = async () => {
+  const supabase = createClient();
+
+  const user = await getUser();
+
+  if (!user?.data) {
+    throw new Error("unauthorized");
+  }
+
+  const userId = user.data.id;
+
+  return unstable_cache(
+    async () => {
+      return getRecentSearchActivityQuery(supabase, userId);
+    },
+    ["recent_search_activity", userId],
+    {
+      tags: [`search_history_${userId}`],
+      revalidate: 180,
+    },
+    // @ts-expect-error
+  )(userId);
 };
 
 export const getUserCreditUsage = async () => {
