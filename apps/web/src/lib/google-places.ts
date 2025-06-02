@@ -1,3 +1,4 @@
+import fs from "node:fs";
 import { env } from "@/env.mjs";
 
 interface GooglePlacesSearchParams {
@@ -66,7 +67,7 @@ async function makeGooglePlacesRequest(
   url.searchParams.append("key", env.GOOGLE_API_KEY);
 
   // Add radius parameter to maximize search area (50,000 meters is the max for Text Search)
-  url.searchParams.append("radius", "50000");
+  // url.searchParams.append("radius", "50000");
 
   // Add region parameter for location bias if state is available
   if (state) {
@@ -86,6 +87,7 @@ async function makeGooglePlacesRequest(
   });
 
   const data: GooglePlacesResponse = await response.json();
+
   return data;
 }
 
@@ -103,7 +105,9 @@ export async function searchStorageFacilities(
     locationQuery = state;
   }
 
-  const searchQuery = `self storage facilities in ${locationQuery}`;
+  const searchQuery = `"storage facilities in ${locationQuery}`;
+
+  console.log("Google Places Search Query:", searchQuery);
 
   const allResults: GooglePlaceResult[] = [];
   let nextPageToken: string | undefined;
@@ -130,9 +134,49 @@ export async function searchStorageFacilities(
     nextPageToken = data.next_page_token;
   } while (nextPageToken && pageCount < maxPages);
 
+  const filteredResults = allResults.filter((result) => {
+    return result.formatted_address
+      .toLowerCase()
+      .includes(locationQuery.toLowerCase());
+  });
+
+  // console.log(
+  //   `Filtered ${allResults.length} results down to ${filteredResults.length} results that contain "${locationQuery}"`,
+  // );
+
+  // writeLogFile(locationQuery, filteredResults);
+
   return {
-    results: allResults,
+    results: filteredResults,
     status: PLACES_STATUS.OK,
     next_page_token: undefined,
   };
+}
+function writeLogFile(
+  locationQuery: string,
+  filteredResults: GooglePlaceResult[],
+) {
+  const timestamp = new Date()
+    .toISOString()
+    .replace(/[:.]/g, "-")
+    .substring(0, 19);
+
+  // Create a URL-friendly version of the location query
+  const querySlug = locationQuery
+    .toLowerCase()
+    .replace(/[^a-z0-9]/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "");
+
+  const filename = `google-${querySlug}-${timestamp}.txt`;
+
+  const addressList = filteredResults
+    .map((result) => {
+      const googleMapsUrl = `https://www.google.com/maps/place/?q=place_id:${result.place_id}`;
+      return `${result.name}\n${result.formatted_address}\n${googleMapsUrl}\n`;
+    })
+    .join("\n");
+
+  fs.writeFileSync(filename, addressList);
+  console.log(`Wrote ${filteredResults.length} addresses to ${filename}`);
 }
