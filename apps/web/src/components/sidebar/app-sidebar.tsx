@@ -1,5 +1,3 @@
-"use client";
-
 import {
   ClipboardIcon,
   ClipboardListIcon,
@@ -20,35 +18,9 @@ import {
 } from "@v1/ui/sidebar";
 import { Logo } from "../logo";
 import { NavMain } from "./nav-main";
-import { NavSecondary } from "./nav-secondary";
 import { NavUser } from "./nav-user";
-
-const data = {
-  navMain: [
-    {
-      title: "Property Search",
-      url: "/dashboard/search",
-      icon: SearchIcon,
-    },
-    {
-      title: "Credits",
-      url: "/dashboard/credits",
-      icon: CreditCardIcon,
-    },
-    {
-      title: "Records",
-      url: "/dashboard/records",
-      icon: ClipboardListIcon,
-    },
-  ],
-  navSecondary: [
-    {
-      title: "Get Help",
-      url: "#",
-      icon: HelpCircleIcon,
-    },
-  ],
-};
+import { SidebarCreditUsage } from "./sidebar-credit-usage";
+import { SidebarPlanInfo } from "./sidebar-plan-info";
 
 type SidebarProps = React.ComponentProps<typeof Sidebar> & {
   user: Tables<"users">;
@@ -56,20 +28,41 @@ type SidebarProps = React.ComponentProps<typeof Sidebar> & {
 
 export function AppSidebar({ user, ...props }: SidebarProps) {
   return (
-    <Sidebar collapsible="offcanvas" {...props}>
+    <Sidebar
+      collapsible="icon"
+      className="px-2.5 group-data-[collapsible=icon]:px-0.5 "
+      {...props}
+    >
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <Logo href="/dashboard" size="md" className="px-2 py-1" />
+            <Logo
+              href="/dashboard"
+              size="md"
+              className="group-data-[collapsible=icon]:hidden -mx-2"
+            />
+
+            <div className="hidden group-data-[collapsible=icon]:flex group-data-[collapsible=icon]:justify-center">
+              <Logo
+                href="/dashboard"
+                size="sm"
+                className="p-1"
+                showText={false}
+              />
+            </div>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
-      <SidebarContent>
-        <NavMain items={data.navMain} />
+      <SidebarContent className="flex flex-col">
+        <NavMain />
 
-        <NavSecondary items={data.navSecondary} className="mt-auto" />
+        <div className="flex-1" />
       </SidebarContent>
       <SidebarFooter>
+        <div className="mb-4">
+          <SidebarPlanInfo />
+          <SidebarCreditUsage />
+        </div>
         <NavUser user={user} />
       </SidebarFooter>
     </Sidebar>

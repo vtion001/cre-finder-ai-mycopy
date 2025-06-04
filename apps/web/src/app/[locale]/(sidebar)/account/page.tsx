@@ -1,6 +1,4 @@
 import { AccountSettings } from "@/components/account-settings";
-
-import { AppSidebar } from "@/components/sidebar/app-sidebar";
 import { SiteHeader } from "@/components/site-header";
 import {
   getUser,
@@ -8,8 +6,8 @@ import {
   getUserLocations,
 } from "@v1/supabase/cached-queries";
 import { Separator } from "@v1/ui/separator";
-import { SidebarInset, SidebarProvider } from "@v1/ui/sidebar";
 import type { Metadata } from "next";
+
 import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
@@ -24,8 +22,6 @@ export default async function Account() {
     redirect("/login");
   }
 
-  const user = cachedUser.data;
-
   const [{ data: assetTypes }, { data: locations }] = await Promise.all([
     getUserAssetTypes(),
     getUserLocations(),
@@ -38,20 +34,17 @@ export default async function Account() {
   }
 
   return (
-    <SidebarProvider>
-      <AppSidebar user={user} variant="inset" />
-      <SidebarInset>
-        <SiteHeader title="Account Settings" />
-        <div className="space-y-6 p-6 pb-16">
-          <div>
-            <p className="text-muted-foreground">
-              Manage your account settings and set your email preferences.
-            </p>
-          </div>
-          <Separator />
-          <AccountSettings user={user} />
+    <>
+      <SiteHeader title="Account Settings" />
+      <div className="space-y-6 p-6 pb-16">
+        <div>
+          <p className="text-muted-foreground">
+            Manage your account settings and set your email preferences.
+          </p>
         </div>
-      </SidebarInset>
-    </SidebarProvider>
+        <Separator />
+        <AccountSettings user={cachedUser.data} />
+      </div>
+    </>
   );
 }

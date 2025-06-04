@@ -2,6 +2,7 @@
 
 import { ViewVerticalIcon } from "@radix-ui/react-icons";
 import { Slot } from "@radix-ui/react-slot";
+import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
 import { type VariantProps, cva } from "class-variance-authority";
 import * as React from "react";
 import { useIsMobile } from "../hooks/use-mobile";
@@ -26,9 +27,9 @@ import {
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state";
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
-const SIDEBAR_WIDTH = "16rem";
+const SIDEBAR_WIDTH = "17.5rem";
 const SIDEBAR_WIDTH_MOBILE = "18rem";
-const SIDEBAR_WIDTH_ICON = "3rem";
+const SIDEBAR_WIDTH_ICON = "5rem";
 const SIDEBAR_KEYBOARD_SHORTCUT = "b";
 
 type SidebarContextProps = {
@@ -280,22 +281,23 @@ const SidebarTrigger = React.forwardRef<
   React.ElementRef<typeof Button>,
   React.ComponentProps<typeof Button>
 >(({ className, onClick, ...props }, ref) => {
-  const { toggleSidebar } = useSidebar();
+  const { toggleSidebar, state } = useSidebar();
 
   return (
     <Button
+      data-state={state}
       ref={ref}
       data-sidebar="trigger"
       variant="ghost"
       size="icon"
-      className={cn("h-7 w-7", className)}
+      className={cn("h-7 w-7 group", className)}
       onClick={(event) => {
         onClick?.(event);
         toggleSidebar();
       }}
       {...props}
     >
-      <ViewVerticalIcon />
+      <IconChevronLeft className="h-4 w-4 group-data-[state=collapsed]:rotate-180 transition-transform" />
       <span className="sr-only">Toggle Sidebar</span>
     </Button>
   );
@@ -540,7 +542,7 @@ const sidebarMenuButtonVariants = cva(
       size: {
         default: "h-8 text-sm",
         sm: "h-7 text-xs",
-        lg: "h-12 text-sm group-data-[collapsible=icon]:!p-0",
+        lg: "h-12 text-sm font-semibold gap-4 [&>svg]:size-5",
       },
     },
     defaultVariants: {

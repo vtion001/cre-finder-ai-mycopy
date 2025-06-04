@@ -73,7 +73,7 @@ export function OnboardingLayout({
     <div className="min-h-screen bg-gradient-to-b from-background to-muted/50 flex flex-col">
       <header className="border-sidebar-border border-si bg-sidebar">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <Logo size="sm" />
+          <Logo size="md" />
           <UserMenu user={user} />
         </div>
       </header>

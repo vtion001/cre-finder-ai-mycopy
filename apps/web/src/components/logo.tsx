@@ -25,14 +25,25 @@ export function Logo({
 
   const logo = (
     <div className={cn("flex items-center", className)}>
-      <Image
-        src="/images/logo.png"
-        alt="CREQfinder Logo"
-        width={width}
-        height={height}
-        className="h-auto w-auto"
-        priority
-      />
+      {showText ? (
+        <Image
+          src="/images/logo.png"
+          alt="CREQfinder Logo"
+          width={width}
+          height={height}
+          className="h-auto w-auto"
+          priority
+        />
+      ) : (
+        <Image
+          src="/images/logo-icon.png"
+          alt="CREQfinder"
+          width={height}
+          height={height}
+          className="h-auto w-auto"
+          priority
+        />
+      )}
       {showText === false && <span className="sr-only">CREQfinder</span>}
     </div>
   );

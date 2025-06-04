@@ -36,10 +36,10 @@ export function CreditIndicator({
             "flex items-center gap-1 sm:gap-1.5 h-8 sm:h-10 px-2 sm:px-4",
           )}
         >
-          <PlusIcon className="h-3 w-3" />
-          <span className="hidden sm:inline">
-            {isLowCredits ? "Add funds" : ""}
-          </span>
+          <PlusIcon className="size-3" />
+          {isLowCredits ? (
+            <span className="hidden sm:inline">Add funds</span>
+          ) : null}
         </Button>
       </div>
 
