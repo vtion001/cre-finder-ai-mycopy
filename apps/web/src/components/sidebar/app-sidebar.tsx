@@ -15,6 +15,7 @@ import {
   SidebarHeader,
   SidebarMenu,
   SidebarMenuItem,
+  SidebarTrigger,
 } from "@v1/ui/sidebar";
 import { Logo } from "../logo";
 import { NavMain } from "./nav-main";
@@ -52,6 +53,7 @@ export function AppSidebar({ user, ...props }: SidebarProps) {
             </div>
           </SidebarMenuItem>
         </SidebarMenu>
+        <SidebarTrigger className="absolute right-0 top-7 -translate-y-1/2 translate-x-1/2 bg-background rounded-full border z-50" />
       </SidebarHeader>
       <SidebarContent className="flex flex-col">
         <NavMain />
