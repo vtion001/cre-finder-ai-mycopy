@@ -64,6 +64,8 @@ export const previewSearchAction = authActionClient
         state: location?.state_code,
       };
 
+      console.log("Params:", params.property_use_code);
+
       const isStorageUnitSearch = assetType?.name === "Storage Unit";
 
       const countOnly = true;
@@ -192,36 +194,9 @@ async function getResults(
 
   const start_time = performance.now();
 
-  if (isStorageUnits) {
-    const [realEstateResponse, googleResponse] = await Promise.all([
-      getPropertySearch(params, count),
-      searchStorageFacilities({
-        city: params.city,
-        county: params.county,
-        state: params.state,
-      }),
-    ]);
+  console.log("Params:", params);
 
-    const googleResults = googleResponse.results.map((place) =>
-      transformGooglePlaceToPropertyResult(place),
-    );
-
-    console.log("Google Places Results;", googleResults.length);
-    console.log("realestateapi Results", realEstateResponse.resultCount);
-
-    const mergedData = mergePropertySearchResults(
-      realEstateResponse.data,
-      googleResults,
-    );
-
-    response = {
-      ...realEstateResponse,
-      data: mergedData,
-      resultCount: realEstateResponse.resultCount + googleResults.length,
-    };
-  } else {
-    response = await getPropertySearch(params);
-  }
+    response = await getPropertySearch(params, count);
 
   const end_time = performance.now();
   const executionTime = end_time - start_time;

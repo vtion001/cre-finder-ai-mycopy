@@ -2,21 +2,26 @@
 
 import { PropertyRecordsTable } from "@/components/tables/property-records-table";
 import { formatNumber } from "@/lib/format";
-import type { GetPropertySearchParams } from "@/lib/realestateapi";
+
 import type { Tables } from "@v1/supabase/types";
-import { Badge } from "@v1/ui/badge";
 import { Button } from "@v1/ui/button";
-import { Card, CardHeader, CardTitle } from "@v1/ui/card";
+import { Card } from "@v1/ui/card";
+import { Label } from "@v1/ui/label";
+import { ScrollArea, ScrollBar } from "@v1/ui/scroll-area";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@v1/ui/dialog";
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@v1/ui/select";
+import { Switch } from "@v1/ui/switch";
 import { format } from "date-fns";
-import { BuildingIcon, EyeIcon, SearchIcon } from "lucide-react";
+import { BuildingIcon, SearchIcon } from "lucide-react";
 import { useQueryState } from "nuqs";
+import { useState } from "react";
 import { DownloadButton } from "./download-button";
+import { PropertyMap } from "./property-map";
 
 type SearchLogWithRecords = Tables<"search_logs"> & {
   asset_types: Pick<Tables<"asset_types">, "name">;
@@ -31,28 +36,14 @@ interface PropertyRecordsProps {
 
 export function PropertyRecords({ data }: PropertyRecordsProps) {
   const [selectedId, setSelectedId] = useQueryState("id");
-  const [searchQuery, setSearchQuery] = useQueryState("q");
+  const [showMap, setShowMap] = useState(true);
 
-  const filtered = data.filter((log) => {
-    if (!searchQuery) return true;
+  // Auto-select first search log if none selected and data exists
+  const effectiveSelectedId =
+    selectedId || (data.length > 0 ? data[0]?.id : null);
 
-    const query = searchQuery.toLowerCase();
-    return (
-      log.user_locations.display_name.toLowerCase().includes(query) ||
-      log.asset_types.name.toLowerCase().includes(query) ||
-      log.property_records.some(
-        (record) =>
-          record.address.toLowerCase().includes(query) ||
-          record.city?.toLowerCase().includes(query) ||
-          record.state.toLowerCase().includes(query) ||
-          record.owner1_last_name.toLowerCase().includes(query) ||
-          record.owner2_last_name?.toLowerCase().includes(query),
-      )
-    );
-  });
-
-  const selected = selectedId
-    ? data.find((log) => log.id === selectedId)
+  const selected = effectiveSelectedId
+    ? data.find((log) => log.id === effectiveSelectedId)
     : null;
 
   if (data.length === 0) {
@@ -75,122 +66,112 @@ export function PropertyRecords({ data }: PropertyRecordsProps) {
   }
 
   return (
-    <div className="space-y-4">
-      {filtered.length === 0 && searchQuery ? (
-        <div className="flex flex-col items-center justify-center py-12 text-center">
-          <SearchIcon className="h-12 w-12 text-muted-foreground/30 mb-4" />
-          <h3 className="text-lg font-medium">No matching records found</h3>
-          <p className="text-muted-foreground mt-1">
-            Try adjusting your search terms or clear the search to see all
-            records.
-          </p>
-        </div>
-      ) : (
-        filtered.map((searchLog) => {
-          const recordCount = searchLog.property_records?.length || 0;
-          const params = searchLog.search_parameters as GetPropertySearchParams;
-
-          return (
-            <Card key={searchLog.id}>
-              <CardHeader>
-                <div className="flex flex-col space-y-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
-                  <div className="flex flex-col items-start">
-                    <CardTitle className="text-base font-medium">
+    <div className="space-y-6">
+      {/* Top Controls Bar */}
+      <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+        {/* Search Log Selector */}
+        <div className="flex-1 max-w-lg">
+          <Select
+            value={effectiveSelectedId || ""}
+            onValueChange={(value) => setSelectedId(value)}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Select a completed search..." />
+            </SelectTrigger>
+            <SelectContent>
+              {data.map((searchLog) => (
+                <SelectItem key={searchLog.id} value={searchLog.id}>
+                  <div className="flex items-center gap-2 w-full min-w-0">
+                    <span className="font-medium truncate">
                       {searchLog.user_locations.display_name} •{" "}
                       {searchLog.asset_types.name}
-                    </CardTitle>
-                    <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-sm text-muted-foreground mt-1">
-                      <span className="whitespace-nowrap">
-                        {format(
-                          new Date(searchLog.created_at!),
-                          "MMM d, yyyy 'at' h:mm a",
-                        )}
-                      </span>
-                      <Badge variant="secondary" className="text-xs">
-                        {formatNumber(recordCount)} exported
-                      </Badge>
-                      <Badge variant="outline" className="text-xs">
-                        {formatNumber(searchLog.result_count)} total found
-                      </Badge>
-                      {params.building_size_min && (
-                        <Badge variant="outline" className="text-xs">
-                          {formatNumber(params.building_size_min)}+ sq ft
-                        </Badge>
-                      )}
-                      {params.year_min && (
-                        <Badge variant="outline" className="text-xs">
-                          Built {params.year_min}+
-                        </Badge>
-                      )}
-                    </div>
+                    </span>
+                    <span className="text-xs text-muted-foreground whitespace-nowrap">
+                      {format(new Date(searchLog.created_at!), "MMM d, yyyy")} •{" "}
+                      {formatNumber(searchLog.property_records?.length || 0)}{" "}
+                      records
+                    </span>
                   </div>
-                  <div className="flex items-center gap-2 w-full sm:w-auto">
-                    <DownloadButton data={searchLog.property_records} />
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => setSelectedId(searchLog.id)}
-                      className="flex items-center gap-2 flex-1 sm:flex-none"
-                    >
-                      <EyeIcon className="h-4 w-4" />
-                      <span className="sm:inline">Details</span>
-                    </Button>
-                  </div>
-                </div>
-              </CardHeader>
-            </Card>
-          );
-        })
-      )}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
 
-      <Dialog open={!!selectedId} onOpenChange={() => setSelectedId(null)}>
-        <DialogContent className="max-w-6xl max-h-[80vh] overflow-y-auto w-[95vw] sm:w-full">
-          <DialogHeader>
-            <DialogTitle className="text-sm sm:text-base">
-              {selected && (
-                <>
-                  Property Records - {selected.user_locations.display_name} •{" "}
-                  {selected.asset_types.name}
-                </>
-              )}
-            </DialogTitle>
-          </DialogHeader>
+        {/* Right Controls */}
+        <div className="flex items-center gap-3">
+          {selected && <DownloadButton data={selected.property_records} />}
 
-          {selected && (
-            <div className="space-y-4">
-              <div className="flex flex-col space-y-3 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
-                <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-sm text-muted-foreground">
-                  <span className="whitespace-nowrap">
-                    {format(
-                      new Date(selected.created_at!),
-                      "MMM d, yyyy 'at' h:mm a",
-                    )}
-                  </span>
-                  <Badge variant="secondary" className="text-xs">
-                    {formatNumber(selected.property_records?.length || 0)}{" "}
-                    records
-                  </Badge>
-                  <Badge variant="outline" className="text-xs">
-                    {formatNumber(selected.result_count)} total results
-                  </Badge>
-                </div>
+          {/* Map Toggle */}
+          <div className="flex items-center gap-2">
+            <Label htmlFor="show-map" className="text-sm font-medium">
+              Show Map
+            </Label>
+            <Switch
+              id="show-map"
+              checked={showMap}
+              onCheckedChange={setShowMap}
+            />
+          </div>
+        </div>
+      </div>
 
-                <DownloadButton data={selected.property_records} />
-              </div>
-
-              {selected.property_records &&
-              selected.property_records.length > 0 ? (
+      {/* Main Content Area */}
+      {selected ? (
+        <div
+          className={`grid gap-6 ${showMap ? "lg:grid-cols-[1fr,480px]" : "grid-cols-1"}`}
+        >
+          {/* Table Section */}
+          <div className="min-w-0">
+            {selected.property_records &&
+            selected.property_records.length > 0 ? (
+              <ScrollArea
+                hideScrollbar
+                className="h-[600px] w-full rounded-md border overflow-y-hidden"
+              >
                 <PropertyRecordsTable records={selected.property_records} />
-              ) : (
-                <div className="text-center py-8 text-muted-foreground">
-                  <BuildingIcon className="h-8 w-8 mx-auto mb-2 opacity-50" />
-                  <p>No property records found for this search</p>
+
+                <ScrollBar orientation="horizontal" />
+              </ScrollArea>
+            ) : (
+              <Card className="p-8">
+                <div className="text-center text-muted-foreground">
+                  <BuildingIcon className="h-12 w-12 mx-auto mb-4 opacity-30" />
+                  <h3 className="text-lg font-medium mb-2">
+                    No property records
+                  </h3>
+                  <p>No exported property records found for this search.</p>
                 </div>
-              )}
-            </div>
-          )}
-        </DialogContent>
-      </Dialog>
+              </Card>
+            )}
+          </div>
+
+          {/* Map Section */}
+          {showMap &&
+            selected.property_records &&
+            selected.property_records.length > 0 && (
+              <div className="lg:sticky lg:top-6 lg:h-fit">
+                <PropertyMap
+                  records={selected.property_records}
+                  className="h-[600px]"
+                />
+              </div>
+            )}
+        </div>
+      ) : (
+        <Card className="p-8">
+          <div className="text-center text-muted-foreground">
+            <SearchIcon className="h-12 w-12 mx-auto mb-4 opacity-30" />
+            <h3 className="text-lg font-medium mb-2">
+              Select a search to view records
+            </h3>
+            <p>
+              Choose a completed search from the dropdown above to view property
+              records.
+            </p>
+          </div>
+        </Card>
+      )}
     </div>
   );
 }
