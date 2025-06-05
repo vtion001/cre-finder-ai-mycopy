@@ -6,7 +6,6 @@ import { IconFilterX, IconSearch } from "@tabler/icons-react";
 import type { Tables } from "@v1/supabase/types";
 import { Badge } from "@v1/ui/badge";
 import { Button } from "@v1/ui/button";
-import { Calendar } from "@v1/ui/calendar";
 import { cn } from "@v1/ui/cn";
 import { CollapsibleContent } from "@v1/ui/collapsible";
 import {
@@ -16,9 +15,14 @@ import {
   FormItem,
   FormMessage,
 } from "@v1/ui/form";
-import { Popover, PopoverContent, PopoverTrigger } from "@v1/ui/popover";
-import { format } from "date-fns";
-import { BuildingIcon, CalendarIcon, MapPinIcon } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@v1/ui/select";
+import { BuildingIcon, MapPinIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
 import { AssetTypeSelector } from "../asset-type-selector";
@@ -26,6 +30,7 @@ import { SavedLocationsSelector } from "../saved-locations-selector";
 import { RangeSliderField } from "./range-slider-field";
 
 type FilterFormValues = z.infer<typeof searchFiltersSchema>;
+
 interface SearchFiltersFormProps {
   intialValues?: FilterFormValues;
   assetTypes: Tables<"asset_types">[];
@@ -44,6 +49,8 @@ export function SearchFiltersForm({
     resolver: zodResolver(searchFiltersSchema),
     values: intialValues,
     defaultValues: {
+      last_sale_month: intialValues?.last_sale_month,
+      last_sale_year: intialValues?.last_sale_year,
       asset_type_id: intialValues?.asset_type_id ?? assetTypes[0]?.id,
     },
   });
@@ -167,46 +174,104 @@ export function SearchFiltersForm({
 
               <div className="space-y-4">
                 <h3 className="text-sm font-medium">Last Sale Date</h3>
-                <FormField
-                  control={form.control}
-                  name="last_sale_date"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-col space-y-4">
-                      <Popover>
-                        <PopoverTrigger asChild>
+                <div className="grid grid-cols-2 gap-2">
+                  <FormField
+                    control={form.control}
+                    name="last_sale_month"
+                    render={({ field }) => {
+                      const months = [
+                        { value: 0, label: "January" },
+                        { value: 1, label: "February" },
+                        { value: 2, label: "March" },
+                        { value: 3, label: "April" },
+                        { value: 4, label: "May" },
+                        { value: 5, label: "June" },
+                        { value: 6, label: "July" },
+                        { value: 7, label: "August" },
+                        { value: 8, label: "September" },
+                        { value: 9, label: "October" },
+                        { value: 10, label: "November" },
+                        { value: 11, label: "December" },
+                      ];
+
+                      return (
+                        <FormItem>
                           <FormControl>
-                            <Button
-                              variant={"outline"}
-                              className={cn(
-                                "w-full pl-3 text-left font-normal",
-                                !field.value && "text-muted-foreground",
-                              )}
+                            <Select
+                              defaultValue={
+                                field.value !== undefined
+                                  ? field.value.toString()
+                                  : ""
+                              }
+                              onValueChange={(value) =>
+                                field.onChange(
+                                  value ? Number.parseInt(value) : undefined,
+                                )
+                              }
                             >
-                              {field.value ? (
-                                format(field.value, "PPP")
-                              ) : (
-                                <span>Pick a date</span>
-                              )}
-                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                            </Button>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Month" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {months.map((month) => (
+                                  <SelectItem
+                                    key={month.value}
+                                    value={month.value.toString()}
+                                  >
+                                    {month.label}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
                           </FormControl>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0" align="start">
-                          <Calendar
-                            mode="single"
-                            selected={field.value}
-                            onSelect={field.onChange}
-                            disabled={(date) =>
-                              date > new Date() || date < new Date("1900-01-01")
-                            }
-                            initialFocus
-                          />
-                        </PopoverContent>
-                      </Popover>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                          <FormMessage />
+                        </FormItem>
+                      );
+                    }}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="last_sale_year"
+                    render={({ field }) => {
+                      const currentYear = new Date().getFullYear();
+                      const years = Array.from(
+                        { length: currentYear - 1900 + 1 },
+                        (_, i) => currentYear - i,
+                      );
+
+                      return (
+                        <FormItem>
+                          <FormControl>
+                            <Select
+                              value={field.value ? field.value.toString() : ""}
+                              onValueChange={(value) =>
+                                field.onChange(
+                                  value ? Number.parseInt(value) : undefined,
+                                )
+                              }
+                            >
+                              <SelectTrigger>
+                                <SelectValue placeholder="Year" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {years.map((year) => (
+                                  <SelectItem
+                                    key={year}
+                                    value={year.toString()}
+                                  >
+                                    {year}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      );
+                    }}
+                  />
+                </div>
               </div>
 
               <RangeSliderField

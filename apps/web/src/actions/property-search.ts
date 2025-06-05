@@ -28,7 +28,14 @@ export const previewSearchAction = authActionClient
   )
   .action(
     async ({
-      parsedInput: { searchId, location_id, asset_type_id, ...parsedInput },
+      parsedInput: {
+        searchId,
+        location_id,
+        asset_type_id,
+        last_sale_year,
+        last_sale_month,
+        ...parsedInput
+      },
       ctx: { user },
     }) => {
       const supabase = createClient();
@@ -49,11 +56,18 @@ export const previewSearchAction = authActionClient
         throw new Error("Location or asset type not found");
       }
 
+      // Assemble the date from year and month if both are provided
+      let lastSaleDate: string | undefined;
+      if (last_sale_year && last_sale_month !== undefined) {
+        // Create date object from year and month (day defaults to 1st of the month)
+        const date = new Date(last_sale_year, last_sale_month, 1);
+        lastSaleDate = format(date, "yyyy-MM-dd");
+      }
+
       const params = {
         ...parsedInput,
-        last_sale_date: parsedInput.last_sale_date
-          ? format(parsedInput.last_sale_date, "yyyy-MM-dd")
-          : undefined,
+
+        last_sale_date: lastSaleDate,
         property_use_code: assetType?.use_codes || undefined,
 
         city: location.type === "city" ? location.title : undefined,
@@ -61,7 +75,7 @@ export const previewSearchAction = authActionClient
         state: location?.state_code,
       };
 
-      console.log("Params:", params.property_use_code);
+      console.log("Params:", params);
 
       const isStorageUnitSearch = assetType?.name === "Storage Unit";
 
@@ -81,7 +95,11 @@ export const previewSearchAction = authActionClient
             user_id: user.id,
             asset_type_id,
             location_id,
-            search_parameters: params as unknown as Json,
+            search_parameters: {
+              ...params,
+              last_sale_year,
+              last_sale_month,
+            } as unknown as Json,
             result_count: response.resultCount,
             execution_time_ms: executionTime,
           },
@@ -131,7 +149,10 @@ export const completeSearchAction = authActionClient
 
     const isStorageUnitSearch = searchLog.asset_types.name === "Storage Unit";
 
-    const searchParams = searchLog.search_parameters as GetPropertySearchParams;
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+    const searchParams = searchLog.search_parameters as unknown as any;
+    searchParams.last_sale_year = undefined;
+    searchParams.last_sale_month = undefined;
 
     // We are fetching the full results
     const countOnly = false;

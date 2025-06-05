@@ -21,7 +21,19 @@ export const searchFiltersSchema = z
       .number()
       .min(0, "Must be a positive number")
       .optional(),
-    last_sale_date: z.date().optional(),
+    last_sale_year: z.coerce
+      .number()
+      .min(1900, "Year must be after 1900")
+      .max(
+        new Date().getFullYear(),
+        `Year must be before ${new Date().getFullYear() + 1}`,
+      )
+      .optional(),
+    last_sale_month: z.coerce
+      .number()
+      .min(0, "Month must be between 0 and 11")
+      .max(11, "Month must be between 0 and 11")
+      .optional(),
     year_min: z.coerce
       .number()
       .min(1900, "Year must be after 1900")
@@ -76,6 +88,22 @@ export const searchFiltersSchema = z
     {
       message: "Minimum year built must be less than or equal to maximum",
       path: ["year_min"],
+    },
+  )
+  .refine(
+    (data) => {
+      // If year is provided, month should also be provided (optional validation)
+      if (data.last_sale_year && data.last_sale_month === undefined) {
+        return false;
+      }
+      if (data.last_sale_month !== undefined && !data.last_sale_year) {
+        return false;
+      }
+      return true;
+    },
+    {
+      message: "Both year and month must be selected together",
+      path: ["last_sale_month"],
     },
   );
 
