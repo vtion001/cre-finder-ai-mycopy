@@ -127,7 +127,7 @@ export function PropertyRecords({ data }: PropertyRecordsProps) {
             selected.property_records.length > 0 ? (
               <ScrollArea
                 hideScrollbar
-                className="h-[600px] w-full rounded-md border overflow-y-hidden"
+                className="h-[calc(100vh-7rem)] w-full rounded-md border overflow-y-hidden"
               >
                 <PropertyRecordsTable records={selected.property_records} />
 
@@ -153,7 +153,7 @@ export function PropertyRecords({ data }: PropertyRecordsProps) {
               <div className="lg:sticky lg:top-6 lg:h-fit">
                 <PropertyMap
                   records={selected.property_records}
-                  className="h-[600px]"
+                  className="h-[calc(100vh-7rem)]"
                 />
               </div>
             )}
