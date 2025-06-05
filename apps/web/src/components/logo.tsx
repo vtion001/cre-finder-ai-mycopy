@@ -26,14 +26,24 @@ export function Logo({
   const logo = (
     <div className={cn("flex items-center", className)}>
       {showText ? (
-        <Image
-          src="/images/logo.png"
-          alt="CREQfinder Logo"
-          width={width}
-          height={height}
-          className="h-auto w-auto"
-          priority
-        />
+        <>
+          <Image
+            src="/images/logo.png"
+            alt="CREQfinder Logo"
+            width={width}
+            height={height}
+            className="h-auto w-auto dark:hidden"
+            priority
+          />
+          <Image
+            src="/images/logo-dark.png"
+            alt="CREQfinder Logo"
+            width={width}
+            height={height}
+            className="h-auto w-auto hidden dark:block"
+            priority
+          />
+        </>
       ) : (
         <Image
           src="/images/logo-icon.png"
