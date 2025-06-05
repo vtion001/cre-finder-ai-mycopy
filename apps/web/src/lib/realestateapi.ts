@@ -240,29 +240,80 @@ export interface GetPropertySearchParams {
   city?: string;
   county?: string;
   state?: string;
+  resultIndex?: number;
 }
 
 export async function getPropertySearch(
   params: GetPropertySearchParams,
   count = true,
 ) {
-  const response = await fetch(
-    "https://api.realestateapi.com/v2/PropertySearch",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-api-key": env.REALESTATEAPI_API_KEY,
-        "x-user-id": "CREFinderAI",
+  // If count is true, just get the count without pagination
+  if (count) {
+    const response = await fetch(
+      "https://api.realestateapi.com/v2/PropertySearch",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-api-key": env.REALESTATEAPI_API_KEY,
+          "x-user-id": "CREFinderAI",
+        },
+        body: JSON.stringify({
+          ...params,
+          count: true,
+        }),
       },
-      body: JSON.stringify({
-        ...params,
-        count,
-      }),
-    },
-  );
+    );
 
-  const data = (await response.json()) as PropertySearchResponse;
+    const data = (await response.json()) as PropertySearchResponse;
+    return data;
+  }
 
-  return data;
+  const allResults: PropertySearchResult[] = [];
+  let resultIndex = 0;
+  const pageSize = 250;
+  let totalRecords = 0;
+  let firstResponse: PropertySearchResponse | null = null;
+
+  do {
+    const response = await fetch(
+      "https://api.realestateapi.com/v2/PropertySearch",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-api-key": env.REALESTATEAPI_API_KEY,
+          "x-user-id": "CREFinderAI",
+        },
+        body: JSON.stringify({
+          ...params,
+          count: false,
+          size: pageSize,
+          resultIndex,
+        }),
+      },
+    );
+
+    const data = (await response.json()) as PropertySearchResponse;
+
+    // Store the first response to use its metadata
+    if (!firstResponse) {
+      firstResponse = data;
+      totalRecords = data.resultCount;
+    }
+
+    // Add the current page's results
+    if (data.data && data.data.length > 0) {
+      allResults.push(...data.data);
+    }
+
+    resultIndex += pageSize;
+  } while (resultIndex < totalRecords && allResults.length < totalRecords);
+
+  return {
+    ...firstResponse!,
+    data: allResults,
+    resultCount: allResults.length,
+    recordCount: allResults.length,
+  };
 }

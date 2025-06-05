@@ -2,214 +2,149 @@ import type { Json } from "@v1/supabase/types";
 import type { GooglePlaceResult } from "./google-places";
 import type { PropertySearchResult } from "./realestateapi";
 
-export function mergePropertySearchResults(
+/**
+ * Cross-references Real Estate API results with Google Places results.
+ * Only returns Real Estate API records that have a matching location in Google Places.
+ * Uses Real Estate API data exclusively - Google Places is only used for filtering.
+ *
+ * Based on analysis of actual response data, uses minimal transformation for optimal matching.
+ */
+export function crossReferenceResults(
   realEstateResults: PropertySearchResult[],
-  googlePlacesResults: PropertySearchResult[],
+  googlePlacesResults: GooglePlaceResult[],
 ): PropertySearchResult[] {
-  const uniqueProperties = new Map<string, PropertySearchResult>();
-
-  for (const property of realEstateResults) {
-    const key =
-      `${property.address.address}_${property.address.zip}`.toLowerCase();
-    uniqueProperties.set(key, property);
+  if (googlePlacesResults.length === 0) {
+    return realEstateResults;
   }
 
-  for (const property of googlePlacesResults) {
-    const key =
-      `${property.address.address}_${property.address.zip}`.toLowerCase();
-    if (!uniqueProperties.has(key)) {
-      uniqueProperties.set(key, property);
+  // Create lookup structures for Google Places data
+  const googleAddressSet = new Set<string>();
+  const googleCoordinates: Array<{
+    lat: number;
+    lng: number;
+    address: string;
+  }> = [];
+
+  for (const place of googlePlacesResults) {
+    // Normalize Google Places address (remove ", United States" suffix)
+    const cleanAddress = place.formatted_address.replace(
+      /, United States$/,
+      "",
+    );
+    const normalizedAddress = normalizeAddressForMatching(cleanAddress);
+    googleAddressSet.add(normalizedAddress);
+
+    // Store coordinates for proximity matching
+    googleCoordinates.push({
+      lat: place.geometry.location.lat,
+      lng: place.geometry.location.lng,
+      address: normalizedAddress,
+    });
+
+    // Add street-only variation for partial matching
+    const addressParts = cleanAddress.split(",");
+    if (addressParts.length > 0) {
+      const streetOnly = normalizeAddressForMatching(addressParts[0]!.trim());
+      googleAddressSet.add(streetOnly);
     }
   }
 
-  return Array.from(uniqueProperties.values());
+  // Filter Real Estate API results to only include those with matching locations
+  return realEstateResults.filter((property) => {
+    // Try address-based matching first
+    const addressVariations = [
+      property.address.address,
+      property.address.street,
+      `${property.address.street}, ${property.address.city}, ${property.address.state} ${property.address.zip}`,
+      `${property.address.address}, ${property.address.city}, ${property.address.state} ${property.address.zip}`,
+    ].filter(Boolean);
+
+    const hasAddressMatch = addressVariations.some((address) => {
+      if (typeof address === "string") {
+        const normalizedAddress = normalizeAddressForMatching(address);
+        return googleAddressSet.has(normalizedAddress);
+      }
+      return false;
+    });
+
+    if (hasAddressMatch) {
+      return true;
+    }
+
+    // If no address match, try coordinate proximity matching (within ~100 meters)
+    if (
+      typeof property.latitude === "number" &&
+      typeof property.longitude === "number"
+    ) {
+      return googleCoordinates.some((googleCoord) => {
+        const distance = calculateDistance(
+          property.latitude as number,
+          property.longitude as number,
+          googleCoord.lat,
+          googleCoord.lng,
+        );
+        return distance <= 0.001; // Approximately 100 meters
+      });
+    }
+
+    return false;
+  });
 }
 
-export function transformGooglePlaceToPropertyResult(
-  place: GooglePlaceResult,
-): PropertySearchResult {
-  // Parse address components
-  const { city, state, zip } = parseAddressComponents(place.formatted_address);
-
-  const propertyId = `google_places_${place.place_id}`;
-
-  return {
-    // Required fields
-    id: propertyId,
-    propertyId: propertyId,
-    apn: `GP-${place.place_id}`,
-
-    // Address information
-    address: {
-      address: place.formatted_address,
-      city: city,
-      county: "", // Not available from Google Places
-      fips: "", // Not available from Google Places
-      state: state,
-      street: place.name, // Use business name as street
-      zip: zip,
-    },
-
-    // Owner information (not available from Google Places)
-    owner1LastName: "Unknown",
-    owner1FirstName: "",
-    owner2FirstName: "",
-    owner2LastName: "",
-
-    // Property details
-    propertyType: "Storage Facility",
-    propertyUse: "Self Storage",
-    propertyUseCode: 229, // Storage facility use code
-
-    // Location data
-    latitude: place.geometry.location.lat,
-    longitude: place.geometry.location.lng,
-
-    // Business information (when available)
-    companyName: place.name,
-
-    // Default values for required fields
-    absenteeOwner: false,
-    adjustableRate: false,
-    airConditioningAvailable: false,
-    assessedImprovementValue: 0,
-    assessedLandValue: 0,
-    assessedValue: 0,
-    assumable: false,
-    auction: false,
-    auctionDate: null,
-    basement: false,
-    bathrooms: 0,
-    bedrooms: 0,
-    cashBuyer: false,
-    corporateOwned: true, // Most storage facilities are corporate owned
-    death: false,
-    deck: false,
-    deckArea: 0,
-    equity: false,
-    equityPercent: 0,
-    estimatedEquity: 0,
-    estimatedValue: 0,
-    floodZone: false,
-    floodZoneDescription: "",
-    floodZoneType: "",
-    foreclosure: false,
-    forSale: false,
-    freeClear: false,
-    garage: false,
-    highEquity: false,
-    hoa: false,
-    inherited: false,
-    inStateAbsenteeOwner: false,
-    investorBuyer: false,
-    judgment: false,
-    landUse: "Commercial",
-    lastMortgage1Amount: "",
-    lastSaleAmount: "",
-    lastSaleArmsLength: false,
-    lastUpdateDate: "",
-    lenderName: "",
-    listingAmount: "",
-    loanTypeCode: "",
-    lotSquareFeet: 0,
-    mailAddress: {
-      address: place.formatted_address,
-      city: city,
-      county: "",
-      state: state,
-      street: place.name,
-      zip: zip,
-    },
-    medianIncome: "",
-    MFH2to4: false,
-    MFH5plus: false,
-    mlsActive: false,
-    mlsCancelled: false,
-    mlsFailed: false,
-    mlsHasPhotos: false,
-    mlsListingPrice: 0,
-    mlsPending: false,
-    mlsSold: false,
-    negativeEquity: false,
-    neighborhood: {
-      center: `${place.geometry.location.lat},${place.geometry.location.lng}`,
-      id: place.place_id,
-      name: place.vicinity || city,
-      type: "business_area",
-    },
-    openMortgageBalance: 0,
-    outOfStateAbsenteeOwner: false,
-    ownerOccupied: false,
-    patio: false,
-    patioArea: 0,
-    pool: false,
-    poolArea: 0,
-    portfolioPurchasedLast12Months: 0,
-    portfolioPurchasedLast6Months: 0,
-    preForeclosure: false,
-    pricePerSquareFoot: 0,
-    priorSaleAmount: "",
-    privateLender: false,
-    rentAmount: "",
-    reo: false,
-    roomsCount: 0,
-    squareFeet: 0,
-    stories: 1,
-    suggestedRent: "",
-    taxLien: false,
-    totalPortfolioEquity: "",
-    totalPortfolioMortgageBalance: "",
-    totalPortfolioValue: "",
-    totalPropertiesOwned: "",
-    unitsCount: 0,
-    vacant: false,
-    yearBuilt: 0,
-    yearsOwned: 0,
-    parcelAccountNumber: "",
-    documentType: "",
-    documentTypeCode: "",
-    last_sale_date: "",
-    maturityDateFirst: "",
-    mlsDaysOnMarket: 0,
-    mlslast_sale_date: "",
-    mlsLastStatusDate: "",
-    mlsListingDate: "",
-    mlsSoldPrice: 0,
-    mlsStatus: "",
-    mlsType: "",
-    priorOwnerIndividual: false,
-    priorOwnerMonthsOwned: "",
-    recordingDate: "",
-    taxDelinquentYear: "",
-  };
+/**
+ * Normalizes addresses for matching based on analysis of actual API responses.
+ * Handles specific patterns found in Google Places vs Real Estate API data.
+ */
+function normalizeAddressForMatching(address: string): string {
+  return (
+    address
+      .toLowerCase()
+      .trim()
+      // Remove common punctuation and extra spaces
+      .replace(/[.,#]/g, "")
+      .replace(/\s+/g, " ")
+      // Handle highway naming variations (key insight from data analysis)
+      .replace(/\bhighway\s+(\d+)\s*([ns]?)\b/g, "hwy $1 $2")
+      .replace(/\bsc-(\d+)\b/g, "hwy $1")
+      .replace(/\bn\s+hwy\b/g, "hwy")
+      .replace(/\bs\s+hwy\b/g, "hwy")
+      // Normalize common address abbreviations
+      .replace(/\bstreet\b/g, "st")
+      .replace(/\bavenue\b/g, "ave")
+      .replace(/\bdrive\b/g, "dr")
+      .replace(/\broad\b/g, "rd")
+      .replace(/\blane\b/g, "ln")
+      .replace(/\bcourt\b/g, "ct")
+      .replace(/\bplace\b/g, "pl")
+      .replace(/\bboulevard\b/g, "blvd")
+      .replace(/\bcircle\b/g, "cir")
+      .replace(/\bparkway\b/g, "pkwy")
+      // Normalize directional indicators
+      .replace(/\bnorth\b/g, "n")
+      .replace(/\bsouth\b/g, "s")
+      .replace(/\beast\b/g, "e")
+      .replace(/\bwest\b/g, "w")
+      // Clean up extra spaces
+      .replace(/\s+/g, " ")
+      .trim()
+  );
 }
 
-function parseAddressComponents(formattedAddress: string): {
-  city: string;
-  state: string;
-  zip: string;
-} {
-  // Extract ZIP code
-  const zipMatch = formattedAddress.match(/\b\d{5}(-\d{4})?\b/);
-  const zip = zipMatch ? zipMatch[0] : "";
-
-  // Extract state (2-letter state code)
-  const stateMatch = formattedAddress.match(/\b[A-Z]{2}\b/);
-  const state = stateMatch ? stateMatch[0] : "";
-
-  // Extract city (part before state)
-  let city = "";
-  if (state) {
-    const stateIndex = formattedAddress.indexOf(state);
-    const beforeState = formattedAddress.substring(0, stateIndex).trim();
-    const parts = beforeState.split(", ");
-    city = parts[parts.length - 1] || "";
-  }
-
-  return { city, state, zip };
+/**
+ * Calculates the distance between two coordinate points in degrees.
+ * Used for proximity matching when address matching fails.
+ */
+function calculateDistance(
+  lat1: number,
+  lng1: number,
+  lat2: number,
+  lng2: number,
+): number {
+  const deltaLat = lat1 - lat2;
+  const deltaLng = lng1 - lng2;
+  return Math.sqrt(deltaLat * deltaLat + deltaLng * deltaLng);
 }
 
-// Helper function to convert PropertySearchResult to database record
 export function mapPropertyToRecord(
   property: PropertySearchResult,
   searchLogId: string,

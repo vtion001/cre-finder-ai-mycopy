@@ -1,0 +1,195 @@
+1. ADDRESS MATCH
+   realestateapi: 189 Brookshire Rd, Greer, SC 29651
+   Google Place: GSP Storage LLC
+   Coordinates Distance: 0.000123
+   Property Owner: Gsp Storage Llc
+   Company: Gsp Storage Llc
+
+2. ADDRESS MATCH
+   realestateapi: 3303 Brushy Creek Rd, Greer, SC 29650
+   Google Place: Brushy Creek Storage
+   Coordinates Distance: 0.000313
+   Property Owner: 3303 Brushy Creek Llc
+   Company: 3303 Brushy Creek Llc
+
+3. ADDRESS MATCH
+   realestateapi: 2450 Abner Creek Rd, Greer, SC 29651
+   Google Place: Abner Creek Self Storage
+   Coordinates Distance: 0.000025
+   Property Owner: The Maple Group Llc
+   Company: The Maple Group Llc,
+
+4. PROXIMITY MATCH
+   realestateapi: 3131 Highway 101 S, Greer, SC 29651
+   Google Place: Public Storage
+   Coordinates Distance: 0.000608
+   Property Owner: Ps Southeast Two Llc
+   Company: Ps Southeast Two Llc
+
+5. PROXIMITY MATCH
+   realestateapi: 555 E Suber Rd, Greer, SC 29650
+   Google Place: E Suber Rd Storage
+   Coordinates Distance: 0.000878
+   Property Owner: Alex James & Associates Inc
+   Company: Alex James & Associates Inc
+
+6. PROXIMITY MATCH
+   realestateapi: 3808 N Highway 14, Greer, SC 29651
+   Google Place: Storage 4U Greer
+   Coordinates Distance: 0.000741
+   Property Owner: Jalan Holdings Llc
+   Company: Jalan Holdings Llc
+
+7. PROXIMITY MATCH
+   realestateapi: 341 W Phillips Rd, Greer, SC 29650
+   Google Place: The Storage Vault Greer
+   Coordinates Distance: 0.000679
+   Property Owner: Mayberry Properties L L C
+   Company: Mayberry Properties L L C
+
+8. ADDRESS MATCH
+   realestateapi: 3804 N Highway 14, Greer, SC 29651
+   Google Place: Storage 4U Greer
+   Coordinates Distance: 0.000000
+   Property Owner: Lc N Hwy 14 Storage Llc
+   Company: Lc N Hwy 14 Storage Llc
+
+9. ADDRESS MATCH
+   realestateapi: 3337 N Highway 14, Greer, SC 29651
+   Google Place: Blue Ridge Storage
+   Coordinates Distance: 0.000921
+   Property Owner: Howell Investments Llc
+   Company: Howell Investments Llc
+
+10. PROXIMITY MATCH
+   realestateapi: 13070 E Wade Hampton Blvd, Greer, SC 29651
+   Google Place: Upstate Storage
+   Coordinates Distance: 0.000362
+   Property Owner: Strange Properties #2 Llc
+   Company: Strange Properties #2 Llc
+
+11. ADDRESS MATCH
+   realestateapi: 3463 N Highway 14, Greer, SC 29651
+   Google Place: Superior RV and Boat Storage
+   Coordinates Distance: 0.000612
+   Property Owner: H & H realestateapi Holdings Llc
+   Company: H & H realestateapi Holdings Llc
+
+12. ADDRESS MATCH
+   realestateapi: 2260 River Rd, Greer, SC 29650
+   Google Place: Delta Self-Storage
+   Coordinates Distance: 0.000051
+   Property Owner: Delta Self Storage Llc
+   Company: Delta Self Storage Llc
+
+13. ADDRESS MATCH
+   realestateapi: 207 S Buncombe Rd, Greer, SC 29650
+   Google Place: POM Self- Storage
+   Coordinates Distance: 0.001146
+   Property Owner: Kem Llc
+   Company: Kem Llc
+
+14. PROXIMITY MATCH
+   realestateapi: 1638 Old Highway 14 S, Greer, SC 29651
+   Google Place: Swafford Transport and Warehouse
+   Coordinates Distance: 0.000010
+   Property Owner: Swafford Properties Llc
+   Company: Swafford Properties Llc
+
+15. ADDRESS MATCH
+   realestateapi: 3312 Brushy Creek Rd, Greer, SC 29650
+   Google Place: A-Class Storage
+   Coordinates Distance: 0.000426
+   Property Owner: A-Class Rv & Boat Storage Llc
+   Company: A-Class Rv & Boat Storage Llc
+
+16. ADDRESS MATCH
+   realestateapi: 805 Hammett Bridge Rd, Greer, SC 29650
+   Google Place: Bee Safe Storage
+   Coordinates Distance: 0.000186
+   Property Owner: Bee Safe Suber Road Llc
+   Company: Bee Safe Suber Road Llc
+
+17. PROXIMITY MATCH
+   realestateapi: 519 Pelham St, Greer, SC 29651
+   Google Place: U-Haul Moving & Storage of Greer
+   Coordinates Distance: 0.000921
+   Property Owner: Amerco realestateapi Company
+   Company: Amerco realestateapi Company
+
+18. ADDRESS MATCH
+   realestateapi: 2764 S Old Highway 14, Greer, SC 29650
+   Google Place: Hwy 14 Boat & RV Storage
+   Coordinates Distance: 0.000544
+   Property Owner: Wcm Storage Solutions Llc
+   Company: Wcm Storage Solutions Llc
+
+19. ADDRESS MATCH
+   realestateapi: 2276 N Highway 101, Greer, SC 29651
+   Google Place: Storage Rentals of America
+   Coordinates Distance: 0.000975
+   Property Owner: Storage Rentals Of
+   Company: N/A
+
+20. ADDRESS MATCH
+   realestateapi: 1408 Boiling Springs Rd, Greer, SC 29650
+   Google Place: Public Storage
+   Coordinates Distance: 0.000068
+   Property Owner: Ps Southeast Two Llc
+   Company: Ps Southeast Two Llc
+
+21. ADDRESS MATCH
+   realestateapi: 345 W Phillips Rd, Greer, SC 29650
+   Google Place: The Storage Vault Greer
+   Coordinates Distance: 0.000230
+   Property Owner: 3376 Walhalla Hwy Llc
+   Company: 3376 Walhalla Hwy Llc
+
+22. PROXIMITY MATCH
+   realestateapi: 201 S Buncombe Rd, Greer, SC 29650
+   Google Place: POM Self- Storage
+   Coordinates Distance: 0.000527
+   Property Owner: Kem Llc
+   Company: Kem Llc
+
+23. PROXIMITY MATCH
+   realestateapi: 318 Pennsylvania Ave, Greer, SC 29650
+   Google Place: UNITS Moving and Portable Storage of Greenville
+   Coordinates Distance: 0.000921
+   Property Owner: Able Holdings Llc
+   Company: Able Holdings Llc
+
+24. PROXIMITY MATCH
+   realestateapi: 1447 S Batesville Rd, Greer, SC 29650
+   Google Place: Toy Storage Upstate
+   Coordinates Distance: 0.000826
+   Property Owner: Caudel Properties Llc
+   Company: Caudel Properties Llc
+
+25. ADDRESS MATCH
+   realestateapi: 308 Pennsylvania Ave, Greer, SC 29650
+   Google Place: UNITS Moving and Portable Storage of Greenville
+   Coordinates Distance: 0.000088
+   Property Owner: Able Holdings Llc
+   Company: Able Holdings Llc
+
+26. PROXIMITY MATCH
+   realestateapi: 1490 E Wade Hampton Blvd, Greer, SC 29651
+   Google Place: Extra Space Storage
+   Coordinates Distance: 0.000347
+   Property Owner: Jx Storage 1 Llc
+   Company: Jx Storage (Multi) 1 Llc
+
+27. PROXIMITY MATCH
+   realestateapi: 678 Brockman Mcclimon Rd, Greer, SC 29651
+   Google Place: 1-800-PACK-RAT
+   Coordinates Distance: 0.000646
+   Property Owner: Gsp678 Llc
+   Company: Gsp678 Llc
+
+28. PROXIMITY MATCH
+   realestateapi: 1 Shelter Dr, Greer, SC 29650
+   Google Place: Carey Moving & Storage - Greenville
+   Coordinates Distance: 0.000643
+   Property Owner: Carey Associates Sc Gen Partn
+   Company: Carey Associates Sc Gen Partn

@@ -1,17 +1,14 @@
 "use server";
 
+import fs from "node:fs";
 import { searchStorageFacilities } from "@/lib/google-places";
 import {
   type GetPropertySearchParams,
   getPropertySearch,
 } from "@/lib/realestateapi";
-import {
-  mapPropertyToRecord,
-  mergePropertySearchResults,
-  transformGooglePlaceToPropertyResult,
-} from "@/lib/transform";
+import { crossReferenceResults, mapPropertyToRecord } from "@/lib/transform";
 import { createClient } from "@v1/supabase/server";
-import type { Json, Tables } from "@v1/supabase/types";
+import type { Json } from "@v1/supabase/types";
 import { format } from "date-fns";
 import { revalidateTag } from "next/cache";
 import { z } from "zod";
@@ -188,7 +185,7 @@ export const completeSearchAction = authActionClient
 async function getResults(
   params: GetPropertySearchParams,
   isStorageUnits: boolean,
-  count = true,
+  countOnly = true,
 ) {
   let response: Awaited<ReturnType<typeof getPropertySearch>>;
 
@@ -196,7 +193,35 @@ async function getResults(
 
   console.log("Params:", params);
 
-    response = await getPropertySearch(params, count);
+  if (isStorageUnits && !countOnly) {
+    // For storage units, get both Google Places and Real Estate API results
+    const [googleResponse, realEstateResponse] = await Promise.all([
+      searchStorageFacilities({
+        city: params.city,
+        county: params.county,
+        state: params.state,
+      }),
+      getPropertySearch(params, countOnly),
+    ]);
+
+    const crossReferencedData = crossReferenceResults(
+      realEstateResponse.data,
+      googleResponse.results,
+    );
+
+    fs.writeFileSync(
+      "cross-referenced-response.json",
+      JSON.stringify({ data: crossReferencedData }),
+    );
+
+    response = {
+      ...realEstateResponse,
+      data: crossReferencedData,
+      resultCount: crossReferencedData.length,
+    };
+  } else {
+    response = await getPropertySearch(params, countOnly);
+  }
 
   const end_time = performance.now();
   const executionTime = end_time - start_time;

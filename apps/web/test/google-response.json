@@ -1,0 +1,1368 @@
+{
+    "data": [
+        {
+            "business_status": "OPERATIONAL",
+            "formatted_address": "1490 W Wade Hampton Blvd, Greer, SC 29650, United States",
+            "geometry": {
+                "location": {
+                    "lat": 34.9385428,
+                    "lng": -82.2734479
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 34.93971232989272,
+                        "lng": -82.27187607010727
+                    },
+                    "southwest": {
+                        "lat": 34.93701267010727,
+                        "lng": -82.27457572989272
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+            "icon_background_color": "#7B9EB0",
+            "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+            "name": "Extra Space Storage",
+            "opening_hours": {
+                "open_now": true
+            },
+            "photos": [
+                {
+                    "height": 600,
+                    "html_attributions": [
+                        "<a href=\"https://maps.google.com/maps/contrib/101006762857237442593\">Extra Space Storage</a>"
+                    ],
+                    "photo_reference": "AXQCQNTrmUTsJuwHSWFS7u4nThmQ27SNuO3mS5xtTa0HVZTwoIw8h8Tsqh4CcRpoiyOO9MtZFtz6GFeFaZyeupla1lkdKOwz6tExfI4mC-fjO2mt7EB9szv9w83KsALXw8lIyFsP-D20CRNuB_3gdViPvSG_7gRewmHa5QrFLOv-9e78LUcVLRIzjdx9j2df5T74SgykOjVlOIETpqVJjlUbKTHLs563vHzvxuYJ9H96i4efAI9kz399Xdi7AEhyycabEI1peiz5U35GOeKgAPoMEa2YxUfzUt2LkLuXg7D_2ecuVJ4gylg",
+                    "width": 800
+                }
+            ],
+            "place_id": "ChIJaUJqyBErWIgREtzEbzb8P2Y",
+            "plus_code": {
+                "compound_code": "WPQG+CJ Greer, South Carolina, USA",
+                "global_code": "866VWPQG+CJ"
+            },
+            "rating": 4.9,
+            "reference": "ChIJaUJqyBErWIgREtzEbzb8P2Y",
+            "types": [
+                "moving_company",
+                "storage",
+                "store",
+                "point_of_interest",
+                "establishment"
+            ],
+            "user_ratings_total": 519
+        },
+        {
+            "business_status": "OPERATIONAL",
+            "formatted_address": "207 S Buncombe Rd, Greer, SC 29650, United States",
+            "geometry": {
+                "location": {
+                    "lat": 34.9399934,
+                    "lng": -82.2570362
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 34.94133732989272,
+                        "lng": -82.25570612010728
+                    },
+                    "southwest": {
+                        "lat": 34.93863767010728,
+                        "lng": -82.25840577989273
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+            "icon_background_color": "#7B9EB0",
+            "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+            "name": "POM Self- Storage",
+            "opening_hours": {
+                "open_now": true
+            },
+            "photos": [
+                {
+                    "height": 2499,
+                    "html_attributions": [
+                        "<a href=\"https://maps.google.com/maps/contrib/109009451033183079117\">POM Self- Storage</a>"
+                    ],
+                    "photo_reference": "AXQCQNT934twBpMoFJ3la5DhP7AToPQbx59krn-YcOh3yCikt1b-Abxv2oroYdfnYbxbX7eqCaLB8siJpV1glaMxjfv0-saS7jn2qgTeZ3qIQVy8Lg7_IqS5nnAZcIDn1RcVMzLEafMyPPVRQ0t9m6st_Q4BFkCDTfNy7w9V70_TwvzRRr7x71WJoLZ6xdBV92fOx_t7PQh3XNHapKVKgKYYzj3UT5ma9m3sji6-uhyCqtUqw6eOUeumVe-8nWL_fyRoCDLW_R84t--Bk-kIGiAIhcKahvlsyiJIj7aRZangZRuUlOnKWHE",
+                    "width": 2115
+                }
+            ],
+            "place_id": "ChIJzedG9WsrWIgRQX4U8yP2_3c",
+            "plus_code": {
+                "compound_code": "WPQV+X5 Greer, South Carolina, USA",
+                "global_code": "866VWPQV+X5"
+            },
+            "rating": 4.7,
+            "reference": "ChIJzedG9WsrWIgRQX4U8yP2_3c",
+            "types": [
+                "storage",
+                "point_of_interest",
+                "establishment"
+            ],
+            "user_ratings_total": 78
+        },
+        {
+            "business_status": "OPERATIONAL",
+            "formatted_address": "345 W Phillips Rd, Greer, SC 29650, United States",
+            "geometry": {
+                "location": {
+                    "lat": 34.8730051,
+                    "lng": -82.235092
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 34.87436452989272,
+                        "lng": -82.23375362010728
+                    },
+                    "southwest": {
+                        "lat": 34.87166487010728,
+                        "lng": -82.23645327989273
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+            "icon_background_color": "#7B9EB0",
+            "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+            "name": "The Storage Vault Greer",
+            "opening_hours": {
+                "open_now": true
+            },
+            "photos": [
+                {
+                    "height": 3072,
+                    "html_attributions": [
+                        "<a href=\"https://maps.google.com/maps/contrib/100103824325743235308\">Jerry Stevens</a>"
+                    ],
+                    "photo_reference": "AXQCQNQVeW6CZcNNxsS64KpO3hLE1s7bOb-yWbJJux5tXASUFPKx04PhDR3TZxfQGAQGFaciLldBfO6MwNRNyML3oEEk6mXfxpgbq9EquEtTrDK8usmAeu-kjJ5C2OZ0PsI7bWRYeeT-lx5bl9wiLRQCcartRqaHQFpuEMu1mRTuod1carJCB5BQ9D7SuQC02PGm4mB4Hi8YoLxPCTf-VRDt63kvvXqG0RizY6duYyRuhbl4HBpSqUa9hgo3GWwLfCmyFHJbWIKYmyYJrtctSMruq0IHJ4dKYKPXLfywUZj9QxyPyp7EupD14C6ssZgmxlIcXXj7wg7autB2Sdb2aF3EHBIkyKDccFbGy7TYBVe9dcG1iuickA2ye06-Ljn-DPIQtN-X_HYZ14RaXITYqystsO0QMZM1U09nyzLX0OEY92qZFsgiUgsPX68wymOf1_Qmi6ENH0X9DUKesplcpude33oA1Gplse3joEAvOUJBKf9R4VR3071edmMX6tTaWKRWueAMbkGBvNSGOqtS3myDDV2BtA6AoPDJVM6jvNfFpIm3phVwiZo1ihYjKTL3RMv3H6h4o87i",
+                    "width": 4080
+                }
+            ],
+            "place_id": "ChIJOWSKZ_MpWIgRQVbuFelVOJQ",
+            "plus_code": {
+                "compound_code": "VQF7+6X Greer, South Carolina, USA",
+                "global_code": "866VVQF7+6X"
+            },
+            "rating": 4.8,
+            "reference": "ChIJOWSKZ_MpWIgRQVbuFelVOJQ",
+            "types": [
+                "storage",
+                "point_of_interest",
+                "establishment"
+            ],
+            "user_ratings_total": 32
+        },
+        {
+            "business_status": "OPERATIONAL",
+            "formatted_address": "805 Hammett Bridge Rd, Greer, SC 29650, United States",
+            "geometry": {
+                "location": {
+                    "lat": 34.9006426,
+                    "lng": -82.25695600000002
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 34.90190607989272,
+                        "lng": -82.25544127010727
+                    },
+                    "southwest": {
+                        "lat": 34.89920642010728,
+                        "lng": -82.25814092989272
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+            "icon_background_color": "#7B9EB0",
+            "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+            "name": "Bee Safe Storage",
+            "opening_hours": {
+                "open_now": true
+            },
+            "photos": [
+                {
+                    "height": 1463,
+                    "html_attributions": [
+                        "<a href=\"https://maps.google.com/maps/contrib/101474789259101166172\">Bee Safe Storage</a>"
+                    ],
+                    "photo_reference": "AXQCQNTdpCjkDiaJ5acz2w23edMOcYfpkWmb5KB1LQrDeDylSpWe68Me1KGYtho1_l37LbE1QwHLXljb6sPZY3YBx6h_OO-9I9blN-pPM9M-jTWtniIyzOGOJ2eyQiKpCTPb-N8ahm0K_3ODLy559ErF-V1w9Hxhy_ysoD0vPVodg1mVxo2Nee0hYdsANdZhyhBBj2_5z5LQQlc8Wog_i3GlCeyfiXz-kIvn4-XD5n4m-ajca2z3FSVrUQx9uKEFcBJgt6kFsNP01xGZehY3mbnOc7uaVglFP6eX7lsR3HYhg82v-hKnuWI",
+                    "width": 2048
+                }
+            ],
+            "place_id": "ChIJWY7EMDUqWIgR8v_P-McpWz8",
+            "plus_code": {
+                "compound_code": "WP2V+76 Greer, South Carolina, USA",
+                "global_code": "866VWP2V+76"
+            },
+            "rating": 4.7,
+            "reference": "ChIJWY7EMDUqWIgR8v_P-McpWz8",
+            "types": [
+                "moving_company",
+                "storage",
+                "store",
+                "point_of_interest",
+                "establishment"
+            ],
+            "user_ratings_total": 168
+        },
+        {
+            "business_status": "OPERATIONAL",
+            "formatted_address": "14372 E Wade Hampton Blvd, Greer, SC 29651, United States",
+            "geometry": {
+                "location": {
+                    "lat": 34.94795270000001,
+                    "lng": -82.21689479999999
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 34.94925767989272,
+                        "lng": -82.21527342010728
+                    },
+                    "southwest": {
+                        "lat": 34.94655802010728,
+                        "lng": -82.21797307989272
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+            "icon_background_color": "#7B9EB0",
+            "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+            "name": "Greer Storage",
+            "opening_hours": {
+                "open_now": true
+            },
+            "photos": [
+                {
+                    "height": 432,
+                    "html_attributions": [
+                        "<a href=\"https://maps.google.com/maps/contrib/117842494210694166751\">Greer Storage</a>"
+                    ],
+                    "photo_reference": "AXQCQNTeh9FYDIi_RaFz7j4VZdkIKCkcZj83pdIdEiVBwpWBcFGMlpjWY010HKkNBBqAxCTkCaMzG46jiaanybAx1yGcLiVreWjqVja46hvjNr0eGbLpVn2EHNGDz3WoAa4aIm8Dl90Dgb91scGbOH008x8KiMJi3LiT9eNjFI4wQ7XfR8TjNFFQ1wNvaQhtzwjKR-PYUrNNwexs5BwfIoNMlEfhqZTwtGbALZHYk_ehv3u9so2bUMINw9qe25WsDO94f0imMmmeeSK1qINk-7RtfHsKcIawHtLoxaBCi5CzoutZGbQ-_1Y",
+                    "width": 576
+                }
+            ],
+            "place_id": "ChIJNyO25qMqWIgR4yet1y_YVpc",
+            "plus_code": {
+                "compound_code": "WQXM+56 Greer, South Carolina, USA",
+                "global_code": "866VWQXM+56"
+            },
+            "rating": 4.8,
+            "reference": "ChIJNyO25qMqWIgR4yet1y_YVpc",
+            "types": [
+                "moving_company",
+                "storage",
+                "point_of_interest",
+                "establishment"
+            ],
+            "user_ratings_total": 47
+        },
+        {
+            "business_status": "OPERATIONAL",
+            "formatted_address": "1408 Boiling Springs Rd, Greer, SC 29650, United States",
+            "geometry": {
+                "location": {
+                    "lat": 34.863584,
+                    "lng": -82.28036399999999
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 34.86518007989272,
+                        "lng": -82.27876897010728
+                    },
+                    "southwest": {
+                        "lat": 34.86248042010727,
+                        "lng": -82.28146862989273
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+            "icon_background_color": "#7B9EB0",
+            "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+            "name": "Public Storage",
+            "opening_hours": {
+                "open_now": true
+            },
+            "photos": [
+                {
+                    "height": 1080,
+                    "html_attributions": [
+                        "<a href=\"https://maps.google.com/maps/contrib/104870047773090071811\">Public Storage</a>"
+                    ],
+                    "photo_reference": "AXQCQNTSKmhzAHHJ3Nz1_83u5FhotuAebyiZUDypb2CRcmIn1QfJCO5h3NEjk07u8CtXnHXbrdIT_NBirbpT5uHQfpnK588uy2PMxpyS821_TPVXab9PusrG_h19ncpmYlC17Ui6zQ-CH8P3JzpsFGO3HJ8Y-YvuZ9J-AwohdASnm5imohVc60wLce4bLFDjbIE9HydTycoWpKBC8B57Giher1eX0c3DRg0i7sGQo10qrOvSZygpgk7TbXPcGvSChYanNDT0OvQ8zVxfbck76QqlE_bJAfHavwoiaTgnOJfd0CihV7OQx8Y",
+                    "width": 1920
+                }
+            ],
+            "place_id": "ChIJV2YR1JQpWIgRJjtVFsPL_nI",
+            "plus_code": {
+                "compound_code": "VP79+CV Greer, South Carolina, USA",
+                "global_code": "866VVP79+CV"
+            },
+            "rating": 4.8,
+            "reference": "ChIJV2YR1JQpWIgRJjtVFsPL_nI",
+            "types": [
+                "storage",
+                "store",
+                "point_of_interest",
+                "establishment"
+            ],
+            "user_ratings_total": 463
+        },
+        {
+            "business_status": "OPERATIONAL",
+            "formatted_address": "2276 N Hwy 101, Greer, SC 29651, United States",
+            "geometry": {
+                "location": {
+                    "lat": 34.9680924,
+                    "lng": -82.2723029
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 34.96944622989272,
+                        "lng": -82.27095322010729
+                    },
+                    "southwest": {
+                        "lat": 34.96674657010728,
+                        "lng": -82.27365287989272
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+            "icon_background_color": "#7B9EB0",
+            "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+            "name": "Storage Rentals of America",
+            "opening_hours": {
+                "open_now": true
+            },
+            "photos": [
+                {
+                    "height": 4480,
+                    "html_attributions": [
+                        "<a href=\"https://maps.google.com/maps/contrib/115882804198176648475\">Storage Rentals of America</a>"
+                    ],
+                    "photo_reference": "AXQCQNTgLsUEX1pSdNKxUFmeTHQmZAT4Z9J7xYFpuHHlZ8iytyjmHd_kriS0lfzy9ho1fFsP7v-k5BlSoSnhuYXARvNXQV_6sfVYecdiWCpmbcpXob0uQSudSh8TIgdP5Ln3bpY4-7bGxVb2c29Kjgrsv7rn8FIa_a8xE9pWkC6uyll4vykQMYSWu5g02fPckszK6CvqRzBDXQfB1HsnyV7EppDg6cH-taJKa5r_PPXlo7_54Ftux9VnVcZktQonIqxR34PBJxeS-W7JOGxaH3cQ3R7uohckyK9eRKzUg-6ztAa0wyK-TNs",
+                    "width": 6720
+                }
+            ],
+            "place_id": "ChIJLxzipDQrWIgR7kRIOjNEyTI",
+            "plus_code": {
+                "compound_code": "XP9H+63 Greer, South Carolina, USA",
+                "global_code": "866VXP9H+63"
+            },
+            "rating": 4.6,
+            "reference": "ChIJLxzipDQrWIgR7kRIOjNEyTI",
+            "types": [
+                "storage",
+                "store",
+                "point_of_interest",
+                "establishment"
+            ],
+            "user_ratings_total": 153
+        },
+        {
+            "business_status": "OPERATIONAL",
+            "formatted_address": "3131 SC-101, Greer, SC 29651, United States",
+            "geometry": {
+                "location": {
+                    "lat": 34.8351525,
+                    "lng": -82.14415970000002
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 34.83651377989273,
+                        "lng": -82.14281357010728
+                    },
+                    "southwest": {
+                        "lat": 34.83381412010728,
+                        "lng": -82.14551322989273
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+            "icon_background_color": "#7B9EB0",
+            "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+            "name": "Public Storage",
+            "opening_hours": {
+                "open_now": true
+            },
+            "photos": [
+                {
+                    "height": 1080,
+                    "html_attributions": [
+                        "<a href=\"https://maps.google.com/maps/contrib/101727353871044368795\">Public Storage</a>"
+                    ],
+                    "photo_reference": "AXQCQNR2z4Sx5FnrAiIppGrFN6N3SVeu8cqWXYZgbzOxMmSigIHVe7JxXwygyzRWzqJCE1icQVMFowJNXrpwxplwYW_IHwpmW6Wdu6xnvZJK6rYUubiSV3tQCxX260h9ctEIl_s3Oyh09Ce-uHSiSGXXmHrf7mlI2aiwoWQXJWTxho_A_G375BJR7FiPJzBHH9tm1OoE0FVKYjvNFSHrqrOCfDAK4QyKMm6aYixzSPgJlV9NRcmVJzegxvgsb_eOM62i1IOFFJcHgjCfkjRCrorieIHVUu6iF__-IdBRnylvLMPLhsdV1w0",
+                    "width": 1920
+                }
+            ],
+            "place_id": "ChIJmZMF1ueHV4gRHQwWUqUesio",
+            "plus_code": {
+                "compound_code": "RVP4+28 Greer, South Carolina, USA",
+                "global_code": "866VRVP4+28"
+            },
+            "rating": 4.7,
+            "reference": "ChIJmZMF1ueHV4gRHQwWUqUesio",
+            "types": [
+                "storage",
+                "store",
+                "point_of_interest",
+                "establishment"
+            ],
+            "user_ratings_total": 37
+        },
+        {
+            "business_status": "OPERATIONAL",
+            "formatted_address": "3303 Brushy Creek Rd, Greer, SC 29650, United States",
+            "geometry": {
+                "location": {
+                    "lat": 34.9208208,
+                    "lng": -82.2565223
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 34.92223032989272,
+                        "lng": -82.25520852010729
+                    },
+                    "southwest": {
+                        "lat": 34.91953067010728,
+                        "lng": -82.25790817989272
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+            "icon_background_color": "#7B9EB0",
+            "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+            "name": "Brushy Creek Storage",
+            "opening_hours": {
+                "open_now": true
+            },
+            "place_id": "ChIJJVdH4VQqWIgRsQDXTph5AhM",
+            "plus_code": {
+                "compound_code": "WPCV+C8 Greer, South Carolina, USA",
+                "global_code": "866VWPCV+C8"
+            },
+            "rating": 4.8,
+            "reference": "ChIJJVdH4VQqWIgRsQDXTph5AhM",
+            "types": [
+                "storage",
+                "point_of_interest",
+                "establishment"
+            ],
+            "user_ratings_total": 35
+        },
+        {
+            "business_status": "OPERATIONAL",
+            "formatted_address": "13072 E Wade Hampton Blvd, Greer, SC 29651, United States",
+            "geometry": {
+                "location": {
+                    "lat": 34.9544172,
+                    "lng": -82.17377520000001
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 34.95552562989272,
+                        "lng": -82.17235192010727
+                    },
+                    "southwest": {
+                        "lat": 34.95282597010728,
+                        "lng": -82.17505157989272
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+            "icon_background_color": "#7B9EB0",
+            "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+            "name": "Upstate Storage",
+            "opening_hours": {
+                "open_now": true
+            },
+            "photos": [
+                {
+                    "height": 3024,
+                    "html_attributions": [
+                        "<a href=\"https://maps.google.com/maps/contrib/106143308854531408417\">Upstate Storage</a>"
+                    ],
+                    "photo_reference": "AXQCQNQiHMZf3CB7xr5oE2b3RxxTlCt1pRKepqw9THz5BU1K22cFAojM6SMw0P_3FaUyB1gZcHrKR2mFmgFsGeZeQVd5QTjgoKayHxdGI02Dz1RW27RjnvK0mVK34jc2amwxXHQSGl6WZs_IxVNnwZg4QsF_RTy4EQhdzg131c3zKDu4G2XZN2N5-fq4S9hTU6FEgufmKFRZLjN8dh2H2OScIfNmptpjjX_LdswJDkJPhmH24Vw1a3JX7MGKRrnyBstAn_J5uG4yNuVe8p2mmJeyUpGGRlDEce1CIJCbhkkuu7K97QrQuLo",
+                    "width": 4032
+                }
+            ],
+            "place_id": "ChIJX6h_wBaAV4gR3Xu5kKjiUsk",
+            "plus_code": {
+                "compound_code": "XR3G+QF Greer, South Carolina, USA",
+                "global_code": "866VXR3G+QF"
+            },
+            "rating": 4.4,
+            "reference": "ChIJX6h_wBaAV4gR3Xu5kKjiUsk",
+            "types": [
+                "storage",
+                "point_of_interest",
+                "establishment"
+            ],
+            "user_ratings_total": 16
+        },
+        {
+            "business_status": "OPERATIONAL",
+            "formatted_address": "639 Arlington Rd, Greer, SC 29651, United States",
+            "geometry": {
+                "location": {
+                    "lat": 34.953493,
+                    "lng": -82.2124757
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 34.95487587989272,
+                        "lng": -82.21112522010728
+                    },
+                    "southwest": {
+                        "lat": 34.95217622010728,
+                        "lng": -82.21382487989273
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+            "icon_background_color": "#7B9EB0",
+            "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+            "name": "Just Stor it",
+            "opening_hours": {
+                "open_now": true
+            },
+            "photos": [
+                {
+                    "height": 1536,
+                    "html_attributions": [
+                        "<a href=\"https://maps.google.com/maps/contrib/113759182208199520434\">Just Stor it</a>"
+                    ],
+                    "photo_reference": "AXQCQNSWTkH2JSDkyJmjSo8r9BeqD6KOpFIc_5ncV9o3klNlpC3D9Y-T08H6ZdFZOj_e96vEzejhmbAbMD1PYegwBOsDAiTAvDIur7cX6n-qiDN5or-SDBbkgSSVbFpXWNEZxRiRmofWvMBFZOYFX5PDzE81Nb_A6T3g4zTBcPKCR86gSwWwVHZIfd_hFiao4S4zaBCNOdCvP6wbezn8znPaQsohO8spsXI0z7zAV2tbcrzgIdK0kLQvX9I3fJ1Et-SPfymKcOZ0_iLB95Uo9S1oN5fOVXvWb4w4JFwR_FL5eg7zSfh28co",
+                    "width": 2048
+                }
+            ],
+            "place_id": "ChIJ86iNiwiAV4gRzU_zAVowHVM",
+            "plus_code": {
+                "compound_code": "XQ3Q+92 Greer, South Carolina, USA",
+                "global_code": "866VXQ3Q+92"
+            },
+            "rating": 4.6,
+            "reference": "ChIJ86iNiwiAV4gRzU_zAVowHVM",
+            "types": [
+                "storage",
+                "point_of_interest",
+                "establishment"
+            ],
+            "user_ratings_total": 18
+        },
+        {
+            "business_status": "OPERATIONAL",
+            "formatted_address": "2260 River Rd, Greer, SC 29650, United States",
+            "geometry": {
+                "location": {
+                    "lat": 34.8760692,
+                    "lng": -82.2463666
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 34.87746812989272,
+                        "lng": -82.24501207010728
+                    },
+                    "southwest": {
+                        "lat": 34.87476847010728,
+                        "lng": -82.24771172989273
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+            "icon_background_color": "#7B9EB0",
+            "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+            "name": "Delta Self-Storage",
+            "opening_hours": {
+                "open_now": true
+            },
+            "photos": [
+                {
+                    "height": 3024,
+                    "html_attributions": [
+                        "<a href=\"https://maps.google.com/maps/contrib/107177446534429154714\">Michael Flaker</a>"
+                    ],
+                    "photo_reference": "AXQCQNSLkk5O5a7qD_RXua_hzheBhQuSfpXE9M1cqQ7Xvv5sO5Pb3HVfTe2bwytMXk5jSqObRCDhzHQOO3vUEKQtYlshas74--qvfVCqn4BBoHIuSTxO7XQcJ0fScAm00bQivlIwjXC-D9m2BhfxepT02WcaAiLWqOXXNdOgwWgJj6_a0xp0sLmCLS8SmWXCNEWO6JET2g17n1Gle40UpFTdAKL4tGiHcLVdKFaWy11gBhJI9I9ZkNcIUC-xjv8C5AFTNT06AUjmAiqyBy6E5vajfgGRmkICIYmK0C4fvw-ZONv7f6iEdbxGPDV31pIDCmH2sDj5v3_-O1jzfMGlFoMpdlVKDtIk7zxMjzTt_UX6IMs5KEZxIAYG-a_YpQnasE8SjRZKVDaftDW2BxGyq0V3kM9rAS1_sDblavgDTPxNPI5TXhOgg3FtQ1j_aBIwu3B6aFAnzny3xaE-PnVVef7XoWLJ-yn0ePNV-bC8VvmAaY9R0Zz6GN2jbzvdQZI-HR1I_8YXs0aLE4PFDMWoYW5_1sNP_hBXB7_LwVQKSnfV-rO3OcyTvvI04IZk8A9H1m2oJ7RKgLSa0CLmYQ",
+                    "width": 4032
+                }
+            ],
+            "place_id": "ChIJ37eloYgpWIgR0LZDCnLHdBI",
+            "plus_code": {
+                "compound_code": "VQG3+CF Greer, South Carolina, USA",
+                "global_code": "866VVQG3+CF"
+            },
+            "rating": 4.4,
+            "reference": "ChIJ37eloYgpWIgR0LZDCnLHdBI",
+            "types": [
+                "storage",
+                "point_of_interest",
+                "establishment"
+            ],
+            "user_ratings_total": 20
+        },
+        {
+            "business_status": "OPERATIONAL",
+            "formatted_address": "559 E Suber Rd, Greer, SC 29650, United States",
+            "geometry": {
+                "location": {
+                    "lat": 34.8990106,
+                    "lng": -82.23927669999999
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 34.90040847989273,
+                        "lng": -82.23801987010728
+                    },
+                    "southwest": {
+                        "lat": 34.89770882010728,
+                        "lng": -82.24071952989271
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+            "icon_background_color": "#7B9EB0",
+            "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+            "name": "E Suber Rd Storage",
+            "opening_hours": {
+                "open_now": true
+            },
+            "photos": [
+                {
+                    "height": 1000,
+                    "html_attributions": [
+                        "<a href=\"https://maps.google.com/maps/contrib/113525194405077644471\">E Suber Rd Storage</a>"
+                    ],
+                    "photo_reference": "AXQCQNR4U8cdiBMn-RaC4-70VaFRL53eqVNvWModU7CP8pN8fuUdeTcQdi_hz21mqVkwqnC4IUpkGnYaSw0pMmyQQexmANw5yLpMViwe3_bTwC_7g6m_XlF_gA4gJYTgkKVUewdCaruWUO1cQXVZ5QDm6Bz7aAAsF8Uc2ogtt2mj9Y_8tES-f1MnM9h_EhyXNfudzywmjkgmh2z77hUT_6FubasIxGkLHW40DlvgyhFpymi90nboVGfLfIBMWFfaG6tFDhROGI6ohZp6rbxyMLZtkjKnipwCbtmf-Q9phqc-trZRHLhvF9E",
+                    "width": 1000
+                }
+            ],
+            "place_id": "ChIJR3DzUz4qWIgRe-dXXF0ldCo",
+            "plus_code": {
+                "compound_code": "VQX6+H8 Greer, South Carolina, USA",
+                "global_code": "866VVQX6+H8"
+            },
+            "rating": 4.4,
+            "reference": "ChIJR3DzUz4qWIgRe-dXXF0ldCo",
+            "types": [
+                "storage",
+                "point_of_interest",
+                "establishment"
+            ],
+            "user_ratings_total": 20
+        },
+        {
+            "business_status": "OPERATIONAL",
+            "formatted_address": "3337 SC-14, Greer, SC 29651, United States",
+            "geometry": {
+                "location": {
+                    "lat": 34.994803,
+                    "lng": -82.2477653
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 34.99629157989272,
+                        "lng": -82.24612202010726
+                    },
+                    "southwest": {
+                        "lat": 34.99359192010728,
+                        "lng": -82.24882167989271
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+            "icon_background_color": "#7B9EB0",
+            "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+            "name": "Blue Ridge Storage",
+            "photos": [
+                {
+                    "height": 533,
+                    "html_attributions": [
+                        "<a href=\"https://maps.google.com/maps/contrib/114144856332483769108\">Blue Ridge Storage</a>"
+                    ],
+                    "photo_reference": "AXQCQNQDLRV0puDsl_5jjTCFL04cXBvUmY7KVVXGJMQ_yAFKw3l1fp-INVRLcTJ-g5BDPm3cNZYBYWcUT3Rwhn33pS6WuT9XNHH_EsssdBf9K1R9mPasjnCFzahal0Lcm4xRlq9Jjy60XITteiVmlXKa0vxr_WnFsYdE5UYKsSlvDcAITCUsXg71jeI5Z4LrDVI8odQ0JMgm4w8wE5vFmxJGtmOmlv5j33AUYCTnqeE-TviOoUa8c2YcJRHzsdb_JV4JY3frbtuTlNkDgnI_BJUMmob8oDA13pqpPxXqndelSFQLwmh5Gko",
+                    "width": 800
+                }
+            ],
+            "place_id": "ChIJWfEWRhfVWYgR4ItJPacTqLE",
+            "plus_code": {
+                "compound_code": "XQV2+WV Greer, South Carolina, USA",
+                "global_code": "866VXQV2+WV"
+            },
+            "rating": 4.7,
+            "reference": "ChIJWfEWRhfVWYgR4ItJPacTqLE",
+            "types": [
+                "storage",
+                "point_of_interest",
+                "establishment"
+            ],
+            "user_ratings_total": 20
+        },
+        {
+            "business_status": "OPERATIONAL",
+            "formatted_address": "1801 Hood Rd, Greer, SC 29650, United States",
+            "geometry": {
+                "location": {
+                    "lat": 34.926766,
+                    "lng": -82.25416190000001
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 34.92811082989272,
+                        "lng": -82.25280612010727
+                    },
+                    "southwest": {
+                        "lat": 34.92541117010728,
+                        "lng": -82.2555057798927
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+            "icon_background_color": "#7B9EB0",
+            "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+            "name": "Hood Road Storage, LLC",
+            "opening_hours": {
+                "open_now": true
+            },
+            "photos": [
+                {
+                    "height": 2048,
+                    "html_attributions": [
+                        "<a href=\"https://maps.google.com/maps/contrib/111305907759585011369\">A Google User</a>"
+                    ],
+                    "photo_reference": "AXQCQNRHKn90L7CbrE-R-2kTwCsx3Pv7Z5STunGy-PT2tLsBD24NlUHUIWpaRsPhQu6-nXzzd_SGT3sGVzuQQ6JsJezBNdAhb3bX3Ndc-3HVJZubS6glrydWIvzMcSGVQl6qJSmC_OpdrjBUV6KT-i1VtWXWcIE-Vehj2hWx3YkIBmNAM7N0jH3fcMTN7To5kLnHHpkIQbzhAm_3bqCOcNaR1Cd9wSYDJsVdWPitrCgSYG8B9pXbEGpeHFn2l5n_st0hxH5ojNIlHlGfetQTpY-19AqkwK3ReV3VQ2TQeZQ1uG_7M3SHjaA",
+                    "width": 1536
+                }
+            ],
+            "place_id": "ChIJCU312m8rWIgROKFN4mP_k2M",
+            "plus_code": {
+                "compound_code": "WPGW+P8 Greer, South Carolina, USA",
+                "global_code": "866VWPGW+P8"
+            },
+            "rating": 4.7,
+            "reference": "ChIJCU312m8rWIgROKFN4mP_k2M",
+            "types": [
+                "storage",
+                "point_of_interest",
+                "establishment"
+            ],
+            "user_ratings_total": 3
+        },
+        {
+            "business_status": "OPERATIONAL",
+            "formatted_address": "308 Pennsylvania Ave, Greer, SC 29650, United States",
+            "geometry": {
+                "location": {
+                    "lat": 34.9362516,
+                    "lng": -82.2356573
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 34.93738692989272,
+                        "lng": -82.23437042010728
+                    },
+                    "southwest": {
+                        "lat": 34.93468727010728,
+                        "lng": -82.23707007989273
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+            "icon_background_color": "#7B9EB0",
+            "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+            "name": "UNITS Moving and Portable Storage of Greenville",
+            "opening_hours": {
+                "open_now": true
+            },
+            "photos": [
+                {
+                    "height": 1848,
+                    "html_attributions": [
+                        "<a href=\"https://maps.google.com/maps/contrib/103088649085567088734\">Lori Heston</a>"
+                    ],
+                    "photo_reference": "AXQCQNTUk3qvhb3Xfm49HhsQyUwDRu0p52IVooLv8Gdvay7UZDElSyB2nkYIpu0E6VY1yW1mIkubvo7uKJ6NHSjsEOP8zqWmc6j3oq8t4ZqO-WWe2da8-nlfRs9jfS0vmxcwlQZ-6A7QsnS_fmQG6uDZIwqc3vYzSYVJb3qdDqLd9FtJxLC7keTjBavDbKPWLd_UHmyETXSJnKBzz1l2iuGKi74m7n1Ciqon5QT-0yQQLPYQXxcPIf1ert1Gq0bkxNCsUvFSxD9AVy3MrK7ap7Sv-mHeg4DGCCFQJdPnqYOPHEh4xs3p8YqK-RbrjPFNPJCG9VCXe9TrW7GowsFl_c4OgRMpcJOujMOSgQEZvc7I5UAxrMuNk-chiZIdMIdk-Ql1L1odfRceJYHO53Mdoc86LC76C7j3V4cAbbDZCawEv1_okLmw-aW92KxdvU54BS4KpwyllXPAQCnLehCldSIDPETfpnz9LhZKkA54QBQp_-fM0RttFmB3yjSrR9N6fmSpN39wZax7G9QchUaTYSCV2iH7M8aDtwM1mlXJcDmX9Bz9i4kkr55zfEhCkvlJFvJRnKySN98IF9UacQ",
+                    "width": 4000
+                }
+            ],
+            "place_id": "ChIJAQBA2ZIqWIgRmAl4rgEgrbU",
+            "plus_code": {
+                "compound_code": "WQP7+GP Greer, South Carolina, USA",
+                "global_code": "866VWQP7+GP"
+            },
+            "rating": 4.8,
+            "reference": "ChIJAQBA2ZIqWIgRmAl4rgEgrbU",
+            "types": [
+                "moving_company",
+                "storage",
+                "point_of_interest",
+                "establishment"
+            ],
+            "user_ratings_total": 28
+        },
+        {
+            "business_status": "OPERATIONAL",
+            "formatted_address": "3312 Brushy Creek Rd, Greer, SC 29650, United States",
+            "geometry": {
+                "location": {
+                    "lat": 34.9212543,
+                    "lng": -82.254367
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 34.92275262989273,
+                        "lng": -82.25312852010728
+                    },
+                    "southwest": {
+                        "lat": 34.92005297010728,
+                        "lng": -82.25582817989272
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+            "icon_background_color": "#7B9EB0",
+            "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+            "name": "A-Class Storage",
+            "opening_hours": {
+                "open_now": true
+            },
+            "photos": [
+                {
+                    "height": 1365,
+                    "html_attributions": [
+                        "<a href=\"https://maps.google.com/maps/contrib/101693061866796467366\">A-Class Storage</a>"
+                    ],
+                    "photo_reference": "AXQCQNTmFSfzGc0aMZ4fFNTUoXTOPfDdMa3cgWxrghGVLe17L_sSZlfxGtQ11hmItqZ8WLZiUYEgjKZVRWhQC1bNRD98dygKB8NEOriNy8A0jBxExgO-cZde9Sd5AgZo0G8z1wvFsLjkPzJr3eqmsV1cF5z0LjMalm6P5vNkQBMuSDwDCU2M3fEonhPcRX9Evj-OeDiN006kZ9a5OrkTYSiO2FmvsTPj0HkJIKH2stmrHUeFW9FXYT_gKPHKupuIWUELyop1slck3Wf-HWCytK3rqPCtbc6I3RJqi95CiRxwVYSPnbQ47To",
+                    "width": 2048
+                }
+            ],
+            "place_id": "ChIJdZEhtFUqWIgR0qenZ0879VM",
+            "plus_code": {
+                "compound_code": "WPCW+G7 Greer, South Carolina, USA",
+                "global_code": "866VWPCW+G7"
+            },
+            "rating": 4.8,
+            "reference": "ChIJdZEhtFUqWIgR0qenZ0879VM",
+            "types": [
+                "storage",
+                "point_of_interest",
+                "establishment"
+            ],
+            "user_ratings_total": 17
+        },
+        {
+            "business_status": "OPERATIONAL",
+            "formatted_address": "2764 S Old Hwy 14, Greer, SC 29650, United States",
+            "geometry": {
+                "location": {
+                    "lat": 34.8623243,
+                    "lng": -82.2252266
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 34.86367172989272,
+                        "lng": -82.22383737010728
+                    },
+                    "southwest": {
+                        "lat": 34.86097207010728,
+                        "lng": -82.22653702989273
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+            "icon_background_color": "#7B9EB0",
+            "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+            "name": "Hwy 14 Boat & RV Storage",
+            "opening_hours": {
+                "open_now": true
+            },
+            "photos": [
+                {
+                    "height": 3640,
+                    "html_attributions": [
+                        "<a href=\"https://maps.google.com/maps/contrib/117296195185883955787\">John Bailey</a>"
+                    ],
+                    "photo_reference": "AXQCQNRGaciA_peO_wCItOcbtIjetLH5-114hKtwgrA_CGl0v2Qc0nlv5soaXDIZtEX6Z6gZ71GxWJo1qNKhHM4UUqPAoXGH71dF6qw7D1vExRzYSKrjNxkOJe1gC4mjXIqnr9b0Ra4Eazz7LeEK_kcNO7Iyae9HuO1qOStlV0BKqa4vnGZQOt2EnQCbJwBQT2HJcBxZLE2ihOB_tU0q3sgcI-zlKJ6Hk9On28CHxdQX89KctLoS0TQo8zyYgVtkC05lC9z6CqGITcUqIAt-92_4dS90Wx-Ptenb8Y28SS9Ug_apQa2BtdqtbXnj0bgXcL8lvqHYuzXuiL0bqyJ2WbYjZrC7_BpqGMgmkHDrwjk_KTGJ4m8LOL2Wnt7eAL6PHx9H4Dsmd8uKQ6zGDm5OpeVPUS4Ls1J8So7pIehi8tgPjcAQ8KUpNHfIY_mDHO6BmpgZCWZQi4k1a6YVZ92qaNhJgi-bKrh2DgLmm9RCr3gqzcgBeSyNQie6p7cYOCa9HpUBTSIR62jbuEfDGEsw2lICqYbni8KI6mDV3USqI3mw_dYa0iXNH7qrUnh0VMygU4sjfr1AGxMezjSgiA",
+                    "width": 5464
+                }
+            ],
+            "place_id": "ChIJb3Vo4-UpWIgR51x6mhlJKVs",
+            "plus_code": {
+                "compound_code": "VQ6F+WW Greer, South Carolina, USA",
+                "global_code": "866VVQ6F+WW"
+            },
+            "rating": 4.8,
+            "reference": "ChIJb3Vo4-UpWIgR51x6mhlJKVs",
+            "types": [
+                "storage",
+                "point_of_interest",
+                "establishment"
+            ],
+            "user_ratings_total": 19
+        },
+        {
+            "business_status": "OPERATIONAL",
+            "formatted_address": "721A S Main St, Greer, SC 29650, United States",
+            "geometry": {
+                "location": {
+                    "lat": 34.9267969,
+                    "lng": -82.23098850000001
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 34.92816712989272,
+                        "lng": -82.22975617010728
+                    },
+                    "southwest": {
+                        "lat": 34.92546747010728,
+                        "lng": -82.23245582989271
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+            "icon_background_color": "#7B9EB0",
+            "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+            "name": "U-Haul Moving & Storage of Greer",
+            "opening_hours": {
+                "open_now": true
+            },
+            "photos": [
+                {
+                    "height": 366,
+                    "html_attributions": [
+                        "<a href=\"https://maps.google.com/maps/contrib/115340034008031695098\">U-Haul Moving &amp; Storage of Greer</a>"
+                    ],
+                    "photo_reference": "AXQCQNReo63KpA2xM5gTavjDgSb8MqRduQZLkQ-riZflfpCA1RvH_wwfK8rntPCSVhvDGYR4Y4-7SvPW4MZg3uKTuIHYl_G92kJ5SgS3iuUYl9ho3EKqECXq24WFp2p1GjVYT6TCuZb3_Xfvb-MQnp8Zb3MQM1UcT0JPs49SWb6yk2Ibq_EbuHrO9VHJAhJxjl9FE4Ys0MDsQib_CNbtXkz5E3WwyiyQNKlcuRHOfpC3wdqnR2kdojG8NuRrfB75uujJlcjYaTuT19l3ald-oH2ink-zhnEvL0wu7wcVfP9b-a-50xVhjRU",
+                    "width": 400
+                }
+            ],
+            "place_id": "ChIJKQJH4IsqWIgRLtu2pv2rLBo",
+            "plus_code": {
+                "compound_code": "WQG9+PJ Greer, South Carolina, USA",
+                "global_code": "866VWQG9+PJ"
+            },
+            "price_level": 1,
+            "rating": 3.9,
+            "reference": "ChIJKQJH4IsqWIgRLtu2pv2rLBo",
+            "types": [
+                "storage",
+                "moving_company",
+                "point_of_interest",
+                "store",
+                "establishment"
+            ],
+            "user_ratings_total": 57
+        },
+        {
+            "business_status": "OPERATIONAL",
+            "formatted_address": "2450 Abner Creek Rd, Greer, SC 29651, United States",
+            "geometry": {
+                "location": {
+                    "lat": 34.8763446,
+                    "lng": -82.1487854
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 34.87773582989272,
+                        "lng": -82.14769217010728
+                    },
+                    "southwest": {
+                        "lat": 34.87503617010727,
+                        "lng": -82.15039182989271
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+            "icon_background_color": "#7B9EB0",
+            "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+            "name": "Abner Creek Self Storage",
+            "opening_hours": {
+                "open_now": true
+            },
+            "place_id": "ChIJnQCkfkqBV4gRRzv4cQwHRKw",
+            "plus_code": {
+                "compound_code": "VVG2+GF Greer, South Carolina, USA",
+                "global_code": "866VVVG2+GF"
+            },
+            "rating": 3,
+            "reference": "ChIJnQCkfkqBV4gRRzv4cQwHRKw",
+            "types": [
+                "storage",
+                "point_of_interest",
+                "establishment"
+            ],
+            "user_ratings_total": 3
+        },
+        {
+            "business_status": "OPERATIONAL",
+            "formatted_address": "1443 S Batesville Rd, Greer, SC 29650, United States",
+            "geometry": {
+                "location": {
+                    "lat": 34.8618866,
+                    "lng": -82.2365354
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 34.86317622989272,
+                        "lng": -82.23530052010727
+                    },
+                    "southwest": {
+                        "lat": 34.86047657010727,
+                        "lng": -82.23800017989271
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+            "icon_background_color": "#7B9EB0",
+            "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+            "name": "Toy Storage Upstate",
+            "opening_hours": {
+                "open_now": true
+            },
+            "photos": [
+                {
+                    "height": 1536,
+                    "html_attributions": [
+                        "<a href=\"https://maps.google.com/maps/contrib/100795130390092434503\">A Google User</a>"
+                    ],
+                    "photo_reference": "AXQCQNRmeVtXdWtBxI1gmix-C38JgACo2YWywPgKQjcBCicfkIFF9zdOhrVy8cXS2aMocniKWVTclbces2jtxiubJfA52Up_pIyxwFsjymzZTGvIJ7dYH7ih57hnCmdqoWybE83egLoeh4eXtnT1z9ibjqPhQocbWOkOl9IBONQII2a_KqgIrIkd_9wI9bAvEl23OJwRkY4Vc0Ebf3yOyFRP3zTrd4woxBID9CpdCQFrb7UPyQtz73wxt1ZYeNmWOz806nvVFnsEIfThUD1gWD2oRpgSK_lECkel5tvUGWPHCJzMMi87Tslkh8IOpvk3XHE0LJIioXC74vxQzjqKzp7pIG_42WNxwfiY8akHwPT0Um_-P9eACDGLE-V3KmUv02q2sFMMEk_Vwp94ikCZ04h1-bKlbaTbuRRXgIEHy7dBaKhFmVWQyJiFsdhPE2rutvGZwjru_I6k9uLryKVXSA2ifErrZJT69nLQ6Gb7hTAa7oeQfXyK_l5TRWtE0nxniZKMr4j_MsenBIGa2nhUpPqoPFbVUfKgTuDAzdHYM8GGTtoUXudYJfFRfuea70mgjAqVWPY2Lchi",
+                    "width": 2048
+                }
+            ],
+            "place_id": "ChIJYZEd8a0pWIgR1oqq3ofobMU",
+            "plus_code": {
+                "compound_code": "VQ67+RF Greer, South Carolina, USA",
+                "global_code": "866VVQ67+RF"
+            },
+            "rating": 5,
+            "reference": "ChIJYZEd8a0pWIgR1oqq3ofobMU",
+            "types": [
+                "storage",
+                "point_of_interest",
+                "establishment"
+            ],
+            "user_ratings_total": 1
+        },
+        {
+            "business_status": "OPERATIONAL",
+            "formatted_address": "3463 SC-14, Greer, SC 29651, United States",
+            "geometry": {
+                "location": {
+                    "lat": 34.9962765,
+                    "lng": -82.24848
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 34.99766132989272,
+                        "lng": -82.24734382010728
+                    },
+                    "southwest": {
+                        "lat": 34.99496167010728,
+                        "lng": -82.25004347989271
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+            "icon_background_color": "#7B9EB0",
+            "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+            "name": "Superior RV and Boat Storage",
+            "opening_hours": {
+                "open_now": true
+            },
+            "place_id": "ChIJuf1q3CXVWYgRqGhMvDsWaUA",
+            "plus_code": {
+                "compound_code": "XQW2+FG Greer, South Carolina, USA",
+                "global_code": "866VXQW2+FG"
+            },
+            "rating": 5,
+            "reference": "ChIJuf1q3CXVWYgRqGhMvDsWaUA",
+            "types": [
+                "storage",
+                "point_of_interest",
+                "establishment"
+            ],
+            "user_ratings_total": 8
+        },
+        {
+            "business_status": "OPERATIONAL",
+            "formatted_address": "189 Brookshire Rd, Greer, SC 29651, United States",
+            "geometry": {
+                "location": {
+                    "lat": 34.9148336,
+                    "lng": -82.18448509999999
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 34.91617622989272,
+                        "lng": -82.18313557010728
+                    },
+                    "southwest": {
+                        "lat": 34.91347657010728,
+                        "lng": -82.18583522989273
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+            "icon_background_color": "#7B9EB0",
+            "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+            "name": "GSP Storage LLC",
+            "opening_hours": {},
+            "photos": [
+                {
+                    "height": 480,
+                    "html_attributions": [
+                        "<a href=\"https://maps.google.com/maps/contrib/116081309005846783994\">GSP Storage LLC</a>"
+                    ],
+                    "photo_reference": "AXQCQNSb9ae8Horz1auiH58ztu-wyZfjBSeqOtkNFtrRBynhUk6RZg5tpHy44aofQabXN4qhqMJPCAMbeOHoodERzahWA_SCbV72HfV_UUd6gk0RDJTOkl_qzUhcNkoGC8-vjFSnS7kxMadw7-7xvYBVS9z4Nmxts1qmgZloK0UhX_TLs90VYs9f7Wcy3c1Rmrlc4eMREfrzSOJ6es-dGTq0Re3NRYp7VO57o-3eQyFHzPfayCd8UKgdjUzy9j232S9aNOtW7Lq9ZB5As3HbbFFwU0Mf6hZcPMVBGt24aZtYbuY8hNWmoFU",
+                    "width": 640
+                }
+            ],
+            "place_id": "ChIJ0QSJJfeAV4gRBfs68XGmhvQ",
+            "plus_code": {
+                "compound_code": "WR78+X6 Greer, South Carolina, USA",
+                "global_code": "866VWR78+X6"
+            },
+            "rating": 5,
+            "reference": "ChIJ0QSJJfeAV4gRBfs68XGmhvQ",
+            "types": [
+                "storage",
+                "point_of_interest",
+                "establishment"
+            ],
+            "user_ratings_total": 1
+        },
+        {
+            "business_status": "OPERATIONAL",
+            "formatted_address": "678 Brockman McClimon Rd Ste F, Greer, SC 29651, United States",
+            "geometry": {
+                "location": {
+                    "lat": 34.8813833,
+                    "lng": -82.19626009999999
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 34.88255677989272,
+                        "lng": -82.19500192010727
+                    },
+                    "southwest": {
+                        "lat": 34.87985712010727,
+                        "lng": -82.19770157989272
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+            "icon_background_color": "#7B9EB0",
+            "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+            "name": "1-800-PACK-RAT",
+            "opening_hours": {
+                "open_now": true
+            },
+            "photos": [
+                {
+                    "height": 3888,
+                    "html_attributions": [
+                        "<a href=\"https://maps.google.com/maps/contrib/103377607467354523189\">1-800-PACK-RAT</a>"
+                    ],
+                    "photo_reference": "AXQCQNTfeMZlZ2qDJtI7-NcHLR3YwRlNJW40423acxWkgeuAWYR_bOUe8jlAtWjYXn0yhgn7rOQCfUn6hgCHmPnhd4UjZkGjhpG_xvIUfyYf5ucpl9JNGAw51TgmO4N9tdhGjntyg5UUOXiYV64oVRonWs4lUaSq276jHunu5uVdgb697USBh_bs7yC75UIQ-4SITvUS2c3nK5nkCcGM7fggUf2iHo0pNHM2EAxNUzc9-99i4xiWlVv9IAfq9J0lXDl2YMXXph3RBQnedTLP_2PjIZ0EGyxaYC9sudcx6aGUqDzTDXFFhFY",
+                    "width": 5184
+                }
+            ],
+            "place_id": "ChIJ45KoI_klWIgRDalNDRkqi1A",
+            "plus_code": {
+                "compound_code": "VRJ3+HF Greer, South Carolina, USA",
+                "global_code": "866VVRJ3+HF"
+            },
+            "rating": 4.4,
+            "reference": "ChIJ45KoI_klWIgRDalNDRkqi1A",
+            "types": [
+                "storage",
+                "moving_company",
+                "point_of_interest",
+                "establishment"
+            ],
+            "user_ratings_total": 72
+        },
+        {
+            "business_status": "OPERATIONAL",
+            "formatted_address": "3804 SC-14, Greer, SC 29651, United States",
+            "geometry": {
+                "location": {
+                    "lat": 35.012452,
+                    "lng": -82.258391
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 35.01358322989272,
+                        "lng": -82.25741537010728
+                    },
+                    "southwest": {
+                        "lat": 35.01088357010727,
+                        "lng": -82.26011502989273
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+            "icon_background_color": "#7B9EB0",
+            "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+            "name": "Storage 4U Greer",
+            "photos": [
+                {
+                    "height": 3024,
+                    "html_attributions": [
+                        "<a href=\"https://maps.google.com/maps/contrib/105845164761938545833\">A Google User</a>"
+                    ],
+                    "photo_reference": "AXQCQNTfMSv9LkwCJmy6DG6nTbRJcuR-WT59PgI05oxFdY8sTGHCwDxZIpESUDWKZ2HgvkXl35pi6z9ERhUrIZKmVNBEaK5Rc_jYar-EauXnqxFAMuFjdiMxD3xAnFxpWpEo5A75078VnF0TGBMYe0ltjobeaeLGclq5jzrGjJuLiGM683od2NVrMHKNK9Re98cW_nlVbGJQ2v3htev5EMIxvDzzKK_PTb7wt-Ytsbtz65njgz7q1Fm9D2BsUtYobuypgOApkVzbYqlz37RT6r3VBCRVs0dl8WxtOT4N911CxuldSxBBcew",
+                    "width": 4032
+                }
+            ],
+            "place_id": "ChIJhS_rz9PVWYgRDnWvk7VVzZo",
+            "plus_code": {
+                "compound_code": "2P6R+XJ Greer, South Carolina, USA",
+                "global_code": "867V2P6R+XJ"
+            },
+            "reference": "ChIJhS_rz9PVWYgRDnWvk7VVzZo",
+            "types": [
+                "storage",
+                "point_of_interest",
+                "establishment"
+            ]
+        },
+        {
+            "business_status": "OPERATIONAL",
+            "formatted_address": "1 Shelter Dr #2308, Greer, SC 29650, United States",
+            "geometry": {
+                "location": {
+                    "lat": 34.8681297,
+                    "lng": -82.2279739
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 34.86959082989272,
+                        "lng": -82.22666557010727
+                    },
+                    "southwest": {
+                        "lat": 34.86689117010727,
+                        "lng": -82.22936522989271
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+            "icon_background_color": "#7B9EB0",
+            "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+            "name": "Carey Moving & Storage - Greenville",
+            "opening_hours": {
+                "open_now": true
+            },
+            "photos": [
+                {
+                    "height": 1152,
+                    "html_attributions": [
+                        "<a href=\"https://maps.google.com/maps/contrib/104808579247175360912\">Carey Moving &amp; Storage - Greenville</a>"
+                    ],
+                    "photo_reference": "AXQCQNROiZDFj_cujSt8_S2A0ZOxs97_ulDN72jZhwPIFa0_EPGEpAHmVj46VlVRaJiEqOfRPLsZ2Y1uMycycpfG1St7O73Jxuy5YL1HHCnTF7fED_O6tZHesXlZwxetQgib6wVRc8gxSDa7QIdSf_Ar7Fo068PtHIOgMFpFo-2TCwSWiSb_mCuiHqdlfb1SDz9DSAdXlQTeKx4XamAjzjMsaauCL3ZzlM_57cIF6sWTURxFdspRXvAZnB5vci9jKro9r8k33XjUmlTNdss3OgaT2Myc4SQmYhHKC884jITquwYzw4hH20w",
+                    "width": 2048
+                }
+            ],
+            "place_id": "ChIJKbQC_9AxWIgRciJpfS_yESc",
+            "plus_code": {
+                "compound_code": "VQ9C+7R Greer, South Carolina, USA",
+                "global_code": "866VVQ9C+7R"
+            },
+            "rating": 4.3,
+            "reference": "ChIJKbQC_9AxWIgRciJpfS_yESc",
+            "types": [
+                "moving_company",
+                "storage",
+                "point_of_interest",
+                "store",
+                "establishment"
+            ],
+            "user_ratings_total": 127
+        },
+        {
+            "business_status": "OPERATIONAL",
+            "formatted_address": "1630 Old Hwy 14 S, Greer, SC 29651, United States",
+            "geometry": {
+                "location": {
+                    "lat": 34.902337,
+                    "lng": -82.232429
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 34.90336392989272,
+                        "lng": -82.23052002010728
+                    },
+                    "southwest": {
+                        "lat": 34.90066427010727,
+                        "lng": -82.23321967989273
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+            "icon_background_color": "#7B9EB0",
+            "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+            "name": "Swafford Transport and Warehouse",
+            "opening_hours": {
+                "open_now": true
+            },
+            "photos": [
+                {
+                    "height": 2268,
+                    "html_attributions": [
+                        "<a href=\"https://maps.google.com/maps/contrib/104127181475360230551\">Butch Knight</a>"
+                    ],
+                    "photo_reference": "AXQCQNTTpkMurPBeYF9MfdPwmmbmvrr7AHUX196Ix2UPp0GF4YV4CqVkHm4sj2wqoFkN5R9EwFSIpi1N33K10KOo4oivShUY91J0Dsq1865oHwTmqpzVyVkmd4AIOOJyNm1GtwKurDhSsx-Xz2UttXzfvfikNqVGtyUSc7SlCmLtrZAG9fpDwzhFaBltcmntPDNjvLMdHrQgxSAU49VlEOevq27_eHi7Zd_7_8fIhYJYYNSHEh8VBbrgEkrGuY5Gp2EMd6348A12-A7dV_xU2IjZuCwxkxshlP3P8qiVBvPvEe4MhAYH0-lkeqOiXpy-azQGFdD5ZiDBc6u_xjsjESpE83NEwHo9mkUEMj4zLOakTCuCBokcPQ7xiXFREglNREg17C4f7YFUb1MGBOBRtFkQEO6TT9tUnirScJku-5oX5X5qC1R9sx2d8Lrp3xwoWinEiFQfFN_oK2ppdmf8kHSqWLp0tJudvIL5y16kIXfWDKbDqPr6D1lchrXYVz-5pqERYOvVBzPZgPFDXmZp9xMezQcBWF--j_sgM9jTS4dmqIWXmCkeZn2ZLK-aIMJSRTrHJwACQ58b4G-fwA",
+                    "width": 4032
+                }
+            ],
+            "place_id": "ChIJzXtHxkMqWIgRtT-8s9ZurP8",
+            "plus_code": {
+                "compound_code": "WQ29+W2 Greer, South Carolina, USA",
+                "global_code": "866VWQ29+W2"
+            },
+            "rating": 4.4,
+            "reference": "ChIJzXtHxkMqWIgRtT-8s9ZurP8",
+            "types": [
+                "storage",
+                "moving_company",
+                "point_of_interest",
+                "establishment"
+            ],
+            "user_ratings_total": 131
+        },
+        {
+            "business_status": "OPERATIONAL",
+            "formatted_address": "410 Groce Meadow Rd, Greer, SC 29651, United States",
+            "geometry": {
+                "location": {
+                    "lat": 34.9897986,
+                    "lng": -82.2963165
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 34.99117532989273,
+                        "lng": -82.29498587010728
+                    },
+                    "southwest": {
+                        "lat": 34.98847567010728,
+                        "lng": -82.29768552989273
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+            "icon_background_color": "#7B9EB0",
+            "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+            "name": "Rocks Storage Facility",
+            "opening_hours": {
+                "open_now": true
+            },
+            "place_id": "ChIJIcPWRMXVWYgRrj8L2Rbta2c",
+            "plus_code": {
+                "compound_code": "XPQ3+WF Greer, South Carolina, USA",
+                "global_code": "866VXPQ3+WF"
+            },
+            "reference": "ChIJIcPWRMXVWYgRrj8L2Rbta2c",
+            "types": [
+                "storage",
+                "point_of_interest",
+                "establishment"
+            ]
+        }
+    ]
+}
