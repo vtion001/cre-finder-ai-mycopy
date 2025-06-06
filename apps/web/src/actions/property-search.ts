@@ -75,7 +75,7 @@ export const previewSearchAction = authActionClient
 
       console.log("Params:", params);
 
-      const isStorageUnitSearch = assetType?.name === "Storage Unit";
+      const isStorageUnitSearch = assetType?.slug === "self-storage";
 
       const countOnly = true;
 
@@ -136,7 +136,7 @@ export const completeSearchAction = authActionClient
 
     const { data: searchLog, error: searchLogError } = await supabase
       .from("search_logs")
-      .select("*, asset_types(name)")
+      .select("*, asset_types(slug)")
       .eq("id", searchLogId)
       .eq("user_id", user.id)
       .single();
@@ -145,7 +145,7 @@ export const completeSearchAction = authActionClient
       throw new Error("Search log not found");
     }
 
-    const isStorageUnitSearch = searchLog.asset_types.name === "Storage Unit";
+    const isStorageUnitSearch = searchLog.asset_types.slug === "self-storage";
 
     // biome-ignore lint/suspicious/noExplicitAny: <explanation>
     const searchParams = searchLog.search_parameters as unknown as any;

@@ -15,6 +15,7 @@ export type Database = {
           description: string | null
           id: string
           name: string
+          slug: string | null
           updated_at: string | null
           use_codes: number[] | null
         }
@@ -23,6 +24,7 @@ export type Database = {
           description?: string | null
           id?: string
           name: string
+          slug?: string | null
           updated_at?: string | null
           use_codes?: number[] | null
         }
@@ -31,6 +33,7 @@ export type Database = {
           description?: string | null
           id?: string
           name?: string
+          slug?: string | null
           updated_at?: string | null
           use_codes?: number[] | null
         }
@@ -763,6 +766,18 @@ export type Database = {
       consume_user_credits: {
         Args: { credits_to_consume?: number }
         Returns: boolean
+      }
+      slugify: {
+        Args: { value: string }
+        Returns: string
+      }
+      unaccent: {
+        Args: { "": string }
+        Returns: string
+      }
+      unaccent_init: {
+        Args: { "": unknown }
+        Returns: unknown
       }
     }
     Enums: {
