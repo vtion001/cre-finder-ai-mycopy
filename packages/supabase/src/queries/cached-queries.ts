@@ -1,14 +1,8 @@
 import { unstable_cache } from "next/cache";
 import { cache } from "react";
-import { getUserQuery } from ".";
+import { getAssetTypesQuery, getUserQuery } from ".";
 import { createClient } from "../clients/server";
-import { getCreditTransactionsQuery, getUserCreditUsageQuery } from "./credits";
 import { getRecentSearchActivityQuery, getSearchLogQuery } from "./history";
-import {
-  getAssetTypesQuery,
-  getUserAssetTypesQuery,
-  getUserLocationsQuery,
-} from "./onboarding";
 import { getPropertyRecordsBySearchLogQuery } from "./records";
 import { getSubscriptionQuery } from "./stripe";
 
@@ -58,54 +52,6 @@ export const getAssetTypes = async () => {
   )();
 };
 
-export const getUserAssetTypes = async () => {
-  const supabase = createClient();
-
-  const user = await getUser();
-
-  if (!user?.data) {
-    throw new Error("unauthorized");
-  }
-
-  const userId = user.data.id;
-
-  return unstable_cache(
-    async () => {
-      return getUserAssetTypesQuery(supabase, userId);
-    },
-    ["asset_types", userId],
-    {
-      tags: [`asset_types_${userId}`],
-      revalidate: 180,
-    },
-    // @ts-expect-error
-  )(userId);
-};
-
-export const getUserLocations = async () => {
-  const supabase = createClient();
-
-  const user = await getUser();
-
-  if (!user?.data) {
-    throw new Error("unauthorized");
-  }
-
-  const userId = user.data.id;
-
-  return unstable_cache(
-    async () => {
-      return getUserLocationsQuery(supabase, userId);
-    },
-    ["user_locations", userId],
-    {
-      tags: [`user_locations_${userId}`],
-      revalidate: 180,
-    },
-    // @ts-expect-error
-  )(userId);
-};
-
 export const getSearchLog = async (searchLogId: string) => {
   const supabase = createClient();
 
@@ -141,54 +87,6 @@ export const getRecentSearchActivity = async () => {
     {
       tags: [`search_history_${userId}`],
       revalidate: 180,
-    },
-    // @ts-expect-error
-  )(userId);
-};
-
-export const getUserCreditUsage = async () => {
-  const supabase = createClient();
-
-  const user = await getUser();
-
-  if (!user?.data) {
-    throw new Error("unauthorized");
-  }
-
-  const userId = user.data.id;
-
-  return unstable_cache(
-    async () => {
-      return getUserCreditUsageQuery(supabase);
-    },
-    ["credit_usage", userId],
-    {
-      tags: [`credit_usage_${userId}`, `search_history_${userId}`],
-      revalidate: 1, // Shorter revalidation time for credit usage
-    },
-    // @ts-expect-error
-  )(userId);
-};
-
-export const getCreditTransactions = async () => {
-  const supabase = createClient();
-
-  const user = await getUser();
-
-  if (!user?.data) {
-    throw new Error("unauthorized");
-  }
-
-  const userId = user.data.id;
-
-  return unstable_cache(
-    async () => {
-      return getCreditTransactionsQuery(supabase);
-    },
-    ["credit_transactions", userId],
-    {
-      tags: [`credit_usage_${userId}`],
-      revalidate: 60, // Cache for 1 minute
     },
     // @ts-expect-error
   )(userId);

@@ -25,11 +25,6 @@ const items = [
     icon: IconHomeSearch,
   },
   {
-    title: "Credits",
-    url: "/dashboard/credits",
-    icon: IconCreditCard,
-  },
-  {
     title: "Records",
     url: "/dashboard/records",
     icon: IconClipboardList,

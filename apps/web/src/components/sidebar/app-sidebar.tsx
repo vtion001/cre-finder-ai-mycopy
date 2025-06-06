@@ -1,10 +1,3 @@
-import {
-  ClipboardIcon,
-  ClipboardListIcon,
-  CreditCardIcon,
-  HelpCircleIcon,
-  SearchIcon,
-} from "lucide-react";
 import type * as React from "react";
 
 import type { Tables } from "@v1/supabase/types";
@@ -20,8 +13,6 @@ import {
 import { Logo } from "../logo";
 import { NavMain } from "./nav-main";
 import { NavUser } from "./nav-user";
-import { SidebarCreditUsage } from "./sidebar-credit-usage";
-import { SidebarPlanInfo } from "./sidebar-plan-info";
 
 type SidebarProps = React.ComponentProps<typeof Sidebar> & {
   user: Tables<"users">;
@@ -61,10 +52,6 @@ export function AppSidebar({ user, ...props }: SidebarProps) {
         <div className="flex-1" />
       </SidebarContent>
       <SidebarFooter>
-        <div className="mb-4">
-          <SidebarPlanInfo />
-          <SidebarCreditUsage />
-        </div>
         <NavUser user={user} />
       </SidebarFooter>
     </Sidebar>

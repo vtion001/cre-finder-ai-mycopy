@@ -100,19 +100,6 @@ insert into
 values ('avatars', 'avatars', true)
 on conflict (id) do nothing;
 
--- Insert example user asset types for the test user
-INSERT INTO
-    public.user_asset_types (user_id, asset_type_id)
-SELECT 'aec53558-767e-4408-b4d6-1c1e6f17ffe5', id
-FROM public.asset_types
-WHERE
-    name IN (
-        'Residential',
-        'Multi-Family',
-        'Storage Unit'
-    )
-ON CONFLICT (user_id, asset_type_id) DO NOTHING;
-
 INSERT INTO
     "public"."products" (
         "id",

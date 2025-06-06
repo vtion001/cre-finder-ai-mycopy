@@ -7,7 +7,6 @@ import { BuildingIcon, SearchIcon } from "lucide-react";
 
 type SearchLogWithRecords = Tables<"search_logs"> & {
   asset_types: Pick<Tables<"asset_types">, "name">;
-  user_locations: Pick<Tables<"user_locations">, "display_name">;
   property_records: Tables<"property_records">[];
 };
 

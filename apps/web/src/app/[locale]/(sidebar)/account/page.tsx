@@ -1,10 +1,6 @@
 import { AccountSettings } from "@/components/account-settings";
 import { SiteHeader } from "@/components/site-header";
-import {
-  getUser,
-  getUserAssetTypes,
-  getUserLocations,
-} from "@v1/supabase/cached-queries";
+import { getUser } from "@v1/supabase/cached-queries";
 import { Separator } from "@v1/ui/separator";
 import type { Metadata } from "next";
 
@@ -20,17 +16,6 @@ export default async function Account() {
 
   if (!cachedUser?.data) {
     redirect("/login");
-  }
-
-  const [{ data: assetTypes }, { data: locations }] = await Promise.all([
-    getUserAssetTypes(),
-    getUserLocations(),
-  ]);
-
-  const hasCompletedOnboarding = assetTypes?.length && locations?.length;
-
-  if (!hasCompletedOnboarding) {
-    redirect("/onboarding");
   }
 
   return (

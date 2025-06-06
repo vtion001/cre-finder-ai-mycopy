@@ -26,7 +26,6 @@ import { BuildingIcon, MapPinIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
 import { AssetTypeSelector } from "../asset-type-selector";
-import { SavedLocationsSelector } from "../saved-locations-selector";
 import { RangeSliderField } from "./range-slider-field";
 
 type FilterFormValues = z.infer<typeof searchFiltersSchema>;
@@ -34,14 +33,12 @@ type FilterFormValues = z.infer<typeof searchFiltersSchema>;
 interface SearchFiltersFormProps {
   intialValues?: FilterFormValues;
   assetTypes: Tables<"asset_types">[];
-  savedLocations: Tables<"user_locations">[];
   onSubmit: (filters: FilterFormValues) => void;
 }
 
 export function SearchFiltersForm({
   intialValues,
   assetTypes,
-  savedLocations,
   onSubmit,
 }: SearchFiltersFormProps) {
   const form = useForm<FilterFormValues>({
@@ -61,12 +58,8 @@ export function SearchFiltersForm({
     });
   }
 
-  const locationId = form.watch("location_id");
   const assetTypeId = form.watch("asset_type_id");
 
-  const selectedLocation = savedLocations.find(
-    (location) => location.id === locationId,
-  );
 
   const assetType = assetTypes.find((type) => type.id === assetTypeId);
 
@@ -101,20 +94,7 @@ export function SearchFiltersForm({
           <span>{assetType?.name} properties in</span>
 
           <div className="flex flex-wrap gap-1 ml-2">
-            {selectedLocation && (
-              <Badge
-                key={selectedLocation.id}
-                variant="outline"
-                className="bg-accent/20 text-accent-foreground hover:bg-accent/20 border-accent/30 flex items-center gap-1"
-              >
-                {selectedLocation.type === "city" ? (
-                  <BuildingIcon className="h-3 w-3" />
-                ) : (
-                  <MapPinIcon className="h-3 w-3" />
-                )}
-                {selectedLocation.display_name}
-              </Badge>
-            )}
+          
             {activeFilterCount > 0 && (
               <Badge
                 variant="outline"
@@ -128,23 +108,7 @@ export function SearchFiltersForm({
 
         <CollapsibleContent className="mt-4">
           <div className="bg-card rounded-md p-3 sm:p-4 space-y-4 sm:space-y-6 shadow-sm border">
-            <FormField
-              control={form.control}
-              name="location_id"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <SavedLocationsSelector
-                      options={savedLocations}
-                      onValueChange={(values) => field.onChange(values?.at(0))}
-                      value={field.value ? [field.value] : []}
-                      maxSelections={1}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+        
 
             <div className="grid grid-cols-1 gap-4 sm:gap-6 lg:grid-cols-2">
               {/* Building Size */}

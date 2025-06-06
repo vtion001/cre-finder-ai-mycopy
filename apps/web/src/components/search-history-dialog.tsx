@@ -28,7 +28,6 @@ import { useState } from "react";
 type SearchLog = Tables<"search_logs"> & {
   search_parameters: GetPropertySearchParams;
   asset_types: Pick<Tables<"asset_types">, "name">;
-  user_locations: Pick<Tables<"user_locations">, "display_name">;
 };
 
 interface SearchHistoryDialogProps {
@@ -104,7 +103,6 @@ export function SearchHistoryDialog({
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1">
                         <span className="font-medium text-sm">
-                          {searchLog.user_locations.display_name} •{" "}
                           {searchLog.asset_types.name}
                         </span>
                         {searchLog.status === "completed" ? (

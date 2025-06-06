@@ -25,7 +25,6 @@ import { PropertyMap } from "./property-map";
 
 type SearchLogWithRecords = Tables<"search_logs"> & {
   asset_types: Pick<Tables<"asset_types">, "name">;
-  user_locations: Pick<Tables<"user_locations">, "display_name">;
   property_records: Tables<"property_records">[];
 };
 
@@ -83,7 +82,7 @@ export function PropertyRecords({ data }: PropertyRecordsProps) {
                 <SelectItem key={searchLog.id} value={searchLog.id}>
                   <div className="flex items-center gap-2 w-full min-w-0">
                     <span className="font-medium truncate">
-                      {searchLog.user_locations.display_name} •{" "}
+                  
                       {searchLog.asset_types.name}
                     </span>
                     <span className="text-xs text-muted-foreground whitespace-nowrap">

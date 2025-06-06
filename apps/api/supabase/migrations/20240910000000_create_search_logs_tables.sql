@@ -5,7 +5,6 @@ CREATE TABLE public.search_logs (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
     user_id UUID NOT NULL REFERENCES public.users (id) ON DELETE CASCADE,
     asset_type_id UUID NOT NULL REFERENCES public.asset_types (id) ON DELETE CASCADE,
-    location_id UUID NOT NULL REFERENCES public.user_locations (id) ON DELETE CASCADE,
     search_parameters JSONB NOT NULL,
     result_count INTEGER NOT NULL,
     execution_time_ms INTEGER,

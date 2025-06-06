@@ -23,8 +23,7 @@ export async function getRecentSearchActivityQuery(
     .select(
       `
       *,
-      asset_types(name),
-      user_locations(display_name)
+      asset_types(name)
       `,
     )
     .eq("user_id", userId)

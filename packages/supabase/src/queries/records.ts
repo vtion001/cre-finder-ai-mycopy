@@ -29,7 +29,6 @@ export async function getPropertyRecordsBySearchLogQuery(
     .select(`
       *,
       asset_types(name),
-      user_locations(display_name),
       property_records(*)
     `)
     .eq("user_id", userId)
