@@ -1,3 +1,4 @@
+import { formatNumber } from "@/lib/format";
 import { getPreview } from "@/lib/search";
 import { Skeleton } from "@v1/ui/skeleton";
 import { Suspense } from "react";
@@ -21,8 +22,8 @@ async function LicenseWarningServer({
       <div className="text-center space-y-4 px-6">
         <div className="space-y-2">
           <h1 className="text-3xl font-bold">
-            {resultCount} {assetTypes?.join(", ") || "Asset"} Properties Found
-            in {formattedLocation}
+            {formatNumber(resultCount)} {assetTypes?.join(", ") || "Asset"}{" "}
+            Properties Found in {formattedLocation}
           </h1>
           <h2 className="text-xl font-semibold text-destructive">
             License Required
