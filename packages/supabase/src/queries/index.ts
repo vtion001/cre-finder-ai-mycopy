@@ -12,7 +12,6 @@ export async function getUserQuery(supabase: Client, userId: string) {
 }
 
 // Export all query functions
-export * from "./credits";
 export * from "./history";
-export * from "./onboarding";
+export * from "./asset-types";
 export * from "./records";

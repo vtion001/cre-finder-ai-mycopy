@@ -1,59 +1,69 @@
-import { PropertySearchInterface } from "@/components/property-search-interface";
-import { SiteHeader } from "@/components/site-header";
-import {
-  getSearchLog,
-  getUser,
-  getUserAssetTypes,
-  getUserCreditUsage,
-  getUserLocations,
-} from "@v1/supabase/cached-queries";
+import { LicenseWarning } from "@/components/license-warning";
+import { PreviewSearchInterface } from "@/components/preview-search-interface";
+import { SearchLoading } from "@/components/search-loading";
+import { getAssetTypes } from "@v1/supabase/cached-queries";
+import { createClient } from "@v1/supabase/client";
 import type { Metadata } from "next";
-import { redirect } from "next/navigation";
+import { z } from "zod";
 
 export const metadata: Metadata = {
-  title: "Search - CRE Finder AI",
-  description: "Search for properties with AI",
+  title: "Property Search - CRE Finder AI",
+  description: "Find commercial real estate properties with AI-powered search",
 };
+
+const searchParamsSchema = z.object({
+  location: z.string().optional(),
+  asset_types: z
+    .string()
+    .transform((value) => value.split(","))
+    .pipe(z.string().array()),
+});
 
 export default async function Page({
   searchParams,
 }: {
-  searchParams?: { [key: string]: string | string[] | undefined };
+  searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  const searchId = searchParams?.id?.toString();
+  const { data: assetTypes } = await getAssetTypes();
 
-  const { data: log } = searchId
-    ? await getSearchLog(searchId)
-    : { data: null };
+  if (!assetTypes) {
+    return <div>Loading...</div>;
+  }
 
-  const formValues = log
-    ? {
-        location_id: log.location_id,
-        asset_type_id: log.asset_type_id,
-        ...(log.search_parameters as unknown as object),
-      }
-    : undefined;
+  const parsedSearchParams = searchParamsSchema.safeParse(searchParams);
+  console.log(parsedSearchParams.error);
 
-  const { data: locations } = await getUserLocations();
-  const { data: assetTypes } = await getUserAssetTypes();
-  const { data: creditData } = await getUserCreditUsage();
+  if (
+    parsedSearchParams.success &&
+    parsedSearchParams.data.location &&
+    parsedSearchParams.data.asset_types
+  ) {
+    const supabase = createClient();
 
-  if (!assetTypes?.length || !locations?.length) {
-    redirect("/onboarding");
+    const { location, asset_types } = parsedSearchParams.data;
+
+    const { data: userHasLicense } = await supabase.rpc(
+      "user_has_license_combo",
+      {
+        p_user_id: "1",
+        p_location_id: location,
+        p_asset_types: asset_types,
+      },
+    );
+
+    if (!userHasLicense) {
+      return (
+        <div className="relative overflow-hidden ">
+          <LicenseWarning location={location} asset_types={asset_types} />
+          <SearchLoading isEmpty />
+        </div>
+      );
+    }
   }
 
   return (
-    <>
-      <SiteHeader title="Property Search" />
-      <div className="space-y-4 sm:space-y-6 p-4 sm:p-6 pb-16">
-        <PropertySearchInterface
-          // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-          initialValues={formValues as any}
-          assetTypes={assetTypes ?? []}
-          savedLocations={locations ?? []}
-          creditData={creditData}
-        />
-      </div>
-    </>
+    <div className="min-h-screen flex items-center justify-center p-4">
+      <PreviewSearchInterface assetTypes={assetTypes} />
+    </div>
   );
 }

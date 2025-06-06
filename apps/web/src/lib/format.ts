@@ -4,6 +4,10 @@ interface FormatNumberOptions extends Intl.NumberFormatOptions {
   locale?: string;
 }
 
+export function capitalize(str: string) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
 export function formatNumber(
   value?: number | null,
   { locale = "en-US", ...options }: FormatNumberOptions = {},

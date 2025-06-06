@@ -1,6 +1,22 @@
-import type { Tables } from "@v1/supabase/types";
 import { z } from "zod";
 
+export const locationSchema = z.object({
+  internal_id: z.string(),
+  state_code: z.string(),
+  type: z.enum(["city", "county"]),
+  title: z.string(),
+  display_name: z.string(),
+});
+
+// Simplified schema for the new search interface
+export const propertySearchSchema = z.object({
+  location: locationSchema,
+  asset_type_slugs: z
+    .array(z.string())
+    .min(1, "Please select at least one property type"),
+});
+
+// Keep the original schema for advanced search/existing functionality
 export const searchFiltersSchema = z
   .object({
     location_id: z.string(),
@@ -117,14 +133,6 @@ export const placeSuggestionSchema = z.object({
       value: z.string(),
     }),
   ),
-});
-
-export const locationSchema = z.object({
-  internal_id: z.string(),
-  state_code: z.string(),
-  type: z.enum(["city", "county"]),
-  title: z.string(),
-  display_name: z.string(),
 });
 
 export const assetTypeSchema = z.object({
