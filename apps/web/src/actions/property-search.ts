@@ -1,6 +1,5 @@
 "use server";
 
-import fs from "node:fs";
 import { searchStorageFacilities } from "@/lib/google-places";
 import {
   type GetPropertySearchParams,
@@ -56,10 +55,9 @@ export const previewSearchAction = authActionClient
         throw new Error("Location or asset type not found");
       }
 
-      // Assemble the date from year and month if both are provided
       let lastSaleDate: string | undefined;
-      if (last_sale_year && last_sale_month !== undefined) {
-        // Create date object from year and month (day defaults to 1st of the month)
+
+      if (last_sale_year && last_sale_month) {
         const date = new Date(last_sale_year, last_sale_month, 1);
         lastSaleDate = format(date, "yyyy-MM-dd");
       }
@@ -163,7 +161,7 @@ export const completeSearchAction = authActionClient
       countOnly,
     );
 
-    const propertyRecords = response.data.map((property) =>
+    const propertyRecords = (response.data || []).map((property) =>
       mapPropertyToRecord(property, searchLogId, user.id),
     );
 
@@ -208,14 +206,29 @@ async function getResults(
   isStorageUnits: boolean,
   countOnly = true,
 ) {
-  let response: Awaited<ReturnType<typeof getPropertySearch>>;
-
   const start_time = performance.now();
 
   console.log("Params:", params);
 
-  if (isStorageUnits && !countOnly) {
-    // For storage units, get both Google Places and Real Estate API results
+  if (isStorageUnits) {
+    if (countOnly) {
+      // For storage unit preview searches, only use Google Places results count
+      const googleResponse = await searchStorageFacilities({
+        city: params.city,
+        county: params.county,
+        state: params.state,
+      });
+
+      const end_time = performance.now();
+      const executionTime = end_time - start_time;
+
+      return {
+        response: { resultCount: googleResponse.results.length },
+        executionTime: Math.round(executionTime),
+      };
+    }
+
+    // For storage units full search, get both Google Places and Real Estate API results
     const [googleResponse, realEstateResponse] = await Promise.all([
       searchStorageFacilities({
         city: params.city,
@@ -230,22 +243,32 @@ async function getResults(
       googleResponse.results,
     );
 
-    fs.writeFileSync(
-      "cross-referenced-response.json",
-      JSON.stringify({ data: crossReferencedData }),
-    );
+    const end_time = performance.now();
+    const executionTime = end_time - start_time;
 
-    response = {
-      ...realEstateResponse,
-      data: crossReferencedData,
-      resultCount: crossReferencedData.length,
+    return {
+      response: {
+        data: crossReferencedData,
+        resultCount: crossReferencedData.length,
+      },
+      executionTime: Math.round(executionTime),
     };
-  } else {
-    response = await getPropertySearch(params, countOnly);
   }
-
+  const response = await getPropertySearch(params, countOnly);
   const end_time = performance.now();
   const executionTime = end_time - start_time;
 
-  return { response, executionTime: Math.round(executionTime) };
+  if (countOnly) {
+    return {
+      response: { resultCount: response.resultCount },
+      executionTime: Math.round(executionTime),
+    };
+  }
+  return {
+    response: {
+      data: response.data,
+      resultCount: response.resultCount,
+    },
+    executionTime: Math.round(executionTime),
+  };
 }
