@@ -1,5 +1,6 @@
 import { LicenseWarning } from "@/components/license-warning";
 import { PreviewSearchInterface } from "@/components/preview-search-interface";
+import { PropertySearchInterface } from "@/components/property-search-interface";
 import { SearchLoading } from "@/components/search-loading";
 import { getAssetTypes } from "@v1/supabase/cached-queries";
 import { createClient } from "@v1/supabase/client";
@@ -59,6 +60,15 @@ export default async function Page({
         </div>
       );
     }
+
+    return (
+      <div className="p-4 sm:p-6 pb-16">
+        <PropertySearchInterface
+          location={location}
+          asset_types={asset_types}
+        />
+      </div>
+    );
   }
 
   return (

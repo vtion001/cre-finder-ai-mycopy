@@ -19,8 +19,6 @@ export const propertySearchSchema = z.object({
 // Keep the original schema for advanced search/existing functionality
 export const searchFiltersSchema = z
   .object({
-    location_id: z.string(),
-    asset_type_id: z.string(),
     building_size_min: z.coerce
       .number()
       .min(0, "Must be a positive number")
