@@ -2,7 +2,7 @@
 
 import { propertySearchSchema } from "@/actions/schema";
 import { AssetTypeCombobox } from "@/components/asset-type-combobox";
-import { LocationCombobox } from "@/components/location-combobox";
+import { MultiLocationCombobox } from "@/components/multi-location-combobox";
 import { parseLocationCode } from "@/lib/format";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { IconArrowRight } from "@tabler/icons-react";
@@ -31,9 +31,9 @@ export function PreviewSearchInterface({
   assetTypes,
   combos,
 }: PreviewSearchInterfaceProps) {
-  const [state, setState] = useQueryStates({
-    location: parseAsString,
-    asset_types: parseAsArrayOf(parseAsString),
+  const [_, setState] = useQueryStates({
+    locations: parseAsArrayOf(parseAsString),
+    asset_type: parseAsString,
   });
 
   const form = useForm<PropertySearchFormValues>({
@@ -44,8 +44,8 @@ export function PreviewSearchInterface({
   const handleSubmit = (values: PropertySearchFormValues) => {
     setState(
       {
-        location: values.location.internal_id,
-        asset_types: values.asset_type_slugs,
+        locations: values.locations.map((loc) => loc.internal_id),
+        asset_type: values.asset_type_slug,
       },
       { shallow: false },
     );
@@ -54,42 +54,23 @@ export function PreviewSearchInterface({
   return (
     <div className="w-full max-w-4xl mx-auto">
       {/* Header */}
-      <div className="text-center mb-8">
-        <h1 className="text-4xl font-bold text-foreground mb-4">
+      <div className="text-center mb-6">
+        <h1 className="text-4xl font-bold text-foreground mb-3">
           Find commercial real estate, faster.
         </h1>
       </div>
 
       {/* Search Form */}
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
+        <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
           <div className="flex flex-col sm:flex-row gap-4 items-end">
             {/* Location Search */}
-            <div className="flex-1">
-              <FormField
-                control={form.control}
-                name="location"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <LocationCombobox
-                        value={field.value}
-                        onValueChange={field.onChange}
-                        placeholder="Search city or county..."
-                        className="h-12 text-base"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
 
             {/* Asset Type Selection */}
             <div className="w-full sm:w-64">
               <FormField
                 control={form.control}
-                name="asset_type_slugs"
+                name="asset_type_slug"
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
@@ -97,11 +78,29 @@ export function PreviewSearchInterface({
                         value={field.value}
                         onValueChange={field.onChange}
                         assetTypes={assetTypes}
-                        placeholder="All Property Types"
+                        placeholder="Select Property Type"
                         className="h-12 text-base"
                       />
                     </FormControl>
-                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <div className="flex-1">
+              <FormField
+                control={form.control}
+                name="locations"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <MultiLocationCombobox
+                        value={field.value}
+                        onValueChange={field.onChange}
+                        placeholder="Search cities or counties..."
+                        className="h-12 text-base"
+                      />
+                    </FormControl>
                   </FormItem>
                 )}
               />
@@ -122,7 +121,7 @@ export function PreviewSearchInterface({
 
       {/* Recent Searches Section */}
       {combos.length > 0 && (
-        <div className="mt-12 text-center">
+        <div className="mt-8 text-center">
           <h3 className="text-sm font-medium text-muted-foreground mb-4">
             RECENT SEARCHES
           </h3>
@@ -131,12 +130,12 @@ export function PreviewSearchInterface({
               const l = parseLocationCode(combo.location_id!);
               const formattedLocation = `${l.city || l.county}, ${l.state}`;
 
-              const href = `/dashboard/search?location=${combo.location_id}&asset_types=${combo.asset_type_slugs?.join(",")}`;
+              const href = `/dashboard/search?locations=${combo.location_id}&asset_type=${combo.asset_type_slugs?.[0]}`;
 
               return (
                 <Link href={href} key={combo.license_id}>
                   <div className="group hover:underline text-sm text-muted-foreground flex items-center gap-1.5 ">
-                    {formattedLocation} | {combo.asset_type_names?.join(", ")}
+                    {formattedLocation} | {combo.asset_type_names?.[0]}
                     <IconArrowRight className="h-4 w-4 hidden group-hover:block" />
                   </div>
                 </Link>

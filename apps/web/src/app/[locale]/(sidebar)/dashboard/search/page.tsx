@@ -19,8 +19,8 @@ export const metadata: Metadata = {
 };
 
 const searchParamsSchema = z.object({
-  location: z.string().optional(),
-  asset_types: z
+  asset_type: z.string().optional(),
+  locations: z
     .string()
     .transform((value) => value.split(","))
     .pipe(z.string().array()),
@@ -41,38 +41,32 @@ export default async function Page({
 
   if (
     parsedSearchParams.success &&
-    parsedSearchParams.data.location &&
-    parsedSearchParams.data.asset_types
+    parsedSearchParams.data.asset_type &&
+    parsedSearchParams.data.locations
   ) {
-    const { location, asset_types } = parsedSearchParams.data;
-
-    const { hasLicense, assetTypes: assetTypeNames } =
-      await checkUserLicenseCombo(location, asset_types);
-
-    if (!hasLicense) {
-      return (
-        <div className="relative overflow-hidden ">
-          <LicenseWarning location={location} asset_types={asset_types} />
-          <SearchLoading isEmpty />
-        </div>
-      );
-    }
-
-    return (
-      <div className="p-4 sm:p-6 pb-16">
-        <PropertySearchInterface
-          locationCode={location}
-          assetTypeNames={assetTypeNames || []}
-        />
-      </div>
-    );
+    // const { hasLicense, assetTypes: assetTypeNames } =
+    //   await checkUserLicenseCombo(location, asset_types);
+    // if (!hasLicense) {
+    //   return (
+    //     <div className="relative overflow-hidden ">
+    //       <LicenseWarning location={location} asset_types={asset_types} />
+    //       <SearchLoading isEmpty />
+    //     </div>
+    //   );
+    // }
+    // return (
+    //   <div className="p-4 sm:p-6 pb-16">
+    //     <PropertySearchInterface
+    //       locationCode={location}
+    //       assetTypeNames={assetTypeNames || []}
+    //     />
+    //   </div>
+    // );
   }
 
-  const { data: combos } = await getLicensedCombos();
-
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
-      <PreviewSearchInterface assetTypes={assetTypes} combos={combos || []} />
+    <div className="min-h-screen p-4 pt-16">
+      <PreviewSearchInterface assetTypes={assetTypes} combos={[]} />
     </div>
   );
 }

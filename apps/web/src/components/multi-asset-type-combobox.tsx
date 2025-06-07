@@ -17,28 +17,32 @@ import { useState } from "react";
 
 type AssetType = Tables<"asset_types">;
 
-interface AssetTypeComboboxProps {
-  value?: string;
-  onValueChange: (assetTypeSlug: string) => void;
+interface MultiAssetTypeComboboxProps {
+  value?: string[];
+  onValueChange: (assetTypeIds: string[]) => void;
   assetTypes: AssetType[];
   placeholder?: string;
   className?: string;
 }
 
-export function AssetTypeCombobox({
-  value,
+export function MultiAssetTypeCombobox({
+  value = [],
   onValueChange,
   assetTypes,
-  placeholder = "Select property type...",
+  placeholder = "Select property types...",
   className,
-}: AssetTypeComboboxProps) {
+}: MultiAssetTypeComboboxProps) {
   const [open, setOpen] = useState(false);
 
-  const selectedAssetType = assetTypes.find((type) => type.slug === value);
+  const selectedAssetTypes = assetTypes.filter((type) =>
+    value.includes(type.slug!),
+  );
 
-  const handleSelect = (assetTypeSlug: string) => {
-    onValueChange(assetTypeSlug);
-    setOpen(false);
+  const handleSelect = (assetTypeId: string) => {
+    const newValue = value.includes(assetTypeId)
+      ? value.filter((slug) => slug !== assetTypeId)
+      : [...value, assetTypeId];
+    onValueChange(newValue);
   };
 
   return (
@@ -50,18 +54,22 @@ export function AssetTypeCombobox({
           aria-expanded={open}
           className={cn(
             "w-full justify-between text-left font-normal",
-            !selectedAssetType && "text-muted-foreground",
+            selectedAssetTypes.length === 0 && "text-muted-foreground",
             className,
           )}
         >
-          <span>
-            {selectedAssetType ? selectedAssetType.name : placeholder}
-          </span>
+          <div className="flex flex-wrap gap-1 flex-1 min-w-0">
+            {selectedAssetTypes.length === 0
+              ? placeholder
+              : selectedAssetTypes.length === 1
+                ? selectedAssetTypes[0]!.name
+                : `${selectedAssetTypes.length} types`}
+          </div>
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent
-        className="w-[--radix-popover-trigger-width] p-0"
+        className="w-[--radix-popover-trigger-width]  p-0"
         align="start"
       >
         <Command>
@@ -79,7 +87,9 @@ export function AssetTypeCombobox({
                   <Check
                     className={cn(
                       "mr-2 h-4 w-4",
-                      value === assetType.slug ? "opacity-100" : "opacity-0",
+                      value.includes(assetType.slug!)
+                        ? "opacity-100"
+                        : "opacity-0",
                     )}
                   />
                   <div className="flex flex-col">

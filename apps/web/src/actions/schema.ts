@@ -10,10 +10,10 @@ export const locationSchema = z.object({
 
 // Simplified schema for the new search interface
 export const propertySearchSchema = z.object({
-  location: locationSchema,
-  asset_type_slugs: z
-    .array(z.string())
-    .min(1, "Please select at least one property type"),
+  locations: z
+    .array(locationSchema)
+    .min(1, "Please select at least one location"),
+  asset_type_slug: z.string().min(1, "Please select a property type"),
 });
 
 // Keep the original schema for advanced search/existing functionality
