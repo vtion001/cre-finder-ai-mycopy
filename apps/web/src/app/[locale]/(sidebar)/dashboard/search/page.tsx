@@ -27,15 +27,17 @@ export default async function Page({
 
   const { locations, asset_type } = searchParamsCache.parse(searchParams);
 
-  if (asset_type && locations.length > 0) {
+  if (asset_type) {
     return (
       <div className="p-4 sm:p-6 pb-16 space-y-6">
         <PropertySearchFilters assetTypes={assetTypes} />
 
-        <div className="relative overflow-hidden ">
-          <LicenseWarning />
-          <SearchLoading isEmpty />
-        </div>
+        {locations.length ? (
+          <div className="relative overflow-hidden ">
+            <LicenseWarning />
+            <SearchLoading isEmpty />
+          </div>
+        ) : null}
       </div>
     );
   }
