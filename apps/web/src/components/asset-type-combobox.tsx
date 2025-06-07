@@ -18,7 +18,7 @@ import { useState } from "react";
 type AssetType = Tables<"asset_types">;
 
 interface AssetTypeComboboxProps {
-  value?: string;
+  value?: string | null | undefined;
   onValueChange: (assetTypeSlug: string) => void;
   assetTypes: AssetType[];
   placeholder?: string;

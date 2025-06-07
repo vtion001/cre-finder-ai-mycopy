@@ -8,25 +8,20 @@ import { useAction } from "next-safe-action/hooks";
 import { useState } from "react";
 
 interface CheckoutLicenseButtonProps {
-  location: string;
-  assetTypes: string[];
-  resultCount: number;
-  redirectPath?: string;
+  locations: string[];
+  assetType: string;
 }
 
 export function CheckoutLicenseButton({
-  location,
-  assetTypes,
-  resultCount,
-  redirectPath = "/dashboard/search",
+  locations,
+  assetType,
 }: CheckoutLicenseButtonProps) {
   const { isPending } = useAction(checkoutLicenseAction);
 
   const handleCheckout = async () => {
     const result = await checkoutLicenseAction({
-      locationId: location,
-      assetTypeSlugs: assetTypes,
-      resultCount,
+      locations,
+      assetType,
     });
 
     if (!result?.data?.sessionId) {

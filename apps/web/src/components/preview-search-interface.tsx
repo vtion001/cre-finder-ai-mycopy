@@ -1,23 +1,13 @@
 "use client";
 
-import { propertySearchSchema } from "@/actions/schema";
-import { AssetTypeCombobox } from "@/components/asset-type-combobox";
-import { MultiLocationCombobox } from "@/components/multi-location-combobox";
+import type { propertySearchSchema } from "@/actions/schema";
+import { PropertySearchForm } from "@/components/forms/property-search-form";
 import { parseLocationCode } from "@/lib/format";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { parsers } from "@/lib/nuqs/property-search-params";
 import { IconArrowRight } from "@tabler/icons-react";
 import type { Tables } from "@v1/supabase/types";
-import { Button } from "@v1/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "@v1/ui/form";
 import Link from "next/link";
-import { parseAsArrayOf, parseAsString, useQueryStates } from "nuqs";
-import { useForm } from "react-hook-form";
+import { useQueryStates } from "nuqs";
 import type { z } from "zod";
 
 type PropertySearchFormValues = z.infer<typeof propertySearchSchema>;
@@ -31,15 +21,7 @@ export function PreviewSearchInterface({
   assetTypes,
   combos,
 }: PreviewSearchInterfaceProps) {
-  const [_, setState] = useQueryStates({
-    locations: parseAsArrayOf(parseAsString),
-    asset_type: parseAsString,
-  });
-
-  const form = useForm<PropertySearchFormValues>({
-    resolver: zodResolver(propertySearchSchema),
-    defaultValues: {},
-  });
+  const [_, setState] = useQueryStates(parsers);
 
   const handleSubmit = (values: PropertySearchFormValues) => {
     setState(
@@ -61,63 +43,11 @@ export function PreviewSearchInterface({
       </div>
 
       {/* Search Form */}
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
-          <div className="flex flex-col sm:flex-row gap-4 items-end">
-            {/* Location Search */}
-
-            {/* Asset Type Selection */}
-            <div className="w-full sm:w-64">
-              <FormField
-                control={form.control}
-                name="asset_type_slug"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <AssetTypeCombobox
-                        value={field.value}
-                        onValueChange={field.onChange}
-                        assetTypes={assetTypes}
-                        placeholder="Select Property Type"
-                        className="h-12 text-base"
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            <div className="flex-1">
-              <FormField
-                control={form.control}
-                name="locations"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <MultiLocationCombobox
-                        value={field.value}
-                        onValueChange={field.onChange}
-                        placeholder="Search cities or counties..."
-                        className="h-12 text-base"
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            {/* Search Button */}
-            <Button
-              type="submit"
-              size="lg"
-              disabled={!form.formState.isValid}
-              className="h-12 px-8 bg-primary hover:bg-primary/90 text-primary-foreground"
-            >
-              Search
-            </Button>
-          </div>
-        </form>
-      </Form>
+      <PropertySearchForm
+        assetTypes={assetTypes}
+        onSubmit={handleSubmit}
+        className="space-y-4"
+      />
 
       {/* Recent Searches Section */}
       {combos.length > 0 && (

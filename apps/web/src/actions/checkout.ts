@@ -1,15 +1,12 @@
 "use server";
+import { getPropertyCountCache } from "@/queries/cached";
 import { checkoutLicenseWithStripe } from "@v1/stripe/server";
 import { z } from "zod";
 import { authActionClient } from "./safe-action";
 
 const checkoutLicenseSchema = z.object({
-  locationId: z.string().min(1, "Location is required"),
-  assetTypeSlugs: z
-    .array(z.string())
-    .min(1, "At least one asset type is required"),
-  resultCount: z.number().min(1, "Result count must be at least 1"),
-  redirectPath: z.string().optional(),
+  locations: z.array(z.string()),
+  assetType: z.string(),
 });
 
 export const checkoutLicenseAction = authActionClient
@@ -19,15 +16,20 @@ export const checkoutLicenseAction = authActionClient
   })
   .action(
     async ({
-      parsedInput: { locationId, assetTypeSlugs, resultCount, redirectPath },
+      parsedInput: { locations, assetType },
       ctx: { supabase, user },
     }) => {
-      const path = `/dashboard/search?location=${locationId}&asset_types=${assetTypeSlugs.join(",")}`;
+      const redirectPath = `/dashboard/search?asset_type=${assetType}&locations=${locations.join(",")}`;
+
+      // map property counts
+      const propertyCounts = await Promise.all(
+        locations.map((location) => getPropertyCountCache(assetType, location)),
+      );
+
       const result = await checkoutLicenseWithStripe({
-        locationId,
-        assetTypeSlugs,
-        resultCount,
-        redirectPath: redirectPath ?? path,
+        assetTypeSlug: assetType,
+        propertyCounts,
+        redirectPath,
       });
 
       return result;

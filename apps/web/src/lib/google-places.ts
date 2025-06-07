@@ -91,9 +91,7 @@ async function makeGooglePlacesRequest(
   return data;
 }
 
-export async function searchStorageFacilities(
-  params: GooglePlacesSearchParams,
-) {
+export async function getStorageFacilities(params: GooglePlacesSearchParams) {
   const { city, county, state } = params;
 
   let locationQuery = "";

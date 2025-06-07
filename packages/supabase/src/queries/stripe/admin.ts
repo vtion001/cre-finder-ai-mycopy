@@ -299,18 +299,17 @@ export async function manageUserLicense(
   userId: string,
   metadata: Stripe.Metadata,
 ) {
-  const { location_id, asset_type_slugs, result_count } = metadata;
+  const { assetTypeSlug, locationIds } = metadata;
 
-  if (!location_id || !asset_type_slugs || !result_count) {
+  if (!assetTypeSlug || !locationIds) {
     throw new Error("Missing metadata on subscription");
   }
 
-  const { error } = await insertUserLicense(supabaseAdmin, {
-    userId,
-    locationId: location_id,
-    assetTypeSlugs: asset_type_slugs.split(","),
-    licensed: true,
-  });
+  // const { error } = await insertUserLicense(supabaseAdmin, {
+  //   userId,
+  //   assetTypeSlug,
+  //   locationIds: locationIds.split(","),
+  // });
 
   // if (error) {
   //   throw new Error(`Failed to create user license: ${error.message}`);

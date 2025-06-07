@@ -19,9 +19,13 @@ type CheckoutResponse = {
 };
 
 type LicenseCheckoutParams = {
-  locationId: string;
-  assetTypeSlugs: string[];
-  resultCount: number;
+  assetTypeSlug: string;
+  propertyCounts: {
+    internalId: string;
+    resultCount: number;
+    formattedLocation: string;
+    assetTypeName: string;
+  }[];
   redirectPath?: string;
 };
 
@@ -189,10 +193,9 @@ export async function createStripePortal(currentPath: string) {
 }
 
 export async function checkoutLicenseWithStripe({
-  locationId,
-  assetTypeSlugs,
-  resultCount,
-  redirectPath = "/dashboard/search",
+  assetTypeSlug,
+  propertyCounts,
+  redirectPath = "/account",
 }: LicenseCheckoutParams): Promise<CheckoutResponse> {
   try {
     // Get the user from Supabase auth
@@ -219,28 +222,34 @@ export async function checkoutLicenseWithStripe({
       throw new Error("Unable to access customer record.");
     }
 
-    const unitAmount = resultCount * 50;
+    const totalPropertyCount = propertyCounts.reduce(
+      (acc, count) => acc + count.resultCount,
+      0,
+    );
 
     const oneTimeProduct = await stripe.products.create({
-      name: "One-Time Activation Fee",
+      name: "Licensing Fee",
     });
 
     const oneTimeFee = await stripe.prices.create({
-      unit_amount: unitAmount,
+      unit_amount: totalPropertyCount * 100, // $1 per property one-time fee
       currency: "usd",
       product: oneTimeProduct.id,
     });
 
-    const recurringProduct = await stripe.products.create({
-      name: "Monthly Subscription",
-    });
-
-    const recurringPrice = await stripe.prices.create({
-      unit_amount: unitAmount,
-      currency: "usd",
-      recurring: { interval: "month", interval_count: 1 },
-      product: recurringProduct.id,
-    });
+    const recurringPrices = await Promise.all(
+      propertyCounts.map(async (propertyCount) => {
+        const product = await stripe.products.create({
+          name: `${propertyCount.assetTypeName} - ${propertyCount.formattedLocation}`,
+        });
+        return stripe.prices.create({
+          unit_amount: propertyCount.resultCount * 50, // $0.5 per property per month
+          currency: "usd",
+          recurring: { interval: "month", interval_count: 1 },
+          product: product.id,
+        });
+      }),
+    );
 
     const params: Stripe.Checkout.SessionCreateParams = {
       allow_promotion_codes: true,
@@ -251,23 +260,22 @@ export async function checkoutLicenseWithStripe({
       },
       line_items: [
         {
-          price: recurringPrice.id,
-          quantity: 1,
-        },
-        {
           price: oneTimeFee.id,
           quantity: 1,
         },
+        ...recurringPrices.map((price) => ({
+          price: price.id,
+          quantity: 1,
+        })),
       ],
       mode: "subscription",
       cancel_url: getURL(redirectPath),
       success_url: getURL(redirectPath),
       metadata: {
         type: "license",
-        user_id: user.id,
-        location_id: locationId,
-        asset_type_slugs: assetTypeSlugs.join(","),
-        result_count: resultCount.toString(),
+        userId: user.id,
+        assetTypeSlug,
+        locationIds: propertyCounts.map((count) => count.internalId).join(","),
       },
     };
 
