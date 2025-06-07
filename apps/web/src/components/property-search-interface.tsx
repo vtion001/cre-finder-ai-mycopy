@@ -1,6 +1,7 @@
 "use client";
 
 import { PropertyFiltersForm } from "@/components/property-filters-form";
+import { parseLocationCode } from "@/lib/format";
 import { Card } from "@v1/ui/card";
 import { Label } from "@v1/ui/label";
 import { ScrollArea, ScrollBar } from "@v1/ui/scroll-area";
@@ -9,15 +10,19 @@ import { BuildingIcon, SearchIcon } from "lucide-react";
 import { useState } from "react";
 
 interface PropertySearchInterfaceProps {
-  location: string;
-  asset_types: string[];
+  locationCode: string;
+  assetTypeNames: string[];
 }
 
 export function PropertySearchInterface({
-  location,
-  asset_types,
+  locationCode,
+  assetTypeNames,
 }: PropertySearchInterfaceProps) {
   const [showMap, setShowMap] = useState(true);
+
+  const location = parseLocationCode(locationCode);
+
+  const formattedLocation = `${location.city || location.county}, ${location.state}`;
 
   return (
     <div className="space-y-6">
@@ -27,8 +32,8 @@ export function PropertySearchInterface({
             <SearchIcon className="h-4 w-4" />
             <span>
               Searching for{" "}
-              <span className="font-medium">{asset_types.join(", ")}</span> in{" "}
-              <span className="font-medium">{location}</span>
+              <span className="font-medium">{assetTypeNames.join(", ")}</span>{" "}
+              in <span className="font-medium">{formattedLocation}</span>
             </span>
           </div>
         </div>
@@ -66,12 +71,13 @@ export function PropertySearchInterface({
                 <div className="mt-4 text-sm">
                   <div className="space-y-1">
                     <div>
-                      Location: <span className="font-medium">{location}</span>
+                      Location:{" "}
+                      <span className="font-medium">{formattedLocation}</span>
                     </div>
                     <div>
                       Asset Types:{" "}
                       <span className="font-medium">
-                        {asset_types.join(", ")}
+                        {assetTypeNames.join(", ")}
                       </span>
                     </div>
                   </div>

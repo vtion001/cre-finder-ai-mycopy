@@ -3,6 +3,7 @@ import {
   deletePriceRecord,
   deleteProductRecord,
   manageSubscriptionStatusChange,
+  manageUserLicense,
   upsertPriceRecord,
   upsertProductRecord,
 } from "@v1/supabase/stripe-admin";
@@ -79,11 +80,18 @@ export async function POST(req: Request) {
 
           if (checkoutSession.mode === "subscription") {
             const subscriptionId = checkoutSession.subscription;
-            const { userId } = await manageSubscriptionStatusChange(
-              subscriptionId as string,
-              checkoutSession.customer as string,
-              true,
-            );
+            const { userId, subscription } =
+              await manageSubscriptionStatusChange(
+                subscriptionId as string,
+                checkoutSession.customer as string,
+                true,
+                checkoutSession.metadata,
+              );
+
+            if (checkoutSession?.metadata?.type === "license") {
+              await manageUserLicense(userId, checkoutSession.metadata);
+              revalidateTag(`licenses_${userId}`);
+            }
 
             revalidateTag(`user_${userId}`);
             revalidateTag(`subscriptions_${userId}`);

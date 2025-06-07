@@ -2,6 +2,7 @@ import { stripe } from "@v1/stripe/config";
 import type Stripe from "stripe";
 
 import { supabaseAdmin } from "../../clients/admin";
+import { insertUserLicense } from "../../mutations";
 import type { Tables, TablesInsert } from "../../types/db";
 
 export const toDateTime = (secs: number) => {
@@ -218,6 +219,7 @@ export const manageSubscriptionStatusChange = async (
   subscriptionId: string,
   customerId: string,
   createAction = false,
+  fallbackMetadata?: Stripe.Metadata | null,
 ) => {
   // Get customer's UUID from mapping table.
   const { data: customerData, error: noCustomerError } = await supabaseAdmin
@@ -234,11 +236,12 @@ export const manageSubscriptionStatusChange = async (
   const subscription = await stripe.subscriptions.retrieve(subscriptionId, {
     expand: ["default_payment_method"],
   });
+
   // Upsert the latest status of the subscription object.
   const subscriptionData: TablesInsert<"subscriptions"> = {
     id: subscription.id,
     user_id: uuid,
-    metadata: subscription.metadata,
+    metadata: subscription.metadata ?? fallbackMetadata,
     status: subscription.status,
     price_id: subscription.items.data[0]?.price.id,
     //TODO check quantity on subscription
@@ -289,5 +292,27 @@ export const manageSubscriptionStatusChange = async (
       subscription.default_payment_method as Stripe.PaymentMethod,
     );
 
-  return { userId: uuid };
+  return { userId: uuid, subscription };
 };
+
+export async function manageUserLicense(
+  userId: string,
+  metadata: Stripe.Metadata,
+) {
+  const { location_id, asset_type_slugs, result_count } = metadata;
+
+  if (!location_id || !asset_type_slugs || !result_count) {
+    throw new Error("Missing metadata on subscription");
+  }
+
+  const { error } = await insertUserLicense(supabaseAdmin, {
+    userId,
+    locationId: location_id,
+    assetTypeSlugs: asset_type_slugs.split(","),
+    licensed: true,
+  });
+
+  // if (error) {
+  //   throw new Error(`Failed to create user license: ${error.message}`);
+  // }
+}

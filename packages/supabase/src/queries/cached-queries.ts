@@ -3,6 +3,7 @@ import { cache } from "react";
 import { getAssetTypesQuery, getUserQuery } from ".";
 import { createClient } from "../clients/server";
 import { getRecentSearchActivityQuery, getSearchLogQuery } from "./history";
+import { checkUserLicenseComboQuery } from "./licenses";
 import { getPropertyRecordsBySearchLogQuery } from "./records";
 import { getSubscriptionQuery } from "./stripe";
 
@@ -139,3 +140,35 @@ export const getPropertyRecordsBySearchLog = async () => {
     // @ts-expect-error
   )(userId);
 };
+
+export async function checkUserLicenseCombo(
+  locationId: string,
+  assetTypes: string[],
+) {
+  const supabase = createClient();
+
+  const user = await getUser();
+
+  if (!user?.data) {
+    throw new Error("unauthorized");
+  }
+
+  const userId = user.data.id;
+
+  return unstable_cache(
+    async () => {
+      return checkUserLicenseComboQuery(
+        supabase,
+        userId,
+        locationId,
+        assetTypes,
+      );
+    },
+    ["licenses", userId],
+    {
+      tags: [`licenses_${userId}`],
+      revalidate: 180,
+    },
+    // @ts-expect-error
+  )(userId, locationId, assetTypes);
+}

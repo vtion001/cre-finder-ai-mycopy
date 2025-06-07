@@ -752,6 +752,15 @@ export type Database = {
       }
     }
     Functions: {
+      insert_user_license: {
+        Args: {
+          p_user_id: string
+          p_location_id: string
+          p_asset_type_slugs: string[]
+          p_licensed?: boolean
+        }
+        Returns: string
+      }
       slugify: {
         Args: { value: string }
         Returns: string

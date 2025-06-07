@@ -46,7 +46,7 @@ async function LicenseWarningServer({
           </Button>
 
           <CheckoutLicenseButton
-            location={formattedLocation}
+            location={location}
             assetTypes={asset_types}
             resultCount={resultCount}
           />

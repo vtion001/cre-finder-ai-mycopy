@@ -1,8 +1,10 @@
 "use client";
 
+import { checkoutLicenseAction } from "@/actions/checkout";
 import { getStripe } from "@v1/stripe/client";
 import { Button } from "@v1/ui/button";
 import { toast } from "@v1/ui/sonner";
+import { useAction } from "next-safe-action/hooks";
 import { useState } from "react";
 
 interface CheckoutLicenseButtonProps {
@@ -18,66 +20,38 @@ export function CheckoutLicenseButton({
   resultCount,
   redirectPath = "/dashboard/search",
 }: CheckoutLicenseButtonProps) {
-  const [isLoading, setIsLoading] = useState(false);
+  const { isPending } = useAction(checkoutLicenseAction);
 
   const handleCheckout = async () => {
-    setIsLoading(true);
+    const result = await checkoutLicenseAction({
+      locationId: location,
+      assetTypeSlugs: assetTypes,
+      resultCount,
+    });
 
-    try {
-      // Create checkout session
-      const response = await fetch("/api/checkout/license", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          location,
-          assetTypes,
-          resultCount,
-          redirectPath,
-        }),
+    if (!result?.data?.sessionId) {
+      throw new Error("Failed to create checkout session");
+    }
+
+    const stripe = await getStripe();
+    if (stripe) {
+      const { error } = await stripe.redirectToCheckout({
+        sessionId: result.data.sessionId,
       });
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || "Failed to create checkout session");
+      if (error) {
+        throw new Error(error.message);
       }
-
-      if (data.sessionId) {
-        // Redirect to Stripe checkout
-        const stripe = await getStripe();
-        if (stripe) {
-          const { error } = await stripe.redirectToCheckout({
-            sessionId: data.sessionId,
-          });
-
-          if (error) {
-            throw new Error(error.message);
-          }
-        } else {
-          throw new Error("Stripe failed to load");
-        }
-      } else {
-        throw new Error("No session ID returned");
-      }
-    } catch (error) {
-      console.error("Checkout error:", error);
-      toast.error(
-        error instanceof Error ? error.message : "Failed to start checkout",
-      );
-    } finally {
-      setIsLoading(false);
     }
   };
 
   return (
     <Button
       onClick={handleCheckout}
-      disabled={isLoading}
+      disabled={isPending}
       className="h-12 px-8 bg-primary hover:bg-primary/90 text-primary-foreground"
     >
-      {isLoading ? "Loading..." : "Get Access"}
+      {isPending ? "Loading..." : "Get Access"}
     </Button>
   );
 }

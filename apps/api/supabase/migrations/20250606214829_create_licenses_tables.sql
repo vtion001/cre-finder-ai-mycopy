@@ -114,3 +114,94 @@ BEGIN
     );
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
+
+-- Procedure to insert or update user license with asset types
+CREATE OR REPLACE FUNCTION insert_user_license(
+    p_user_id UUID,
+    p_location_id TEXT,
+    p_asset_type_slugs TEXT[],
+    p_licensed BOOLEAN DEFAULT true
+) RETURNS UUID AS $$
+DECLARE
+    v_license_id UUID;
+    v_asset_slug TEXT;
+    v_existing_license_id UUID;
+BEGIN
+    -- Input validation
+    IF p_user_id IS NULL THEN
+        RAISE EXCEPTION 'user_id cannot be null';
+    END IF;
+    
+    IF p_location_id IS NULL OR trim(p_location_id) = '' THEN
+        RAISE EXCEPTION 'location_id cannot be null or empty';
+    END IF;
+    
+    IF p_asset_type_slugs IS NULL OR array_length(p_asset_type_slugs, 1) IS NULL THEN
+        RAISE EXCEPTION 'asset_type_slugs cannot be null or empty';
+    END IF;
+    
+    -- Check if user exists
+    IF NOT EXISTS (SELECT 1 FROM public.users WHERE id = p_user_id) THEN
+        RAISE EXCEPTION 'User with id % does not exist', p_user_id;
+    END IF;
+    
+    -- Validate all asset type slugs exist
+    FOR v_asset_slug IN SELECT unnest(p_asset_type_slugs)
+    LOOP
+        IF NOT EXISTS (SELECT 1 FROM public.asset_types WHERE slug = v_asset_slug) THEN
+            RAISE EXCEPTION 'Asset type with slug % does not exist', v_asset_slug;
+        END IF;
+    END LOOP;
+    
+    -- Check if license already exists for this user-location combination
+    SELECT id INTO v_existing_license_id
+    FROM public.user_licenses
+    WHERE user_id = p_user_id AND location_id = p_location_id;
+    
+    IF v_existing_license_id IS NOT NULL THEN
+        -- Update existing license
+        UPDATE public.user_licenses
+        SET 
+            licensed = p_licensed,
+            updated_at = now()
+        WHERE id = v_existing_license_id;
+        
+        -- Remove existing asset types for this license
+        DELETE FROM public.user_license_asset_types
+        WHERE license_id = v_existing_license_id;
+        
+        v_license_id := v_existing_license_id;
+        
+        RAISE NOTICE 'Updated existing license % for user % at location %', 
+            v_license_id, p_user_id, p_location_id;
+    ELSE
+        -- Insert new license
+        INSERT INTO public.user_licenses (user_id, location_id, licensed)
+        VALUES (p_user_id, p_location_id, p_licensed)
+        RETURNING id INTO v_license_id;
+        
+        RAISE NOTICE 'Created new license % for user % at location %', 
+            v_license_id, p_user_id, p_location_id;
+    END IF;
+    
+    -- Insert asset types for the license
+    FOR v_asset_slug IN SELECT unnest(p_asset_type_slugs)
+    LOOP
+        INSERT INTO public.user_license_asset_types (license_id, asset_type_slug)
+        VALUES (v_license_id, v_asset_slug);
+    END LOOP;
+    
+    RAISE NOTICE 'Added % asset types to license %', 
+        array_length(p_asset_type_slugs, 1), v_license_id;
+    
+    RETURN v_license_id;
+    
+EXCEPTION
+    WHEN unique_violation THEN
+        RAISE EXCEPTION 'Duplicate asset type detected in the provided list';
+    WHEN foreign_key_violation THEN
+        RAISE EXCEPTION 'Foreign key constraint violation - check user_id and asset_type_slugs';
+    WHEN OTHERS THEN
+        RAISE EXCEPTION 'Error inserting user license: %', SQLERRM;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
