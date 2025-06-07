@@ -99,3 +99,51 @@ insert into
     storage.buckets (id, name, public)
 values ('avatars', 'avatars', true)
 on conflict (id) do nothing;
+
+INSERT INTO
+    public.asset_types (name, description, use_codes)
+VALUES (
+        'Residential',
+        'Single-family homes, condos, townhouses, and multi-family properties up to 4 units',
+        '{365, 366, 367, 369, 372, 373, 376, 377, 380, 382, 383, 384, 385, 386, 387, 388, 390}'
+    ),
+    (
+        'Multi-Family',
+        'Apartment buildings with 5+ units',
+        '{357, 358, 359, 360, 361, 381}'
+    ),
+    (
+        'Office',
+        'Commercial office buildings and spaces',
+        '{136, 139, 140, 169, 170, 176, 177, 184}'
+    ),
+    (
+        'Retail',
+        'Retail stores, shopping centers, and malls',
+        '{124, 125, 128, 130, 141, 143, 144, 145, 151, 158, 167, 178, 179, 183, 188}'
+    ),
+    (
+        'Industrial',
+        'Warehouses, manufacturing facilities, and distribution centers',
+        '{195, 196, 197, 198, 199, 200, 201, 202, 203, 205, 206, 207, 208, 210, 211, 212, 213, 215, 216, 217, 218, 220, 221, 224, 225, 226, 227, 228, 231, 232, 238}'
+    ),
+    (
+        'Land',
+        'Vacant land and development sites',
+        '{102, 112, 117, 389, 392, 393, 394, 395, 396, 398, 399, 400, 401, 403, 404, 406}'
+    ),
+    (
+        'Hospitality',
+        'Hotels, motels, and resorts',
+        '{131, 132, 153, 154, 155, 163, 273}'
+    ),
+    (
+        'Self Storage',
+        'Self-storage facilities and storage unit complexes',
+        '{229, 196, 236, 202, 235, 238, 448, 356}'
+    ),
+    (
+        'Mixed-Use',
+        'Properties with multiple uses (e.g., retail on ground floor, residential above)',
+        '{140, 161, 171, 187}'
+    );
