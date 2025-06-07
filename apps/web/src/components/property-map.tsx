@@ -146,26 +146,6 @@ export function PropertyMap({ records, className }: PropertyMapProps) {
       ? "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json"
       : "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json";
 
-  if (mapPins.length === 0) {
-    return (
-      <div
-        className={cn(
-          "flex flex-col items-center justify-center py-12 text-center",
-          className,
-        )}
-      >
-        <MapPinIcon className="h-12 w-12 text-muted-foreground/30 mb-4" />
-        <h3 className="text-lg font-medium">
-          No properties with location data
-        </h3>
-        <p className="text-muted-foreground mt-1">
-          Properties need valid latitude and longitude coordinates to display on
-          the map.
-        </p>
-      </div>
-    );
-  }
-
   return (
     <div
       className={cn(

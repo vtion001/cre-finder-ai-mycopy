@@ -8,6 +8,7 @@ import { ScrollArea, ScrollBar } from "@v1/ui/scroll-area";
 import { Switch } from "@v1/ui/switch";
 import { BuildingIcon, SearchIcon } from "lucide-react";
 import { useState } from "react";
+import { PropertyMap } from "./property-map";
 
 interface PropertySearchInterfaceProps {
   locationCode: string;
@@ -62,44 +63,13 @@ export function PropertySearchInterface({
             hideScrollbar
             className="h-[calc(100vh-7rem)] w-full rounded-md border overflow-y-hidden"
           >
-            {/* Placeholder for search results table */}
-            <Card className="p-8 m-4">
-              <div className="text-center text-muted-foreground">
-                <SearchIcon className="h-12 w-12 mx-auto mb-4 opacity-30" />
-                <h3 className="text-lg font-medium mb-2">Search Results</h3>
-                <p>Property search results will appear here</p>
-                <div className="mt-4 text-sm">
-                  <div className="space-y-1">
-                    <div>
-                      Location:{" "}
-                      <span className="font-medium">{formattedLocation}</span>
-                    </div>
-                    <div>
-                      Asset Types:{" "}
-                      <span className="font-medium">
-                        {assetTypeNames.join(", ")}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Card>
-
             <ScrollBar orientation="horizontal" />
           </ScrollArea>
         </div>
 
         {showMap && (
           <div className="lg:sticky lg:top-6 lg:h-fit">
-            <Card className="h-[calc(100vh-7rem)] bg-muted/20">
-              <div className="flex items-center justify-center h-full">
-                <div className="text-center text-muted-foreground">
-                  <BuildingIcon className="h-12 w-12 mx-auto mb-4 opacity-30" />
-                  <h3 className="text-lg font-medium mb-2">Property Map</h3>
-                  <p>Search results will be displayed on the map</p>
-                </div>
-              </div>
-            </Card>
+            <PropertyMap records={[]} className="h-[calc(100vh-7rem)]" />
           </div>
         )}
       </div>
