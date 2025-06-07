@@ -46,20 +46,20 @@ export async function POST(req: Request) {
         case "product.created":
         case "product.updated":
           await upsertProductRecord(event.data.object as Stripe.Product);
-          revalidatePath("/setup/plans");
+
           break;
         case "price.created":
         case "price.updated":
           await upsertPriceRecord(event.data.object as Stripe.Price);
-          revalidatePath("/setup/plans");
+
           break;
         case "price.deleted":
           await deletePriceRecord(event.data.object as Stripe.Price);
-          revalidatePath("/setup/plans");
+
           break;
         case "product.deleted":
           await deleteProductRecord(event.data.object as Stripe.Product);
-          revalidatePath("/setup/plans");
+
           break;
         case "customer.subscription.created":
         case "customer.subscription.updated":

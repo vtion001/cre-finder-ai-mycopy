@@ -32,7 +32,6 @@ export default async function Page({
   }
 
   const parsedSearchParams = searchParamsSchema.safeParse(searchParams);
-  console.log(parsedSearchParams.error);
 
   if (
     parsedSearchParams.success &&

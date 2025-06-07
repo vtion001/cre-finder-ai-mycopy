@@ -18,6 +18,13 @@ type CheckoutResponse = {
   sessionId?: string;
 };
 
+type LicenseCheckoutParams = {
+  location: string;
+  assetTypes: string[];
+  resultCount: number;
+  redirectPath?: string;
+};
+
 export async function checkoutWithStripe(
   price: Price,
   redirectPath = "/account",
@@ -178,5 +185,120 @@ export async function createStripePortal(currentPath: string) {
       "An unknown error occurred.",
       "Please try again later or contact a system administrator.",
     );
+  }
+}
+
+export async function checkoutLicenseWithStripe({
+  location,
+  assetTypes,
+  resultCount,
+  redirectPath = "/dashboard/search",
+}: LicenseCheckoutParams): Promise<CheckoutResponse> {
+  try {
+    // Get the user from Supabase auth
+    const supabase = createClient();
+    const {
+      error,
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (error || !user) {
+      console.error(error);
+      throw new Error("Could not get user session.");
+    }
+
+    // Retrieve or create the customer in Stripe
+    let customer: string;
+    try {
+      customer = await createOrRetrieveCustomer({
+        uuid: user?.id || "",
+        email: user?.email || "",
+      });
+    } catch (err) {
+      console.error(err);
+      throw new Error("Unable to access customer record.");
+    }
+
+
+    const unitAmount = resultCount * 50;
+
+
+    const oneTimeProduct = await stripe.products.create({ name: 'One-Time Activation Fee', });
+
+    const oneTimeFee = await stripe.prices.create({
+      unit_amount: unitAmount,
+      currency: 'usd',
+      product: oneTimeProduct.id,
+
+    });
+
+    const recurringProduct = await stripe.products.create({ name: 'Monthly Subscription', });
+
+    const recurringPrice = await stripe.prices.create({
+      unit_amount: unitAmount,
+      currency: 'usd',
+      recurring: { interval: 'month', interval_count: 1, },
+      product: recurringProduct.id,
+    });
+
+    const params: Stripe.Checkout.SessionCreateParams = {
+      allow_promotion_codes: true,
+      billing_address_collection: "required",
+      customer,
+      customer_update: {
+        address: "auto",
+      },
+      line_items: [
+        {
+          price: recurringPrice.id,
+          quantity: 1,
+        },
+        {
+          price: oneTimeFee.id,
+          quantity: 1,
+        },
+      ],
+      mode: "subscription",
+      cancel_url: getURL(redirectPath),
+      success_url: getURL(redirectPath),
+      metadata: {
+        user_id: user.id,
+        location,
+        asset_types: assetTypes.join(","),
+        result_count: resultCount.toString(),
+        license_type: "custom",
+      },
+    };
+
+    // Create a checkout session in Stripe
+    let session: Stripe.Checkout.Session;
+    try {
+      session = await stripe.checkout.sessions.create(params);
+    } catch (err) {
+      console.error(err);
+      throw new Error("Unable to create checkout session.");
+    }
+
+    if (session) {
+      return { sessionId: session.id };
+    }
+    throw new Error("Unable to create checkout session.");
+  } catch (error) {
+    if (error instanceof Error) {
+      return {
+        errorRedirect: getErrorRedirect(
+          redirectPath,
+          error.message,
+          "Please try again later or contact a system administrator.",
+        ),
+      };
+    }
+    return {
+      errorRedirect: getErrorRedirect(
+        redirectPath,
+        "An unknown error occurred.",
+        "Please try again later or contact a system administrator.",
+      ),
+    };
   }
 }
