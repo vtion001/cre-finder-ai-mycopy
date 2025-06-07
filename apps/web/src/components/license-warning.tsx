@@ -59,17 +59,23 @@ async function LicenseWarningServer({
 function LicenseWarningSkeleton() {
   return (
     <div className="absolute inset-0 flex items-center justify-center">
-      <div className="text-center space-y-4 px-6">
-        <div className="space-y-3">
-          <Skeleton className="h-9 w-48 mx-auto" />
-          <Skeleton className="h-6 w-32 mx-auto" />
-        </div>
-        <Skeleton className="h-12 w-64 mx-auto" />
+      <div className="text-center space-y-6 px-6">
         <div className="space-y-2">
-          <Skeleton className="h-4 w-40 mx-auto" />
-          <Skeleton className="h-4 w-36 mx-auto" />
+          <div className="max-w-3xl mx-auto space-y-2">
+            <Skeleton className="h-10 w-full" />
+            <Skeleton className="h-10 w-3/4 mx-auto" />
+          </div>
         </div>
-        <Skeleton className="h-12 w-32 mx-auto" />
+
+        <div className="max-w-md mx-auto space-y-2">
+          <Skeleton className="h-4 w-full" />
+          <Skeleton className="h-4 w-2/3 mx-auto" />
+        </div>
+
+        <div className="flex items-center justify-center gap-4">
+          <Skeleton className="h-12 w-28" />
+          <Skeleton className="h-12 w-40" />
+        </div>
       </div>
     </div>
   );
