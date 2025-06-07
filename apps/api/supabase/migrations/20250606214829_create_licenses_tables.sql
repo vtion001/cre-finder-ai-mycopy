@@ -56,7 +56,7 @@ CREATE POLICY select_own_licenses ON public.user_licenses FOR
 SELECT USING (auth.uid () = user_id);
 
 -- Optimized view for licensed combinations
-CREATE VIEW user_licensed_combinations AS
+CREATE OR REPLACE VIEW user_licensed_combinations AS
 SELECT
     ul.id as license_id,
     ul.user_id,
@@ -66,6 +66,10 @@ SELECT
         ulat.asset_type_slug
         ORDER BY ulat.asset_type_slug
     ) as asset_type_slugs,
+    ARRAY_AGG(
+        at.name
+        ORDER BY ulat.asset_type_slug
+    ) as asset_type_names,
     STRING_AGG(
         ulat.asset_type_slug,
         ','

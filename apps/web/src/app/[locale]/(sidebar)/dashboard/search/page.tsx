@@ -5,6 +5,7 @@ import { SearchLoading } from "@/components/search-loading";
 import {
   checkUserLicenseCombo,
   getAssetTypes,
+  getLicensedCombos,
   getUser,
 } from "@v1/supabase/cached-queries";
 import { createClient } from "@v1/supabase/client";
@@ -67,9 +68,11 @@ export default async function Page({
     );
   }
 
+  const { data: combos } = await getLicensedCombos();
+
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
-      <PreviewSearchInterface assetTypes={assetTypes} />
+      <PreviewSearchInterface assetTypes={assetTypes} combos={combos || []} />
     </div>
   );
 }

@@ -3,7 +3,9 @@
 import { propertySearchSchema } from "@/actions/schema";
 import { AssetTypeCombobox } from "@/components/asset-type-combobox";
 import { LocationCombobox } from "@/components/location-combobox";
+import { parseLocationCode } from "@/lib/format";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { IconArrowRight } from "@tabler/icons-react";
 import type { Tables } from "@v1/supabase/types";
 import { Button } from "@v1/ui/button";
 import {
@@ -13,6 +15,7 @@ import {
   FormItem,
   FormMessage,
 } from "@v1/ui/form";
+import Link from "next/link";
 import { parseAsArrayOf, parseAsString, useQueryStates } from "nuqs";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
@@ -21,10 +24,12 @@ type PropertySearchFormValues = z.infer<typeof propertySearchSchema>;
 
 interface PreviewSearchInterfaceProps {
   assetTypes: Tables<"asset_types">[];
+  combos: Tables<"user_licensed_combinations">[];
 }
 
 export function PreviewSearchInterface({
   assetTypes,
+  combos,
 }: PreviewSearchInterfaceProps) {
   const [state, setState] = useQueryStates({
     location: parseAsString,
@@ -116,28 +121,30 @@ export function PreviewSearchInterface({
       </Form>
 
       {/* Recent Searches Section */}
-      <div className="mt-12 text-center">
-        <h3 className="text-sm font-medium text-muted-foreground mb-4">
-          RECENT SEARCHES
-        </h3>
-        <div className="space-y-2">
-          <div className="text-sm text-muted-foreground">
-            Greenville, SC, USA | All Property Types
-          </div>
-          <div className="text-sm text-muted-foreground">
-            Dallas, TX, USA | Office Buildings
-          </div>
-          <div className="text-sm text-muted-foreground">
-            Miami, FL, USA | Retail Properties
-          </div>
-          <div className="text-sm text-muted-foreground">
-            Austin, TX, USA | Industrial
-          </div>
-          <div className="text-sm text-muted-foreground">
-            All Property Types | Nationwide Search
+      {combos.length > 0 && (
+        <div className="mt-12 text-center">
+          <h3 className="text-sm font-medium text-muted-foreground mb-4">
+            RECENT SEARCHES
+          </h3>
+          <div className="space-y-2 w-max mx-auto">
+            {combos.map((combo) => {
+              const l = parseLocationCode(combo.location_id!);
+              const formattedLocation = `${l.city || l.county}, ${l.state}`;
+
+              const href = `/dashboard/search?location=${combo.location_id}&asset_types=${combo.asset_type_slugs?.join(",")}`;
+
+              return (
+                <Link href={href} key={combo.license_id}>
+                  <div className="group hover:underline text-sm text-muted-foreground flex items-center gap-1.5 ">
+                    {formattedLocation} | {combo.asset_type_names?.join(", ")}
+                    <IconArrowRight className="h-4 w-4 hidden group-hover:block" />
+                  </div>
+                </Link>
+              );
+            })}
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

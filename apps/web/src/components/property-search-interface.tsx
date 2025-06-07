@@ -5,8 +5,10 @@ import { parseLocationCode } from "@/lib/format";
 import { Card } from "@v1/ui/card";
 import { Label } from "@v1/ui/label";
 import { ScrollArea, ScrollBar } from "@v1/ui/scroll-area";
+import { Separator } from "@v1/ui/separator";
 import { Switch } from "@v1/ui/switch";
 import { BuildingIcon, SearchIcon } from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
 import { PropertyMap } from "./property-map";
 
@@ -36,6 +38,13 @@ export function PropertySearchInterface({
               <span className="font-medium">{assetTypeNames.join(", ")}</span>{" "}
               in <span className="font-medium">{formattedLocation}</span>
             </span>
+            <Separator orientation="vertical" className="h-4" />
+            <Link
+              href="/dashboard/search"
+              className="text-sm font-medium underline hover:opacity-60"
+            >
+              Change
+            </Link>
           </div>
         </div>
 

@@ -709,6 +709,7 @@ export type Database = {
       user_active_licenses: {
         Row: {
           asset_count: number | null
+          asset_type_names: string[] | null
           asset_type_slugs: string[] | null
           asset_types_key: string | null
           created_at: string | null
@@ -731,6 +732,7 @@ export type Database = {
       user_licensed_combinations: {
         Row: {
           asset_count: number | null
+          asset_type_names: string[] | null
           asset_type_slugs: string[] | null
           asset_types_key: string | null
           created_at: string | null

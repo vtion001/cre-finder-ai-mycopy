@@ -26,3 +26,16 @@ export async function checkUserLicenseComboQuery(
 
   return { hasLicense: data };
 }
+
+export async function getLicensedCombosQuery(supabase: Client, userId: string) {
+  const { data, error } = await supabase
+    .from("user_licensed_combinations")
+    .select("*")
+    .eq("user_id", userId);
+
+  if (error) {
+    throw new Error(`Failed to get licensed combos: ${error.message}`);
+  }
+
+  return { data, error };
+}
