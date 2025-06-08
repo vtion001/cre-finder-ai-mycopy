@@ -152,7 +152,7 @@ export async function getUserLicensesWithDetails() {
     async () => {
       return getUserLicensesWithDetailsQuery(supabase, userId);
     },
-    ["user_licenses_with_details", userId],
+    ["licenses", userId],
     {
       tags: [`licenses_${userId}`],
       revalidate: 180,
@@ -167,9 +167,9 @@ export async function getAssetTypeLicenses(assetTypeSlug: string) {
     async () => {
       return getAssetTypeLicensesQuery(supabase, assetTypeSlug);
     },
-    ["asset_type_licenses", assetTypeSlug],
+    ["licenses", assetTypeSlug],
     {
-      tags: [`asset_type_licenses_${assetTypeSlug}`],
+      tags: [`licenses_${assetTypeSlug}`],
       revalidate: 180,
     },
   )();

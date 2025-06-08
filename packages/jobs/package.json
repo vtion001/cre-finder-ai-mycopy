@@ -1,0 +1,20 @@
+{
+  "name": "@v1/jobs",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "trigger dev",
+    "deploy": "trigger deploy"
+  },
+  "exports": {
+    "./*": "./src/*.ts"
+  },
+  "dependencies": {
+    "@trigger.dev/sdk": "^3.3.17",
+    "@v1/supabase": "workspace:*",
+    "axios": "^1.9.0"
+  },
+  "devDependencies": {
+    "trigger.dev": "^3.3.17"
+  }
+}

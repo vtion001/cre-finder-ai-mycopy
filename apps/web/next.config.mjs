@@ -5,6 +5,7 @@ const nextConfig = {
   transpilePackages: ["@v1/supabase"],
   experimental: {
     instrumentationHook: process.env.NODE_ENV === "production",
+    serverComponentsExternalPackages: ["@trigger.dev/sdk"],
   },
 };
 

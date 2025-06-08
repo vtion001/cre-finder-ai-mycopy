@@ -10,6 +10,8 @@ export const env = createEnv({
     PORT: z.coerce.number().default(3000),
   },
   server: {
+    TRIGGER_SECRET_KEY: z.string(),
+    NEXT_CACHE_API_SECRET: z.string(),
     SUPABASE_SERVICE_KEY: z.string(),
     GOOGLE_API_KEY: z.string(),
     REALESTATEAPI_API_KEY: z.string(),
@@ -22,6 +24,8 @@ export const env = createEnv({
     NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: z.string(),
   },
   runtimeEnv: {
+    TRIGGER_SECRET_KEY: process.env.TRIGGER_SECRET_KEY,
+    NEXT_CACHE_API_SECRET: process.env.NEXT_CACHE_API_SECRET,
     NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
     NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
     PORT: process.env.PORT,
