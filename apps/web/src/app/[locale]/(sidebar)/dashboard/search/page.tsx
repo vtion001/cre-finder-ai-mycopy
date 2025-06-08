@@ -57,7 +57,7 @@ export default async function Page({
   });
 
   return (
-    <div className="min-h-screen p-4 pt-16">
+    <div className="min-h-screen p-4 pt-32">
       <PreviewSearchInterface assetTypes={unusedAssetTypes || []} />
     </div>
   );

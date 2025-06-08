@@ -2,9 +2,13 @@
 
 import { propertySearchSchema } from "@/actions/schema";
 import { AssetTypeCombobox } from "@/components/asset-type-combobox";
+import { FilterActions } from "@/components/filters/filter-actions";
+import { InlineDateFilter } from "@/components/filters/inline-date-filter";
+import { InlineRangeFilter } from "@/components/filters/inline-range-filter";
 import { MultiLocationCombobox } from "@/components/multi-location-combobox";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { Tables } from "@v1/supabase/types";
+import { Badge } from "@v1/ui/badge";
 import { Button } from "@v1/ui/button";
 import {
   Form,
@@ -13,6 +17,8 @@ import {
   FormItem,
   FormMessage,
 } from "@v1/ui/form";
+import { Popover, PopoverContent, PopoverTrigger } from "@v1/ui/popover";
+import { ChevronDownIcon, FilterIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
 
@@ -31,16 +37,63 @@ export function PreviewSearchForm({
 }: PreviewSearchFormProps) {
   const form = useForm<PreviewSearchFormValues>({
     resolver: zodResolver(propertySearchSchema),
-    defaultValues: {},
+    defaultValues: {
+      building_size_min: undefined,
+      building_size_max: undefined,
+      lot_size_min: undefined,
+      lot_size_max: undefined,
+      last_sale_year: undefined,
+      last_sale_month: undefined,
+      year_min: undefined,
+      year_max: undefined,
+    },
   });
 
   const handleSubmit = (values: PreviewSearchFormValues) => {
     onSubmit(values);
   };
 
+  const clearFilters = () => {
+    form.resetField("building_size_min", undefined);
+    form.setValue("building_size_max", undefined);
+    form.setValue("lot_size_min", undefined);
+    form.setValue("lot_size_max", undefined);
+    form.setValue("last_sale_year", undefined);
+    form.setValue("last_sale_month", undefined);
+    form.setValue("year_min", undefined);
+    form.setValue("year_max", undefined);
+  };
+
+  // Check if any filters are active
+  const hasActiveFilters = () => {
+    const values = form.getValues();
+    return !!(
+      values.building_size_min ||
+      values.building_size_max ||
+      values.lot_size_min ||
+      values.lot_size_max ||
+      values.last_sale_year ||
+      values.last_sale_month !== undefined ||
+      values.year_min ||
+      values.year_max
+    );
+  };
+
+  // Get active filters count for display
+  const getActiveFiltersCount = () => {
+    const values = form.getValues();
+    let count = 0;
+    if (values.building_size_min || values.building_size_max) count++;
+    if (values.lot_size_min || values.lot_size_max) count++;
+    if (values.last_sale_year && values.last_sale_month !== undefined) count++;
+    if (values.year_min || values.year_max) count++;
+    return count;
+  };
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)} className={className}>
+        {/* Main Search Row */}
         <div className="flex flex-col sm:flex-row gap-4 items-end">
           {/* Asset Type Selection */}
           <div className="w-full sm:w-64">
@@ -83,6 +136,85 @@ export function PreviewSearchForm({
                 </FormItem>
               )}
             />
+          </div>
+
+          {/* More Filters Dropdown */}
+          <div>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  type="button"
+                  className={`h-12 px-4 gap-2 ${
+                    hasActiveFilters()
+                      ? "border-primary text-primary bg-primary/5"
+                      : ""
+                  }`}
+                >
+                  <FilterIcon className="h-4 w-4" />
+                  <span>
+                    {hasActiveFilters() ? (
+                      <span className="bg-primary rounded-full text-primary-foreground text-xs font-medium px-1.5">
+                        {getActiveFiltersCount()}
+                      </span>
+                    ) : (
+                      ""
+                    )}
+                  </span>
+                  <ChevronDownIcon className="h-4 w-4" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-96" align="end">
+                <div className="space-y-6">
+                  <div className="space-y-4">
+                    {/* Building Size Filter */}
+                    <InlineRangeFilter
+                      control={form.control}
+                      minFieldName="building_size_min"
+                      maxFieldName="building_size_max"
+                      label="Building Size (sq ft)"
+                      minPlaceholder="Min"
+                      maxPlaceholder="Max"
+                    />
+
+                    {/* Lot Size Filter */}
+                    <InlineRangeFilter
+                      control={form.control}
+                      minFieldName="lot_size_min"
+                      maxFieldName="lot_size_max"
+                      label="Lot Size (sq ft)"
+                      minPlaceholder="Min"
+                      maxPlaceholder="Max"
+                    />
+
+                    {/* Last Sale Filter */}
+                    <InlineDateFilter
+                      control={form.control}
+                      yearFieldName="last_sale_year"
+                      monthFieldName="last_sale_month"
+                      label="Last Sale Date"
+                    />
+
+                    {/* Year Built Filter */}
+                    <InlineRangeFilter
+                      control={form.control}
+                      minFieldName="year_min"
+                      maxFieldName="year_max"
+                      label="Year Built"
+                      minValue={1800}
+                      maxValue={new Date().getFullYear()}
+                      minPlaceholder="Min Year"
+                      maxPlaceholder="Max Year"
+                    />
+                  </div>
+
+                  {/* Filter Actions */}
+                  <div className="pt-4 border-t">
+                    <FilterActions onReset={clearFilters} showApply={false} />
+                  </div>
+                </div>
+              </PopoverContent>
+            </Popover>
           </div>
 
           {/* Search Button */}

@@ -14,6 +14,52 @@ export const propertySearchSchema = z.object({
     .array(locationSchema)
     .min(1, "Please select at least one location"),
   asset_type_slug: z.string().min(1, "Please select a property type"),
+  // Optional filter fields
+  building_size_min: z.coerce
+    .number()
+    .min(0, "Must be a positive number")
+    .optional(),
+  building_size_max: z.coerce
+    .number()
+    .min(0, "Must be a positive number")
+    .optional(),
+  lot_size_min: z.coerce
+    .number()
+    .min(0, "Must be a positive number")
+    .optional(),
+  lot_size_max: z.coerce
+    .number()
+    .min(0, "Must be a positive number")
+    .optional(),
+  last_sale_year: z.coerce
+    .number()
+    .min(1900, "Year must be after 1900")
+    .max(
+      new Date().getFullYear(),
+      `Year must be before ${new Date().getFullYear() + 1}`,
+    )
+    .optional(),
+  last_sale_month: z.coerce
+    .number()
+    .min(0, "Month must be between 0 and 11")
+    .max(11, "Month must be between 0 and 11")
+    .optional(),
+  year_min: z.coerce
+    .number()
+    .min(1900, "Year must be after 1900")
+    .max(
+      new Date().getFullYear(),
+      `Year must be before ${new Date().getFullYear() + 1}`,
+    )
+    .optional(),
+  year_max: z.coerce
+    .number()
+    .min(1800, "Year must be after 1800")
+    .max(
+      new Date().getFullYear(),
+      `Year must be before ${new Date().getFullYear() + 1}`,
+    )
+    .optional(),
 });
 
 // Keep the original schema for advanced search/existing functionality
