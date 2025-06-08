@@ -9,6 +9,7 @@ import {
   IconBuilding,
   IconBuildingCommunity,
   IconBuildingSkyscraper,
+  IconHome,
   IconMap,
   IconTruck,
 } from "@tabler/icons-react";
@@ -135,6 +136,7 @@ export function NavRecords({
 }
 
 const AssetTypeIcons = {
+  residential: IconHome,
   retail: IconBuildingStore,
   office: IconBuilding,
   industrial: IconTruck,

@@ -26,7 +26,10 @@ type LicenseCheckoutParams = {
     formattedLocation: string;
     assetTypeName: string;
   }[];
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  searchParams?: any | null;
   redirectPath?: string;
+  isAddingLocations?: boolean;
 };
 
 export async function checkoutWithStripe(
@@ -195,7 +198,9 @@ export async function createStripePortal(currentPath: string) {
 export async function checkoutLicenseWithStripe({
   assetTypeSlug,
   propertyCounts,
+  searchParams,
   redirectPath = "/account",
+  isAddingLocations = false,
 }: LicenseCheckoutParams): Promise<CheckoutResponse> {
   try {
     // Get the user from Supabase auth
@@ -251,7 +256,7 @@ export async function checkoutLicenseWithStripe({
       }),
     );
 
-    const params: Stripe.Checkout.SessionCreateParams = {
+    const checkoutParams: Stripe.Checkout.SessionCreateParams = {
       allow_promotion_codes: true,
       billing_address_collection: "required",
       customer,
@@ -276,13 +281,15 @@ export async function checkoutLicenseWithStripe({
         userId: user.id,
         assetTypeSlug,
         locationIds: propertyCounts.map((count) => count.internalId).join(","),
+        params: JSON.stringify(searchParams),
+        isAddingLocations: isAddingLocations.toString(),
       },
     };
 
     // Create a checkout session in Stripe
     let session: Stripe.Checkout.Session;
     try {
-      session = await stripe.checkout.sessions.create(params);
+      session = await stripe.checkout.sessions.create(checkoutParams);
     } catch (err) {
       console.error(err);
       throw new Error("Unable to create checkout session.");

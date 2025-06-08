@@ -1,7 +1,7 @@
 -- Create property_records table to store exported property data
 CREATE TABLE public.property_records (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    user_license_id UUID NOT NULL REFERENCES public.user_licenses(id) ON DELETE CASCADE,
+    location_license_id UUID NOT NULL REFERENCES public.location_licenses(id) ON DELETE CASCADE,
     user_id UUID NOT NULL REFERENCES public.users(id) ON DELETE CASCADE,
 
 -- Property identification
@@ -138,7 +138,7 @@ neighborhood JSONB,
 );
 
 -- Create indexes for efficient querying
-CREATE INDEX property_records_user_license_id_idx ON public.property_records (user_license_id);
+CREATE INDEX property_records_location_license_id_idx ON public.property_records (location_license_id);
 
 CREATE INDEX property_records_user_id_idx ON public.property_records (user_id);
 

@@ -1,5 +1,6 @@
 import { formatSearchParams } from "@/lib/format";
 import { parsers, searchParamsCache } from "@/lib/nuqs/property-search-params";
+import type { GetPropertySearchParams } from "@/lib/realestateapi";
 import { getPropertyCountCache } from "@/queries/cached";
 import {
   IconArrowLeft,
@@ -8,11 +9,9 @@ import {
   IconFilter,
   IconMapPin,
   IconRuler,
-  IconSearch,
-  IconSparkles,
 } from "@tabler/icons-react";
 import { getAssetType } from "@v1/supabase/cached-queries";
-import { buttonVariants } from "@v1/ui/button";
+import { Button, buttonVariants } from "@v1/ui/button";
 import { cn } from "@v1/ui/cn";
 import Link from "next/link";
 import { createSerializer } from "nuqs/server";
@@ -29,11 +28,8 @@ export async function LicenseWarning({ unlicensed }: { unlicensed: string[] }) {
   const { data: assetTypeData } = await getAssetType(asset_type!);
 
   return (
-    <div className="absolute inset-0 flex flex-col justify-center">
+    <div className="absolute inset-0 flex flex-col justify-center z-40">
       <div className="text-center space-y-3 mb-8 mx-auto max-w-xl">
-        <div className="mx-auto w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-          <IconSearch className="h-6 w-6 text-primary" />
-        </div>
         <h1 className="text-4xl font-semibold tracking-tight text-foreground">
           Expand Your {assetTypeData?.name} Search
         </h1>
@@ -172,6 +168,11 @@ export async function LicenseWarning({ unlicensed }: { unlicensed: string[] }) {
           <LocationSearchPreviewList locations={unlicensed} />
         </div>
 
+        {/* Checkout Validation */}
+        <Suspense fallback={null}>
+          <CheckoutValidation locations={unlicensed} />
+        </Suspense>
+
         {/* Actions */}
         <div className="flex flex-col sm:flex-row sm:justify-center gap-3">
           <Link
@@ -187,10 +188,22 @@ export async function LicenseWarning({ unlicensed }: { unlicensed: string[] }) {
             Refine Search
           </Link>
 
-          <CheckoutLicenseButton
-            locations={locations}
-            assetType={asset_type!}
-          />
+          <Suspense
+            fallback={
+              <Button
+                disabled
+                className="h-12 px-8 bg-primary hover:bg-primary/90 text-primary-foreground"
+              >
+                Loading...
+              </Button>
+            }
+          >
+            <CheckoutLicenseButtonWithValidation
+              locations={unlicensed}
+              assetType={asset_type!}
+              params={params}
+            />
+          </Suspense>
         </div>
       </div>
     </div>
@@ -224,11 +237,11 @@ async function LocationSearchPreviewServer({
         </span>
       </div>
       {resultCount > 0 ? (
-        <div className="text-xs font-medium text-muted-foreground bg-secondary/50 px-2 py-1 rounded">
+        <div className="text-xs font-medium text-primary bg-primary/10 px-2 py-1 rounded border border-primary/20">
           {resultCount.toLocaleString()} results
         </div>
       ) : (
-        <div className="text-xs font-medium text-destructive bg-secondary/50 px-2 py-1 rounded">
+        <div className="text-xs font-medium text-warning bg-warning/10 px-2 py-1 rounded border border-warning/20">
           No results
         </div>
       )}
@@ -255,6 +268,117 @@ function LocationSearchPreview({
     >
       <LocationSearchPreviewServer location={location} />
     </Suspense>
+  );
+}
+
+async function CheckoutLicenseButtonWithValidation({
+  locations,
+  assetType,
+  params,
+}: {
+  locations: string[];
+  assetType: string;
+  params: GetPropertySearchParams | null;
+}) {
+  if (locations.length === 0) {
+    return (
+      <Button
+        disabled
+        className="h-12 px-8 bg-primary hover:bg-primary/90 text-primary-foreground"
+      >
+        Get Access
+      </Button>
+    );
+  }
+
+  // Get property counts for all locations to check if any have results
+  const propertyCounts = await Promise.all(
+    locations.map(async (location) => {
+      try {
+        const { resultCount } = await getPropertyCountCache(
+          assetType,
+          location,
+          params,
+        );
+        return resultCount;
+      } catch (error) {
+        console.error(`Error getting property count for ${location}:`, error);
+        return 0;
+      }
+    }),
+  );
+
+  const totalPropertyCount = propertyCounts.reduce(
+    (sum, count) => sum + count,
+    0,
+  );
+  const hasValidResults = totalPropertyCount > 0;
+
+  return (
+    <CheckoutLicenseButton
+      locations={locations}
+      assetType={assetType}
+      params={params}
+      disabled={!hasValidResults}
+    />
+  );
+}
+
+async function CheckoutValidation({ locations }: { locations: string[] }) {
+  const assetType = searchParamsCache.get("asset_type");
+  const params = searchParamsCache.get("params");
+
+  if (!assetType || !params || locations.length === 0) {
+    return null;
+  }
+
+  // Get property counts for all locations
+  const propertyCounts = await Promise.all(
+    locations.map(async (location) => {
+      try {
+        const { resultCount } = await getPropertyCountCache(
+          assetType,
+          location,
+          params,
+        );
+        return resultCount;
+      } catch (error) {
+        console.error(`Error getting property count for ${location}:`, error);
+        return 0;
+      }
+    }),
+  );
+
+  const totalPropertyCount = propertyCounts.reduce(
+    (sum, count) => sum + count,
+    0,
+  );
+  const hasValidResults = totalPropertyCount > 0;
+
+  if (hasValidResults) {
+    return null; // No validation error
+  }
+
+  return (
+    <div className="mb-6">
+      <div className="p-4 rounded-lg bg-muted/50 border border-border">
+        <div className="flex items-start gap-3">
+          <div className="w-5 h-5 rounded-full bg-muted flex items-center justify-center mt-0.5">
+            <IconMapPin className="w-3 h-3 text-muted-foreground" />
+          </div>
+          <div className="flex-1">
+            <div className="text-sm font-medium text-foreground mb-2">
+              No properties available in selected locations
+            </div>
+            <div className="text-xs text-muted-foreground leading-relaxed">
+              We couldn't find any properties matching your search criteria in
+              the selected locations. Please adjust your search filters above or
+              select different locations to proceed with licensing.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 

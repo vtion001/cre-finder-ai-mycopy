@@ -2,7 +2,7 @@ import { stripe } from "@v1/stripe/config";
 import type Stripe from "stripe";
 
 import { supabaseAdmin } from "../../clients/admin";
-import type { Tables, TablesInsert } from "../../types/db";
+import type { Json, Tables, TablesInsert } from "../../types/db";
 
 export const toDateTime = (secs: number) => {
   const t = new Date(+0); // Unix epoch start.
@@ -298,38 +298,80 @@ export async function manageUserLicense(
   userId: string,
   metadata: Stripe.Metadata,
 ) {
-  const { assetTypeSlug, locationIds } = metadata;
+  const { assetTypeSlug, locationIds, params, isAddingLocations } = metadata;
 
   if (!assetTypeSlug || !locationIds) {
     throw new Error("Missing metadata on subscription");
   }
 
   const locationIdsArray = locationIds.split(",");
+  const paramsObject = params ? JSON.parse(params) : null;
+  const isAddingLocationsFlag = isAddingLocations === "true";
 
-  const upsertData: TablesInsert<"user_licenses">[] = locationIdsArray.map(
-    (locationId: string) => {
+  let assetLicenseId: string;
+
+  if (isAddingLocationsFlag) {
+    // When adding locations, find existing asset license (don't modify it)
+    const { data: existingAssetLicense, error: findError } = await supabaseAdmin
+      .from("asset_licenses")
+      .select("id")
+      .eq("user_id", userId)
+      .eq("asset_type_slug", assetTypeSlug)
+      .single();
+
+    if (findError || !existingAssetLicense) {
+      throw new Error(
+        `Asset license not found for adding locations: ${findError?.message}`,
+      );
+    }
+
+    assetLicenseId = existingAssetLicense.id;
+  } else {
+    // When creating new license, create the asset license (parent)
+    const { data: assetLicense, error: assetLicenseError } = await supabaseAdmin
+      .from("asset_licenses")
+      .insert({
+        user_id: userId,
+        asset_type_slug: assetTypeSlug,
+        search_params: paramsObject as unknown as Json,
+      })
+      .select("id")
+      .single();
+
+    if (assetLicenseError) {
+      throw new Error(
+        `Failed to create asset license: ${assetLicenseError.message}`,
+      );
+    }
+
+    assetLicenseId = assetLicense.id;
+  }
+
+  // Insert the location licenses (children)
+  const locationLicenseData: TablesInsert<"location_licenses">[] =
+    locationIdsArray.map((locationId: string) => {
       const { state, city, county } = parseLocationCode(locationId);
 
       return {
-        user_id: userId,
-        asset_type_slug: assetTypeSlug,
+        asset_license_id: assetLicenseId,
         location_internal_id: locationId,
         location_name: county || city!,
         location_type: county ? ("county" as const) : ("city" as const),
         location_formatted: `${county || city}, ${state}`,
         location_state: state,
       };
-    },
-  );
-
-  const { data, error } = await supabaseAdmin
-    .from("user_licenses")
-    .upsert(upsertData, {
-      onConflict: "user_id, asset_type_slug, location_internal_id",
     });
 
-  if (error) {
-    throw new Error(`Failed to create user licenses: ${error.message}`);
+  const { error: locationLicenseError } = await supabaseAdmin
+    .from("location_licenses")
+    .upsert(locationLicenseData, {
+      onConflict: "asset_license_id, location_internal_id",
+    });
+
+  if (locationLicenseError) {
+    throw new Error(
+      `Failed to create location licenses: ${locationLicenseError.message}`,
+    );
   }
 }
 

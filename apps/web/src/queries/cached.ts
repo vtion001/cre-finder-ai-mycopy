@@ -6,7 +6,7 @@ import { getPropertyCount } from ".";
 export async function getPropertyCountCache(
   asset_type_slug: string,
   location: string,
-  params: GetPropertySearchParams,
+  params?: GetPropertySearchParams | null,
 ) {
   const supabase = createClient();
 

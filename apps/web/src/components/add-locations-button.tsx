@@ -37,11 +37,11 @@ export function AddLocationsButton({
       </Button>
 
       <AddLocationsDialog
-        open={dialogOpen}
+        open={dialogOpen === true}
         onOpenChange={setDialogOpen}
         assetType={assetType}
         assetTypeName={assetTypeName}
-        existingLocationIds={existingLocationIds}
+        existingLocationIds={(existingLocationIds as string[]) || []}
       />
     </>
   );

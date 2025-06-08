@@ -1,20 +1,23 @@
 "use client";
 
 import { checkoutLicenseAction } from "@/actions/checkout";
+import type { GetPropertySearchParams } from "@/lib/realestateapi";
 import { getStripe } from "@v1/stripe/client";
 import { Button } from "@v1/ui/button";
-import { toast } from "@v1/ui/sonner";
 import { useAction } from "next-safe-action/hooks";
-import { useState } from "react";
 
 interface CheckoutLicenseButtonProps {
   locations: string[];
   assetType: string;
+  params?: GetPropertySearchParams | null;
+  disabled?: boolean;
 }
 
 export function CheckoutLicenseButton({
   locations,
   assetType,
+  params,
+  disabled = false,
 }: CheckoutLicenseButtonProps) {
   const { isPending, executeAsync } = useAction(checkoutLicenseAction);
 
@@ -22,6 +25,7 @@ export function CheckoutLicenseButton({
     const result = await executeAsync({
       locations,
       assetType,
+      params,
     });
 
     if (!result?.data?.sessionId) {
@@ -43,7 +47,7 @@ export function CheckoutLicenseButton({
   return (
     <Button
       onClick={handleCheckout}
-      disabled={isPending}
+      disabled={isPending || disabled}
       className="h-12 px-8 bg-primary hover:bg-primary/90 text-primary-foreground"
     >
       {isPending ? "Loading..." : "Get Access"}

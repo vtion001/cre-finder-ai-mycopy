@@ -1,6 +1,8 @@
 "use server";
 import { getPropertyCountCache } from "@/queries/cached";
 import { checkoutLicenseWithStripe } from "@v1/stripe/server";
+import { getAssetLicenseQuery } from "@v1/supabase/queries";
+import { createClient } from "@v1/supabase/server";
 import { z } from "zod";
 import { authActionClient } from "./safe-action";
 import { searchFiltersSchema } from "./schema";
@@ -8,7 +10,8 @@ import { searchFiltersSchema } from "./schema";
 const checkoutLicenseSchema = z.object({
   locations: z.array(z.string()),
   assetType: z.string(),
-  params: searchFiltersSchema,
+  params: searchFiltersSchema.nullish(),
+  isAddingLocations: z.boolean().optional().default(false),
 });
 
 export const checkoutLicenseAction = authActionClient
@@ -18,13 +21,31 @@ export const checkoutLicenseAction = authActionClient
   })
   .action(
     async ({
-      parsedInput: { locations, assetType, params },
+      parsedInput: { locations, assetType, params, isAddingLocations },
       ctx: { supabase, user },
     }) => {
-      // map property counts
+      let searchParams = params;
+
+      // If adding locations to existing license, fetch existing search params
+      if (isAddingLocations) {
+        const { data: assetLicense } = await getAssetLicenseQuery(
+          supabase,
+          user.id,
+          assetType,
+        );
+
+        if (assetLicense) {
+          // Use existing search params instead of new ones
+          searchParams = assetLicense.search_params as typeof params;
+        } else {
+          throw new Error("Asset license not found for location addition");
+        }
+      }
+
+      // map property counts using the appropriate search params
       const propertyCounts = await Promise.all(
         locations.map((location) =>
-          getPropertyCountCache(assetType, location, params),
+          getPropertyCountCache(assetType, location, searchParams),
         ),
       );
 
@@ -40,7 +61,9 @@ export const checkoutLicenseAction = authActionClient
       const result = await checkoutLicenseWithStripe({
         assetTypeSlug: assetType,
         propertyCounts: filteredCounts,
-        redirectPath: "/dashboard/search", // temporary
+        searchParams: searchParams,
+        redirectPath: redirectPath,
+        isAddingLocations,
       });
 
       return result;

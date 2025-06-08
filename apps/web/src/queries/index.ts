@@ -13,7 +13,7 @@ export async function getPropertyCount(
   supabase: Client,
   asset_type_slug: string,
   location: string,
-  params: GetPropertySearchParams,
+  params?: GetPropertySearchParams | null,
 ) {
   const { data: assetType } = await supabase
     .from("asset_types")

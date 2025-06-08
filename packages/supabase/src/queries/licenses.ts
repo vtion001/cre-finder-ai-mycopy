@@ -1,5 +1,6 @@
 import type { Client } from "../types";
 
+// Get user licenses for a specific asset type (using normalized structure)
 export async function getUserLicensesQuery(
   supabase: Client,
   userId: string,
@@ -14,6 +15,58 @@ export async function getUserLicensesQuery(
 
   if (error) {
     throw new Error(`Failed to get user licenses: ${error.message}`);
+  }
+
+  return { data, error };
+}
+
+// Get asset license with search params
+export async function getAssetLicenseQuery(
+  supabase: Client,
+  userId: string,
+  assetTypeSlug: string,
+) {
+  const { data, error } = await supabase
+    .from("asset_licenses")
+    .select("*")
+    .eq("user_id", userId)
+    .eq("asset_type_slug", assetTypeSlug)
+    .eq("is_active", true)
+    .single();
+
+  if (error) {
+    throw new Error(`Failed to get asset license: ${error.message}`);
+  }
+
+  return { data, error };
+}
+
+// Add locations to existing asset license
+export async function addLocationsToAssetLicenseQuery(
+  supabase: Client,
+  assetLicenseId: string,
+  locationData: Array<{
+    location_internal_id: string;
+    location_name: string;
+    location_type: "city" | "county";
+    location_formatted: string;
+    location_state: string;
+  }>,
+) {
+  const { data, error } = await supabase.from("location_licenses").upsert(
+    locationData.map((location) => ({
+      asset_license_id: assetLicenseId,
+      ...location,
+    })),
+    {
+      onConflict: "asset_license_id, location_internal_id",
+    },
+  );
+
+  if (error) {
+    throw new Error(
+      `Failed to add locations to asset license: ${error.message}`,
+    );
   }
 
   return { data, error };
