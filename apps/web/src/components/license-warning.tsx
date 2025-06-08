@@ -76,9 +76,15 @@ async function LocationSearchPreviewServer({
           {formattedLocation}
         </span>
       </div>
-      <div className="text-xs font-medium text-muted-foreground bg-secondary/50 px-2 py-1 rounded">
-        {resultCount.toLocaleString()} results
-      </div>
+      {resultCount > 0 ? (
+        <div className="text-xs font-medium text-muted-foreground bg-secondary/50 px-2 py-1 rounded">
+          {resultCount.toLocaleString()} results
+        </div>
+      ) : (
+        <div className="text-xs font-medium text-destructive bg-secondary/50 px-2 py-1 rounded">
+          No results
+        </div>
+      )}
     </div>
   );
 }

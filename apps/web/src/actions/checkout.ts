@@ -19,17 +19,24 @@ export const checkoutLicenseAction = authActionClient
       parsedInput: { locations, assetType },
       ctx: { supabase, user },
     }) => {
-      const redirectPath = `/dashboard/search?asset_type=${assetType}&locations=${locations.join(",")}`;
-
       // map property counts
       const propertyCounts = await Promise.all(
         locations.map((location) => getPropertyCountCache(assetType, location)),
       );
 
+      // remove 0 counts
+      const filteredCounts = propertyCounts.filter(
+        (count) => count.resultCount > 0,
+      );
+
+      const filteredLocations = filteredCounts.map((count) => count.internalId);
+
+      const redirectPath = `/dashboard/records?asset_type=${assetType}&locations=${filteredLocations.join(",")}`;
+
       const result = await checkoutLicenseWithStripe({
         assetTypeSlug: assetType,
-        propertyCounts,
-        redirectPath,
+        propertyCounts: filteredCounts,
+        redirectPath: "/dashboard/search", // temporary
       });
 
       return result;
