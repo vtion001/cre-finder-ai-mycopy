@@ -7,7 +7,7 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { CheckoutLicenseButton } from "./checkout-license-button";
 
-export async function LicenseWarning() {
+export async function LicenseWarning({ unlicensed }: { unlicensed: string[] }) {
   const assetType = searchParamsCache.get("asset_type");
   const locations = searchParamsCache.get("locations");
 
@@ -31,7 +31,7 @@ export async function LicenseWarning() {
 
           {/* Location Preview List */}
           <div className="mb-8">
-            <LocationSearchPreviewList />
+            <LocationSearchPreviewList locations={unlicensed} />
           </div>
 
           {/* Actions */}
@@ -111,9 +111,10 @@ function LocationSearchPreview({
   );
 }
 
-async function LocationSearchPreviewList() {
+async function LocationSearchPreviewList({
+  locations,
+}: { locations: string[] }) {
   const assetType = searchParamsCache.get("asset_type");
-  const locations = searchParamsCache.get("locations");
 
   if (!assetType || locations.length === 0) {
     return (

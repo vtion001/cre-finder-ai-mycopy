@@ -2,7 +2,6 @@ import { stripe } from "@v1/stripe/config";
 import type Stripe from "stripe";
 
 import { supabaseAdmin } from "../../clients/admin";
-import { insertUserLicense } from "../../mutations";
 import type { Tables, TablesInsert } from "../../types/db";
 
 export const toDateTime = (secs: number) => {
@@ -305,13 +304,52 @@ export async function manageUserLicense(
     throw new Error("Missing metadata on subscription");
   }
 
-  // const { error } = await insertUserLicense(supabaseAdmin, {
-  //   userId,
-  //   assetTypeSlug,
-  //   locationIds: locationIds.split(","),
-  // });
+  const locationIdsArray = locationIds.split(",");
 
-  // if (error) {
-  //   throw new Error(`Failed to create user license: ${error.message}`);
-  // }
+  const upsertData: TablesInsert<"user_licenses">[] = locationIdsArray.map(
+    (locationId: string) => {
+      const { state, city, county } = parseLocationCode(locationId);
+
+      return {
+        user_id: userId,
+        asset_type_slug: assetTypeSlug,
+        location_internal_id: locationId,
+        location_name: county || city!,
+        location_type: county ? ("county" as const) : ("city" as const),
+        location_formatted: `${county || city}, ${state}`,
+        location_state: state,
+      };
+    },
+  );
+
+  const { data, error } = await supabaseAdmin
+    .from("user_licenses")
+    .upsert(upsertData, {
+      onConflict: "user_id, asset_type_slug, location_internal_i  d",
+    });
+
+  if (error) {
+    throw new Error(`Failed to create user licenses: ${error.message}`);
+  }
+}
+
+export function parseLocationCode(code: string) {
+  const parts = code.toLowerCase().split("-");
+  const [type, state, ...nameParts] = parts;
+
+  const name = nameParts.map(capitalize).join(" ");
+
+  if ((type !== "c" && type !== "n") || !state || !name) {
+    throw new Error("Invalid location code");
+  }
+
+  return {
+    state: state.toUpperCase(),
+    city: type === "c" ? name : undefined,
+    county: type === "n" ? name : undefined,
+  };
+}
+
+export function capitalize(str: string) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
 }

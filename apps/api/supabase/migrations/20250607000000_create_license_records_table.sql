@@ -1,7 +1,7 @@
 -- Create property_records table to store exported property data
 CREATE TABLE public.property_records (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    search_log_id UUID NOT NULL REFERENCES public.search_logs(id) ON DELETE CASCADE,
+    user_license_id UUID NOT NULL REFERENCES public.user_licenses(id) ON DELETE CASCADE,
     user_id UUID NOT NULL REFERENCES public.users(id) ON DELETE CASCADE,
 
 -- Property identification
@@ -126,10 +126,11 @@ prior_owner_individual BOOLEAN,
 prior_owner_months_owned TEXT,
 
 -- Multi-family indicators
-mfh_2_to_4 BOOLEAN DEFAULT FALSE,
-mfh_5_plus BOOLEAN DEFAULT FALSE,
+mfh_2_to_4 BOOLEAN DEFAULT FALSE, mfh_5_plus BOOLEAN DEFAULT FALSE,
 
 -- Neighborhood information (stored as JSONB for flexibility)
+
+
 neighborhood JSONB,
     
     created_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
@@ -137,7 +138,7 @@ neighborhood JSONB,
 );
 
 -- Create indexes for efficient querying
-CREATE INDEX property_records_search_log_id_idx ON public.property_records (search_log_id);
+CREATE INDEX property_records_user_license_id_idx ON public.property_records (user_license_id);
 
 CREATE INDEX property_records_user_id_idx ON public.property_records (user_id);
 

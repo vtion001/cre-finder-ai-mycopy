@@ -216,7 +216,6 @@ export type Database = {
           rent_amount: string | null
           reo: boolean | null
           rooms_count: number | null
-          search_log_id: string
           square_feet: number | null
           state: string
           stories: number | null
@@ -231,6 +230,7 @@ export type Database = {
           units_count: number | null
           updated_at: string | null
           user_id: string
+          user_license_id: string
           vacant: boolean | null
           year_built: number | null
           years_owned: number | null
@@ -320,7 +320,6 @@ export type Database = {
           rent_amount?: string | null
           reo?: boolean | null
           rooms_count?: number | null
-          search_log_id: string
           square_feet?: number | null
           state: string
           stories?: number | null
@@ -335,6 +334,7 @@ export type Database = {
           units_count?: number | null
           updated_at?: string | null
           user_id: string
+          user_license_id: string
           vacant?: boolean | null
           year_built?: number | null
           years_owned?: number | null
@@ -424,7 +424,6 @@ export type Database = {
           rent_amount?: string | null
           reo?: boolean | null
           rooms_count?: number | null
-          search_log_id?: string
           square_feet?: number | null
           state?: string
           stories?: number | null
@@ -439,6 +438,7 @@ export type Database = {
           units_count?: number | null
           updated_at?: string | null
           user_id?: string
+          user_license_id?: string
           vacant?: boolean | null
           year_built?: number | null
           years_owned?: number | null
@@ -446,68 +446,17 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "property_records_search_log_id_fkey"
-            columns: ["search_log_id"]
-            isOneToOne: false
-            referencedRelation: "search_logs"
-            referencedColumns: ["id"]
-          },
-          {
             foreignKeyName: "property_records_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
           },
-        ]
-      }
-      search_logs: {
-        Row: {
-          asset_type_id: string
-          created_at: string | null
-          execution_time_ms: number | null
-          id: string
-          result_count: number
-          search_parameters: Json
-          status: Database["public"]["Enums"]["search_status"]
-          updated_at: string | null
-          user_id: string
-        }
-        Insert: {
-          asset_type_id: string
-          created_at?: string | null
-          execution_time_ms?: number | null
-          id?: string
-          result_count: number
-          search_parameters: Json
-          status?: Database["public"]["Enums"]["search_status"]
-          updated_at?: string | null
-          user_id: string
-        }
-        Update: {
-          asset_type_id?: string
-          created_at?: string | null
-          execution_time_ms?: number | null
-          id?: string
-          result_count?: number
-          search_parameters?: Json
-          status?: Database["public"]["Enums"]["search_status"]
-          updated_at?: string | null
-          user_id?: string
-        }
-        Relationships: [
           {
-            foreignKeyName: "search_logs_asset_type_id_fkey"
-            columns: ["asset_type_id"]
+            foreignKeyName: "property_records_user_license_id_fkey"
+            columns: ["user_license_id"]
             isOneToOne: false
-            referencedRelation: "asset_types"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "search_logs_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
+            referencedRelation: "user_licenses"
             referencedColumns: ["id"]
           },
         ]
@@ -574,82 +523,57 @@ export type Database = {
           },
         ]
       }
-      user_license_asset_types: {
+      user_licenses: {
         Row: {
           asset_type_slug: string
           created_at: string | null
+          expires_at: string | null
           id: string
-          license_id: string
+          is_active: boolean | null
+          location_formatted: string
+          location_internal_id: string
+          location_name: string
+          location_state: string
+          location_type: Database["public"]["Enums"]["location_type"]
+          updated_at: string | null
+          user_id: string
         }
         Insert: {
           asset_type_slug: string
           created_at?: string | null
+          expires_at?: string | null
           id?: string
-          license_id: string
+          is_active?: boolean | null
+          location_formatted: string
+          location_internal_id: string
+          location_name: string
+          location_state: string
+          location_type: Database["public"]["Enums"]["location_type"]
+          updated_at?: string | null
+          user_id: string
         }
         Update: {
           asset_type_slug?: string
           created_at?: string | null
+          expires_at?: string | null
           id?: string
-          license_id?: string
+          is_active?: boolean | null
+          location_formatted?: string
+          location_internal_id?: string
+          location_name?: string
+          location_state?: string
+          location_type?: Database["public"]["Enums"]["location_type"]
+          updated_at?: string | null
+          user_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: "user_license_asset_types_asset_type_slug_fkey"
+            foreignKeyName: "user_licenses_asset_type_slug_fkey"
             columns: ["asset_type_slug"]
             isOneToOne: false
             referencedRelation: "asset_types"
             referencedColumns: ["slug"]
           },
-          {
-            foreignKeyName: "user_license_asset_types_license_id_fkey"
-            columns: ["license_id"]
-            isOneToOne: false
-            referencedRelation: "user_active_licenses"
-            referencedColumns: ["license_id"]
-          },
-          {
-            foreignKeyName: "user_license_asset_types_license_id_fkey"
-            columns: ["license_id"]
-            isOneToOne: false
-            referencedRelation: "user_licensed_combinations"
-            referencedColumns: ["license_id"]
-          },
-          {
-            foreignKeyName: "user_license_asset_types_license_id_fkey"
-            columns: ["license_id"]
-            isOneToOne: false
-            referencedRelation: "user_licenses"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      user_licenses: {
-        Row: {
-          created_at: string | null
-          id: string
-          licensed: boolean
-          location_id: string
-          updated_at: string | null
-          user_id: string
-        }
-        Insert: {
-          created_at?: string | null
-          id?: string
-          licensed?: boolean
-          location_id: string
-          updated_at?: string | null
-          user_id: string
-        }
-        Update: {
-          created_at?: string | null
-          id?: string
-          licensed?: boolean
-          location_id?: string
-          updated_at?: string | null
-          user_id?: string
-        }
-        Relationships: [
           {
             foreignKeyName: "user_licenses_user_id_fkey"
             columns: ["user_id"]
@@ -706,63 +630,9 @@ export type Database = {
       }
     }
     Views: {
-      user_active_licenses: {
-        Row: {
-          asset_count: number | null
-          asset_type_names: string[] | null
-          asset_type_slugs: string[] | null
-          asset_types_key: string | null
-          created_at: string | null
-          license_id: string | null
-          licensed: boolean | null
-          location_id: string | null
-          updated_at: string | null
-          user_id: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "user_licenses_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      user_licensed_combinations: {
-        Row: {
-          asset_count: number | null
-          asset_type_names: string[] | null
-          asset_type_slugs: string[] | null
-          asset_types_key: string | null
-          created_at: string | null
-          license_id: string | null
-          licensed: boolean | null
-          location_id: string | null
-          updated_at: string | null
-          user_id: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "user_licenses_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
+      [_ in never]: never
     }
     Functions: {
-      insert_user_license: {
-        Args: {
-          p_user_id: string
-          p_location_id: string
-          p_asset_type_slugs: string[]
-          p_licensed?: boolean
-        }
-        Returns: string
-      }
       slugify: {
         Args: { value: string }
         Returns: string
@@ -775,19 +645,11 @@ export type Database = {
         Args: { "": unknown }
         Returns: unknown
       }
-      user_has_license_combo: {
-        Args: {
-          p_user_id: string
-          p_location_id: string
-          p_asset_types: string[]
-        }
-        Returns: boolean
-      }
     }
     Enums: {
+      location_type: "county" | "city"
       pricing_plan_interval: "day" | "week" | "month" | "year"
       pricing_type: "one_time" | "recurring"
-      search_status: "preview" | "pending" | "completed" | "failed"
       subscription_status:
         | "trialing"
         | "active"
@@ -912,9 +774,9 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      location_type: ["county", "city"],
       pricing_plan_interval: ["day", "week", "month", "year"],
       pricing_type: ["one_time", "recurring"],
-      search_status: ["preview", "pending", "completed", "failed"],
       subscription_status: [
         "trialing",
         "active",

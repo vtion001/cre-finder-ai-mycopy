@@ -2,9 +2,7 @@ import { unstable_cache } from "next/cache";
 import { cache } from "react";
 import { getAssetTypesQuery, getUserQuery } from ".";
 import { createClient } from "../clients/server";
-import { getRecentSearchActivityQuery, getSearchLogQuery } from "./history";
 import { checkUserLicenseComboQuery, getLicensedCombosQuery } from "./licenses";
-import { getPropertyRecordsBySearchLogQuery } from "./records";
 import { getSubscriptionQuery } from "./stripe";
 
 export const getSession = cache(async () => {
@@ -53,46 +51,6 @@ export const getAssetTypes = async () => {
   )();
 };
 
-export const getSearchLog = async (searchLogId: string) => {
-  const supabase = createClient();
-
-  return unstable_cache(
-    async () => {
-      return getSearchLogQuery(supabase, searchLogId);
-    },
-    ["search_log", searchLogId],
-    {
-      tags: [`search_log_${searchLogId}`],
-      revalidate: 180,
-    },
-    // @ts-expect-error
-  )(searchLogId);
-};
-
-export const getRecentSearchActivity = async () => {
-  const supabase = createClient();
-
-  const user = await getUser();
-
-  if (!user?.data) {
-    throw new Error("unauthorized");
-  }
-
-  const userId = user.data.id;
-
-  return unstable_cache(
-    async () => {
-      return getRecentSearchActivityQuery(supabase, userId);
-    },
-    ["recent_search_activity", userId],
-    {
-      tags: [`search_history_${userId}`],
-      revalidate: 180,
-    },
-    // @ts-expect-error
-  )(userId);
-};
-
 export const getSubscription = async () => {
   const supabase = createClient();
   const user = await getUser();
@@ -111,34 +69,6 @@ export const getSubscription = async () => {
       revalidate: 3600,
     },
   )();
-};
-
-export const getPropertyRecordsBySearchLog = async () => {
-  const supabase = createClient();
-
-  const user = await getUser();
-
-  if (!user?.data) {
-    throw new Error("unauthorized");
-  }
-
-  const userId = user.data.id;
-
-  return unstable_cache(
-    async () => {
-      return getPropertyRecordsBySearchLogQuery(supabase, userId);
-    },
-    ["property_records_by_search_log", userId],
-    {
-      tags: [
-        `property_records_by_search_log_${userId}`,
-        `property_records_${userId}`,
-        `search_history_${userId}`,
-      ],
-      revalidate: 180,
-    },
-    // @ts-expect-error
-  )(userId);
 };
 
 export async function checkUserLicenseCombo(

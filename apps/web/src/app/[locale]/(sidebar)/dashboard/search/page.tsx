@@ -28,13 +28,18 @@ export default async function Page({
   const { locations, asset_type } = searchParamsCache.parse(searchParams);
 
   if (asset_type) {
+    // todo: check for unlicensed locations
+
+    const unlicended = locations;
+
     return (
       <div className="p-4 sm:p-6 pb-16 space-y-6">
         <PropertySearchFilters assetTypes={assetTypes} />
 
-        {locations.length ? (
+        {/*  todo: only show this if there are unlicensed locations */}
+        {unlicended.length ? (
           <div className="relative overflow-hidden ">
-            <LicenseWarning />
+            <LicenseWarning unlicensed={unlicended} />
             <SearchLoading isEmpty />
           </div>
         ) : null}
