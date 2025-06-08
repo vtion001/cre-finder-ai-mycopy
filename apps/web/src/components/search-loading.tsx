@@ -6,14 +6,12 @@ export function SearchLoading({ isEmpty = false }: { isEmpty?: boolean }) {
   return (
     <div className={cn(isEmpty && "pointer-events-none blur-[7px]")}>
       <div className="space-y-6">
-        {/* Top Controls Bar 
+        Top Controls Bar
         <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
-
           <div className="flex-1 max-w-lg">
             <Skeleton className="h-10 w-full" />
           </div>
 
-     
           <div className="flex items-center gap-3">
             <Skeleton className="h-9 w-24" />
             <div className="flex items-center gap-2">
@@ -21,8 +19,7 @@ export function SearchLoading({ isEmpty = false }: { isEmpty?: boolean }) {
               <Skeleton className="h-6 w-10" />
             </div>
           </div>
-        </div>*/}
-
+        </div>
         {/* Main Content Area */}
         <div className="grid gap-6 lg:grid-cols-[1fr,480px]">
           {/* Table Section */}

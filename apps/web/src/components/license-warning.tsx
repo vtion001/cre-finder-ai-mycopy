@@ -24,8 +24,7 @@ export async function LicenseWarning({ unlicensed }: { unlicensed: string[] }) {
               Expand Your Search
             </h1>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              License these locations to unlock property data for your{" "}
-              {assetType} search.
+              License these locations to unlock {assetType} property data.
             </p>
           </div>
 
@@ -46,7 +45,7 @@ export async function LicenseWarning({ unlicensed }: { unlicensed: string[] }) {
               )}
             >
               <IconArrowLeft className="h-4 w-4" />
-              Modify Search
+              Go back
             </Link>
 
             <CheckoutLicenseButton

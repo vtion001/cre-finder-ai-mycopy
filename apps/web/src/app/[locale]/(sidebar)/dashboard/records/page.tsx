@@ -7,7 +7,7 @@ import type { Metadata } from "next";
 import type { SearchParams } from "nuqs";
 
 export const metadata: Metadata = {
-  title: "Search - CRE Finder AI",
+  title: "Records - CRE Finder AI",
   description: "Find commercial real estate properties with AI-powered search",
 };
 

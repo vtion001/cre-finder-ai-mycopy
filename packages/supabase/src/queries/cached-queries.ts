@@ -2,7 +2,7 @@ import { unstable_cache } from "next/cache";
 import { cache } from "react";
 import { getAssetTypesQuery, getUserQuery } from ".";
 import { createClient } from "../clients/server";
-import { checkUserLicenseComboQuery, getLicensedCombosQuery } from "./licenses";
+import { getUserLicensesQuery } from "./licenses";
 import { getSubscriptionQuery } from "./stripe";
 
 export const getSession = cache(async () => {
@@ -56,7 +56,7 @@ export const getSubscription = async () => {
   const user = await getUser();
 
   if (!user?.data) {
-    return null;
+    return { data: null };
   }
 
   return unstable_cache(
@@ -71,58 +71,25 @@ export const getSubscription = async () => {
   )();
 };
 
-export async function checkUserLicenseCombo(
-  locationId: string,
-  assetTypes: string[],
-) {
+export async function getUserLicenses(assetTypeSlug: string) {
   const supabase = createClient();
 
   const user = await getUser();
 
   if (!user?.data) {
-    throw new Error("unauthorized");
+    return { data: null };
   }
 
   const userId = user.data.id;
 
   return unstable_cache(
     async () => {
-      return checkUserLicenseComboQuery(
-        supabase,
-        userId,
-        locationId,
-        assetTypes,
-      );
+      return getUserLicensesQuery(supabase, userId, assetTypeSlug);
     },
-    ["licenses", userId],
+    ["user_licenses", userId, assetTypeSlug],
     {
       tags: [`licenses_${userId}`],
       revalidate: 180,
     },
-    // @ts-expect-error
-  )(userId, locationId, assetTypes);
-}
-
-export async function getLicensedCombos() {
-  const supabase = createClient();
-
-  const user = await getUser();
-
-  if (!user?.data) {
-    throw new Error("unauthorized");
-  }
-
-  const userId = user.data.id;
-
-  return unstable_cache(
-    async () => {
-      return getLicensedCombosQuery(supabase, userId);
-    },
-    ["licenses", userId],
-    {
-      tags: [`licenses_${userId}`],
-      revalidate: 180,
-    },
-    // @ts-expect-error
-  )(userId);
+  )();
 }
