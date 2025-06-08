@@ -16,25 +16,25 @@ import {
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
 
-type PropertySearchFormValues = z.infer<typeof propertySearchSchema>;
+type PreviewSearchFormValues = z.infer<typeof propertySearchSchema>;
 
-interface PropertySearchFormProps {
+interface PreviewSearchFormProps {
   assetTypes: Tables<"asset_types">[];
-  onSubmit: (values: PropertySearchFormValues) => void;
+  onSubmit: (values: PreviewSearchFormValues) => void;
   className?: string;
 }
 
-export function PropertySearchForm({
+export function PreviewSearchForm({
   assetTypes,
   onSubmit,
   className,
-}: PropertySearchFormProps) {
-  const form = useForm<PropertySearchFormValues>({
+}: PreviewSearchFormProps) {
+  const form = useForm<PreviewSearchFormValues>({
     resolver: zodResolver(propertySearchSchema),
     defaultValues: {},
   });
 
-  const handleSubmit = (values: PropertySearchFormValues) => {
+  const handleSubmit = (values: PreviewSearchFormValues) => {
     onSubmit(values);
   };
 

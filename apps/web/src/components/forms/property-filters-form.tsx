@@ -20,13 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@v1/ui/select";
-import {
-  CheckIcon,
-  ChevronDownIcon,
-  RefreshCcwIcon,
-  XCircleIcon,
-  XIcon,
-} from "lucide-react";
+import { CheckIcon, ChevronDownIcon, XIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
 

@@ -1,13 +1,12 @@
 "use client";
 
 import type { propertySearchSchema } from "@/actions/schema";
-import { PropertySearchForm } from "@/components/forms/property-search-form";
+
 import { parsers } from "@/lib/nuqs/property-search-params";
 import type { Tables } from "@v1/supabase/types";
 import { useQueryStates } from "nuqs";
 import type { z } from "zod";
-
-type PropertySearchFormValues = z.infer<typeof propertySearchSchema>;
+import { PreviewSearchForm } from "./forms/preview-search-form";
 
 interface PreviewSearchInterfaceProps {
   assetTypes: Tables<"asset_types">[];
@@ -18,7 +17,7 @@ export function PreviewSearchInterface({
 }: PreviewSearchInterfaceProps) {
   const [_, setState] = useQueryStates(parsers);
 
-  const handleSubmit = (values: PropertySearchFormValues) => {
+  const handleSubmit = (values: z.infer<typeof propertySearchSchema>) => {
     setState(
       {
         locations: values.locations.map((loc) => loc.internal_id),
@@ -37,8 +36,7 @@ export function PreviewSearchInterface({
         </h1>
       </div>
 
-      {/* Search Form */}
-      <PropertySearchForm
+      <PreviewSearchForm
         assetTypes={assetTypes}
         onSubmit={handleSubmit}
         className="space-y-4"
