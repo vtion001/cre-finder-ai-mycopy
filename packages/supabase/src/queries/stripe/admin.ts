@@ -325,7 +325,7 @@ export async function manageUserLicense(
   const { data, error } = await supabaseAdmin
     .from("user_licenses")
     .upsert(upsertData, {
-      onConflict: "user_id, asset_type_slug, location_internal_i  d",
+      onConflict: "user_id, asset_type_slug, location_internal_id",
     });
 
   if (error) {
