@@ -6,6 +6,7 @@ import {
   getAssetTypeLicensesQuery,
   getUserLicensesByAssetTypeQuery,
   getUserLicensesQuery,
+  getUserLicensesWithDetailsQuery,
 } from "./licenses";
 import { getSubscriptionQuery } from "./stripe";
 
@@ -129,6 +130,29 @@ export async function getUserLicensesByAssetType() {
       return getUserLicensesByAssetTypeQuery(supabase, userId);
     },
     ["user_licenses_by_asset_type", userId],
+    {
+      tags: [`licenses_${userId}`],
+      revalidate: 180,
+    },
+  )();
+}
+
+export async function getUserLicensesWithDetails() {
+  const supabase = createClient();
+
+  const user = await getUser();
+
+  if (!user?.data) {
+    return { data: null };
+  }
+
+  const userId = user.data.id;
+
+  return unstable_cache(
+    async () => {
+      return getUserLicensesWithDetailsQuery(supabase, userId);
+    },
+    ["user_licenses_with_details", userId],
     {
       tags: [`licenses_${userId}`],
       revalidate: 180,

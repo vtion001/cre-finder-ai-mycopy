@@ -283,6 +283,15 @@ export async function checkoutLicenseWithStripe({
         locationIds: propertyCounts.map((count) => count.internalId).join(","),
         params: JSON.stringify(searchParams),
         isAddingLocations: isAddingLocations.toString(),
+        resultCount: totalPropertyCount.toString(), // Include total result count for billing
+        locationResultCounts: JSON.stringify(
+          Object.fromEntries(
+            propertyCounts.map((count) => [
+              count.internalId,
+              count.resultCount,
+            ]),
+          ),
+        ), // Include individual location result counts
       },
     };
 

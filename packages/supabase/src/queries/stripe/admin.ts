@@ -297,6 +297,8 @@ export const manageSubscriptionStatusChange = async (
 export async function manageUserLicense(
   userId: string,
   metadata: Stripe.Metadata,
+  locationResultCounts?: { [locationId: string]: number },
+  expiresAt?: string,
 ) {
   const { assetTypeSlug, locationIds, params, isAddingLocations } = metadata;
 
@@ -328,13 +330,16 @@ export async function manageUserLicense(
     assetLicenseId = existingAssetLicense.id;
   } else {
     // When creating new license, create the asset license (parent)
+    // Note: expires_at removed from asset licenses - now tracked per location
+    const assetLicenseData: TablesInsert<"asset_licenses"> = {
+      user_id: userId,
+      asset_type_slug: assetTypeSlug,
+      search_params: paramsObject as unknown as Json,
+    };
+
     const { data: assetLicense, error: assetLicenseError } = await supabaseAdmin
       .from("asset_licenses")
-      .insert({
-        user_id: userId,
-        asset_type_slug: assetTypeSlug,
-        search_params: paramsObject as unknown as Json,
-      })
+      .insert(assetLicenseData)
       .select("id")
       .single();
 
@@ -348,6 +353,7 @@ export async function manageUserLicense(
   }
 
   // Insert the location licenses (children)
+  // Each location gets its own expiration date
   const locationLicenseData: TablesInsert<"location_licenses">[] =
     locationIdsArray.map((locationId: string) => {
       const { state, city, county } = parseLocationCode(locationId);
@@ -359,6 +365,8 @@ export async function manageUserLicense(
         location_type: county ? ("county" as const) : ("city" as const),
         location_formatted: `${county || city}, ${state}`,
         location_state: state,
+        result_count: locationResultCounts?.[locationId] ?? 0, // Set result count for this specific location
+        expires_at: expiresAt ?? null, // Set expiration for this specific location
       };
     });
 
@@ -394,4 +402,123 @@ export function parseLocationCode(code: string) {
 
 export function capitalize(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+/**
+ * Updates license expiration date for subscription renewals
+ * Called when subscription.updated event indicates successful renewal
+ * Now updates all location licenses under the asset type
+ */
+export async function updateLicenseExpiration(
+  userId: string,
+  subscriptionMetadata: Stripe.Metadata,
+  newExpiresAt: string,
+) {
+  const { assetTypeSlug } = subscriptionMetadata;
+
+  if (!assetTypeSlug) {
+    throw new Error("Missing assetTypeSlug in subscription metadata");
+  }
+
+  // First, find the asset license to get its ID
+  const { data: assetLicense, error: findError } = await supabaseAdmin
+    .from("asset_licenses")
+    .select("id")
+    .eq("user_id", userId)
+    .eq("asset_type_slug", assetTypeSlug)
+    .single();
+
+  if (findError || !assetLicense) {
+    throw new Error(
+      `Failed to find asset license: ${findError?.message || "Not found"}`,
+    );
+  }
+
+  // Update all location licenses under this asset license
+  const { error: updateError } = await supabaseAdmin
+    .from("location_licenses")
+    .update({
+      expires_at: newExpiresAt,
+      is_active: true, // Ensure location licenses remain active on renewal
+    })
+    .eq("asset_license_id", assetLicense.id);
+
+  if (updateError) {
+    throw new Error(
+      `Failed to update location license expirations: ${updateError.message}`,
+    );
+  }
+
+  console.log(
+    `Updated location license expirations for user [${userId}] asset type [${assetTypeSlug}] to [${newExpiresAt}]`,
+  );
+}
+
+/**
+ * Finds asset license by subscription metadata
+ * Used to identify which license to update during webhook events
+ * Note: expires_at is now tracked at location level, not asset level
+ */
+export async function findAssetLicenseBySubscription(
+  userId: string,
+  subscriptionMetadata: Stripe.Metadata,
+) {
+  const { assetTypeSlug } = subscriptionMetadata;
+
+  if (!assetTypeSlug) {
+    throw new Error("Missing assetTypeSlug in subscription metadata");
+  }
+
+  const { data: assetLicense, error } = await supabaseAdmin
+    .from("asset_licenses")
+    .select("id, asset_type_slug, is_active")
+    .eq("user_id", userId)
+    .eq("asset_type_slug", assetTypeSlug)
+    .single();
+
+  if (error) {
+    throw new Error(`Failed to find asset license: ${error.message}`);
+  }
+
+  return assetLicense;
+}
+
+/**
+ * Logs payment failure for monitoring purposes
+ * Does NOT modify license expiration - allows natural expiration
+ */
+export async function logPaymentFailure(
+  userId: string,
+  subscriptionId: string,
+  invoiceId: string,
+  subscriptionMetadata: Stripe.Metadata,
+) {
+  const { assetTypeSlug } = subscriptionMetadata;
+
+  console.log(
+    `💳 Payment failed for user [${userId}] subscription [${subscriptionId}] invoice [${invoiceId}] asset type [${assetTypeSlug}]. License will expire naturally at current expires_at.`,
+  );
+
+  // Optional: Add to a payment_failures table for monitoring if needed
+  // This is just logging for now, but could be extended to store failure records
+}
+
+/**
+ * Logs subscription cancellation for monitoring purposes
+ * Does NOT modify license expiration - allows grace period until expires_at
+ */
+export async function logSubscriptionCancellation(
+  userId: string,
+  subscriptionId: string,
+  subscriptionMetadata: Stripe.Metadata,
+) {
+  const { assetTypeSlug } = subscriptionMetadata;
+
+  console.log(
+    `🚫 Subscription cancelled for user [${userId}] subscription [${subscriptionId}] asset type [${assetTypeSlug}]. License will remain active until current expires_at (grace period).`,
+  );
+
+  // Optional: Add cancellation tracking if needed
+  // This maintains the grace period system where cancelled subscriptions
+  // don't immediately terminate access
 }

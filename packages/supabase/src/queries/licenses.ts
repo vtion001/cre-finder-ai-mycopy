@@ -88,6 +88,52 @@ export async function getUserLicensesByAssetTypeQuery(
   return { data, error };
 }
 
+// Get detailed user licenses with asset type information and location details
+export async function getUserLicensesWithDetailsQuery(
+  supabase: Client,
+  userId: string,
+) {
+  const { data, error } = await supabase
+    .from("asset_licenses")
+    .select(`
+      id,
+      asset_type_slug,
+      search_params,
+      is_active,
+      created_at,
+      updated_at,
+      asset_types!inner (
+        name,
+        description,
+        slug
+      ),
+      location_licenses!inner (
+        id,
+        location_internal_id,
+        location_name,
+        location_type,
+        location_formatted,
+        location_state,
+        result_count,
+        expires_at,
+        is_active,
+        created_at
+      )
+    `)
+    .eq("user_id", userId)
+    .eq("is_active", true)
+    .eq("location_licenses.is_active", true)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    throw new Error(
+      `Failed to get user licenses with details: ${error.message}`,
+    );
+  }
+
+  return { data, error };
+}
+
 export async function getAssetTypeLicensesQuery(
   supabase: Client,
   assetTypeSlug: string,

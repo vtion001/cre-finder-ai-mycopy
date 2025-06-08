@@ -2,12 +2,16 @@ import { stripe } from "@v1/stripe/config";
 import {
   deletePriceRecord,
   deleteProductRecord,
+  logPaymentFailure,
+  logSubscriptionCancellation,
   manageSubscriptionStatusChange,
   manageUserLicense,
+  toDateTime,
+  updateLicenseExpiration,
   upsertPriceRecord,
   upsertProductRecord,
 } from "@v1/supabase/stripe-admin";
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidateTag } from "next/cache";
 import type Stripe from "stripe";
 
 const relevantEvents = new Set([
@@ -22,6 +26,7 @@ const relevantEvents = new Set([
   "customer.subscription.updated",
   "customer.subscription.deleted",
   "invoice.payment_succeeded",
+  "invoice.payment_failed",
 ]);
 
 export async function POST(req: Request) {
@@ -62,15 +67,86 @@ export async function POST(req: Request) {
           await deleteProductRecord(event.data.object as Stripe.Product);
 
           break;
-        case "customer.subscription.created":
-        case "customer.subscription.updated":
+        case "customer.subscription.created": {
+          const subscription = event.data.object as Stripe.Subscription;
+          const { userId } = await manageSubscriptionStatusChange(
+            subscription.id,
+            subscription.customer as string,
+            true,
+          );
+          revalidateTag(`user_${userId}`);
+          revalidateTag(`subscriptions_${userId}`);
+          break;
+        }
+
+        case "customer.subscription.updated": {
+          const subscription = event.data.object as Stripe.Subscription;
+          const { userId } = await manageSubscriptionStatusChange(
+            subscription.id,
+            subscription.customer as string,
+            false,
+          );
+
+          // Handle subscription renewal (status becomes 'active' after successful payment)
+          if (
+            subscription.status === "active" &&
+            subscription.metadata?.type === "license"
+          ) {
+            try {
+              // Update license expiration to end of current billing period
+              const newExpiresAt = toDateTime(
+                subscription.current_period_end,
+              ).toISOString();
+              await updateLicenseExpiration(
+                userId,
+                subscription.metadata,
+                newExpiresAt,
+              );
+
+              console.log(
+                `🔄 License renewed for user [${userId}] until [${newExpiresAt}]`,
+              );
+              revalidateTag(`licenses_${userId}`);
+            } catch (error) {
+              console.error(
+                `Failed to update license expiration for user [${userId}]:`,
+                error,
+              );
+            }
+          }
+
+          revalidateTag(`user_${userId}`);
+          revalidateTag(`subscriptions_${userId}`);
+          break;
+        }
+
         case "customer.subscription.deleted": {
           const subscription = event.data.object as Stripe.Subscription;
           const { userId } = await manageSubscriptionStatusChange(
             subscription.id,
             subscription.customer as string,
-            event.type === "customer.subscription.created",
+            false,
           );
+
+          // Log cancellation but do NOT modify expires_at (grace period system)
+          if (subscription.metadata?.type === "license") {
+            try {
+              await logSubscriptionCancellation(
+                userId,
+                subscription.id,
+                subscription.metadata,
+              );
+              console.log(
+                `🚫 Subscription cancelled for user [${userId}] - grace period active until expires_at`,
+              );
+            } catch (error) {
+              console.error(
+                `Failed to log subscription cancellation for user [${userId}]:`,
+                error,
+              );
+            }
+          }
+
           revalidateTag(`user_${userId}`);
           revalidateTag(`subscriptions_${userId}`);
           break;
@@ -89,7 +165,32 @@ export async function POST(req: Request) {
               );
 
             if (checkoutSession?.metadata?.type === "license") {
-              await manageUserLicense(userId, checkoutSession.metadata);
+              // Parse location result counts from metadata
+              const locationResultCounts = checkoutSession.metadata
+                .locationResultCounts
+                ? JSON.parse(checkoutSession.metadata.locationResultCounts)
+                : {};
+
+              // Get total result count for logging
+              const totalResultCount = checkoutSession.metadata.resultCount
+                ? Number.parseInt(checkoutSession.metadata.resultCount, 10)
+                : 0;
+
+              // Set initial expiration to end of first billing period
+              const expiresAt = toDateTime(
+                subscription.current_period_end,
+              ).toISOString();
+
+              await manageUserLicense(
+                userId,
+                checkoutSession.metadata,
+                locationResultCounts,
+                expiresAt,
+              );
+
+              console.log(
+                `💳 License created for user [${userId}] with ${totalResultCount} total results across ${Object.keys(locationResultCounts).length} locations, expires [${expiresAt}]`,
+              );
               revalidateTag(`licenses_${userId}`);
             }
 
@@ -105,6 +206,54 @@ export async function POST(req: Request) {
         case "invoice.payment_succeeded": {
           // Payment succeeded - this indicates a successful subscription renewal
           const invoice = event.data.object as Stripe.Invoice;
+
+          // Note: Subscription renewal is primarily handled in customer.subscription.updated
+          // This event can be used for additional logging or validation if needed
+          if (invoice.subscription && invoice.customer) {
+            console.log(
+              `💰 Payment succeeded for invoice [${invoice.id}] subscription [${invoice.subscription}]`,
+            );
+          }
+
+          break;
+        }
+
+        case "invoice.payment_failed": {
+          // Payment failed - do NOT extend expires_at, let license expire naturally
+          const invoice = event.data.object as Stripe.Invoice;
+
+          if (invoice.subscription && invoice.customer) {
+            try {
+              // Get customer UUID and subscription details
+              const subscription = await stripe.subscriptions.retrieve(
+                invoice.subscription as string,
+              );
+
+              // Use the existing manageSubscriptionStatusChange to get userId
+              const { userId } = await manageSubscriptionStatusChange(
+                subscription.id,
+                invoice.customer as string,
+                false,
+              );
+
+              if (subscription.metadata?.type === "license") {
+                await logPaymentFailure(
+                  userId,
+                  subscription.id,
+                  invoice.id,
+                  subscription.metadata,
+                );
+                console.log(
+                  `💳❌ Payment failed for user [${userId}] - license will expire naturally`,
+                );
+              }
+            } catch (error) {
+              console.error(
+                `Failed to handle payment failure for invoice [${invoice.id}]:`,
+                error,
+              );
+            }
+          }
 
           break;
         }
