@@ -1,8 +1,9 @@
 "use client";
 
+import { IconPlus } from "@tabler/icons-react";
 import type { Tables } from "@v1/supabase/types";
 import { Button } from "@v1/ui/button";
-import { IconPlus } from "@tabler/icons-react";
+import { parseAsBoolean, useQueryState } from "nuqs";
 import { useState } from "react";
 import { AddLocationsDialog } from "./add-locations-dialog";
 
@@ -17,10 +18,10 @@ export function AddLocationsButton({
   assetTypeName,
   existingLicenses,
 }: AddLocationsButtonProps) {
-  const [dialogOpen, setDialogOpen] = useState(false);
+  const [dialogOpen, setDialogOpen] = useQueryState("modal", parseAsBoolean);
 
   const existingLocationIds = existingLicenses.map(
-    (license) => license.location_internal_id
+    (license) => license.location_internal_id,
   );
 
   return (

@@ -94,13 +94,17 @@ export function NavRecords({
                     side={isMobile ? "bottom" : "right"}
                     align={isMobile ? "end" : "start"}
                   >
-                    <DropdownMenuItem>
-                      <Folder className="text-muted-foreground" />
-                      <span>View Records</span>
+                    <DropdownMenuItem asChild>
+                      <Link href={href}>
+                        <Folder className="text-muted-foreground" />
+                        <span>View Records</span>
+                      </Link>
                     </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <Forward className="text-muted-foreground" />
-                      <span>Manage Locations</span>
+                    <DropdownMenuItem asChild>
+                      <Link href={`${href}&modal=true`}>
+                        <Forward className="text-muted-foreground" />
+                        <span>Manage Locations</span>
+                      </Link>
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
