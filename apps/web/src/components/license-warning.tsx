@@ -1,6 +1,16 @@
+import { formatSearchParams } from "@/lib/format";
 import { parsers, searchParamsCache } from "@/lib/nuqs/property-search-params";
 import { getPropertyCountCache } from "@/queries/cached";
-import { IconArrowLeft, IconMapPin, IconSearch } from "@tabler/icons-react";
+import {
+  IconArrowLeft,
+  IconBuilding,
+  IconCalendar,
+  IconFilter,
+  IconMapPin,
+  IconRuler,
+  IconSearch,
+  IconSparkles,
+} from "@tabler/icons-react";
 import { getAssetType } from "@v1/supabase/cached-queries";
 import { buttonVariants } from "@v1/ui/button";
 import { cn } from "@v1/ui/cn";
@@ -32,12 +42,129 @@ export async function LicenseWarning({ unlicensed }: { unlicensed: string[] }) {
         </p>
       </div>
 
-      {/* Show params */}
-      <div className="text-center space-y-3 mb-8 mx-auto max-w-xl">
-        <p className="text-sm text-muted-foreground leading-relaxed">
-          {JSON.stringify(params)}
-        </p>
-      </div>
+      {/* Creative Search Filters Display */}
+      {params && Object.keys(params).length > 0 && (
+        <div className="mb-8 mx-auto max-w-4xl">
+          {/* Creative filter cards grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-3xl mx-auto">
+            {/* Building Size Filter */}
+            {(params.building_size_min || params.building_size_max) && (
+              <div className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-blue-50/80 to-blue-100/50 dark:from-blue-950/30 dark:to-blue-900/20 border border-blue-200/50 dark:border-blue-800/30 p-4 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-blue-500/10">
+                <div className="absolute top-0 right-0 w-16 h-16 bg-blue-500/10 rounded-full -translate-y-8 translate-x-8 group-hover:scale-150 transition-transform duration-500" />
+                <div className="relative flex items-center gap-3">
+                  <div className="p-2 rounded-lg bg-blue-500/10 text-blue-600 dark:text-blue-400">
+                    <IconBuilding className="h-4 w-4" />
+                  </div>
+                  <div>
+                    <div className="text-xs font-medium text-blue-700 dark:text-blue-300 uppercase tracking-wide">
+                      Building Size
+                    </div>
+                    <div className="text-sm font-semibold text-blue-900 dark:text-blue-100">
+                      {params.building_size_min && params.building_size_max
+                        ? `${params.building_size_min.toLocaleString()} - ${params.building_size_max.toLocaleString()} sqft`
+                        : params.building_size_min
+                          ? `> ${params.building_size_min.toLocaleString()} sqft`
+                          : `< ${params.building_size_max?.toLocaleString()} sqft`}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Lot Size Filter */}
+            {(params.lot_size_min || params.lot_size_max) && (
+              <div className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-green-50/80 to-green-100/50 dark:from-green-950/30 dark:to-green-900/20 border border-green-200/50 dark:border-green-800/30 p-4 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-green-500/10">
+                <div className="absolute top-0 right-0 w-16 h-16 bg-green-500/10 rounded-full -translate-y-8 translate-x-8 group-hover:scale-150 transition-transform duration-500" />
+                <div className="relative flex items-center gap-3">
+                  <div className="p-2 rounded-lg bg-green-500/10 text-green-600 dark:text-green-400">
+                    <IconRuler className="h-4 w-4" />
+                  </div>
+                  <div>
+                    <div className="text-xs font-medium text-green-700 dark:text-green-300 uppercase tracking-wide">
+                      Lot Size
+                    </div>
+                    <div className="text-sm font-semibold text-green-900 dark:text-green-100">
+                      {params.lot_size_min && params.lot_size_max
+                        ? `${params.lot_size_min.toLocaleString()} - ${params.lot_size_max.toLocaleString()} sqft`
+                        : params.lot_size_min
+                          ? `> ${params.lot_size_min.toLocaleString()} sqft`
+                          : `< ${params.lot_size_max?.toLocaleString()} sqft`}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Year Built Filter */}
+            {(params.year_min || params.year_max) && (
+              <div className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-purple-50/80 to-purple-100/50 dark:from-purple-950/30 dark:to-purple-900/20 border border-purple-200/50 dark:border-purple-800/30 p-4 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-purple-500/10">
+                <div className="absolute top-0 right-0 w-16 h-16 bg-purple-500/10 rounded-full -translate-y-8 translate-x-8 group-hover:scale-150 transition-transform duration-500" />
+                <div className="relative flex items-center gap-3">
+                  <div className="p-2 rounded-lg bg-purple-500/10 text-purple-600 dark:text-purple-400">
+                    <IconCalendar className="h-4 w-4" />
+                  </div>
+                  <div>
+                    <div className="text-xs font-medium text-purple-700 dark:text-purple-300 uppercase tracking-wide">
+                      Year Built
+                    </div>
+                    <div className="text-sm font-semibold text-purple-900 dark:text-purple-100">
+                      {params.year_min && params.year_max
+                        ? `${params.year_min} - ${params.year_max}`
+                        : params.year_min
+                          ? `> ${params.year_min}`
+                          : `< ${params.year_max}`}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Last Sale Date Filter */}
+            {(params.last_sale_year || params.last_sale_month) && (
+              <div className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-orange-50/80 to-orange-100/50 dark:from-orange-950/30 dark:to-orange-900/20 border border-orange-200/50 dark:border-orange-800/30 p-4 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-orange-500/10">
+                <div className="absolute top-0 right-0 w-16 h-16 bg-orange-500/10 rounded-full -translate-y-8 translate-x-8 group-hover:scale-150 transition-transform duration-500" />
+                <div className="relative flex items-center gap-3">
+                  <div className="p-2 rounded-lg bg-orange-500/10 text-orange-600 dark:text-orange-400">
+                    <IconCalendar className="h-4 w-4" />
+                  </div>
+                  <div>
+                    <div className="text-xs font-medium text-orange-700 dark:text-orange-300 uppercase tracking-wide">
+                      Last Sale
+                    </div>
+                    <div className="text-sm font-semibold text-orange-900 dark:text-orange-100">
+                      {params.last_sale_month !== undefined &&
+                      params.last_sale_year
+                        ? `${new Date(params.last_sale_year, params.last_sale_month).toLocaleDateString("en-US", { month: "short", year: "numeric" })}`
+                        : params.last_sale_year
+                          ? `${params.last_sale_year}`
+                          : "Recent"}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Fallback for any other filters */}
+          {!params.building_size_min &&
+            !params.building_size_max &&
+            !params.lot_size_min &&
+            !params.lot_size_max &&
+            !params.year_min &&
+            !params.year_max &&
+            !params.last_sale_year &&
+            !params.last_sale_month && (
+              <div className="text-center">
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-muted/50 border border-border/50">
+                  <IconFilter className="h-4 w-4 text-muted-foreground" />
+                  <span className="text-sm text-muted-foreground">
+                    {formatSearchParams(params)}
+                  </span>
+                </div>
+              </div>
+            )}
+        </div>
+      )}
 
       <div className="mx-auto w-full max-w-lg">
         {/* Location Preview List */}
