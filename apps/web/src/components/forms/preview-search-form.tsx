@@ -19,6 +19,7 @@ import {
 } from "@v1/ui/form";
 import { Popover, PopoverContent, PopoverTrigger } from "@v1/ui/popover";
 import { ChevronDownIcon, FilterIcon } from "lucide-react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
 
@@ -28,50 +29,51 @@ interface PreviewSearchFormProps {
   assetTypes: Tables<"asset_types">[];
   onSubmit: (values: PreviewSearchFormValues) => void;
   className?: string;
-  defaultValues?: PreviewSearchFormValues;
+  initialValues?: PreviewSearchFormValues;
 }
 
 export function PreviewSearchForm({
   assetTypes,
   onSubmit,
   className,
-  defaultValues,
+  initialValues,
 }: PreviewSearchFormProps) {
+  // Define the base default values for reset functionality
+  const baseDefaultValues = {
+    building_size_min: undefined,
+    building_size_max: undefined,
+    lot_size_min: undefined,
+    lot_size_max: undefined,
+    last_sale_year: undefined,
+    last_sale_month: undefined,
+    year_min: undefined,
+    year_max: undefined,
+  };
+
   const form = useForm<PreviewSearchFormValues>({
     resolver: zodResolver(propertySearchSchema),
-    defaultValues: defaultValues ?? {
-      building_size_min: undefined,
-      building_size_max: undefined,
-      lot_size_min: undefined,
-      lot_size_max: undefined,
-      last_sale_year: undefined,
-      last_sale_month: undefined,
-      year_min: undefined,
-      year_max: undefined,
-    },
+    defaultValues: baseDefaultValues,
   });
+
+  // Set initial values if provided, but don't make them the default values for reset
+  useEffect(() => {
+    if (initialValues) {
+      form.reset(initialValues);
+    }
+  }, [initialValues, form]);
 
   const handleSubmit = (values: PreviewSearchFormValues) => {
     onSubmit(values);
   };
 
   const clearFilters = () => {
-    // @ts-expect-error
-    form.resetField("building_size_min", { defaultValue: null });
-    // @ts-expect-error
-    form.resetField("building_size_max", { defaultValue: null });
-    // @ts-expect-error
-    form.resetField("lot_size_min", { defaultValue: null });
-    // @ts-expect-error
-    form.resetField("lot_size_max", { defaultValue: null });
-    // @ts-expect-error
-    form.resetField("last_sale_year", { defaultValue: null });
-    // @ts-expect-error
-    form.resetField("last_sale_month", { defaultValue: null });
-    // @ts-expect-error
-    form.resetField("year_min", { defaultValue: null });
-    // @ts-expect-error
-    form.resetField("year_max", { defaultValue: null });
+    // Reset only the filter fields to their base default values (undefined)
+    // while preserving the main search fields (locations, asset_type_slug)
+    const currentValues = form.getValues();
+    form.reset({
+      ...currentValues,
+      ...baseDefaultValues,
+    });
   };
 
   // Check if any filters are active

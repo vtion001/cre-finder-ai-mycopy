@@ -61,7 +61,7 @@ export function PreviewSearchInterface({
         assetTypes={assetTypes}
         onSubmit={handleSubmit}
         className="space-y-4"
-        defaultValues={{
+        initialValues={{
           locations: formattedLocations || [],
           asset_type_slug: state.asset_type!,
           ...state.params,
