@@ -5,14 +5,19 @@ import type { Tables } from "@v1/supabase/types";
 import { Label } from "@v1/ui/label";
 import { Switch } from "@v1/ui/switch";
 import { useQueryStates } from "nuqs";
+import { AddLocationsButton } from "./add-locations-button";
 import { LicensesCombobox } from "./licenses-combobox";
 
 interface PropertySearchFiltersProps {
   licenses: Tables<"user_licenses">[];
+  assetType: string;
+  assetTypeName: string;
 }
 
 export function PropertySearchFilters({
   licenses,
+  assetType,
+  assetTypeName,
 }: PropertySearchFiltersProps) {
   const [state, setState] = useQueryStates(parsers, { shallow: false });
 
@@ -32,6 +37,11 @@ export function PropertySearchFilters({
               className="h-12 text-base"
             />
           </div>
+          <AddLocationsButton
+            assetType={assetType}
+            assetTypeName={assetTypeName}
+            existingLicenses={licenses}
+          />
         </div>
       </div>
       <div className="flex items-center gap-3">

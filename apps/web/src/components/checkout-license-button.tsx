@@ -16,10 +16,10 @@ export function CheckoutLicenseButton({
   locations,
   assetType,
 }: CheckoutLicenseButtonProps) {
-  const { isPending } = useAction(checkoutLicenseAction);
+  const { isPending, executeAsync } = useAction(checkoutLicenseAction);
 
   const handleCheckout = async () => {
-    const result = await checkoutLicenseAction({
+    const result = await executeAsync({
       locations,
       assetType,
     });

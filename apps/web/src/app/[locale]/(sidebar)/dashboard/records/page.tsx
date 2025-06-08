@@ -1,6 +1,11 @@
+import { PropertyMap } from "@/components/property-map";
 import { PropertySearchFilters } from "@/components/property-search-filters";
 import { searchParamsCache } from "@/lib/nuqs/property-search-params";
-import { getAssetTypeLicenses } from "@v1/supabase/cached-queries";
+import {
+  getAssetType,
+  getAssetTypeLicenses,
+} from "@v1/supabase/cached-queries";
+import { ScrollArea, ScrollBar } from "@v1/ui/scroll-area";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import type { SearchParams } from "nuqs";
@@ -15,15 +20,16 @@ export default async function Page({
 }: {
   searchParams: SearchParams;
 }) {
-  const { asset_type, locations } = searchParamsCache.parse(searchParams);
+  const { asset_type, locations, map } = searchParamsCache.parse(searchParams);
 
   if (!asset_type) {
     return notFound();
   }
 
   const { data: licenses } = await getAssetTypeLicenses(asset_type);
+  const { data: assetTypeData } = await getAssetType(asset_type);
 
-  if (!licenses.length) {
+  if (!licenses.length || !assetTypeData) {
     return notFound();
   }
 
@@ -41,7 +47,30 @@ export default async function Page({
 
   return (
     <div className="p-4 sm:p-6 pb-16 space-y-6">
-      <PropertySearchFilters licenses={licenses || []} />
+      <PropertySearchFilters
+        licenses={licenses || []}
+        assetType={asset_type}
+        assetTypeName={assetTypeData.name}
+      />
+
+      <div
+        className={`grid gap-6 ${map ? "lg:grid-cols-[1fr,480px]" : "grid-cols-1"}`}
+      >
+        <div className="min-w-0">
+          <ScrollArea
+            hideScrollbar
+            className="h-[calc(100vh-7rem)] w-full rounded-md border overflow-y-hidden"
+          >
+            <ScrollBar orientation="horizontal" />
+          </ScrollArea>
+        </div>
+
+        {map && (
+          <div className="lg:sticky lg:top-6 lg:h-fit">
+            <PropertyMap records={[]} className="h-[calc(100vh-7rem)]" />
+          </div>
+        )}
+      </div>
     </div>
   );
 }
