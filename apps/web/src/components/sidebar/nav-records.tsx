@@ -1,19 +1,8 @@
 "use client";
 
-import {
-  Folder,
-  Forward,
-  type LucideIcon,
-  MoreHorizontal,
-  Trash2,
-} from "lucide-react";
+import { Folder, Forward, MoreHorizontal } from "lucide-react";
 
-import {
-  IconBuildingStore,
-  IconHomeSearch,
-  IconPlus,
-  type TablerIcon,
-} from "@tabler/icons-react";
+import { IconBuildingStore, IconPlus } from "@tabler/icons-react";
 import {
   IconBed,
   IconBox,
@@ -29,7 +18,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@v1/ui/dropdown-menu";
 import {
@@ -43,11 +31,7 @@ import {
   useSidebar,
 } from "@v1/ui/sidebar";
 import Link from "next/link";
-import {
-  usePathname,
-  useSearchParams,
-  useSelectedLayoutSegment,
-} from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 
 export function NavRecords({
   licenses,
@@ -77,7 +61,7 @@ export function NavRecords({
             const Icon = AssetTypeIcons[item.asset_type_slug];
 
             const path = "/dashboard/records";
-            const href = `${path}?asset_type=${item.asset_type_slug}`;
+            const href = `${path}?asset_type=${item.asset_type_slug}&locations=${item.location_ids?.join(",")}`;
 
             return (
               <SidebarMenuItem key={item.asset_type_slug}>

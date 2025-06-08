@@ -15,13 +15,29 @@ export default async function Page({
 }: {
   searchParams: SearchParams;
 }) {
-  const { asset_type } = searchParamsCache.parse(searchParams);
+  const { asset_type, locations } = searchParamsCache.parse(searchParams);
 
   if (!asset_type) {
     return notFound();
   }
 
   const { data: licenses } = await getAssetTypeLicenses(asset_type);
+
+  if (!licenses.length) {
+    return notFound();
+  }
+
+  const availableLocations = licenses.map(
+    (license) => license.location_internal_id,
+  );
+
+  const validLocations = locations?.every((loc) =>
+    availableLocations.includes(loc),
+  );
+
+  if (!validLocations) {
+    return notFound();
+  }
 
   return (
     <div className="p-4 sm:p-6 pb-16 space-y-6">
