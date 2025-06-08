@@ -1,7 +1,6 @@
 "use client";
 
-import { getRealEstateLocationsAction } from "@/actions/get-real-estate-locations-action";
-import type { locationSchema } from "@/actions/schema";
+import type { Tables } from "@v1/supabase/types";
 import { Button } from "@v1/ui/button";
 import { cn } from "@v1/ui/cn";
 import {
@@ -13,7 +12,6 @@ import {
   CommandList,
 } from "@v1/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@v1/ui/popover";
-import { useDebounce } from "@v1/ui/use-debounce";
 import {
   BuildingIcon,
   Check,
@@ -21,66 +19,58 @@ import {
   MapPinIcon,
   X,
 } from "lucide-react";
-import { useAction } from "next-safe-action/hooks";
-import { useEffect, useState } from "react";
-import type { z } from "zod";
+import { useState } from "react";
 
-type Location = z.infer<typeof locationSchema>;
-
-interface MultiLocationComboboxProps {
-  value?: Location[];
-  onValueChange: (locations: Location[]) => void;
+interface LicensesComboboxProps {
+  value?: string[];
+  onValueChange: (internalIds: string[]) => void;
+  licenses: Tables<"user_licenses">[];
   placeholder?: string;
   className?: string;
 }
 
-export function MultiLocationCombobox({
+export function LicensesCombobox({
   value = [],
   onValueChange,
+  licenses,
   placeholder = "Search for cities or counties...",
   className,
-}: MultiLocationComboboxProps) {
+}: LicensesComboboxProps) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
 
-  const {
-    execute: fetchLocations,
-    isPending: isLoading,
-    result: { data: locations = [] },
-  } = useAction(getRealEstateLocationsAction);
-
-  const debouncedQuery = useDebounce(query, 500);
-
-  useEffect(() => {
-    if (debouncedQuery.trim()) {
-      fetchLocations({
-        query: debouncedQuery,
-        searchTypes: ["C", "N"], // Both cities and counties
-      });
-    }
-  }, [debouncedQuery, fetchLocations]);
-
-  const handleSelect = (location: Location) => {
-    const isSelected = value.some(
-      (loc) => loc.internal_id === location.internal_id,
-    );
+  const handleSelect = (license: Tables<"user_licenses">) => {
+    const isSelected = value.includes(license.location_internal_id);
     const newValue = isSelected
-      ? value.filter((loc) => loc.internal_id !== location.internal_id)
-      : [...value, location];
+      ? value.filter((id) => id !== license.location_internal_id)
+      : [...value, license.location_internal_id];
     onValueChange(newValue);
   };
 
-  const isSelected = (location: Location) =>
-    value.some((loc) => loc.internal_id === location.internal_id);
+  const isSelected = (license: Tables<"user_licenses">) =>
+    value.includes(license.location_internal_id);
 
-  const removeLocation = (locationToRemove: Location, e: React.MouseEvent) => {
+  const removeLicense = (
+    licenseToRemove: Tables<"user_licenses">,
+    e: React.MouseEvent,
+  ) => {
     e.preventDefault();
     e.stopPropagation();
     const newValue = value.filter(
-      (loc) => loc.internal_id !== locationToRemove.internal_id,
+      (id) => id !== licenseToRemove.location_internal_id,
     );
     onValueChange(newValue);
   };
+
+  // Get selected licenses for display
+  const selectedLicenses = licenses.filter((license) =>
+    value.includes(license.location_internal_id),
+  );
+
+  // Filter licenses based on search query
+  const filteredLicenses = licenses.filter((license) =>
+    license.location_formatted.toLowerCase().includes(query.toLowerCase()),
+  );
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -101,17 +91,19 @@ export function MultiLocationCombobox({
               <span className="text-muted-foreground">{placeholder}</span>
             ) : (
               <>
-                {value.map((location) => (
+                {selectedLicenses.map((license) => (
                   <div
-                    key={location.internal_id}
-                    className="flex items-center gap-1 bg-secondary text-secondary-foreground px-2 py-1 rounded-md text-xs"
+                    key={license.location_internal_id}
+                    className={cn(
+                      "flex items-center gap-1 px-2 py-1 rounded-md text-xs bg-secondary text-secondary-foreground",
+                    )}
                   >
                     <span className="max-w-[120px] truncate">
-                      {location.display_name}
+                      {license.location_formatted}
                     </span>
                     <button
                       type="button"
-                      onClick={(e) => removeLocation(location, e)}
+                      onClick={(e) => removeLicense(license, e)}
                       className="hover:bg-secondary-foreground/20 rounded-sm p-0.5"
                     >
                       <X className="h-3 w-3" />
@@ -125,7 +117,7 @@ export function MultiLocationCombobox({
         </Button>
       </PopoverTrigger>
       <PopoverContent
-        className="w-[--radix-popover-trigger-width]  p-0"
+        className="w-[--radix-popover-trigger-width] p-0"
         align="start"
       >
         <Command shouldFilter={false}>
@@ -135,72 +127,70 @@ export function MultiLocationCombobox({
             onValueChange={setQuery}
           />
           <CommandList>
-            {isLoading && <CommandEmpty>Searching locations...</CommandEmpty>}
-            {!isLoading && query && locations.length === 0 && (
+            {filteredLicenses.length === 0 && query && (
               <CommandEmpty>No locations found.</CommandEmpty>
             )}
-            {!isLoading && !query && (
+            {filteredLicenses.length === 0 && !query && (
               <CommandEmpty>Start typing to search for locations.</CommandEmpty>
             )}
 
-            {locations.length > 0 && (
+            {filteredLicenses.length > 0 && (
               <>
                 {/* Cities Group */}
-                {locations.filter((loc) => loc.type === "city").length > 0 && (
+                {filteredLicenses.filter(
+                  (license) => license.location_type === "city",
+                ).length > 0 && (
                   <CommandGroup>
-                    <div className="bg-secondary text-secondary-foreground flex items-center gap-2 px-2 py-1.5 text-xs font-medium ">
+                    <div className="bg-secondary text-secondary-foreground flex items-center gap-2 px-2 py-1.5 text-xs font-medium">
                       <BuildingIcon className="h-3 w-3" />
                       Cities
                     </div>
-                    {locations
-                      .filter((loc) => loc.type === "city")
-                      .map((location) => (
+                    {filteredLicenses
+                      .filter((license) => license.location_type === "city")
+                      .map((license) => (
                         <CommandItem
-                          key={location.internal_id}
-                          value={location.internal_id}
-                          onSelect={() => handleSelect(location)}
-                          className="flex items-center gap-2"
+                          key={license.location_internal_id}
+                          value={license.location_internal_id}
+                          onSelect={() => handleSelect(license)}
+                          className={cn("flex items-center gap-2")}
                         >
                           <Check
                             className={cn(
                               "mr-2 h-4 w-4",
-                              isSelected(location)
-                                ? "opacity-100"
-                                : "opacity-0",
+                              isSelected(license) ? "opacity-100" : "opacity-0",
                             )}
                           />
-                          <span>{location.display_name}</span>
+                          <span>{license.location_formatted}</span>
                         </CommandItem>
                       ))}
                   </CommandGroup>
                 )}
 
                 {/* Counties Group */}
-                {locations.filter((loc) => loc.type === "county").length >
-                  0 && (
+                {filteredLicenses.filter(
+                  (license) => license.location_type === "county",
+                ).length > 0 && (
                   <CommandGroup>
-                    <div className="bg-secondary text-secondary-foreground flex items-center gap-2 px-2 py-1.5 text-xs font-medium ">
+                    <div className="bg-secondary text-secondary-foreground flex items-center gap-2 px-2 py-1.5 text-xs font-medium">
                       <MapPinIcon className="h-3 w-3" />
                       Counties
                     </div>
-                    {locations
-                      .filter((loc) => loc.type === "county")
-                      .map((location) => (
+                    {filteredLicenses
+                      .filter((license) => license.location_type === "county")
+                      .map((license) => (
                         <CommandItem
-                          key={location.internal_id}
-                          value={location.internal_id}
-                          onSelect={() => handleSelect(location)}
-                          className="flex items-center gap-2"
+                          key={license.location_internal_id}
+                          value={license.location_internal_id}
+                          onSelect={() => handleSelect(license)}
+                          className={cn("flex items-center gap-2")}
                         >
                           <Check
                             className={cn(
                               "mr-2 h-4 w-4",
-                              isSelected(location)
-                                ? "opacity-100"
-                                : "opacity-0",
+                              isSelected(license) ? "opacity-100" : "opacity-0",
                             )}
                           />
-                          <span>{location.display_name}</span>
+                          <span>{license.location_formatted}</span>
                         </CommandItem>
                       ))}
                   </CommandGroup>

@@ -12,13 +12,15 @@ import {
 } from "@v1/ui/sidebar";
 import { Logo } from "../logo";
 import { NavMain } from "./nav-main";
+import { NavRecords } from "./nav-records";
 import { NavUser } from "./nav-user";
 
 type SidebarProps = React.ComponentProps<typeof Sidebar> & {
   user: Tables<"users">;
+  licenses: Tables<"user_licenses_by_asset_type">[];
 };
 
-export function AppSidebar({ user, ...props }: SidebarProps) {
+export function AppSidebar({ user, licenses, ...props }: SidebarProps) {
   return (
     <Sidebar
       collapsible="icon"
@@ -48,6 +50,8 @@ export function AppSidebar({ user, ...props }: SidebarProps) {
       </SidebarHeader>
       <SidebarContent className="flex flex-col">
         <NavMain />
+
+        <NavRecords licenses={licenses} />
 
         <div className="flex-1" />
       </SidebarContent>

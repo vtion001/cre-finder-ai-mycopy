@@ -1,6 +1,7 @@
 import { searchParamsCache } from "@/lib/nuqs/property-search-params";
 import { getPropertyCountCache } from "@/queries/cached";
 import { IconArrowLeft, IconMapPin, IconSearch } from "@tabler/icons-react";
+import { getAssetType } from "@v1/supabase/cached-queries";
 import { buttonVariants } from "@v1/ui/button";
 import { cn } from "@v1/ui/cn";
 import Link from "next/link";
@@ -11,48 +12,44 @@ export async function LicenseWarning({ unlicensed }: { unlicensed: string[] }) {
   const assetType = searchParamsCache.get("asset_type");
   const locations = searchParamsCache.get("locations");
 
+  const { data: assetTypeData } = await getAssetType(assetType!);
+
   return (
-    <div className="absolute inset-0 flex items-center justify-center">
+    <div className="absolute inset-0 flex flex-col justify-center">
+      <div className="text-center space-y-3 mb-8 mx-auto max-w-xl">
+        <div className="mx-auto w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+          <IconSearch className="h-6 w-6 text-primary" />
+        </div>
+        <h1 className="text-4xl font-semibold tracking-tight text-foreground">
+          Expand Your {assetTypeData?.name} Search
+        </h1>
+        <p className="text-sm text-muted-foreground leading-relaxed">
+          License these locations to unlock property data.
+        </p>
+      </div>
+
       <div className="mx-auto w-full max-w-lg">
-        <div className="p-8">
-          {/* Header */}
-          <div className="text-center space-y-3 mb-8">
-            <div className="mx-auto w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-              <IconSearch className="h-6 w-6 text-primary" />
-            </div>
-            <h1 className="text-4xl font-semibold tracking-tight text-foreground">
-              Expand Your Search
-            </h1>
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              License these locations to unlock {assetType} property data.
-            </p>
-          </div>
+        {/* Location Preview List */}
+        <div className="mb-8">
+          <LocationSearchPreviewList locations={unlicensed} />
+        </div>
 
-          {/* Location Preview List */}
-          <div className="mb-8">
-            <LocationSearchPreviewList locations={unlicensed} />
-          </div>
+        {/* Actions */}
+        <div className="flex flex-col sm:flex-row sm:justify-center gap-3">
+          <Link
+            href={`/dashboard/search?asset_type=${assetType}`}
+            className={cn(
+              buttonVariants({
+                variant: "ghost",
+              }),
+              "h-12 px-8",
+            )}
+          >
+            <IconArrowLeft className="h-4 w-4" />
+            Refine Search
+          </Link>
 
-          {/* Actions */}
-          <div className="flex flex-col sm:flex-row sm:justify-center gap-3">
-            <Link
-              href={`/dashboard/search?asset_type=${assetType}`}
-              className={cn(
-                buttonVariants({
-                  variant: "ghost",
-                }),
-                "h-12 px-8",
-              )}
-            >
-              <IconArrowLeft className="h-4 w-4" />
-              Go back
-            </Link>
-
-            <CheckoutLicenseButton
-              locations={locations}
-              assetType={assetType!}
-            />
-          </div>
+          <CheckoutLicenseButton locations={locations} assetType={assetType!} />
         </div>
       </div>
     </div>

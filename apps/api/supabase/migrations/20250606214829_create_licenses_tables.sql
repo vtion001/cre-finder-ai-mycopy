@@ -50,16 +50,20 @@ SELECT USING (auth.uid () = user_id);
 
 CREATE OR REPLACE VIEW user_licenses_by_asset_type AS
 SELECT
-    user_id,
-    asset_type_slug,
+    ul.user_id,
+    ul.asset_type_slug,
+    at.name AS asset_type_name,
     array_agg(
-        location_internal_id
-        ORDER BY location_internal_id
+        ul.location_internal_id
+        ORDER BY ul.location_internal_id
     ) AS location_ids,
     count(*) AS license_count
-FROM user_licenses
+FROM
+    user_licenses ul
+    JOIN asset_types at ON ul.asset_type_slug = at.slug
 WHERE
-    is_active = true
+    ul.is_active = true
 GROUP BY
-    user_id,
-    asset_type_slug;
+    ul.user_id,
+    ul.asset_type_slug,
+    at.name;

@@ -1,8 +1,12 @@
 import { unstable_cache } from "next/cache";
 import { cache } from "react";
-import { getAssetTypesQuery, getUserQuery } from ".";
+import { getAssetTypeQuery, getAssetTypesQuery, getUserQuery } from ".";
 import { createClient } from "../clients/server";
-import { getUserLicensesQuery } from "./licenses";
+import {
+  getAssetTypeLicensesQuery,
+  getUserLicensesByAssetTypeQuery,
+  getUserLicensesQuery,
+} from "./licenses";
 import { getSubscriptionQuery } from "./stripe";
 
 export const getSession = cache(async () => {
@@ -51,6 +55,21 @@ export const getAssetTypes = async () => {
   )();
 };
 
+export const getAssetType = async (slug: string) => {
+  const supabase = createClient();
+
+  return unstable_cache(
+    async () => {
+      return getAssetTypeQuery(supabase, slug);
+    },
+    ["asset_type", slug],
+    {
+      tags: ["asset_type"],
+      revalidate: 180,
+    },
+  )();
+};
+
 export const getSubscription = async () => {
   const supabase = createClient();
   const user = await getUser();
@@ -89,6 +108,44 @@ export async function getUserLicenses(assetTypeSlug: string) {
     ["user_licenses", userId, assetTypeSlug],
     {
       tags: [`licenses_${userId}`],
+      revalidate: 180,
+    },
+  )();
+}
+
+export async function getUserLicensesByAssetType() {
+  const supabase = createClient();
+
+  const user = await getUser();
+
+  if (!user?.data) {
+    return { data: null };
+  }
+
+  const userId = user.data.id;
+
+  return unstable_cache(
+    async () => {
+      return getUserLicensesByAssetTypeQuery(supabase, userId);
+    },
+    ["user_licenses_by_asset_type", userId],
+    {
+      tags: [`licenses_${userId}`],
+      revalidate: 180,
+    },
+  )();
+}
+
+export async function getAssetTypeLicenses(assetTypeSlug: string) {
+  const supabase = createClient();
+
+  return unstable_cache(
+    async () => {
+      return getAssetTypeLicensesQuery(supabase, assetTypeSlug);
+    },
+    ["asset_type_licenses", assetTypeSlug],
+    {
+      tags: [`asset_type_licenses_${assetTypeSlug}`],
       revalidate: 180,
     },
   )();

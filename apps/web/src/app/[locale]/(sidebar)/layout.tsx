@@ -1,5 +1,9 @@
 import { AppSidebar } from "@/components/sidebar/app-sidebar";
-import { getUser } from "@v1/supabase/cached-queries";
+import {
+  getUser,
+  getUserLicensesByAssetType,
+} from "@v1/supabase/cached-queries";
+import { createClient } from "@v1/supabase/server";
 import { SidebarInset, SidebarProvider } from "@v1/ui/sidebar";
 
 import { cookies } from "next/headers";
@@ -17,9 +21,16 @@ export default async function SidebarLayout({
   }
   const cookieStore = cookies();
   const defaultOpen = cookieStore.get("sidebar_state")?.value === "true";
+
+  const { data: licenses } = await getUserLicensesByAssetType();
+
   return (
     <SidebarProvider defaultOpen={defaultOpen}>
-      <AppSidebar user={cachedUser?.data} variant="sidebar" />
+      <AppSidebar
+        user={cachedUser?.data}
+        licenses={licenses || []}
+        variant="sidebar"
+      />
       <SidebarInset>{children}</SidebarInset>
     </SidebarProvider>
   );

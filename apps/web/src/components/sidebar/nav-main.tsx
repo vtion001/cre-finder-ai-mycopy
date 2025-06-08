@@ -4,7 +4,7 @@ import {
   IconClipboard,
   IconClipboardList,
   IconCreditCard,
-  IconHomeSearch,
+  type IconHomeSearch,
   IconSearch,
 } from "@tabler/icons-react";
 import { cn } from "@v1/ui/cn";
@@ -18,18 +18,11 @@ import {
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const items = [
-  {
-    title: "Search",
-    url: "/dashboard/search",
-    icon: IconHomeSearch,
-  },
-  {
-    title: "Records",
-    url: "/dashboard/records",
-    icon: IconClipboardList,
-  },
-];
+const items = [] as {
+  title: string;
+  url: string;
+  icon: typeof IconHomeSearch;
+}[];
 
 export function NavMain() {
   const pathname = usePathname();

@@ -1,9 +1,8 @@
-import { LicenseWarning } from "@/components/license-warning";
-import { PreviewSearchInterface } from "@/components/preview-search-interface";
-import { SearchLoading } from "@/components/search-loading";
+import { PropertySearchFilters } from "@/components/property-search-filters";
 import { searchParamsCache } from "@/lib/nuqs/property-search-params";
-import { getAssetTypes, getUserLicenses } from "@v1/supabase/cached-queries";
+import { getAssetTypeLicenses } from "@v1/supabase/cached-queries";
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import type { SearchParams } from "nuqs";
 
 export const metadata: Metadata = {
@@ -16,40 +15,17 @@ export default async function Page({
 }: {
   searchParams: SearchParams;
 }) {
-  const { data: assetTypes } = await getAssetTypes();
+  const { asset_type } = searchParamsCache.parse(searchParams);
 
-  const { locations, asset_type } = searchParamsCache.parse(searchParams);
-
-  if (asset_type && locations.length > 0) {
-    // Check for unlicensed locations
-    const { data: licensedLocations } = await getUserLicenses(asset_type);
-
-    const ids = licensedLocations?.map((loc) => loc.location_internal_id) || [];
-    const unlicensedLocations = locations.filter((loc) => !ids.includes(loc));
-
-    return (
-      <div className="p-4 sm:p-6 pb-16 space-y-6">
-        {/* Only show warning if there are unlicensed locations */}
-        {unlicensedLocations.length > 0 ? (
-          <div className="relative overflow-hidden ">
-            <LicenseWarning unlicensed={unlicensedLocations} />
-            <SearchLoading isEmpty />
-          </div>
-        ) : (
-          <div className="text-center py-8">
-            <p className="text-muted-foreground">
-              All selected locations are licensed. Search functionality would
-              continue here.
-            </p>
-          </div>
-        )}
-      </div>
-    );
+  if (!asset_type) {
+    return notFound();
   }
 
+  const { data: licenses } = await getAssetTypeLicenses(asset_type);
+
   return (
-    <div className="min-h-screen p-4 pt-16">
-      <PreviewSearchInterface assetTypes={assetTypes || []} />
+    <div className="p-4 sm:p-6 pb-16 space-y-6">
+      <PropertySearchFilters licenses={licenses || []} />
     </div>
   );
 }

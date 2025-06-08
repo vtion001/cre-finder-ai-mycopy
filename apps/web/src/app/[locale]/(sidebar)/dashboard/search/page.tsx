@@ -2,7 +2,11 @@ import { LicenseWarning } from "@/components/license-warning";
 import { PreviewSearchInterface } from "@/components/preview-search-interface";
 import { SearchLoading } from "@/components/search-loading";
 import { searchParamsCache } from "@/lib/nuqs/property-search-params";
-import { getAssetTypes, getUserLicenses } from "@v1/supabase/cached-queries";
+import {
+  getAssetTypes,
+  getUserLicenses,
+  getUserLicensesByAssetType,
+} from "@v1/supabase/cached-queries";
 import type { Metadata } from "next";
 import type { SearchParams } from "nuqs";
 
@@ -16,8 +20,6 @@ export default async function Page({
 }: {
   searchParams: SearchParams;
 }) {
-  const { data: assetTypes } = await getAssetTypes();
-
   const { locations, asset_type } = searchParamsCache.parse(searchParams);
 
   if (asset_type && locations.length > 0) {
@@ -47,9 +49,16 @@ export default async function Page({
     );
   }
 
+  const { data: assetTypes } = await getAssetTypes();
+  const { data: licenses } = await getUserLicensesByAssetType();
+
+  const unusedAssetTypes = assetTypes?.filter((type) => {
+    return !licenses?.some((license) => license.asset_type_slug === type.slug);
+  });
+
   return (
     <div className="min-h-screen p-4 pt-16">
-      <PreviewSearchInterface assetTypes={assetTypes || []} />
+      <PreviewSearchInterface assetTypes={unusedAssetTypes || []} />
     </div>
   );
 }

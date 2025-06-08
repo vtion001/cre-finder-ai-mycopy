@@ -630,7 +630,31 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      user_licenses_by_asset_type: {
+        Row: {
+          asset_type_name: string | null
+          asset_type_slug: string | null
+          license_count: number | null
+          location_ids: string[] | null
+          user_id: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_licenses_asset_type_slug_fkey"
+            columns: ["asset_type_slug"]
+            isOneToOne: false
+            referencedRelation: "asset_types"
+            referencedColumns: ["slug"]
+          },
+          {
+            foreignKeyName: "user_licenses_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
       slugify: {
