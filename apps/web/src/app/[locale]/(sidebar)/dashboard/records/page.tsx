@@ -1,6 +1,7 @@
 import { PropertyMap } from "@/components/property-map";
 import { PropertySearchFilters } from "@/components/property-search-filters";
 import { searchParamsCache } from "@/lib/nuqs/property-search-params";
+import type { GetPropertySearchParams } from "@v1/property-data/types";
 import {
   getAssetType,
   getAssetTypeLicenses,
@@ -55,12 +56,14 @@ export default async function Page({
   }
 
   return (
-    <div className="p-4 sm:p-6 pb-16 space-y-6">
+    <div className="p-4 sm:p-6 pb-16 space-y-6 h-screen overflow-hidden">
       <PropertySearchFilters
         licenses={licenses || []}
         assetType={asset_type}
         assetTypeName={assetLicense.asset_types.name}
-        searchParams={assetLicense.search_params}
+        searchParams={
+          assetLicense.search_params as unknown as GetPropertySearchParams
+        }
       />
 
       <div

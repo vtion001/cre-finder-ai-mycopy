@@ -28,7 +28,7 @@ export default async function Page({
   });
 
   return (
-    <div className="min-h-screen p-4 pt-32">
+    <div className="h-screen overflow-hidden p-4 pt-32 ">
       <PreviewSearchInterface assetTypes={unusedAssetTypes || []} />
     </div>
   );
