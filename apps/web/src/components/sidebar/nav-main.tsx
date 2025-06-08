@@ -24,11 +24,6 @@ const items = [
     url: "/dashboard/search",
     icon: IconHomeSearch,
   },
-  {
-    title: "Records",
-    url: "/dashboard/records",
-    icon: IconClipboardList,
-  },
 ];
 
 export function NavMain() {
