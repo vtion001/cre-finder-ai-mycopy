@@ -1,9 +1,9 @@
-import type { GetPropertySearchParams } from "@/lib/realestateapi";
 import { createClient } from "@v1/supabase/server";
 import { unstable_cache } from "next/cache";
-import { getPropertyCount } from ".";
+import { getPropertyCountQuery } from ".";
+import type { GetPropertySearchParams } from "../providers/realestateapi/types";
 
-export async function getPropertyCountCache(
+export async function getPropertyCount(
   asset_type_slug: string,
   location: string,
   params?: GetPropertySearchParams | null,
@@ -12,11 +12,11 @@ export async function getPropertyCountCache(
 
   return unstable_cache(
     async () => {
-      return getPropertyCount(supabase, asset_type_slug, location, params);
+      return getPropertyCountQuery(supabase, asset_type_slug, location, params);
     },
-    ["search_preview", asset_type_slug, location, JSON.stringify(params)],
+    ["property-count", asset_type_slug, location, JSON.stringify(params)],
     {
-      tags: ["search_preview"],
+      tags: ["property-count"],
       revalidate: 180,
     },
     // @ts-expect-error

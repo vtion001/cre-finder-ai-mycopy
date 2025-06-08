@@ -1,0 +1,1 @@
+export { parseLocationCode } from "./format";

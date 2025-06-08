@@ -17,6 +17,7 @@
     "@trigger.dev/react-hooks": "^3.3.17",
     "@trigger.dev/sdk": "^3.3.17",
     "@v1/jobs": "workspace:*",
+    "@v1/property-data": "workspace:*",
     "@v1/supabase": "workspace:*",
     "@v1/ui": "workspace:*",
     "date-fns": "^4.1.0",

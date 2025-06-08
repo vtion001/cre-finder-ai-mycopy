@@ -1,7 +1,7 @@
 "use server";
 
-import { getPropertyCount } from "@/queries";
-import { createClient } from "@v1/supabase/server";
+import { getPropertyCount } from "@v1/property-data/cached-queries";
+import type { GetPropertySearchParams } from "@v1/property-data/types";
 import { getAssetLicenseQuery } from "@v1/supabase/queries";
 import { z } from "zod";
 import { authActionClient } from "./safe-action";
@@ -40,14 +40,16 @@ export const getPropertyCountsAction = authActionClient
         locations.map(async (location) => {
           try {
             const result = await getPropertyCount(
-              supabase,
               assetType,
               location,
-              searchParams as any,
+              searchParams as unknown as GetPropertySearchParams,
             );
             return result;
           } catch (error) {
-            console.error(`Error getting property count for ${location}:`, error);
+            console.error(
+              `Error getting property count for ${location}:`,
+              error,
+            );
             return {
               resultCount: 0,
               formattedLocation: location,

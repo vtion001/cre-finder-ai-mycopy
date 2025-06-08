@@ -1,13 +1,12 @@
 "use client";
 
 import type { propertySearchSchema } from "@/actions/schema";
-
-import { parseLocationCode } from "@/lib/format";
 import { parsers } from "@/lib/nuqs/property-search-params";
 import type { Tables } from "@v1/supabase/types";
 import { useRouter } from "next/navigation";
 import { createSerializer, useQueryStates } from "nuqs";
 import type { z } from "zod";
+import { parseLocationCode } from "../../../../packages/property-data/src/utils/format";
 import { PreviewSearchForm } from "./forms/preview-search-form";
 
 interface PreviewSearchInterfaceProps {

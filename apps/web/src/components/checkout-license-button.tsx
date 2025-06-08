@@ -1,7 +1,7 @@
 "use client";
 
 import { checkoutLicenseAction } from "@/actions/checkout";
-import type { GetPropertySearchParams } from "@/lib/realestateapi";
+import type { GetPropertySearchParams } from "@v1/property-data/types";
 import { getStripe } from "@v1/stripe/client";
 import { Button } from "@v1/ui/button";
 import { useAction } from "next-safe-action/hooks";

@@ -1,15 +1,15 @@
 "use server";
 
-import { parseLocationCode } from "@/lib/format";
-import { getStorageFacilities } from "@/lib/google-places";
-import {
-  type GetPropertySearchParams,
-  getPropertySearch,
-} from "@/lib/realestateapi";
-import { createClient } from "@v1/supabase/server";
 import type { Client } from "@v1/supabase/types";
+import { getStorageFacilities } from "../providers/google/lib";
+import {
+  getAutocomplete,
+  getPropertySearch,
+} from "../providers/realestateapi/lib";
+import type { GetPropertySearchParams } from "../providers/realestateapi/types";
+import { parseLocationCode } from "../utils/format";
 
-export async function getPropertyCount(
+export async function getPropertyCountQuery(
   supabase: Client,
   asset_type_slug: string,
   location: string,
@@ -54,4 +54,14 @@ export async function getPropertyCount(
     assetTypeName: assetType.name,
     internalId: location,
   };
+}
+
+export async function getAutocompleteQuery({
+  query,
+  searchTypes,
+}: {
+  query: string;
+  searchTypes: Array<string>;
+}) {
+  return await getAutocomplete({ query, searchTypes });
 }

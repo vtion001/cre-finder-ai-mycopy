@@ -1,6 +1,7 @@
 import { stripe } from "@v1/stripe/config";
 import type Stripe from "stripe";
 
+import { parseLocationCode } from "../../../../property-data/src/utils/format";
 import { supabaseAdmin } from "../../clients/admin";
 import type { Json, Tables, TablesInsert } from "../../types/db";
 
@@ -381,23 +382,6 @@ export async function manageUserLicense(
       `Failed to create location licenses: ${locationLicenseError.message}`,
     );
   }
-}
-
-export function parseLocationCode(code: string) {
-  const parts = code.toLowerCase().split("-");
-  const [type, state, ...nameParts] = parts;
-
-  const name = nameParts.map(capitalize).join(" ");
-
-  if ((type !== "c" && type !== "n") || !state || !name) {
-    throw new Error("Invalid location code");
-  }
-
-  return {
-    state: state.toUpperCase(),
-    city: type === "c" ? name : undefined,
-    county: type === "n" ? name : undefined,
-  };
 }
 
 export function capitalize(str: string) {

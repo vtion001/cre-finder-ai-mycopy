@@ -1,8 +1,8 @@
 "use server";
-import { getPropertyCountCache } from "@/queries/cached";
+
+import { getPropertyCount } from "@v1/property-data/cached-queries";
 import { checkoutLicenseWithStripe } from "@v1/stripe/server";
 import { getAssetLicenseQuery } from "@v1/supabase/queries";
-import { createClient } from "@v1/supabase/server";
 import { z } from "zod";
 import { authActionClient } from "./safe-action";
 import { searchFiltersSchema } from "./schema";
@@ -45,7 +45,7 @@ export const checkoutLicenseAction = authActionClient
       // map property counts using the appropriate search params
       const propertyCounts = await Promise.all(
         locations.map((location) =>
-          getPropertyCountCache(assetType, location, searchParams),
+          getPropertyCount(assetType, location, searchParams),
         ),
       );
 

@@ -1,7 +1,6 @@
-import { formatSearchParams } from "@/lib/format";
 import { parsers, searchParamsCache } from "@/lib/nuqs/property-search-params";
-import type { GetPropertySearchParams } from "@/lib/realestateapi";
-import { getPropertyCountCache } from "@/queries/cached";
+
+import { formatSearchParams } from "@/lib/format";
 import {
   IconArrowLeft,
   IconBuilding,
@@ -10,6 +9,8 @@ import {
   IconMapPin,
   IconRuler,
 } from "@tabler/icons-react";
+import { getPropertyCount } from "@v1/property-data/cached-queries";
+import type { GetPropertySearchParams } from "@v1/property-data/types";
 import { getAssetType } from "@v1/supabase/cached-queries";
 import { Button, buttonVariants } from "@v1/ui/button";
 import { cn } from "@v1/ui/cn";
@@ -222,7 +223,7 @@ async function LocationSearchPreviewServer({
     return null;
   }
 
-  const { resultCount, formattedLocation } = await getPropertyCountCache(
+  const { resultCount, formattedLocation } = await getPropertyCount(
     assetType,
     location,
     params,
@@ -295,7 +296,7 @@ async function CheckoutLicenseButtonWithValidation({
   const propertyCounts = await Promise.all(
     locations.map(async (location) => {
       try {
-        const { resultCount } = await getPropertyCountCache(
+        const { resultCount } = await getPropertyCount(
           assetType,
           location,
           params,
@@ -336,7 +337,7 @@ async function CheckoutValidation({ locations }: { locations: string[] }) {
   const propertyCounts = await Promise.all(
     locations.map(async (location) => {
       try {
-        const { resultCount } = await getPropertyCountCache(
+        const { resultCount } = await getPropertyCount(
           assetType,
           location,
           params,

@@ -1,6 +1,6 @@
 "use server";
 
-import { getAutocomplete } from "@/lib/realestateapi";
+import { getAutocompleteQuery } from "@v1/property-data/queries";
 import { z } from "zod";
 import { authActionClient } from "./safe-action";
 import { locationSchema } from "./schema";
@@ -21,7 +21,7 @@ export const getRealEstateLocationsAction = authActionClient
         return [];
       }
 
-      const data = await getAutocomplete({
+      const data = await getAutocompleteQuery({
         query,
         searchTypes,
       });

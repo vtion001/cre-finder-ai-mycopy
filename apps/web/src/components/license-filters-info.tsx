@@ -1,10 +1,10 @@
 "use client";
 
 import { formatSearchParams } from "@/lib/format";
-import type { GetPropertySearchParams } from "@/lib/realestateapi";
+import type { GetPropertySearchParams } from "@v1/property-data/types";
 import { Button } from "@v1/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@v1/ui/popover";
-import { ChevronDownIcon, FilterIcon, InfoIcon } from "lucide-react";
+import { ChevronDownIcon, FilterIcon } from "lucide-react";
 
 interface LicenseFiltersInfoProps {
   searchParams: GetPropertySearchParams | null;

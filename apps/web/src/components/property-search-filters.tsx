@@ -1,7 +1,7 @@
 "use client";
 
 import { parsers } from "@/lib/nuqs/property-search-params";
-import type { GetPropertySearchParams } from "@/lib/realestateapi";
+import type { GetPropertySearchParams } from "@v1/property-data/types";
 import type { Tables } from "@v1/supabase/types";
 import { Label } from "@v1/ui/label";
 import { Switch } from "@v1/ui/switch";

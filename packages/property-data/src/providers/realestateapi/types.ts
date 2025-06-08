@@ -1,13 +1,11 @@
-import { env } from "@/env.mjs";
-
-type AutocompleteCity = {
+export type AutocompleteCity = {
   searchType: "C";
   city: string;
   state: string;
   title: string;
 };
 
-type AutocompleteCounty = {
+export type AutocompleteCounty = {
   searchType: "N";
   stateId: string;
   county: string;
@@ -17,9 +15,9 @@ type AutocompleteCounty = {
   state: string;
 };
 
-type AutocompleteResult = AutocompleteCity | AutocompleteCounty;
+export type AutocompleteResult = AutocompleteCity | AutocompleteCounty;
 
-type AutocompleteResponse = {
+export type AutocompleteResponse = {
   input: {
     search: string;
     search_types: Array<string>;
@@ -170,7 +168,7 @@ export type PropertySearchResult = {
   taxDelinquentYear?: string;
 };
 
-type PropertySearchResponse = {
+export type PropertySearchResponse = {
   live: boolean;
   input: {
     count: boolean;
@@ -194,37 +192,13 @@ type PropertySearchResponse = {
   statusMessage: string;
   requestExecutionTimeMS: string;
 };
-interface GetAutocompleteParams {
+
+export type GetAutocompleteParams = {
   query: string;
   searchTypes: Array<string>;
-}
+};
 
-export async function getAutocomplete({
-  query,
-  searchTypes,
-}: GetAutocompleteParams) {
-  const response = await fetch(
-    "https://api.realestateapi.com/v2/AutoComplete",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-api-key": env.REALESTATEAPI_API_KEY,
-        "x-user-id": "CREFinderAI",
-      },
-      body: JSON.stringify({
-        search: query,
-        search_types: searchTypes,
-      }),
-    },
-  );
-
-  const data = (await response.json()) as AutocompleteResponse;
-
-  return data.data;
-}
-
-export interface GetPropertySearchParams {
+export type GetPropertySearchParams = {
   ids_only?: false;
   obfuscate?: false;
   summary?: false;
@@ -241,81 +215,4 @@ export interface GetPropertySearchParams {
   county?: string;
   state?: string;
   resultIndex?: number;
-}
-
-export async function getPropertySearch(
-  params: GetPropertySearchParams,
-  count = true,
-) {
-  console.log("getPropertySearch", params);
-
-  // If count is true, just get the count without pagination
-  if (count) {
-    const response = await fetch(
-      "https://api.realestateapi.com/v2/PropertySearch",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-api-key": env.REALESTATEAPI_API_KEY,
-          "x-user-id": "CREFinderAI",
-        },
-        body: JSON.stringify({
-          ...params,
-          count: true,
-        }),
-      },
-    );
-
-    const data = (await response.json()) as PropertySearchResponse;
-    return data;
-  }
-
-  const allResults: PropertySearchResult[] = [];
-  let resultIndex = 0;
-  const pageSize = 250;
-  let totalRecords = 0;
-  let firstResponse: PropertySearchResponse | null = null;
-
-  do {
-    const response = await fetch(
-      "https://api.realestateapi.com/v2/PropertySearch",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-api-key": env.REALESTATEAPI_API_KEY,
-          "x-user-id": "CREFinderAI",
-        },
-        body: JSON.stringify({
-          ...params,
-          count: false,
-          size: pageSize,
-          resultIndex,
-        }),
-      },
-    );
-
-    const data = (await response.json()) as PropertySearchResponse;
-
-    // Store the first response to use its metadata
-    if (!firstResponse) {
-      firstResponse = data;
-      totalRecords = data.resultCount;
-    }
-
-    // Add the current page's results
-    if (data.data && data.data.length > 0) {
-      allResults.push(...data.data);
-    }
-
-    resultIndex += pageSize;
-  } while (resultIndex < totalRecords && allResults.length < totalRecords);
-
-  return {
-    ...firstResponse!,
-    data: allResults,
-    resultCount: allResults.length,
-    recordCount: allResults.length,
-  };
-}
+};

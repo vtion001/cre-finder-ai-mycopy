@@ -1,41 +1,9 @@
 import fs from "node:fs";
-import { env } from "@/env.mjs";
-
-interface GooglePlacesSearchParams {
-  city?: string;
-  county?: string;
-  state?: string;
-}
-
-interface GooglePlaceGeometry {
-  location: {
-    lat: number;
-    lng: number;
-  };
-}
-
-export interface GooglePlaceResult {
-  place_id: string;
-  name: string;
-  formatted_address: string;
-  geometry: GooglePlaceGeometry;
-  business_status?: string;
-  rating?: number;
-  user_ratings_total?: number;
-  types: string[];
-  vicinity?: string;
-  price_level?: number;
-  opening_hours?: {
-    open_now?: boolean;
-  };
-}
-
-interface GooglePlacesResponse {
-  results: GooglePlaceResult[];
-  status: string;
-  error_message?: string;
-  next_page_token?: string;
-}
+import type {
+  GooglePlaceResult,
+  GooglePlacesResponse,
+  GooglePlacesSearchParams,
+} from "./types";
 
 // Google Places API status codes
 const PLACES_STATUS = {
@@ -64,7 +32,7 @@ async function makeGooglePlacesRequest(
 
   url.searchParams.append("query", searchQuery);
   url.searchParams.append("type", "storage");
-  url.searchParams.append("key", env.GOOGLE_API_KEY);
+  url.searchParams.append("key", process.env.GOOGLE_API_KEY!);
 
   // Add radius parameter to maximize search area (50,000 meters is the max for Text Search)
   // url.searchParams.append("radius", "50000");
@@ -149,32 +117,4 @@ export async function getStorageFacilities(params: GooglePlacesSearchParams) {
     status: PLACES_STATUS.OK,
     next_page_token: undefined,
   };
-}
-function writeLogFile(
-  locationQuery: string,
-  filteredResults: GooglePlaceResult[],
-) {
-  const timestamp = new Date()
-    .toISOString()
-    .replace(/[:.]/g, "-")
-    .substring(0, 19);
-
-  // Create a URL-friendly version of the location query
-  const querySlug = locationQuery
-    .toLowerCase()
-    .replace(/[^a-z0-9]/g, "-")
-    .replace(/-+/g, "-")
-    .replace(/^-|-$/g, "");
-
-  const filename = `google-${querySlug}-${timestamp}.txt`;
-
-  const addressList = filteredResults
-    .map((result) => {
-      const googleMapsUrl = `https://www.google.com/maps/place/?q=place_id:${result.place_id}`;
-      return `${result.name}\n${result.formatted_address}\n${googleMapsUrl}\n`;
-    })
-    .join("\n");
-
-  fs.writeFileSync(filename, addressList);
-  console.log(`Wrote ${filteredResults.length} addresses to ${filename}`);
 }

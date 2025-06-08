@@ -1,28 +1,7 @@
-import type { GetPropertySearchParams } from "./realestateapi";
+import type { GetPropertySearchParams } from "@v1/property-data/types";
 
 interface FormatNumberOptions extends Intl.NumberFormatOptions {
   locale?: string;
-}
-
-export function parseLocationCode(code: string) {
-  const parts = code.toLowerCase().split("-");
-  const [type, state, ...nameParts] = parts;
-
-  const name = nameParts.map(capitalize).join(" ");
-
-  if ((type !== "c" && type !== "n") || !state || !name) {
-    throw new Error("Invalid location code");
-  }
-
-  return {
-    state: state.toUpperCase(),
-    city: type === "c" ? name : undefined,
-    county: type === "n" ? name : undefined,
-  };
-}
-
-export function capitalize(str: string) {
-  return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
 export function formatNumber(
@@ -36,7 +15,7 @@ export function formatNumber(
 }
 
 export const formatSearchParams = (params: GetPropertySearchParams) => {
-  if (!params) return "N/A";
+  if (!params) return [];
 
   const parts = [];
 
