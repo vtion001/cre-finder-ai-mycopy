@@ -66,5 +66,5 @@ export const formatSearchParams = (params: GetPropertySearchParams) => {
     parts.push(`Last Sale: ${params.last_sale_date}`);
   }
 
-  return parts.join(" • ");
+  return parts;
 };

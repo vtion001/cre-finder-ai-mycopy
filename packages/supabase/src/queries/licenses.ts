@@ -134,6 +134,24 @@ export async function getUserLicensesWithDetailsQuery(
   return { data, error };
 }
 
+export async function getLicenseDetailsQuery(
+  supabase: Client,
+  asset_type_slug: string,
+) {
+  const { data, error } = await supabase
+    .from("asset_licenses")
+    .select("*")
+    .eq("asset_type_slug", asset_type_slug)
+    .eq("is_active", true)
+    .single();
+
+  if (error) {
+    throw new Error(`Failed to get license details: ${error.message}`);
+  }
+
+  return { data, error };
+}
+
 export async function getAssetTypeLicensesQuery(
   supabase: Client,
   assetTypeSlug: string,

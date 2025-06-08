@@ -5,6 +5,7 @@ import {
   getAssetType,
   getAssetTypeLicenses,
 } from "@v1/supabase/cached-queries";
+import { createClient } from "@v1/supabase/server";
 import { ScrollArea, ScrollBar } from "@v1/ui/scroll-area";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -27,9 +28,17 @@ export default async function Page({
   }
 
   const { data: licenses } = await getAssetTypeLicenses(asset_type);
-  const { data: assetTypeData } = await getAssetType(asset_type);
 
-  if (!licenses.length || !assetTypeData) {
+  const supabase = createClient();
+
+  const { data: assetLicense } = await supabase
+    .from("asset_licenses")
+    .select("*, asset_types!inner(*)")
+    .eq("asset_type_slug", asset_type)
+    .eq("is_active", true)
+    .single();
+
+  if (!licenses.length || !assetLicense) {
     return notFound();
   }
 
@@ -50,7 +59,8 @@ export default async function Page({
       <PropertySearchFilters
         licenses={licenses || []}
         assetType={asset_type}
-        assetTypeName={assetTypeData.name}
+        assetTypeName={assetLicense.asset_types.name}
+        searchParams={assetLicense.search_params}
       />
 
       <div

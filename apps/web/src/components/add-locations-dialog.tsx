@@ -236,11 +236,7 @@ export function AddLocationsDialog({
             Cancel
           </Button>
           <Button onClick={handleCheckout} disabled={isPending || !canCheckout}>
-            {isPending
-              ? "Processing..."
-              : hasSelectedLocations && hasValidResults
-                ? `Add Locations ($${totalCost})`
-                : "Add Locations"}
+            {isPending ? "Processing..." : "Add Locations"}
           </Button>
         </DialogFooter>
       </DialogContent>

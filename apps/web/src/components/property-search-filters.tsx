@@ -1,23 +1,27 @@
 "use client";
 
 import { parsers } from "@/lib/nuqs/property-search-params";
+import type { GetPropertySearchParams } from "@/lib/realestateapi";
 import type { Tables } from "@v1/supabase/types";
 import { Label } from "@v1/ui/label";
 import { Switch } from "@v1/ui/switch";
 import { useQueryStates } from "nuqs";
 import { AddLocationsButton } from "./add-locations-button";
+import { LicenseFiltersInfo } from "./license-filters-info";
 import { LicensesCombobox } from "./licenses-combobox";
 
 interface PropertySearchFiltersProps {
   licenses: Tables<"user_licenses">[];
   assetType: string;
   assetTypeName: string;
+  searchParams: GetPropertySearchParams | null;
 }
 
 export function PropertySearchFilters({
   licenses,
   assetType,
   assetTypeName,
+  searchParams,
 }: PropertySearchFiltersProps) {
   const [state, setState] = useQueryStates(parsers, { shallow: false });
 
@@ -42,6 +46,7 @@ export function PropertySearchFilters({
             assetTypeName={assetTypeName}
             existingLicenses={licenses}
           />
+          <LicenseFiltersInfo searchParams={searchParams} />
         </div>
       </div>
       <div className="flex items-center gap-3">
