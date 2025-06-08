@@ -2,7 +2,10 @@
 
 import { parseLocationCode } from "@/lib/format";
 import { getStorageFacilities } from "@/lib/google-places";
-import { getPropertySearch } from "@/lib/realestateapi";
+import {
+  type GetPropertySearchParams,
+  getPropertySearch,
+} from "@/lib/realestateapi";
 import { createClient } from "@v1/supabase/server";
 import type { Client } from "@v1/supabase/types";
 
@@ -10,6 +13,7 @@ export async function getPropertyCount(
   supabase: Client,
   asset_type_slug: string,
   location: string,
+  params: GetPropertySearchParams,
 ) {
   const { data: assetType } = await supabase
     .from("asset_types")
@@ -31,12 +35,16 @@ export async function getPropertyCount(
     const googleResponse = await getStorageFacilities(locationParams);
     resultCount = googleResponse.results.length;
   } else {
-    const params = {
+    const realestateapiParams = {
       ...locationParams,
+      ...params,
       property_use_code: assetType.use_codes || [],
     };
 
-    const realestateapiResponse = await getPropertySearch(params, true);
+    const realestateapiResponse = await getPropertySearch(
+      realestateapiParams,
+      true,
+    );
     resultCount = realestateapiResponse.resultCount;
   }
 

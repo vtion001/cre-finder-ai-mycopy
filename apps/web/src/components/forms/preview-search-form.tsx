@@ -28,16 +28,18 @@ interface PreviewSearchFormProps {
   assetTypes: Tables<"asset_types">[];
   onSubmit: (values: PreviewSearchFormValues) => void;
   className?: string;
+  defaultValues?: PreviewSearchFormValues;
 }
 
 export function PreviewSearchForm({
   assetTypes,
   onSubmit,
   className,
+  defaultValues,
 }: PreviewSearchFormProps) {
   const form = useForm<PreviewSearchFormValues>({
     resolver: zodResolver(propertySearchSchema),
-    defaultValues: {
+    defaultValues: defaultValues ?? {
       building_size_min: undefined,
       building_size_max: undefined,
       lot_size_min: undefined,
@@ -54,14 +56,22 @@ export function PreviewSearchForm({
   };
 
   const clearFilters = () => {
-    form.resetField("building_size_min", undefined);
-    form.setValue("building_size_max", undefined);
-    form.setValue("lot_size_min", undefined);
-    form.setValue("lot_size_max", undefined);
-    form.setValue("last_sale_year", undefined);
-    form.setValue("last_sale_month", undefined);
-    form.setValue("year_min", undefined);
-    form.setValue("year_max", undefined);
+    // @ts-expect-error
+    form.resetField("building_size_min", { defaultValue: null });
+    // @ts-expect-error
+    form.resetField("building_size_max", { defaultValue: null });
+    // @ts-expect-error
+    form.resetField("lot_size_min", { defaultValue: null });
+    // @ts-expect-error
+    form.resetField("lot_size_max", { defaultValue: null });
+    // @ts-expect-error
+    form.resetField("last_sale_year", { defaultValue: null });
+    // @ts-expect-error
+    form.resetField("last_sale_month", { defaultValue: null });
+    // @ts-expect-error
+    form.resetField("year_min", { defaultValue: null });
+    // @ts-expect-error
+    form.resetField("year_max", { defaultValue: null });
   };
 
   // Check if any filters are active
@@ -73,7 +83,7 @@ export function PreviewSearchForm({
       values.lot_size_min ||
       values.lot_size_max ||
       values.last_sale_year ||
-      values.last_sale_month !== undefined ||
+      values.last_sale_month ||
       values.year_min ||
       values.year_max
     );
@@ -85,7 +95,7 @@ export function PreviewSearchForm({
     let count = 0;
     if (values.building_size_min || values.building_size_max) count++;
     if (values.lot_size_min || values.lot_size_max) count++;
-    if (values.last_sale_year && values.last_sale_month !== undefined) count++;
+    if (values.last_sale_year && values.last_sale_month) count++;
     if (values.year_min || values.year_max) count++;
     return count;
   };

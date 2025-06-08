@@ -247,6 +247,8 @@ export async function getPropertySearch(
   params: GetPropertySearchParams,
   count = true,
 ) {
+  console.log("getPropertySearch", params);
+
   // If count is true, just get the count without pagination
   if (count) {
     const response = await fetch(

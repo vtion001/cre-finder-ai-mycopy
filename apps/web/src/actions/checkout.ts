@@ -3,10 +3,12 @@ import { getPropertyCountCache } from "@/queries/cached";
 import { checkoutLicenseWithStripe } from "@v1/stripe/server";
 import { z } from "zod";
 import { authActionClient } from "./safe-action";
+import { searchFiltersSchema } from "./schema";
 
 const checkoutLicenseSchema = z.object({
   locations: z.array(z.string()),
   assetType: z.string(),
+  params: searchFiltersSchema,
 });
 
 export const checkoutLicenseAction = authActionClient
@@ -16,12 +18,14 @@ export const checkoutLicenseAction = authActionClient
   })
   .action(
     async ({
-      parsedInput: { locations, assetType },
+      parsedInput: { locations, assetType, params },
       ctx: { supabase, user },
     }) => {
       // map property counts
       const propertyCounts = await Promise.all(
-        locations.map((location) => getPropertyCountCache(assetType, location)),
+        locations.map((location) =>
+          getPropertyCountCache(assetType, location, params),
+        ),
       );
 
       // remove 0 counts

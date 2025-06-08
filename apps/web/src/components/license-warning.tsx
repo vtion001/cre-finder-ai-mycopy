@@ -1,18 +1,22 @@
-import { searchParamsCache } from "@/lib/nuqs/property-search-params";
+import { parsers, searchParamsCache } from "@/lib/nuqs/property-search-params";
 import { getPropertyCountCache } from "@/queries/cached";
 import { IconArrowLeft, IconMapPin, IconSearch } from "@tabler/icons-react";
 import { getAssetType } from "@v1/supabase/cached-queries";
 import { buttonVariants } from "@v1/ui/button";
 import { cn } from "@v1/ui/cn";
 import Link from "next/link";
+import { createSerializer } from "nuqs/server";
 import { Suspense } from "react";
 import { CheckoutLicenseButton } from "./checkout-license-button";
 
 export async function LicenseWarning({ unlicensed }: { unlicensed: string[] }) {
-  const assetType = searchParamsCache.get("asset_type");
-  const locations = searchParamsCache.get("locations");
+  const { asset_type, locations, params } = searchParamsCache.all();
 
-  const { data: assetTypeData } = await getAssetType(assetType!);
+  const serialize = createSerializer(parsers);
+
+  const serializedParams = serialize({ locations, asset_type, params });
+
+  const { data: assetTypeData } = await getAssetType(asset_type!);
 
   return (
     <div className="absolute inset-0 flex flex-col justify-center">
@@ -28,6 +32,13 @@ export async function LicenseWarning({ unlicensed }: { unlicensed: string[] }) {
         </p>
       </div>
 
+      {/* Show params */}
+      <div className="text-center space-y-3 mb-8 mx-auto max-w-xl">
+        <p className="text-sm text-muted-foreground leading-relaxed">
+          {JSON.stringify(params)}
+        </p>
+      </div>
+
       <div className="mx-auto w-full max-w-lg">
         {/* Location Preview List */}
         <div className="mb-8">
@@ -37,7 +48,7 @@ export async function LicenseWarning({ unlicensed }: { unlicensed: string[] }) {
         {/* Actions */}
         <div className="flex flex-col sm:flex-row sm:justify-center gap-3">
           <Link
-            href={`/dashboard/search?asset_type=${assetType}`}
+            href={`/dashboard/search${serializedParams}`}
             className={cn(
               buttonVariants({
                 variant: "ghost",
@@ -49,7 +60,10 @@ export async function LicenseWarning({ unlicensed }: { unlicensed: string[] }) {
             Refine Search
           </Link>
 
-          <CheckoutLicenseButton locations={locations} assetType={assetType!} />
+          <CheckoutLicenseButton
+            locations={locations}
+            assetType={asset_type!}
+          />
         </div>
       </div>
     </div>
@@ -57,15 +71,21 @@ export async function LicenseWarning({ unlicensed }: { unlicensed: string[] }) {
 }
 
 async function LocationSearchPreviewServer({
-  assetType,
   location,
 }: {
-  assetType: string;
   location: string;
 }) {
+  const assetType = searchParamsCache.get("asset_type");
+  const params = searchParamsCache.get("params");
+
+  if (!assetType || !params) {
+    return null;
+  }
+
   const { resultCount, formattedLocation } = await getPropertyCountCache(
     assetType,
     location,
+    params,
   );
 
   return (
@@ -90,10 +110,8 @@ async function LocationSearchPreviewServer({
 }
 
 function LocationSearchPreview({
-  assetType,
   location,
 }: {
-  assetType: string;
   location: string;
 }) {
   return (
@@ -108,7 +126,7 @@ function LocationSearchPreview({
         </div>
       }
     >
-      <LocationSearchPreviewServer assetType={assetType} location={location} />
+      <LocationSearchPreviewServer location={location} />
     </Suspense>
   );
 }
@@ -133,11 +151,7 @@ async function LocationSearchPreviewList({
         Unlicensed Locations ({locations.length})
       </div>
       {locations.map((location) => (
-        <LocationSearchPreview
-          key={location}
-          assetType={assetType}
-          location={location}
-        />
+        <LocationSearchPreview key={location} location={location} />
       ))}
     </div>
   );

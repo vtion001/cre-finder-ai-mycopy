@@ -2,9 +2,11 @@
 
 import type { propertySearchSchema } from "@/actions/schema";
 
+import { parseLocationCode } from "@/lib/format";
 import { parsers } from "@/lib/nuqs/property-search-params";
 import type { Tables } from "@v1/supabase/types";
-import { useQueryStates } from "nuqs";
+import { useRouter } from "next/navigation";
+import { createSerializer, useQueryStates } from "nuqs";
 import type { z } from "zod";
 import { PreviewSearchForm } from "./forms/preview-search-form";
 
@@ -15,17 +17,36 @@ interface PreviewSearchInterfaceProps {
 export function PreviewSearchInterface({
   assetTypes,
 }: PreviewSearchInterfaceProps) {
-  const [_, setState] = useQueryStates(parsers);
+  const [state, setState] = useQueryStates(parsers);
+
+  const router = useRouter();
 
   const handleSubmit = (values: z.infer<typeof propertySearchSchema>) => {
-    setState(
-      {
-        locations: values.locations.map((loc) => loc.internal_id),
-        asset_type: values.asset_type_slug,
-      },
-      { shallow: false },
-    );
+    const { locations, asset_type_slug, ...params } = values;
+
+    const serialize = createSerializer(parsers);
+    const serializedParams = serialize({
+      locations: locations.map((loc) => loc.internal_id),
+      asset_type: asset_type_slug,
+      params,
+    });
+
+    router.push(`/dashboard/search/checkout${serializedParams}`);
   };
+
+  const formattedLocations = state.locations?.map((loc) => {
+    const { city, county, state } = parseLocationCode(loc);
+    const name = city || county!;
+    const displayName = `${name}, ${state}`;
+
+    return {
+      type: county ? ("county" as const) : ("city" as const),
+      internal_id: loc,
+      state_code: state,
+      title: name,
+      display_name: displayName,
+    };
+  });
 
   return (
     <div className="w-full max-w-4xl mx-auto">
@@ -40,6 +61,11 @@ export function PreviewSearchInterface({
         assetTypes={assetTypes}
         onSubmit={handleSubmit}
         className="space-y-4"
+        defaultValues={{
+          locations: formattedLocations || [],
+          asset_type_slug: state.asset_type!,
+          ...state.params,
+        }}
       />
     </div>
   );
