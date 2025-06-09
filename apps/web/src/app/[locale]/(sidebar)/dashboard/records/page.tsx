@@ -1,9 +1,9 @@
+import { ErrorBoundary } from "@/components/error-boundary";
 import { PropertyMap } from "@/components/property-map";
 import { PropertySearchFilters } from "@/components/property-search-filters";
 import { searchParamsCache } from "@/lib/nuqs/property-search-params";
 import type { GetPropertySearchParams } from "@v1/property-data/types";
 import {
-  getAssetType,
   getAssetTypeLicenses,
   getPropertyRecords,
 } from "@v1/supabase/cached-queries";
@@ -12,6 +12,7 @@ import { ScrollArea, ScrollBar } from "@v1/ui/scroll-area";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import type { SearchParams } from "nuqs";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Records - CRE Finder AI",
@@ -60,21 +61,23 @@ export default async function Page({
 
   return (
     <div className="p-4 space-y-6 ">
-      <PropertySearchFilters
-        licenses={licenses || []}
-        assetType={asset_type}
-        assetTypeName={assetLicense.asset_types.name}
-        searchParams={
-          assetLicense.search_params as unknown as GetPropertySearchParams
-        }
-      />
+      <ErrorBoundary>
+        <PropertySearchFilters
+          licenses={licenses || []}
+          assetType={asset_type}
+          assetTypeName={assetLicense.asset_types.name}
+          searchParams={
+            assetLicense.search_params as unknown as GetPropertySearchParams
+          }
+        />
+      </ErrorBoundary>
 
       <div
         className={`grid gap-6 ${map ? "lg:grid-cols-[1fr,480px]" : "grid-cols-1"}`}
       >
         <ScrollArea
           hideScrollbar
-          className="h-[calc(100vh-7rem)] w-full rounded-md border overflow-y-hidden"
+          className="h-[calc(100vh-7rem)] w-full rounded-md border"
         >
           {records?.length ? (
             <div className="space-y-0">
@@ -114,7 +117,26 @@ export default async function Page({
 
         {map && (
           <div className="lg:sticky lg:top-6 lg:h-fit">
-            <PropertyMap records={[]} className="h-[calc(100vh-7rem)]" />
+            <ErrorBoundary
+              fallback={
+                <div className="h-[calc(100vh-7rem)] bg-muted rounded-lg flex items-center justify-center">
+                  <p className="text-muted-foreground">
+                    Map temporarily unavailable
+                  </p>
+                </div>
+              }
+            >
+              <Suspense
+                fallback={
+                  <div className="h-[calc(100vh-7rem)] bg-muted rounded-lg animate-pulse" />
+                }
+              >
+                <PropertyMap
+                  records={records || []}
+                  className="h-[calc(100vh-7rem)]"
+                />
+              </Suspense>
+            </ErrorBoundary>
           </div>
         )}
       </div>
