@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 
-import { IconDownload } from "@tabler/icons-react";
 import type { Tables } from "@v1/supabase/types";
 import { Button } from "@v1/ui/button";
 import { format, isValid, parse } from "date-fns";

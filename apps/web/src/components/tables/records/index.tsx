@@ -4,7 +4,7 @@ import { ScrollArea, ScrollBar } from "@v1/ui/scroll-area";
 import { Suspense } from "react";
 import { DataTable } from "./data-table";
 import { DataTablePagination } from "./data-table-pagination";
-import { DataTableServer } from "./data-table.server";
+
 import { EmptyState, NoResults } from "./empty-states";
 import { Loading } from "./loading";
 
@@ -27,7 +27,7 @@ export async function Table({ assetLicenseId, locationCodes, sort }: Props) {
     map,
   } = searchParamsCache.all();
 
-  const hasFilters = true;
+  const hasFilters = locations.length > 1;
 
   // Convert 1-based page to 0-based for Supabase range
   const from = (page - 1) * per_page;
@@ -59,14 +59,7 @@ export async function Table({ assetLicenseId, locationCodes, sort }: Props) {
       <div className="flex-1 min-h-0">
         <ScrollArea hideScrollbar className="h-full rounded-md border">
           <Suspense fallback={<Loading />} key={loadingKey}>
-            <DataTableServer
-              assetLicenseId={assetLicenseId}
-              locationCodes={locationCodes}
-              page={page}
-              per_page={per_page}
-              sort={sort}
-              query={query}
-            />
+            <DataTable data={data} />
           </Suspense>
           <ScrollBar orientation="horizontal" />
         </ScrollArea>
