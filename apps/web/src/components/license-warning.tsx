@@ -400,7 +400,7 @@ async function LocationSearchPreviewList({
   return (
     <div className="space-y-2 max-h-64 overflow-y-auto">
       <div className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-3 px-1">
-        Unlicensed Locations ({locations.length})
+        Preview Results
       </div>
       {locations.map((location) => (
         <LocationSearchPreview key={location} location={location} />
