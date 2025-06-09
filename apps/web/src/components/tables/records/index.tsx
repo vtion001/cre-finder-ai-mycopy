@@ -8,16 +8,18 @@ type Props = {
   sort?: [string, "asc" | "desc"];
   query?: string | null;
   assetLicenseId: string;
+  locationCodes: string[];
 };
 
 export async function Table({
   assetLicenseId,
+  locationCodes,
   page,
   per_page,
   sort,
   query,
 }: Props) {
-  const hasFilters = false;
+  const hasFilters = true;
 
   // Convert 1-based page to 0-based for Supabase range
   const from = (page - 1) * per_page;
@@ -25,6 +27,7 @@ export async function Table({
 
   const { data, meta } = await getPropertyRecords({
     assetLicenseId,
+    locationCodes,
     from,
     to,
     sort,

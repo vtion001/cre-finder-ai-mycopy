@@ -68,7 +68,7 @@ export default async function Page({
   ];
 
   const loadingKey = JSON.stringify({
-    assetLicenseId: assetLicense.id,
+    locations,
     page,
     per_page,
     sort,
@@ -95,6 +95,7 @@ export default async function Page({
           <Suspense fallback={<Loading />} key={loadingKey}>
             <Table
               assetLicenseId={assetLicense.id}
+              locationCodes={locations || []}
               sort={sort}
               page={page}
               per_page={per_page}
@@ -103,7 +104,10 @@ export default async function Page({
           </Suspense>
         </div>
 
-        <PropertyMapServer assetLicenseId={assetLicense.id} />
+        <PropertyMapServer
+          assetLicenseId={assetLicense.id}
+          locationCodes={locations || []}
+        />
       </div>
     </div>
   );

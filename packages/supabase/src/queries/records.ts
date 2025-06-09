@@ -2,6 +2,7 @@ import type { Client } from "../types";
 
 export type GetPropertyRecordsParams = {
   assetLicenseId: string;
+  locationCodes: string[];
   to: number;
   from: number;
   sort?: [string, "asc" | "desc"];
@@ -13,21 +14,28 @@ export type GetPropertyRecordsParams = {
 
 export async function getPropertyRecordsQuery(
   supabase: Client,
-  { assetLicenseId, to, from, sort, searchQuery }: GetPropertyRecordsParams,
-) {
-  console.log("Query params:", {
+  {
     assetLicenseId,
+    locationCodes,
     to,
     from,
     sort,
     searchQuery,
-  });
-
+  }: GetPropertyRecordsParams,
+) {
   const query = supabase
     .from("property_records")
-    .select("*", { count: "exact" })
+    .select(
+      `
+      *,
+      location_licenses!inner (
+        location_internal_id
+      )
+    `,
+      { count: "exact" },
+    )
     .eq("asset_license_id", assetLicenseId)
-    .order("created_at", { ascending: false });
+    .in("location_licenses.location_internal_id", locationCodes);
 
   if (sort) {
     const [column, value] = sort;

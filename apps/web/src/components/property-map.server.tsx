@@ -6,11 +6,13 @@ import { PropertyMap } from "./property-map";
 
 export async function PropertyMapServer({
   assetLicenseId,
-}: { assetLicenseId: string }) {
+  locationCodes,
+}: { assetLicenseId: string; locationCodes: string[] }) {
   const map = searchParamsCache.get("map");
 
   const { data: records } = await getPropertyRecords({
     assetLicenseId,
+    locationCodes,
     to: 100,
     from: 0,
   });

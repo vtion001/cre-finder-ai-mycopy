@@ -39,6 +39,7 @@ export async function POST(req: Request) {
   }
 
   for (const cacheTag of cacheTags[tag]) {
+    console.log(`Revalidating tag: ${cacheTag}_${id}`);
     revalidateTag(`${cacheTag}_${id}`);
   }
 
