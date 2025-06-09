@@ -10,7 +10,7 @@ import { AddLocationsDialog } from "./add-locations-dialog";
 interface AddLocationsButtonProps {
   assetType: string;
   assetTypeName: string;
-  existingLicenses: Tables<"user_licenses">[];
+  existingLicenses: Tables<"location_licenses">[];
 }
 
 export function AddLocationsButton({

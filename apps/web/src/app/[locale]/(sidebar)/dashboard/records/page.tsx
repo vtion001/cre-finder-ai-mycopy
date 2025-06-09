@@ -35,22 +35,13 @@ export default async function Page({
     return notFound();
   }
 
-  const { data: licenses } = await getAssetTypeLicenses(asset_type);
+  const { data, meta } = await getAssetTypeLicenses(asset_type);
 
-  const supabase = createClient();
-
-  const { data: assetLicense } = await supabase
-    .from("asset_licenses")
-    .select("*, asset_types!inner(*)")
-    .eq("asset_type_slug", asset_type)
-    .eq("is_active", true)
-    .single();
-
-  if (!licenses.length || !assetLicense) {
+  if (!data || !meta.assetType || !meta.locations) {
     return notFound();
   }
 
-  const availableLocations = licenses.map(
+  const availableLocations = meta.locations.map(
     (license) => license.location_internal_id,
   );
 
@@ -71,11 +62,11 @@ export default async function Page({
     <div className="p-4 space-y-6 ">
       <ErrorBoundary>
         <PropertySearchFilters
-          licenses={licenses || []}
+          licenses={meta.locations || []}
           assetType={asset_type}
-          assetTypeName={assetLicense.asset_types.name}
+          assetTypeName={meta.assetType.name}
           searchParams={
-            assetLicense.search_params as unknown as GetPropertySearchParams
+            data.search_params as unknown as GetPropertySearchParams
           }
         />
       </ErrorBoundary>
@@ -85,8 +76,8 @@ export default async function Page({
       >
         <div className="h-[calc(100vh-7rem)] w-full overflow-hidden">
           <Table
-            assetTypeName={assetLicense.asset_types.name}
-            assetLicenseId={assetLicense.id}
+            assetTypeName={meta.assetType.name}
+            assetLicenseId={data.id}
             locationCodes={locations || []}
             sort={sort}
             page={page}
@@ -96,7 +87,7 @@ export default async function Page({
         </div>
 
         <PropertyMapServer
-          assetLicenseId={assetLicense.id}
+          assetLicenseId={data.id}
           locationCodes={locations || []}
         />
       </div>

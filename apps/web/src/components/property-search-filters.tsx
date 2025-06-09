@@ -11,7 +11,7 @@ import { LicenseFiltersInfo } from "./license-filters-info";
 import { LicensesCombobox } from "./licenses-combobox";
 
 interface PropertySearchFiltersProps {
-  licenses: Tables<"user_licenses">[];
+  licenses: Tables<"location_licenses">[];
   assetType: string;
   assetTypeName: string;
   searchParams: GetPropertySearchParams | null;

@@ -24,7 +24,7 @@ import { useState } from "react";
 interface LicensesComboboxProps {
   value?: string[];
   onValueChange: (internalIds: string[]) => void;
-  licenses: Tables<"user_licenses">[];
+  licenses: Tables<"location_licenses">[];
   placeholder?: string;
   className?: string;
 }
@@ -39,7 +39,7 @@ export function LicensesCombobox({
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
 
-  const handleSelect = (license: Tables<"user_licenses">) => {
+  const handleSelect = (license: Tables<"location_licenses">) => {
     const isSelected = value.includes(license.location_internal_id!);
     const newValue = isSelected
       ? value.filter((id) => id !== license.location_internal_id)
@@ -47,11 +47,11 @@ export function LicensesCombobox({
     onValueChange(newValue as string[]);
   };
 
-  const isSelected = (license: Tables<"user_licenses">) =>
+  const isSelected = (license: Tables<"location_licenses">) =>
     value.includes(license.location_internal_id!);
 
   const removeLicense = (
-    licenseToRemove: Tables<"user_licenses">,
+    licenseToRemove: Tables<"location_licenses">,
     e: React.MouseEvent,
   ) => {
     e.preventDefault();

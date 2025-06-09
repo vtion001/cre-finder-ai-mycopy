@@ -99,29 +99,6 @@ export const getSubscription = async () => {
   )();
 };
 
-export async function getUserLicenses(assetTypeSlug: string) {
-  const supabase = createClient();
-
-  const user = await getUser();
-
-  if (!user?.data) {
-    return { data: null };
-  }
-
-  const userId = user.data.id;
-
-  return unstable_cache(
-    async () => {
-      return getUserLicensesQuery(supabase, userId, assetTypeSlug);
-    },
-    ["user_licenses", userId, assetTypeSlug],
-    {
-      tags: [`licenses_${userId}`],
-      revalidate: 180,
-    },
-  )();
-}
-
 export async function getUserLicensesByAssetType() {
   const supabase = createClient();
 
