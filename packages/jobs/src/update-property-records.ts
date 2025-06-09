@@ -90,7 +90,12 @@ export const updatePropertyRecordsTask = schemaTask({
     }
 
     revalidateCache({
-      tag: "license",
+      tag: "licenses",
+      id: assetLicense.asset_type_slug,
+    });
+
+    revalidateCache({
+      tag: "property_records",
       id: assetLicense.id,
     });
 

@@ -4,12 +4,13 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 
 const schema = z.object({
-  tag: z.enum(["license"]),
+  tag: z.enum(["licenses"]),
   id: z.string(),
 });
 
 const cacheTags = {
-  license: ["license", "property_records"],
+  licenses: ["licenses"],
+  records: ["property_records"],
 } as const;
 
 export async function POST(req: Request) {
