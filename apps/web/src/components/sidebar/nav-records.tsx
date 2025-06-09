@@ -73,14 +73,19 @@ export function NavRecords({
                   asChild
                   size="lg"
                   className={cn(
-                    "group-data-[collapsible=icon]:!size-10 group-data-[collapsible=icon]:!w-full group-data-[collapsible=icon]:!p-0 group-data-[collapsible=icon]:!gap-0 group-data-[collapsible=icon]:!justify-center ",
+                    "group-data-[collapsible=icon]:!h-auto group-data-[collapsible=icon]:!w-full group-data-[collapsible=icon]:!p-1 group-data-[collapsible=icon]:!gap-1 group-data-[collapsible=icon]:!justify-center group-data-[collapsible=icon]:!flex-col",
                     isActive(path, item.asset_type_slug!) &&
                       "bg-primary/10 text-primary",
                   )}
                 >
-                  <Link href={href}>
-                    {Icon && <Icon className="!size-4" />}
-                    <span className="group-data-[collapsible=icon]:hidden">
+                  <Link
+                    href={href}
+                    className="group-data-[collapsible=icon]:flex group-data-[collapsible=icon]:flex-col group-data-[collapsible=icon]:items-center group-data-[collapsible=icon]:gap-1"
+                  >
+                    {Icon && (
+                      <Icon className="!size-4 group-data-[collapsible=icon]:!size-5" />
+                    )}
+                    <span className="group-data-[collapsible=icon]:text-[10px] group-data-[collapsible=icon]:leading-tight group-data-[collapsible=icon]:text-center group-data-[collapsible=icon]:font-medium group-data-[collapsible=icon]:max-w-full group-data-[collapsible=icon]:truncate">
                       {item.asset_type_name}
                     </span>
                   </Link>
@@ -119,6 +124,7 @@ export function NavRecords({
           })}
           <SidebarMenuItem>
             <SidebarMenuButton
+              tooltip="New search"
               asChild
               size="lg"
               className={cn(
