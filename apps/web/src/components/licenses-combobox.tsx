@@ -101,13 +101,23 @@ export function LicensesCombobox({
                     <span className="max-w-[120px] truncate">
                       {license.location_formatted}
                     </span>
-                    <button
-                      type="button"
+                    <div
+                      role="button"
+                      tabIndex={0}
                       onClick={(e) => removeLicense(license, e)}
-                      className="hover:bg-secondary-foreground/20 rounded-sm p-0.5"
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                          e.preventDefault();
+                          removeLicense(
+                            license,
+                            e as unknown as React.MouseEvent<HTMLDivElement>,
+                          );
+                        }
+                      }}
+                      className="hover:bg-secondary-foreground/20 rounded-sm p-0.5 cursor-pointer"
                     >
                       <X className="h-3 w-3" />
-                    </button>
+                    </div>
                   </div>
                 ))}
               </>
@@ -150,7 +160,7 @@ export function LicensesCombobox({
                       .map((license) => (
                         <CommandItem
                           key={license.location_internal_id}
-                          value={license.location_internal_id}
+                          value={license.location_internal_id || undefined}
                           onSelect={() => handleSelect(license)}
                           className={cn("flex items-center gap-2")}
                         >
@@ -180,7 +190,7 @@ export function LicensesCombobox({
                       .map((license) => (
                         <CommandItem
                           key={license.location_internal_id}
-                          value={license.location_internal_id}
+                          value={license.location_internal_id || undefined}
                           onSelect={() => handleSelect(license)}
                           className={cn("flex items-center gap-2")}
                         >
