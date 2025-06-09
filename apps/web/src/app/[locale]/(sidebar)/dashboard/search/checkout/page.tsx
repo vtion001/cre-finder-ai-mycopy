@@ -2,11 +2,7 @@ import { LicenseWarning } from "@/components/license-warning";
 import { PreviewSearchInterface } from "@/components/preview-search-interface";
 import { SearchLoading } from "@/components/search-loading";
 import { searchParamsCache } from "@/lib/nuqs/property-search-params";
-import {
-  getAssetTypes,
-  getUserLicenses,
-  getUserLicensesByAssetType,
-} from "@v1/supabase/cached-queries";
+import { getAssetTypeLicenses } from "@v1/supabase/cached-queries";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import type { SearchParams } from "nuqs";
@@ -27,7 +23,9 @@ export default async function Page({
     return notFound();
   }
 
-  const { data: licensedLocations } = await getUserLicenses(asset_type);
+  const { meta } = await getAssetTypeLicenses(asset_type);
+
+  const licensedLocations = meta?.locations;
 
   const ids = licensedLocations?.map((loc) => loc.location_internal_id) || [];
   const unlicensedLocations = locations.filter((loc) => !ids.includes(loc));
@@ -40,14 +38,7 @@ export default async function Page({
           <LicenseWarning unlicensed={unlicensedLocations} />
           <SearchLoading isEmpty />
         </div>
-      ) : (
-        <div className="text-center py-8">
-          <p className="text-muted-foreground">
-            All selected locations are licensed. Search functionality would
-            continue here.
-          </p>
-        </div>
-      )}
+      ) : null}
     </div>
   );
 }
