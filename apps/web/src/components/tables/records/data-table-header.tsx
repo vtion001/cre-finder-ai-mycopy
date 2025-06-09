@@ -4,7 +4,7 @@ import type { Table } from "@tanstack/react-table";
 import { Button } from "@v1/ui/button";
 import { Checkbox } from "@v1/ui/checkbox";
 import { TableHead, TableHeader, TableRow } from "@v1/ui/table";
-import { ArrowDown, ArrowUp } from "lucide-react";
+import { ArrowDown, ArrowUp, ChevronDown } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useQueryState } from "nuqs";
 import { useCallback } from "react";
@@ -143,22 +143,27 @@ export function DataTableHeader<TData>({ table, loading }: Props<TData>) {
     [searchParams, router, pathname],
   );
 
-  // const isVisible = (id: string) =>
-  //   loading ||
-  //   table
-  //     ?.getAllLeafColumns()
-  //     .find((col) => col.id === id)
-  //     ?.getIsVisible();
-
-  const isVisible = (id: string) => true;
+  const isVisible = (id: string) =>
+    loading ||
+    table
+      ?.getAllLeafColumns()
+      .find((col) => col.id === id)
+      ?.getIsVisible();
 
   const renderSortButton = (config: ColumnConfig) => (
     <Button
-      className="p-0 hover:bg-transparent space-x-2"
+      className="pl-1.5 group space-x-2 w-full justify-between"
       variant="ghost"
       onClick={() => createSortQuery(config.sortKey!)}
     >
       <span>{config.label}</span>
+
+      {config.sortKey !== column && (
+        <ArrowDown
+          className="transition-opacity opacity-0 group-hover:opacity-60"
+          size={16}
+        />
+      )}
       {config.sortKey === column && value === "asc" && <ArrowDown size={16} />}
       {config.sortKey === column && value === "desc" && <ArrowUp size={16} />}
     </Button>
