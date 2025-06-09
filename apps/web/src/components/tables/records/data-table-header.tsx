@@ -1,9 +1,9 @@
 "use client";
 
+import type { Table } from "@tanstack/react-table";
 import { Button } from "@v1/ui/button";
 import { Checkbox } from "@v1/ui/checkbox";
 import { TableHead, TableHeader, TableRow } from "@v1/ui/table";
-import type { Table } from "@tanstack/react-table";
 import { ArrowDown, ArrowUp } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useQueryState } from "nuqs";
@@ -23,21 +23,99 @@ type ColumnConfig = {
 };
 
 const COLUMNS: ColumnConfig[] = [
-  { id: "property_id", label: "Property ID", sortKey: "property_id", className: "min-w-[140px]" },
-  { id: "address", label: "Address", sortKey: "address", className: "w-[200px] md:w-[350px]" },
-  { id: "owner1_last_name", label: "Owner", sortKey: "owner1_last_name", className: "min-w-[150px]" },
-  { id: "property_type", label: "Type", sortKey: "property_type", className: "min-w-[120px]" },
-  { id: "square_feet", label: "Sq Ft", sortKey: "square_feet", className: "min-w-[100px]" },
-  { id: "assessed_value", label: "Assessed Value", sortKey: "assessed_value", className: "min-w-[140px]" },
-  { id: "estimated_value", label: "Est. Value", sortKey: "estimated_value", className: "min-w-[140px]" },
-  { id: "bedrooms", label: "Beds", sortKey: "bedrooms", className: "min-w-[80px]", responsive: true },
-  { id: "bathrooms", label: "Baths", sortKey: "bathrooms", className: "min-w-[80px]", responsive: true },
-  { id: "last_sale_amount", label: "Last Sale", sortKey: "last_sale_amount", className: "min-w-[120px]", responsive: true },
-  { id: "last_sale_date", label: "Sale Date", sortKey: "last_sale_date", className: "min-w-[120px]", responsive: true },
-  { id: "year_built", label: "Year Built", sortKey: "year_built", className: "min-w-[100px]", responsive: true },
-  { id: "vacant", label: "Vacant", sortKey: "vacant", className: "min-w-[80px]", responsive: true },
-  { id: "high_equity", label: "High Equity", sortKey: "high_equity", className: "min-w-[100px]", responsive: true },
-  { id: "mls_status", label: "MLS Status", sortKey: "mls_status", className: "min-w-[120px]", responsive: true },
+  // { id: "property_id", label: "Property ID", sortKey: "property_id", className: "min-w-[140px]" },
+  {
+    id: "address",
+    label: "Address",
+    sortKey: "address",
+    className: "w-[200px] md:w-[350px]",
+  },
+  {
+    id: "owner1_last_name",
+    label: "Owner",
+    sortKey: "owner1_last_name",
+    className: "min-w-[150px]",
+  },
+  {
+    id: "property_type",
+    label: "Type",
+    sortKey: "property_type",
+    className: "min-w-[120px]",
+  },
+  {
+    id: "square_feet",
+    label: "Sq Ft",
+    sortKey: "square_feet",
+    className: "min-w-[100px]",
+  },
+  {
+    id: "assessed_value",
+    label: "Assessed Value",
+    sortKey: "assessed_value",
+    className: "min-w-[140px]",
+  },
+  {
+    id: "estimated_value",
+    label: "Est. Value",
+    sortKey: "estimated_value",
+    className: "min-w-[140px]",
+  },
+  {
+    id: "bedrooms",
+    label: "Beds",
+    sortKey: "bedrooms",
+    className: "min-w-[80px]",
+    responsive: true,
+  },
+  {
+    id: "bathrooms",
+    label: "Baths",
+    sortKey: "bathrooms",
+    className: "min-w-[80px]",
+    responsive: true,
+  },
+  {
+    id: "last_sale_amount",
+    label: "Last Sale",
+    sortKey: "last_sale_amount",
+    className: "min-w-[120px]",
+    responsive: true,
+  },
+  {
+    id: "last_sale_date",
+    label: "Sale Date",
+    sortKey: "last_sale_date",
+    className: "min-w-[120px]",
+    responsive: true,
+  },
+  {
+    id: "year_built",
+    label: "Year Built",
+    sortKey: "year_built",
+    className: "min-w-[100px]",
+    responsive: true,
+  },
+  {
+    id: "vacant",
+    label: "Vacant",
+    sortKey: "vacant",
+    className: "min-w-[80px]",
+    responsive: true,
+  },
+  {
+    id: "high_equity",
+    label: "High Equity",
+    sortKey: "high_equity",
+    className: "min-w-[100px]",
+    responsive: true,
+  },
+  {
+    id: "mls_status",
+    label: "MLS Status",
+    sortKey: "mls_status",
+    className: "min-w-[120px]",
+    responsive: true,
+  },
 ];
 
 export function DataTableHeader<TData>({ table, loading }: Props<TData>) {
@@ -101,17 +179,22 @@ export function DataTableHeader<TData>({ table, loading }: Props<TData>) {
           />
         </TableHead>
 
-        {COLUMNS.map((config) => 
-          isVisible(config.id) && (
-            <TableHead 
-              key={config.id}
-              className={`px-3 md:px-4 py-2 ${config.className || ""} ${
-                config.responsive ? "hidden md:table-cell" : ""
-              }`}
-            >
-              {config.sortKey ? renderSortButton(config) : <span>{config.label}</span>}
-            </TableHead>
-          )
+        {COLUMNS.map(
+          (config) =>
+            isVisible(config.id) && (
+              <TableHead
+                key={config.id}
+                className={`px-3 md:px-4 py-2 ${config.className || ""} ${
+                  config.responsive ? "hidden md:table-cell" : ""
+                }`}
+              >
+                {config.sortKey ? (
+                  renderSortButton(config)
+                ) : (
+                  <span>{config.label}</span>
+                )}
+              </TableHead>
+            ),
         )}
       </TableRow>
     </TableHeader>

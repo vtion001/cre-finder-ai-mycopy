@@ -60,9 +60,9 @@ export function DataTableRow({ row, isSelected, onSelect }: DataTableRowProps) {
       </DataTableCell>
 
       {/* Property ID */}
-      <DataTableCell className="px-3 md:px-4 py-2">
+      {/* <DataTableCell className="px-3 md:px-4 py-2">
         <span className="font-mono text-sm">{row.property_id}</span>
-      </DataTableCell>
+      </DataTableCell> */}
 
       {/* Address */}
       <DataTableCell className="px-3 md:px-4 py-2">
