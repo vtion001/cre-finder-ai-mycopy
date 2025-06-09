@@ -73,7 +73,7 @@ export function NavRecords({
                   asChild
                   size="lg"
                   className={cn(
-                    "group-data-[collapsible=icon]:!h-auto group-data-[collapsible=icon]:!w-full group-data-[collapsible=icon]:!px-1 group-data-[collapsible=icon]:!py- group-data-[collapsible=icon]:!gap-1 group-data-[collapsible=icon]:!justify-center group-data-[collapsible=icon]:!flex-col",
+                    "group-data-[collapsible=icon]:!w-full group-data-[collapsible=icon]:!px-1 group-data-[collapsible=icon]:!h-14 group-data-[collapsible=icon]:!gap-1 group-data-[collapsible=icon]:!justify-center group-data-[collapsible=icon]:!flex-col",
                     isActive(path, item.asset_type_slug!) &&
                       "bg-primary/10 text-primary",
                   )}
@@ -128,7 +128,7 @@ export function NavRecords({
               asChild
               size="lg"
               className={cn(
-                "text-sidebar-foreground/70 group-data-[collapsible=icon]:!size-10 group-data-[collapsible=icon]:!w-full group-data-[collapsible=icon]:!px-0 group-data-[collapsible=icon]:!py-2 group-data-[collapsible=icon]:!gap-0 group-data-[collapsible=icon]:!justify-center",
+                "text-sidebar-foreground/70 group-data-[collapsible=icon]:!size-10 group-data-[collapsible=icon]:!w-full group-data-[collapsible=icon]:!px-0 group-data-[collapsible=icon]:!h-14 group-data-[collapsible=icon]:!gap-0 group-data-[collapsible=icon]:!justify-center",
                 isActive("/dashboard/search") && "bg-primary/10 text-primary",
               )}
             >
