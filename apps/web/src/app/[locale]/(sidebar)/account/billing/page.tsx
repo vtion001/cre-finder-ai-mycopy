@@ -1,12 +1,12 @@
 import { LicensesOverview } from "@/components/licenses-overview";
-import { getUserLicensesWithDetails } from "@v1/supabase/cached-queries";
+import { getAllLicenses } from "@v1/supabase/cached-queries";
 
 export const metadata = {
   title: "Billing | Orben",
 };
 
 export default async function Page() {
-  const { data: licenses } = await getUserLicensesWithDetails();
+  const { data } = await getAllLicenses();
 
   return (
     <>

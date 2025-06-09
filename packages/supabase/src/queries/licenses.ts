@@ -69,10 +69,7 @@ export async function getUserLicensesByAssetTypeQuery(
 }
 
 // Get detailed user licenses with asset type information and location details
-export async function getUserLicensesWithDetailsQuery(
-  supabase: Client,
-  userId: string,
-) {
+export async function getAllLicensesQuery(supabase: Client, userId: string) {
   const { data, error } = await supabase
     .from("asset_licenses")
     .select(`
@@ -109,24 +106,6 @@ export async function getUserLicensesWithDetailsQuery(
     throw new Error(
       `Failed to get user licenses with details: ${error.message}`,
     );
-  }
-
-  return { data, error };
-}
-
-export async function getLicenseDetailsQuery(
-  supabase: Client,
-  asset_type_slug: string,
-) {
-  const { data, error } = await supabase
-    .from("asset_licenses")
-    .select("*")
-    .eq("asset_type_slug", asset_type_slug)
-    .eq("is_active", true)
-    .single();
-
-  if (error) {
-    throw new Error(`Failed to get license details: ${error.message}`);
   }
 
   return { data, error };

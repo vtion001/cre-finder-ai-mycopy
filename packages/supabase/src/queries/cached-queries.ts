@@ -11,10 +11,9 @@ import {
 } from ".";
 import { createClient } from "../clients/server";
 import {
+  getAllLicensesQuery,
   getAssetTypeLicensesQuery,
   getUserLicensesByAssetTypeQuery,
-  getUserLicensesQuery,
-  getUserLicensesWithDetailsQuery,
 } from "./licenses";
 import { getSubscriptionQuery } from "./stripe";
 
@@ -122,7 +121,7 @@ export async function getUserLicensesByAssetType() {
   )();
 }
 
-export async function getUserLicensesWithDetails() {
+export async function getAllLicenses() {
   const supabase = createClient();
 
   const user = await getUser();
@@ -135,7 +134,7 @@ export async function getUserLicensesWithDetails() {
 
   return unstable_cache(
     async () => {
-      return getUserLicensesWithDetailsQuery(supabase, userId);
+      return getAllLicensesQuery(supabase, userId);
     },
     ["licenses", userId],
     {
