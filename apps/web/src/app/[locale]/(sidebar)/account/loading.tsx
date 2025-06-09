@@ -1,115 +1,79 @@
 import { SiteHeader } from "@/components/site-header";
-import { Skeleton } from "@v1/ui/skeleton";
-import { Card, CardContent, CardHeader, CardTitle } from "@v1/ui/card";
 import { Separator } from "@v1/ui/separator";
+import { Skeleton } from "@v1/ui/skeleton";
 
 export default function AccountLoading() {
   return (
     <>
       <SiteHeader title="Account Settings" />
-      <div className="space-y-6 p-6 pb-16">
-        <div>
-          <Skeleton className="h-4 w-80" />
-        </div>
-        <Separator />
-
-        {/* Account Settings Grid */}
-        <div className="grid gap-8 md:grid-cols-2">
-          {/* Profile Information Card */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Profile Information</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              {/* Name Form */}
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <Skeleton className="h-4 w-16" />
-                  <Skeleton className="h-10 w-full" />
-                </div>
-                <Skeleton className="h-9 w-20" />
-              </div>
-
-              <Separator />
-
-              {/* Email Form */}
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <Skeleton className="h-4 w-12" />
-                  <Skeleton className="h-10 w-full" />
-                </div>
-                <Skeleton className="h-9 w-20" />
-              </div>
-
-              <Separator />
-
-              {/* Phone Form */}
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <Skeleton className="h-4 w-20" />
-                  <Skeleton className="h-10 w-full" />
-                </div>
-                <Skeleton className="h-9 w-20" />
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Security & Preferences Card */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Security & Preferences</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              {/* Password Section */}
-              <div className="space-y-4">
-                <div className="flex items-center gap-2">
-                  <Skeleton className="h-5 w-5" />
-                  <Skeleton className="h-5 w-20" />
-                </div>
+      <div className="p-6 pb-16">
+        {/* Account Settings */}
+        <div className="grid gap-8 lg:grid-cols-2">
+          {/* Profile Information Section */}
+          <div className="space-y-8">
+            <div className="flex items-center gap-3">
+              <Skeleton className="h-9 w-9 rounded-lg" />
+              <div className="space-y-2">
+                <Skeleton className="h-6 w-40" />
                 <Skeleton className="h-4 w-64" />
-                <Skeleton className="h-9 w-32" />
               </div>
+            </div>
 
-              <Separator />
-
-              {/* Locations Section */}
-              <div className="space-y-4">
-                <Skeleton className="h-5 w-24" />
-                <div className="space-y-2">
-                  {Array(3)
-                    .fill(0)
-                    .map((_, i) => (
-                      <div
-                        key={i}
-                        className="flex items-center justify-between p-3 border rounded-lg"
-                      >
-                        <div className="space-y-1">
-                          <Skeleton className="h-4 w-32" />
-                          <Skeleton className="h-3 w-16" />
-                        </div>
-                        <Skeleton className="h-8 w-8" />
-                      </div>
-                    ))}
-                </div>
-                <Skeleton className="h-9 w-28" />
-              </div>
-
-              <Separator />
-
-              {/* Asset Types Section */}
+            <div className="space-y-8">
+              {/* Name Section */}
               <div className="space-y-4">
                 <Skeleton className="h-5 w-20" />
-                <div className="flex flex-wrap gap-2">
-                  {Array(4)
-                    .fill(0)
-                    .map((_, i) => (
-                      <Skeleton key={i} className="h-6 w-20 rounded-full" />
-                    ))}
+                <div className="flex gap-4">
+                  <Skeleton className="h-12 flex-1" />
+                  <Skeleton className="h-12 w-20" />
                 </div>
-                <Skeleton className="h-9 w-32" />
+                <Skeleton className="h-3 w-64" />
               </div>
-            </CardContent>
-          </Card>
+
+              <Separator />
+
+              {/* Email Section */}
+              <div className="space-y-4">
+                <Skeleton className="h-5 w-24" />
+                <div className="flex gap-4">
+                  <Skeleton className="h-12 flex-1" />
+                  <Skeleton className="h-12 w-20" />
+                </div>
+                <Skeleton className="h-3 w-72" />
+              </div>
+
+              <Separator />
+
+              {/* Phone Section */}
+              <div className="space-y-4">
+                <Skeleton className="h-5 w-28" />
+                <div className="flex gap-4">
+                  <Skeleton className="h-12 flex-1" />
+                  <Skeleton className="h-12 w-20" />
+                </div>
+                <Skeleton className="h-3 w-80" />
+              </div>
+            </div>
+          </div>
+
+          {/* Security Section */}
+          <div className="space-y-8">
+            <div className="flex items-center gap-3">
+              <Skeleton className="h-9 w-9 rounded-lg" />
+              <div className="space-y-2">
+                <Skeleton className="h-6 w-20" />
+                <Skeleton className="h-4 w-56" />
+              </div>
+            </div>
+
+            <div className="space-y-6">
+              <div className="space-y-4">
+                <Skeleton className="h-5 w-16" />
+                <Skeleton className="h-4 w-96" />
+                <Skeleton className="h-12 w-40" />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </>

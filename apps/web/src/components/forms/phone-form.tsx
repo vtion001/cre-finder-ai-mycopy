@@ -63,30 +63,38 @@ export function PhoneForm({ user }: { user: Tables<"users"> }) {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        <FormField
-          control={form.control}
-          name="phone"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Phone Number</FormLabel>
-              <FormControl>
-                <PhoneInput
-                  value={field.value}
-                  onValueChange={(value) => form.setValue(field.name, value)}
-                />
-              </FormControl>
-              <FormDescription>
-                We'll use this number for account verification and important
-                notifications.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit" disabled={isLoading || !form.formState.isDirty}>
-          {isLoading ? "Updating phone..." : "Update phone"}
-        </Button>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <div className="flex gap-4">
+          <FormField
+            control={form.control}
+            name="phone"
+            render={({ field }) => (
+              <FormItem className="flex-1">
+                <FormControl>
+                  <PhoneInput
+                    value={field.value}
+                    onValueChange={(value) => form.setValue(field.name, value)}
+                    placeholder="Phone number"
+                    className="h-12 text-base"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button
+            type="submit"
+            size="lg"
+            className="h-12 text-base px-6"
+            disabled={isLoading || !form.formState.isDirty}
+          >
+            {isLoading ? "Saving..." : "Save"}
+          </Button>
+        </div>
+        <p className="text-xs text-muted-foreground">
+          We'll use this number for account verification and important
+          notifications.
+        </p>
       </form>
     </Form>
   );

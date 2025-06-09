@@ -56,26 +56,37 @@ export function EmailForm({ user }: { user: Tables<"users"> }) {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email Address</FormLabel>
-              <FormControl>
-                <Input placeholder="Your email address" {...field} />
-              </FormControl>
-              <FormDescription>
-                We'll use this email to contact you and for login.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit" disabled={isLoading || !form.formState.isDirty}>
-          {isLoading ? "Updating email..." : "Update email"}
-        </Button>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <div className="flex gap-4">
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem className="flex-1">
+                <FormControl>
+                  <Input
+                    placeholder="Email address"
+                    type="email"
+                    className="h-12 text-base"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button
+            type="submit"
+            size="lg"
+            className="h-12 text-base px-6"
+            disabled={isLoading || !form.formState.isDirty}
+          >
+            {isLoading ? "Saving..." : "Save"}
+          </Button>
+        </div>
+        <p className="text-xs text-muted-foreground">
+          We'll use this email to contact you and for login.
+        </p>
       </form>
     </Form>
   );

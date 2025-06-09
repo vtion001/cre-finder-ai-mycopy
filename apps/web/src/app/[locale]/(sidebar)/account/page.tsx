@@ -1,7 +1,6 @@
 import { AccountSettings } from "@/components/account-settings";
 import { SiteHeader } from "@/components/site-header";
 import { getUser } from "@v1/supabase/cached-queries";
-import { Separator } from "@v1/ui/separator";
 import type { Metadata } from "next";
 
 import { redirect } from "next/navigation";
@@ -21,13 +20,7 @@ export default async function Account() {
   return (
     <>
       <SiteHeader title="Account Settings" />
-      <div className="space-y-6 p-6 pb-16">
-        <div>
-          <p className="text-muted-foreground">
-            Manage your account settings and set your email preferences.
-          </p>
-        </div>
-        <Separator />
+      <div className="p-6 pb-16">
         <AccountSettings user={cachedUser.data} />
       </div>
     </>
