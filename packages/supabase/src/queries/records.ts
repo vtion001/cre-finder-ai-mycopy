@@ -2,12 +2,12 @@ import type { Client } from "../types";
 
 export async function getPropertyRecordsQuery(
   supabase: Client,
-  userId: string,
+  assetLicenseId: string,
 ) {
   const { data, error } = await supabase
     .from("property_records")
     .select("*")
-    .eq("user_id", userId)
+    .eq("asset_license_id", assetLicenseId)
     .order("created_at", { ascending: false });
 
   if (error) {

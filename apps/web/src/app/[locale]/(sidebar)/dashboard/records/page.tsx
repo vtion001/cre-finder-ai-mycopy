@@ -5,6 +5,7 @@ import type { GetPropertySearchParams } from "@v1/property-data/types";
 import {
   getAssetType,
   getAssetTypeLicenses,
+  getPropertyRecords,
 } from "@v1/supabase/cached-queries";
 import { createClient } from "@v1/supabase/server";
 import { ScrollArea, ScrollBar } from "@v1/ui/scroll-area";
@@ -55,6 +56,8 @@ export default async function Page({
     return notFound();
   }
 
+  const { data: records } = await getPropertyRecords(assetLicense.id);
+
   return (
     <div className="p-4 sm:p-6 pb-16 space-y-6 h-screen overflow-hidden">
       <PropertySearchFilters
@@ -67,7 +70,7 @@ export default async function Page({
       />
 
       <div
-        className={`grid gap-6 ${map ? "lg:grid-cols-[1fr,480px]" : "grid-cols-1"}`}
+        className={`overflow-hidden grid gap-6 ${map ? "lg:grid-cols-[1fr,480px]" : "grid-cols-1"}`}
       >
         <div className="min-w-0">
           <ScrollArea

@@ -1,6 +1,11 @@
 import { unstable_cache } from "next/cache";
 import { cache } from "react";
-import { getAssetTypeQuery, getAssetTypesQuery, getUserQuery } from ".";
+import {
+  getAssetTypeQuery,
+  getAssetTypesQuery,
+  getPropertyRecordsQuery,
+  getUserQuery,
+} from ".";
 import { createClient } from "../clients/server";
 import {
   getAssetTypeLicensesQuery,
@@ -170,6 +175,21 @@ export async function getAssetTypeLicenses(assetTypeSlug: string) {
     ["licenses", assetTypeSlug],
     {
       tags: [`licenses_${assetTypeSlug}`],
+      revalidate: 180,
+    },
+  )();
+}
+
+export async function getPropertyRecords(assetTypeSlug: string) {
+  const supabase = createClient();
+
+  return unstable_cache(
+    async () => {
+      return getPropertyRecordsQuery(supabase, assetTypeSlug);
+    },
+    ["license_details", assetTypeSlug],
+    {
+      tags: [`license_details_${assetTypeSlug}`],
       revalidate: 180,
     },
   )();

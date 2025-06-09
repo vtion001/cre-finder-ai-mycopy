@@ -1,6 +1,6 @@
 import type { Json } from "@v1/supabase/types";
-import type { GooglePlaceResult } from "./google-places";
-import type { PropertySearchResult } from "./realestateapi";
+import type { GooglePlaceResult } from "../providers/google/types";
+import type { PropertySearchResult } from "../providers/realestateapi/types";
 
 /**
  * Cross-references Real Estate API results with Google Places results.
@@ -147,12 +147,14 @@ function calculateDistance(
 
 export function mapPropertyToRecord(
   property: PropertySearchResult,
-  searchLogId: string,
+  locationLicenseId: string,
   userId: string,
+  assetLicenseId: string,
 ) {
   return {
-    search_log_id: searchLogId,
+    location_license_id: locationLicenseId,
     user_id: userId,
+    asset_license_id: assetLicenseId,
     property_id: property.propertyId,
 
     // Address information

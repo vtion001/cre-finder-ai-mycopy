@@ -6,8 +6,12 @@ import {
   getAutocomplete,
   getPropertySearch,
 } from "../providers/realestateapi/lib";
-import type { GetPropertySearchParams } from "../providers/realestateapi/types";
+import type {
+  GetPropertySearchParams,
+  PropertySearchResponse,
+} from "../providers/realestateapi/types";
 import { parseLocationCode } from "../utils/format";
+import { crossReferenceResults } from "../utils/transform";
 
 export async function getPropertyCountQuery(
   supabase: Client,
@@ -54,6 +58,62 @@ export async function getPropertyCountQuery(
     assetTypeName: assetType.name,
     internalId: location,
   };
+}
+
+export async function getPropertySearchQuery(
+  supabase: Client,
+  asset_type_slug: string,
+  location: string,
+  params?: GetPropertySearchParams | null,
+) {
+  const { data: assetType } = await supabase
+    .from("asset_types")
+    .select("*")
+    .eq("slug", asset_type_slug)
+    .single();
+
+  if (!assetType) {
+    throw new Error("Asset type not found");
+  }
+
+  const storageUnitType = assetType.slug === "self-storage";
+
+  const locationParams = parseLocationCode(location);
+
+  const start_time = performance.now();
+
+  let response: PropertySearchResponse;
+
+  const realestateapiParams = {
+    ...locationParams,
+    ...params,
+    property_use_code: assetType.use_codes || [],
+  };
+
+  if (storageUnitType) {
+    const [googleResponse, realEstateResponse] = await Promise.all([
+      getStorageFacilities(locationParams),
+      getPropertySearch(realestateapiParams, false),
+    ]);
+
+    const crossReferencedData = crossReferenceResults(
+      realEstateResponse.data,
+      googleResponse.results,
+    );
+
+    response = {
+      ...realEstateResponse,
+      data: crossReferencedData,
+      resultCount: crossReferencedData.length,
+    };
+  } else {
+    response = await getPropertySearch(realestateapiParams, false);
+  }
+
+  const end_time = performance.now();
+  const executionTime = end_time - start_time;
+
+  return { response, executionTime: Math.round(executionTime) };
 }
 
 export async function getAutocompleteQuery({

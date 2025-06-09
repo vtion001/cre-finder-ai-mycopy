@@ -1,3 +1,5 @@
+import { tasks } from "@trigger.dev/sdk/v3";
+import type { updatePropertyRecordsTask } from "@v1/jobs/update-property-records";
 import { stripe } from "@v1/stripe/config";
 import {
   deletePriceRecord,
@@ -181,7 +183,7 @@ export async function POST(req: Request) {
                 subscription.current_period_end,
               ).toISOString();
 
-              await manageUserLicense(
+              const licenses = await manageUserLicense(
                 userId,
                 checkoutSession.metadata,
                 locationResultCounts,
@@ -192,6 +194,17 @@ export async function POST(req: Request) {
                 `💳 License created for user [${userId}] with ${totalResultCount} total results across ${Object.keys(locationResultCounts).length} locations, expires [${expiresAt}]`,
               );
               revalidateTag(`licenses_${userId}`);
+
+              console.log("⚠️ Triggering update property records task");
+
+              const handle = await tasks.batchTrigger<
+                typeof updatePropertyRecordsTask
+              >(
+                "update-property-records",
+                licenses.map((l) => ({
+                  payload: { licenseId: l.id },
+                })),
+              );
             }
 
             revalidateTag(`user_${userId}`);

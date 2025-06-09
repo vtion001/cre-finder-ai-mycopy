@@ -371,17 +371,20 @@ export async function manageUserLicense(
       };
     });
 
-  const { error: locationLicenseError } = await supabaseAdmin
+  const { data: licenses, error: locationLicenseError } = await supabaseAdmin
     .from("location_licenses")
     .upsert(locationLicenseData, {
       onConflict: "asset_license_id, location_internal_id",
-    });
+    })
+    .select("id");
 
   if (locationLicenseError) {
     throw new Error(
       `Failed to create location licenses: ${locationLicenseError.message}`,
     );
   }
+
+  return licenses;
 }
 
 export function capitalize(str: string) {
