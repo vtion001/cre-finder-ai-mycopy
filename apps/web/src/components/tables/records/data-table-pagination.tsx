@@ -126,13 +126,12 @@ export function DataTablePagination({
             </SelectContent>
           </Select>
         </div>
-
-        <div className="text-sm text-muted-foreground">
-          Showing {startItem} to {endItem} of {totalCount} results
-        </div>
       </div>
 
       <div className="flex items-center space-x-2">
+        <div className="text-sm text-muted-foreground">
+          Showing {startItem} to {endItem} of {totalCount} results
+        </div>
         <Button
           variant="outline"
           size="sm"

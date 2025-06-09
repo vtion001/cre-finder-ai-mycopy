@@ -67,14 +67,6 @@ export default async function Page({
     "desc" | "asc",
   ];
 
-  const loadingKey = JSON.stringify({
-    locations,
-    page,
-    per_page,
-    sort,
-    query,
-  });
-
   return (
     <div className="p-4 space-y-6 ">
       <ErrorBoundary>
@@ -92,16 +84,14 @@ export default async function Page({
         className={`grid gap-6 ${map ? "lg:grid-cols-[1fr,480px]" : "grid-cols-1"}`}
       >
         <div className="h-[calc(100vh-7rem)] w-full overflow-hidden">
-          <Suspense fallback={<Loading />} key={loadingKey}>
-            <Table
-              assetLicenseId={assetLicense.id}
-              locationCodes={locations || []}
-              sort={sort}
-              page={page}
-              per_page={per_page}
-              query={query}
-            />
-          </Suspense>
+          <Table
+            assetLicenseId={assetLicense.id}
+            locationCodes={locations || []}
+            sort={sort}
+            page={page}
+            per_page={per_page}
+            query={query}
+          />
         </div>
 
         <PropertyMapServer
