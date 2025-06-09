@@ -1,6 +1,8 @@
 import { ErrorBoundary } from "@/components/error-boundary";
 import { PropertyMap } from "@/components/property-map";
 import { PropertySearchFilters } from "@/components/property-search-filters";
+import { Table } from "@/components/tables/records";
+import { Loading } from "@/components/tables/records/loading";
 import { searchParamsCache } from "@/lib/nuqs/property-search-params";
 import type { GetPropertySearchParams } from "@v1/property-data/types";
 import {
@@ -57,7 +59,9 @@ export default async function Page({
     return notFound();
   }
 
-  const { data: records } = await getPropertyRecords(assetLicense.id);
+
+
+
 
   return (
     <div className="p-4 space-y-6 ">
@@ -79,39 +83,9 @@ export default async function Page({
           hideScrollbar
           className="h-[calc(100vh-7rem)] w-full rounded-md border"
         >
-          {records?.length ? (
-            <div className="space-y-0">
-              {records.map((record) => (
-                <div
-                  key={record.id}
-                  className="grid grid-cols-6 gap-4 p-4 border-b last:border-b-0"
-                >
-                  <div className="col-span-2">
-                    <p className="text-sm font-medium text-foreground">
-                      {record.address}
-                    </p>
-                  </div>
-                  <div className="col-span-2">
-                    <p className="text-sm font-medium text-foreground">
-                      {record.owner1_first_name} {record.owner1_last_name}
-                    </p>
-                  </div>
-                  <div className="col-span-2">
-                    <p className="text-sm font-medium text-foreground">
-                      {record.property_type}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="flex flex-col items-center justify-center py-12 text-center">
-              <h3 className="text-lg font-medium">No property records</h3>
-              <p className="text-muted-foreground mt-1">
-                Your exported property records will appear here.
-              </p>
-            </div>
-          )}
+          <Suspense fallback={<Loading />}>
+            <Table assetLicenseId={assetLicense.id} />
+          </Suspense>
           <ScrollBar orientation="horizontal" />
         </ScrollArea>
 
@@ -131,10 +105,10 @@ export default async function Page({
                   <div className="h-[calc(100vh-7rem)] bg-muted rounded-lg animate-pulse" />
                 }
               >
-                <PropertyMap
+                {/* <PropertyMap
                   records={records || []}
                   className="h-[calc(100vh-7rem)]"
-                />
+                /> */}
               </Suspense>
             </ErrorBoundary>
           </div>

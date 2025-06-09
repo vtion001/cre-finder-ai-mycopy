@@ -40,15 +40,15 @@ export function LicensesCombobox({
   const [query, setQuery] = useState("");
 
   const handleSelect = (license: Tables<"user_licenses">) => {
-    const isSelected = value.includes(license.location_internal_id);
+    const isSelected = value.includes(license.location_internal_id!);
     const newValue = isSelected
       ? value.filter((id) => id !== license.location_internal_id)
       : [...value, license.location_internal_id];
-    onValueChange(newValue);
+    onValueChange(newValue as string[]);
   };
 
   const isSelected = (license: Tables<"user_licenses">) =>
-    value.includes(license.location_internal_id);
+    value.includes(license.location_internal_id!);
 
   const removeLicense = (
     licenseToRemove: Tables<"user_licenses">,
@@ -64,12 +64,12 @@ export function LicensesCombobox({
 
   // Get selected licenses for display
   const selectedLicenses = licenses.filter((license) =>
-    value.includes(license.location_internal_id),
+    value.includes(license.location_internal_id || ""),
   );
 
   // Filter licenses based on search query
   const filteredLicenses = licenses.filter((license) =>
-    license.location_formatted.toLowerCase().includes(query.toLowerCase()),
+    license.location_formatted?.toLowerCase().includes(query.toLowerCase()),
   );
 
   return (
