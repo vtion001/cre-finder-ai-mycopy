@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 
 const schema = z.object({
-  tag: z.enum(["licenses"]),
+  tag: z.enum(["licenses", "records"]),
   id: z.string(),
 });
 
