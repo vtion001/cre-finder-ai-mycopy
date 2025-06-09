@@ -1,5 +1,6 @@
 import { ErrorBoundary } from "@/components/error-boundary";
 import { PropertyMap } from "@/components/property-map";
+import { PropertyMapServer } from "@/components/property-map.server";
 import { PropertySearchFilters } from "@/components/property-search-filters";
 import { Table } from "@/components/tables/records";
 import { Loading } from "@/components/tables/records/loading";
@@ -59,10 +60,6 @@ export default async function Page({
     return notFound();
   }
 
-
-
-
-
   return (
     <div className="p-4 space-y-6 ">
       <ErrorBoundary>
@@ -89,30 +86,7 @@ export default async function Page({
           <ScrollBar orientation="horizontal" />
         </ScrollArea>
 
-        {map && (
-          <div className="lg:sticky lg:top-6 lg:h-fit">
-            <ErrorBoundary
-              fallback={
-                <div className="h-[calc(100vh-7rem)] bg-muted rounded-lg flex items-center justify-center">
-                  <p className="text-muted-foreground">
-                    Map temporarily unavailable
-                  </p>
-                </div>
-              }
-            >
-              <Suspense
-                fallback={
-                  <div className="h-[calc(100vh-7rem)] bg-muted rounded-lg animate-pulse" />
-                }
-              >
-                {/* <PropertyMap
-                  records={records || []}
-                  className="h-[calc(100vh-7rem)]"
-                /> */}
-              </Suspense>
-            </ErrorBoundary>
-          </div>
-        )}
+        <PropertyMapServer assetLicenseId={assetLicense.id} />
       </div>
     </div>
   );
