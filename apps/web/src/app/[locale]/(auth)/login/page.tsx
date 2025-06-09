@@ -91,15 +91,6 @@ export default function Login() {
           <div className="mx-auto max-w-lg">
             {/* Hero Content */}
             <div className="mb-12">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="p-3 bg-primary/10 rounded-lg">
-                  <Building2 className="h-8 w-8 text-primary" />
-                </div>
-                <h2 className="text-2xl font-bold text-foreground">
-                  CRE Finder AI
-                </h2>
-              </div>
-
               <h3 className="text-3xl font-bold text-foreground mb-4">
                 Find commercial real estate, faster.
               </h3>
