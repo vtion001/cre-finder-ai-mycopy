@@ -1,3 +1,5 @@
+"use client";
+
 import { Skeleton } from "@v1/ui/skeleton";
 import { Table, TableBody, TableCell, TableRow } from "@v1/ui/table";
 import { DataTableHeader } from "./data-table-header";
