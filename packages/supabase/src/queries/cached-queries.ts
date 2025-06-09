@@ -59,7 +59,7 @@ export const getAssetTypes = async () => {
     ["asset_types"],
     {
       tags: ["asset_types"],
-      revalidate: 180,
+      revalidate: 3600,
     },
   )();
 };
@@ -74,7 +74,7 @@ export const getAssetType = async (slug: string) => {
     ["asset_type", slug],
     {
       tags: ["asset_type"],
-      revalidate: 180,
+      revalidate: 3600,
     },
   )();
 };
