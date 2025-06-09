@@ -123,7 +123,7 @@ export async function getAssetTypeLicensesQuery(
     .single();
 
   if (error) {
-    throw new Error(`Failed to get asset type licenses: ${error.message}`);
+    return { data: null, meta: null, error };
   }
 
   const { asset_types, location_licenses, ...rest } = data;
