@@ -85,6 +85,7 @@ export default async function Page({
       >
         <div className="h-[calc(100vh-7rem)] w-full overflow-hidden">
           <Table
+            assetTypeName={assetLicense.asset_types.name}
             assetLicenseId={assetLicense.id}
             locationCodes={locations || []}
             sort={sort}

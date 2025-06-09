@@ -5,6 +5,7 @@ import { Suspense } from "react";
 import { DataTable } from "./data-table";
 import { DataTablePagination } from "./data-table-pagination";
 
+import { DownloadButton } from "@/components/download-button";
 import { EmptyState, NoResults } from "./empty-states";
 import { Loading } from "./loading";
 
@@ -14,10 +15,16 @@ type Props = {
   sort?: [string, "asc" | "desc"];
   query?: string | null;
   assetLicenseId: string;
+  assetTypeName: string;
   locationCodes: string[];
 };
 
-export async function Table({ assetLicenseId, locationCodes, sort }: Props) {
+export async function Table({
+  assetLicenseId,
+  assetTypeName,
+  locationCodes,
+  sort,
+}: Props) {
   const {
     q: query,
     page,
@@ -64,7 +71,8 @@ export async function Table({ assetLicenseId, locationCodes, sort }: Props) {
           <ScrollBar orientation="horizontal" />
         </ScrollArea>
       </div>
-      <div className="flex-shrink-0">
+      <div className="flex-shrink-0 flex flex-row items-center w-full">
+        <DownloadButton assetTypeName={assetTypeName} data={data} />
         <DataTablePagination
           totalCount={meta.count || 0}
           currentPage={page}

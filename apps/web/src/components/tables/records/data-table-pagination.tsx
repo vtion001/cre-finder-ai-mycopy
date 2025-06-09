@@ -105,7 +105,7 @@ export function DataTablePagination({
   };
 
   return (
-    <div className="flex items-center justify-between px-4 py-3 bg-background">
+    <div className="flex items-center justify-between px-4 py-3 bg-background w-full">
       <div className="flex items-center space-x-6">
         <div className="flex items-center space-x-2">
           <p className="text-sm text-muted-foreground">Rows per page</p>

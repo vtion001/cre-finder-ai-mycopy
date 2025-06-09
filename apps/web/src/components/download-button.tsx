@@ -2,6 +2,12 @@
 
 import { useState } from "react";
 
+import {
+  IconDatabaseExport,
+  IconDownload,
+  IconFileDownload,
+  IconFileExport,
+} from "@tabler/icons-react";
 import type { Tables } from "@v1/supabase/types";
 import { Button } from "@v1/ui/button";
 import { format, isValid, parse } from "date-fns";
@@ -11,6 +17,7 @@ import * as XLSX from "xlsx";
 
 interface ExportButtonProps {
   data: Tables<"property_records">[];
+  assetTypeName: string;
 }
 
 const formatDate = (dateString: string): string => {
@@ -27,7 +34,7 @@ const formatDate = (dateString: string): string => {
   }
 };
 
-export function DownloadButton({ data }: ExportButtonProps) {
+export function DownloadButton({ data, assetTypeName }: ExportButtonProps) {
   const [isExporting, setIsExporting] = useState(false);
 
   // Handle export to Excel
@@ -118,7 +125,10 @@ export function DownloadButton({ data }: ExportButtonProps) {
         .toISOString()
         .replace(/[:.]/g, "-")
         .substring(0, 19);
-      XLSX.writeFile(workbook, `CREfinder_PropertySearch_${timestamp}.xlsx`);
+
+      const formattedName = assetTypeName.replace(/\s+/g, "_");
+
+      XLSX.writeFile(workbook, `CREfinder_${formattedName}_${timestamp}.xlsx`);
 
       // Update search log status if searchLogId is provided
 
@@ -134,13 +144,13 @@ export function DownloadButton({ data }: ExportButtonProps) {
   return (
     <Button
       size="sm"
-      variant="outline"
+      variant="ghost"
       onClick={handleExport}
       disabled={isExporting}
       className="flex items-center gap-2"
     >
-      <DownloadIcon className="size-4" />
-      {isExporting ? "Downloading..." : "Download"}
+      <IconFileDownload className="size-4" />
+      {isExporting ? "Downloading..." : "Export"}
     </Button>
   );
 }
