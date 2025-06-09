@@ -1,17 +1,12 @@
 import { ErrorBoundary } from "@/components/error-boundary";
-import { PropertyMap } from "@/components/property-map";
 import { PropertyMapServer } from "@/components/property-map.server";
 import { PropertySearchFilters } from "@/components/property-search-filters";
 import { Table } from "@/components/tables/records";
 import { Loading } from "@/components/tables/records/loading";
 import { searchParamsCache } from "@/lib/nuqs/property-search-params";
 import type { GetPropertySearchParams } from "@v1/property-data/types";
-import {
-  getAssetTypeLicenses,
-  getPropertyRecords,
-} from "@v1/supabase/cached-queries";
+import { getAssetTypeLicenses } from "@v1/supabase/cached-queries";
 import { createClient } from "@v1/supabase/server";
-import { ScrollArea, ScrollBar } from "@v1/ui/scroll-area";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import type { SearchParams } from "nuqs";
@@ -30,6 +25,7 @@ export default async function Page({
   const {
     q: query,
     page,
+    per_page,
     asset_type,
     locations,
     map,
@@ -74,6 +70,7 @@ export default async function Page({
   const loadingKey = JSON.stringify({
     assetLicenseId: assetLicense.id,
     page,
+    per_page,
     sort,
     query,
   });
@@ -94,20 +91,17 @@ export default async function Page({
       <div
         className={`grid gap-6 ${map ? "lg:grid-cols-[1fr,480px]" : "grid-cols-1"}`}
       >
-        <ScrollArea
-          hideScrollbar
-          className="h-[calc(100vh-7rem)] w-full rounded-md border"
-        >
+        <div className="h-[calc(100vh-7rem)] w-full overflow-hidden">
           <Suspense fallback={<Loading />} key={loadingKey}>
             <Table
               assetLicenseId={assetLicense.id}
               sort={sort}
               page={page}
+              per_page={per_page}
               query={query}
             />
           </Suspense>
-          <ScrollBar orientation="horizontal" />
-        </ScrollArea>
+        </div>
 
         <PropertyMapServer assetLicenseId={assetLicense.id} />
       </div>

@@ -2,22 +2,31 @@ import { getPropertyRecords } from "@v1/supabase/cached-queries";
 import { DataTable } from "./data-table";
 import { EmptyState, NoResults } from "./empty-states";
 
-const pageSize = 20;
-
 type Props = {
   page: number;
+  per_page: number;
   sort?: [string, "asc" | "desc"];
   query?: string | null;
   assetLicenseId: string;
 };
 
-export async function Table({ assetLicenseId, page, sort, query }: Props) {
+export async function Table({
+  assetLicenseId,
+  page,
+  per_page,
+  sort,
+  query,
+}: Props) {
   const hasFilters = false;
 
-  const { data } = await getPropertyRecords({
+  // Convert 1-based page to 0-based for Supabase range
+  const from = (page - 1) * per_page;
+  const to = from + per_page - 1;
+
+  const { data, meta } = await getPropertyRecords({
     assetLicenseId,
-    from: page * pageSize,
-    to: page > 0 ? pageSize : pageSize - 1,
+    from,
+    to,
     sort,
     searchQuery: query,
   });
@@ -26,5 +35,12 @@ export async function Table({ assetLicenseId, page, sort, query }: Props) {
     return hasFilters ? <NoResults /> : <EmptyState />;
   }
 
-  return <DataTable data={data} pageSize={pageSize} />;
+  return (
+    <DataTable
+      data={data}
+      pageSize={per_page}
+      totalCount={meta.count || 0}
+      currentPage={page}
+    />
+  );
 }

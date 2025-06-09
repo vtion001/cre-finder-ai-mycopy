@@ -10,7 +10,8 @@ import {
 
 export const parsers = {
   q: parseAsString,
-  page: parseAsInteger.withDefault(0),
+  page: parseAsInteger.withDefault(1),
+  per_page: parseAsInteger.withDefault(25),
 
   locations: parseAsArrayOf(parseAsString).withDefault([]),
   asset_type: parseAsString,

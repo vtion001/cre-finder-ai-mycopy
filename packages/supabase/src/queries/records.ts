@@ -25,7 +25,7 @@ export async function getPropertyRecordsQuery(
 
   const query = supabase
     .from("property_records")
-    .select("*")
+    .select("*", { count: "exact" })
     .eq("asset_license_id", assetLicenseId)
     .order("created_at", { ascending: false });
 
