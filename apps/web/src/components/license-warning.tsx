@@ -9,8 +9,8 @@ import {
   IconMapPin,
   IconRuler,
 } from "@tabler/icons-react";
-import { getPropertyCount } from "@v1/property-data/cached-queries";
 import type { GetPropertySearchParams } from "@v1/property-data/types";
+import { getPropertyCount } from "@v1/supabase/cached-queries";
 import { getAssetType } from "@v1/supabase/cached-queries";
 import { Button, buttonVariants } from "@v1/ui/button";
 import { cn } from "@v1/ui/cn";

@@ -40,9 +40,22 @@ export const updatePropertyRecordsTask = schemaTask({
       `Updating property records for license [${license.id}] for location [${license.location_internal_id}]`,
     );
 
+    const { data: assetType } = await supabase
+      .from("asset_types")
+      .select("*")
+      .eq("slug", assetLicense.asset_type_slug)
+      .single();
+
+    if (!assetType || !assetType.slug) {
+      throw new Error("Asset type not found");
+    }
+
     const { response, executionTime } = await getPropertySearchQuery(
-      supabase,
-      assetLicense.asset_type_slug,
+      {
+        slug: assetType.slug!,
+        name: assetType.name,
+        use_codes: assetType.use_codes || [],
+      },
       license.location_internal_id,
       assetLicense.search_params as unknown as GetPropertySearchParams,
     );

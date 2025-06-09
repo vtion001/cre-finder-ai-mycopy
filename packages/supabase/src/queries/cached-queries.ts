@@ -1,3 +1,5 @@
+import { getPropertyCountQuery } from "@v1/property-data/queries";
+import type { GetPropertySearchParams } from "@v1/property-data/types";
 import { unstable_cache } from "next/cache";
 import { cache } from "react";
 import {
@@ -193,4 +195,42 @@ export async function getPropertyRecords(assetTypeSlug: string) {
       revalidate: 180,
     },
   )();
+}
+
+export async function getPropertyCount(
+  asset_type_slug: string,
+  location: string,
+  params?: GetPropertySearchParams | null,
+) {
+  const supabase = createClient();
+
+  const { data: assetType } = await supabase
+    .from("asset_types")
+    .select("*")
+    .eq("slug", asset_type_slug)
+    .single();
+
+  if (!assetType || !assetType.slug) {
+    throw new Error("Asset type not found");
+  }
+
+  return unstable_cache(
+    async () => {
+      return getPropertyCountQuery(
+        {
+          slug: assetType.slug!,
+          name: assetType.name,
+          use_codes: assetType.use_codes || [],
+        },
+        location,
+        params,
+      );
+    },
+    ["property-count", asset_type_slug, location, JSON.stringify(params)],
+    {
+      tags: ["property-count"],
+      revalidate: 180,
+    },
+    // @ts-expect-error
+  )(asset_type_slug, location);
 }

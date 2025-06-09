@@ -1,6 +1,5 @@
 "use server";
 
-import type { Client } from "@v1/supabase/types";
 import { getStorageFacilities } from "../providers/google/lib";
 import {
   getAutocomplete,
@@ -14,21 +13,10 @@ import { parseLocationCode } from "../utils/format";
 import { crossReferenceResults } from "../utils/transform";
 
 export async function getPropertyCountQuery(
-  supabase: Client,
-  asset_type_slug: string,
+  assetType: { slug: string; name: string; use_codes: number[] },
   location: string,
   params?: GetPropertySearchParams | null,
 ) {
-  const { data: assetType } = await supabase
-    .from("asset_types")
-    .select("*")
-    .eq("slug", asset_type_slug)
-    .single();
-
-  if (!assetType) {
-    throw new Error("Asset type not found");
-  }
-
   const storageUnitType = assetType.slug === "self-storage";
 
   const locationParams = parseLocationCode(location);
@@ -61,21 +49,10 @@ export async function getPropertyCountQuery(
 }
 
 export async function getPropertySearchQuery(
-  supabase: Client,
-  asset_type_slug: string,
+  assetType: { slug: string; name: string; use_codes: number[] },
   location: string,
   params?: GetPropertySearchParams | null,
 ) {
-  const { data: assetType } = await supabase
-    .from("asset_types")
-    .select("*")
-    .eq("slug", asset_type_slug)
-    .single();
-
-  if (!assetType) {
-    throw new Error("Asset type not found");
-  }
-
   const storageUnitType = assetType.slug === "self-storage";
 
   const locationParams = parseLocationCode(location);

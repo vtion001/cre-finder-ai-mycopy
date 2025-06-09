@@ -11,13 +11,11 @@
   },
   "exports": {
     "./queries": "./src/queries/index.ts",
-    "./cached-queries": "./src/queries/cached-queries.ts",
     "./types": "./src/types/index.ts",
     "./utils": "./src/utils/index.ts"
   },
   "dependencies": {
     "@t3-oss/env-nextjs": "^0.11.1",
-    "@v1/supabase": "workspace:*",
     "zod": "^3.24.4"
   },
   "devDependencies": {

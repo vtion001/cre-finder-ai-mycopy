@@ -1,7 +1,7 @@
 "use server";
 
-import { getPropertyCount } from "@v1/property-data/cached-queries";
 import type { GetPropertySearchParams } from "@v1/property-data/types";
+import { getPropertyCount } from "@v1/supabase/cached-queries";
 import { getAssetLicenseQuery } from "@v1/supabase/queries";
 import { z } from "zod";
 import { authActionClient } from "./safe-action";
