@@ -9,7 +9,11 @@ export async function PropertyMapServer({
 }: { assetLicenseId: string }) {
   const map = searchParamsCache.get("map");
 
-  const { data: records } = await getPropertyRecords(assetLicenseId);
+  const { data: records } = await getPropertyRecords({
+    assetLicenseId,
+    to: 100,
+    from: 0,
+  });
 
   return (
     map && (

@@ -27,7 +27,13 @@ export default async function Page({
 }: {
   searchParams: SearchParams;
 }) {
-  const { asset_type, locations, map } = searchParamsCache.parse(searchParams);
+  const {
+    q: query,
+    page,
+    asset_type,
+    locations,
+    map,
+  } = searchParamsCache.parse(searchParams);
 
   if (!asset_type) {
     return notFound();
@@ -60,6 +66,18 @@ export default async function Page({
     return notFound();
   }
 
+  const sort = searchParams?.sort?.toString().split(":") as [
+    string,
+    "desc" | "asc",
+  ];
+
+  const loadingKey = JSON.stringify({
+    assetLicenseId: assetLicense.id,
+    page,
+    sort,
+    query,
+  });
+
   return (
     <div className="p-4 space-y-6 ">
       <ErrorBoundary>
@@ -80,8 +98,13 @@ export default async function Page({
           hideScrollbar
           className="h-[calc(100vh-7rem)] w-full rounded-md border"
         >
-          <Suspense fallback={<Loading />}>
-            <Table assetLicenseId={assetLicense.id} />
+          <Suspense fallback={<Loading />} key={loadingKey}>
+            <Table
+              assetLicenseId={assetLicense.id}
+              sort={sort}
+              page={page}
+              query={query}
+            />
           </Suspense>
           <ScrollBar orientation="horizontal" />
         </ScrollArea>

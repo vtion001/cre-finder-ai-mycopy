@@ -3,6 +3,7 @@ import type { GetPropertySearchParams } from "@v1/property-data/types";
 import { unstable_cache } from "next/cache";
 import { cache } from "react";
 import {
+  type GetPropertyRecordsParams,
   getAssetTypeQuery,
   getAssetTypesQuery,
   getPropertyRecordsQuery,
@@ -182,19 +183,20 @@ export async function getAssetTypeLicenses(assetTypeSlug: string) {
   )();
 }
 
-export async function getPropertyRecords(assetTypeSlug: string) {
+export async function getPropertyRecords(params: GetPropertyRecordsParams) {
   const supabase = createClient();
 
   return unstable_cache(
     async () => {
-      return getPropertyRecordsQuery(supabase, assetTypeSlug);
+      return getPropertyRecordsQuery(supabase, params);
     },
-    ["license_details", assetTypeSlug],
+    ["property_records", params.assetLicenseId],
     {
-      tags: [`license_details_${assetTypeSlug}`],
+      tags: [`property_records_${params.assetLicenseId}`],
       revalidate: 180,
     },
-  )();
+    // @ts-expect-error
+  )(params);
 }
 
 export async function getPropertyCount(

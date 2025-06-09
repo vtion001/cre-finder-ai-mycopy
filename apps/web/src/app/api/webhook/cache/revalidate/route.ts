@@ -9,7 +9,7 @@ const schema = z.object({
 });
 
 const cacheTags = {
-  license: ["license", "property-records"],
+  license: ["license", "property_records"],
 } as const;
 
 export async function POST(req: Request) {

@@ -3,6 +3,7 @@
 import type { Table } from "@tanstack/react-table";
 import { Button } from "@v1/ui/button";
 import { Checkbox } from "@v1/ui/checkbox";
+import { cn } from "@v1/ui/cn";
 import { TableHead, TableHeader, TableRow } from "@v1/ui/table";
 import { ArrowDown, ArrowUp, ChevronDown } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -28,13 +29,13 @@ const COLUMNS: ColumnConfig[] = [
     id: "address",
     label: "Address",
     sortKey: "address",
-    className: "w-[200px] md:w-[350px]",
+    className: "min-w-[350px]",
   },
   {
     id: "owner1_last_name",
     label: "Owner",
     sortKey: "owner1_last_name",
-    className: "min-w-[150px]",
+    className: "min-w-[260px] ",
   },
   {
     id: "property_type",
@@ -122,25 +123,22 @@ export function DataTableHeader<TData>({ table, loading }: Props<TData>) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
-  const [sort] = useQueryState("sort");
+  const [sort, setSort] = useQueryState("sort", { shallow: false });
   const [column, value] = sort ? sort.split(":") : [];
 
   const createSortQuery = useCallback(
     (name: string) => {
-      const params = new URLSearchParams(searchParams);
-      const prevSort = params.get("sort");
+      const prevSort = sort;
 
       if (`${name}:asc` === prevSort) {
-        params.set("sort", `${name}:desc`);
+        setSort(`${name}:desc`);
       } else if (`${name}:desc` === prevSort) {
-        params.delete("sort");
+        setSort(null);
       } else {
-        params.set("sort", `${name}:asc`);
+        setSort(`${name}:asc`);
       }
-
-      router.replace(`${pathname}?${params.toString()}`);
     },
-    [searchParams, router, pathname],
+    [router, pathname],
   );
 
   const isVisible = (id: string) =>
@@ -189,9 +187,11 @@ export function DataTableHeader<TData>({ table, loading }: Props<TData>) {
             isVisible(config.id) && (
               <TableHead
                 key={config.id}
-                className={`px-3 md:px-4 py-2 ${config.className || ""} ${
-                  config.responsive ? "hidden md:table-cell" : ""
-                }`}
+                className={cn(
+                  "px-3 md:px-4 py-2",
+                  config.className,
+                  config.responsive ? "hidden md:table-cell" : "",
+                )}
               >
                 {config.sortKey ? (
                   renderSortButton(config)
