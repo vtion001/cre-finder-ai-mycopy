@@ -1,12 +1,7 @@
 "use client";
 
 import { Button } from "@v1/ui/button";
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "@v1/ui/form";
+import { FormControl, FormField, FormItem, FormMessage } from "@v1/ui/form";
 import { Input } from "@v1/ui/input";
 import { Label } from "@v1/ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "@v1/ui/popover";
@@ -59,9 +54,9 @@ export function DateFilterPopover<T extends FieldValues>({
   const getDisplayValue = () => {
     if (yearValue && monthValue !== null && monthValue !== undefined) {
       const date = new Date(yearValue, monthValue);
-      return `Sold ${date.toLocaleDateString("en-US", { 
-        month: "short", 
-        year: "numeric" 
+      return `Sold ${date.toLocaleDateString("en-US", {
+        month: "short",
+        year: "numeric",
       })}+`;
     }
     return placeholder;
@@ -78,9 +73,7 @@ export function DateFilterPopover<T extends FieldValues>({
           type="button"
         >
           <span
-            className={
-              hasValue ? "text-foreground" : "text-muted-foreground"
-            }
+            className={hasValue ? "text-foreground" : "text-muted-foreground"}
           >
             {getDisplayValue()}
           </span>

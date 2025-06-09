@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "@v1/ui/form";
+import { FormControl, FormField, FormItem, FormMessage } from "@v1/ui/form";
 import { Input } from "@v1/ui/input";
 import { Label } from "@v1/ui/label";
 import {
@@ -58,9 +53,7 @@ export function InlineDateFilter<T extends FieldValues>({
                 <Select
                   value={field.value?.toString() ?? ""}
                   onValueChange={(value) =>
-                    field.onChange(
-                      value === "" ? undefined : Number(value),
-                    )
+                    field.onChange(value === "" ? undefined : Number(value))
                   }
                 >
                   <SelectTrigger>

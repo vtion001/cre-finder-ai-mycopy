@@ -1,12 +1,7 @@
 "use client";
 
 import { Button } from "@v1/ui/button";
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "@v1/ui/form";
+import { FormControl, FormField, FormItem, FormMessage } from "@v1/ui/form";
 import { Input } from "@v1/ui/input";
 import { Label } from "@v1/ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "@v1/ui/popover";
@@ -53,7 +48,9 @@ export function RangeFilterPopover<T extends FieldValues>({
 
     if (minFieldValue || maxFieldValue) {
       const minDisplay = minFieldValue ? minFieldValue.toLocaleString() : "0";
-      const maxDisplay = maxFieldValue ? ` - ${maxFieldValue.toLocaleString()}` : "+";
+      const maxDisplay = maxFieldValue
+        ? ` - ${maxFieldValue.toLocaleString()}`
+        : "+";
       return `${minDisplay}${maxDisplay} ${unit}`.trim();
     }
 
@@ -71,9 +68,7 @@ export function RangeFilterPopover<T extends FieldValues>({
           type="button"
         >
           <span
-            className={
-              hasValue ? "text-foreground" : "text-muted-foreground"
-            }
+            className={hasValue ? "text-foreground" : "text-muted-foreground"}
           >
             {getDisplayValue()}
           </span>

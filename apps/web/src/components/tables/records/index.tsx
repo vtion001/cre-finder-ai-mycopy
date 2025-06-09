@@ -1,4 +1,3 @@
-
 import { getPropertyRecords } from "@v1/supabase/cached-queries";
 import { EmptyState, NoResults } from "./empty-states";
 import { DataTable } from "./data-table";
@@ -9,28 +8,14 @@ type Props = {
   assetLicenseId: string;
 };
 
-export async function Table({
-  assetLicenseId,
-}: Props) {
-  
-    const hasFilters = false;
+export async function Table({ assetLicenseId }: Props) {
+  const hasFilters = false;
 
   const { data } = await getPropertyRecords(assetLicenseId);
-
-
-
 
   if (!data?.length) {
     return hasFilters ? <NoResults /> : <EmptyState />;
   }
 
-  
-
-  return (
-    <DataTable
-      data={data}
-      pageSize={pageSize}
-     
-    />
-  );
+  return <DataTable data={data} pageSize={pageSize} />;
 }

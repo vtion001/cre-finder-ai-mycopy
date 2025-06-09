@@ -12,7 +12,7 @@ export default function AccountLoading() {
           <Skeleton className="h-4 w-80" />
         </div>
         <Separator />
-        
+
         {/* Account Settings Grid */}
         <div className="grid gap-8 md:grid-cols-2">
           {/* Profile Information Card */}
@@ -29,9 +29,9 @@ export default function AccountLoading() {
                 </div>
                 <Skeleton className="h-9 w-20" />
               </div>
-              
+
               <Separator />
-              
+
               {/* Email Form */}
               <div className="space-y-4">
                 <div className="space-y-2">
@@ -40,9 +40,9 @@ export default function AccountLoading() {
                 </div>
                 <Skeleton className="h-9 w-20" />
               </div>
-              
+
               <Separator />
-              
+
               {/* Phone Form */}
               <div className="space-y-4">
                 <div className="space-y-2">
@@ -69,35 +69,42 @@ export default function AccountLoading() {
                 <Skeleton className="h-4 w-64" />
                 <Skeleton className="h-9 w-32" />
               </div>
-              
+
               <Separator />
-              
+
               {/* Locations Section */}
               <div className="space-y-4">
                 <Skeleton className="h-5 w-24" />
                 <div className="space-y-2">
-                  {Array(3).fill(0).map((_, i) => (
-                    <div key={i} className="flex items-center justify-between p-3 border rounded-lg">
-                      <div className="space-y-1">
-                        <Skeleton className="h-4 w-32" />
-                        <Skeleton className="h-3 w-16" />
+                  {Array(3)
+                    .fill(0)
+                    .map((_, i) => (
+                      <div
+                        key={i}
+                        className="flex items-center justify-between p-3 border rounded-lg"
+                      >
+                        <div className="space-y-1">
+                          <Skeleton className="h-4 w-32" />
+                          <Skeleton className="h-3 w-16" />
+                        </div>
+                        <Skeleton className="h-8 w-8" />
                       </div>
-                      <Skeleton className="h-8 w-8" />
-                    </div>
-                  ))}
+                    ))}
                 </div>
                 <Skeleton className="h-9 w-28" />
               </div>
-              
+
               <Separator />
-              
+
               {/* Asset Types Section */}
               <div className="space-y-4">
                 <Skeleton className="h-5 w-20" />
                 <div className="flex flex-wrap gap-2">
-                  {Array(4).fill(0).map((_, i) => (
-                    <Skeleton key={i} className="h-6 w-20 rounded-full" />
-                  ))}
+                  {Array(4)
+                    .fill(0)
+                    .map((_, i) => (
+                      <Skeleton key={i} className="h-6 w-20 rounded-full" />
+                    ))}
                 </div>
                 <Skeleton className="h-9 w-32" />
               </div>
