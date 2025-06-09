@@ -113,7 +113,7 @@ export function SignUpForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         {/* First Name and Last Name */}
         <div className="grid grid-cols-2 gap-4">
           <FormField
@@ -121,9 +121,12 @@ export function SignUpForm() {
             name="firstName"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>First name</FormLabel>
                 <FormControl>
-                  <Input placeholder="First name" {...field} />
+                  <Input
+                    placeholder="First name"
+                    className="h-12 text-base"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -134,9 +137,12 @@ export function SignUpForm() {
             name="lastName"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Last name</FormLabel>
                 <FormControl>
-                  <Input placeholder="Last name" {...field} />
+                  <Input
+                    placeholder="Last name"
+                    className="h-12 text-base"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -150,9 +156,13 @@ export function SignUpForm() {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email address</FormLabel>
               <FormControl>
-                <Input placeholder="Email address" type="email" {...field} />
+                <Input
+                  placeholder="Email address"
+                  type="email"
+                  className="h-12 text-base"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -165,12 +175,12 @@ export function SignUpForm() {
           name="phoneNumber"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Phone number</FormLabel>
               <FormControl>
                 <PhoneInput
                   value={field.value}
                   onValueChange={(value) => form.setValue(field.name, value)}
-                  placeholder="Phone number"
+                  placeholder="Phone number (optional)"
+                  className="h-12 text-base"
                 />
               </FormControl>
               <FormMessage />
@@ -184,9 +194,12 @@ export function SignUpForm() {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Password</FormLabel>
               <FormControl>
-                <PasswordInput placeholder="Password" {...field} />
+                <PasswordInput
+                  placeholder="Password"
+                  className="h-12 text-base"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -199,11 +212,10 @@ export function SignUpForm() {
           name="role"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>I am a...</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select your role" />
+                  <SelectTrigger className="h-12 text-base">
+                    <SelectValue placeholder="I am a..." />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
@@ -229,10 +241,11 @@ export function SignUpForm() {
                 <Checkbox
                   checked={field.value}
                   onCheckedChange={field.onChange}
+                  className="mt-1"
                 />
               </FormControl>
               <div className="space-y-1 leading-none">
-                <FormLabel className="text-sm font-normal">
+                <FormLabel className="text-sm font-normal text-muted-foreground">
                   I agree to CRE Finder's{" "}
                   <Link
                     href="/terms"
@@ -256,8 +269,13 @@ export function SignUpForm() {
           )}
         />
 
-        <Button type="submit" className="w-full" disabled={isLoading}>
-          {isLoading ? "Creating account..." : "Continue"}
+        <Button
+          type="submit"
+          size="lg"
+          className="w-full h-12 text-base bg-primary hover:bg-primary/90 text-primary-foreground"
+          disabled={isLoading}
+        >
+          {isLoading ? "Creating account..." : "Create Account"}
         </Button>
       </form>
     </Form>

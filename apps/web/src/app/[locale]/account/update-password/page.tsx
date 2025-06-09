@@ -43,10 +43,6 @@ export default function UpdatePassword() {
           </div>
         </CardFooter>
       </Card>
-
-      <p className="text-xs text-muted-foreground mt-8">
-        © {new Date().getFullYear()} CRE Finder AI. All rights reserved.
-      </p>
     </div>
   );
 }

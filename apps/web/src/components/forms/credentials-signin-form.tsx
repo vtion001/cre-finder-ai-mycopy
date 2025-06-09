@@ -64,15 +64,19 @@ export function CredentialsSignInForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <FormField
           control={form.control}
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="your@email.com" type="email" {...field} />
+                <Input
+                  placeholder="Email address"
+                  type="email"
+                  className="h-12 text-base"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -83,15 +87,23 @@ export function CredentialsSignInForm() {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Password</FormLabel>
               <FormControl>
-                <PasswordInput {...field} />
+                <PasswordInput
+                  placeholder="Password"
+                  className="h-12 text-base"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full" disabled={isLoading}>
+        <Button
+          type="submit"
+          size="lg"
+          className="w-full h-12 text-base bg-primary hover:bg-primary/90 text-primary-foreground"
+          disabled={isLoading}
+        >
           {isLoading ? "Signing in..." : "Sign In"}
         </Button>
       </form>

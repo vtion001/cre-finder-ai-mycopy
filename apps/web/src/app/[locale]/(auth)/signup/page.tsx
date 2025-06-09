@@ -1,16 +1,17 @@
 import { SignUpForm } from "@/components/forms/signup-form";
 import { Logo } from "@/components/logo";
-import { Button } from "@v1/ui/button";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@v1/ui/card";
-import { Separator } from "@v1/ui/separator";
-import { Building2 } from "lucide-react";
+  Building2,
+  CheckCircle,
+  Clock,
+  MapPin,
+  Search,
+  Shield,
+  Target,
+  TrendingUp,
+  Users,
+  Zap,
+} from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 
@@ -22,31 +23,153 @@ export const metadata: Metadata = {
 
 export default function SignUp() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-sidebar px-4 py-8">
-      <div className="flex items-center gap-2 mb-6">
-        <Logo size="lg" />
-      </div>
-      <Card className="w-full max-w-md shadow-lg border-t-4 border-t-primary">
-        <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl text-center">Sign Up</CardTitle>
-          <CardDescription className="text-center">
-            Already have an account?{" "}
-            <Link
-              href="/login"
-              className="text-primary font-medium hover:underline"
-            >
-              Log in
-            </Link>
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <SignUpForm />
-        </CardContent>
-      </Card>
+    <div className="min-h-screen bg-background">
+      {/* Main Container */}
+      <div className="grid lg:grid-cols-2 min-h-screen">
+        {/* Left Side - Sign Up Form */}
+        <div className="flex flex-col justify-center px-8 py-12 lg:px-16">
+          <div className="mx-auto w-full max-w-md">
+            {/* Logo */}
+            <div className="mb-8">
+              <Logo size="lg" href="/" />
+            </div>
 
-      <p className="text-xs text-muted-foreground mt-8">
-        © {new Date().getFullYear()} CRE Finder AI. All rights reserved.
-      </p>
+            {/* Welcome Header */}
+            <div className="mb-8">
+              <h1 className="text-3xl font-bold text-foreground">
+                Create your account
+              </h1>
+              <p className="mt-2 text-muted-foreground">
+                Join thousands of professionals finding commercial real estate
+                faster
+              </p>
+            </div>
+
+            {/* Sign Up Form */}
+            <SignUpForm />
+
+            {/* Login Link */}
+            <div className="mt-8 pt-6 border-t">
+              <div className="text-sm text-center text-muted-foreground">
+                Already have an account?{" "}
+                <Link
+                  href="/login"
+                  className="text-primary font-medium hover:underline"
+                >
+                  Sign in
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Right Side - Marketing Content */}
+        <div className="hidden lg:flex flex-col justify-center bg-muted/30 px-8 py-12 lg:px-16">
+          <div className="mx-auto max-w-lg">
+            {/* Hero Content */}
+            <div className="mb-12">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="p-3 bg-primary/10 rounded-lg">
+                  <Building2 className="h-8 w-8 text-primary" />
+                </div>
+                <h2 className="text-2xl font-bold text-foreground">
+                  CRE Finder AI
+                </h2>
+              </div>
+
+              <h3 className="text-3xl font-bold text-foreground mb-4">
+                Start finding deals today.
+              </h3>
+
+              <p className="text-lg text-muted-foreground mb-8">
+                Join the platform that's revolutionizing commercial real estate
+                discovery. Get instant access to millions of properties with
+                owner contact information.
+              </p>
+            </div>
+
+            {/* Benefits List */}
+            <div className="space-y-6">
+              <div className="flex items-start gap-4">
+                <div className="p-2 bg-primary/10 rounded-lg mt-1">
+                  <Zap className="h-5 w-5 text-primary" />
+                </div>
+                <div>
+                  <h4 className="font-semibold text-foreground mb-1">
+                    Instant Results
+                  </h4>
+                  <p className="text-sm text-muted-foreground">
+                    Get property results in seconds, not days of manual research
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="p-2 bg-primary/10 rounded-lg mt-1">
+                  <Target className="h-5 w-5 text-primary" />
+                </div>
+                <div>
+                  <h4 className="font-semibold text-foreground mb-1">
+                    Targeted Search
+                  </h4>
+                  <p className="text-sm text-muted-foreground">
+                    Filter by asset type, location, size, and dozens of other
+                    criteria
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="p-2 bg-primary/10 rounded-lg mt-1">
+                  <Users className="h-5 w-5 text-primary" />
+                </div>
+                <div>
+                  <h4 className="font-semibold text-foreground mb-1">
+                    Direct Owner Contact
+                  </h4>
+                  <p className="text-sm text-muted-foreground">
+                    Skip-traced phone numbers and emails for property owners
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="p-2 bg-primary/10 rounded-lg mt-1">
+                  <Shield className="h-5 w-5 text-primary" />
+                </div>
+                <div>
+                  <h4 className="font-semibold text-foreground mb-1">
+                    Trusted by Professionals
+                  </h4>
+                  <p className="text-sm text-muted-foreground">
+                    Used by investors, brokers, and wholesalers nationwide
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Social Proof */}
+            <div className="mt-12 pt-8 border-t">
+              <div className="grid grid-cols-3 gap-4 text-center">
+                <div>
+                  <div className="text-xl font-bold text-primary">10M+</div>
+                  <div className="text-xs text-muted-foreground">
+                    Properties
+                  </div>
+                </div>
+                <div>
+                  <div className="text-xl font-bold text-primary">50+</div>
+                  <div className="text-xs text-muted-foreground">States</div>
+                </div>
+                <div>
+                  <div className="text-xl font-bold text-primary">1000+</div>
+                  <div className="text-xs text-muted-foreground">Users</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

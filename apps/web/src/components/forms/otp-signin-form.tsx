@@ -57,30 +57,39 @@ export function OtpSignInForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <FormField
           control={form.control}
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="your@email.com" type="email" {...field} />
+                <Input
+                  placeholder="Email address"
+                  type="email"
+                  className="h-12 text-base"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full" disabled={isLoading}>
+        <Button
+          type="submit"
+          size="lg"
+          className="w-full h-12 text-base bg-primary hover:bg-primary/90 text-primary-foreground"
+          disabled={isLoading}
+        >
           {isLoading ? "Sending..." : "Send Magic Link"}
         </Button>
         {magicLinkSent ? (
-          <p className="text-sm text-center text-gray-500 mt-2">
+          <p className="text-sm text-center text-muted-foreground mt-4">
             We've sent a magic link to your email address. Click the link to
             sign in.
           </p>
         ) : (
-          <p className="text-sm text-center text-gray-500 mt-2">
+          <p className="text-sm text-center text-muted-foreground mt-4">
             We'll send you a magic link to your email
           </p>
         )}

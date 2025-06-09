@@ -53,22 +53,31 @@ export function ForgotPasswordForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <FormField
           control={form.control}
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="youremail@example.com" {...field} />
+                <Input
+                  placeholder="Email address"
+                  type="email"
+                  className="h-12 text-base"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full" disabled={isLoading}>
-          Send Reset Link
+        <Button
+          type="submit"
+          size="lg"
+          className="w-full h-12 text-base bg-primary hover:bg-primary/90 text-primary-foreground"
+          disabled={isLoading}
+        >
+          {isLoading ? "Sending..." : "Send Reset Link"}
         </Button>
       </form>
     </Form>

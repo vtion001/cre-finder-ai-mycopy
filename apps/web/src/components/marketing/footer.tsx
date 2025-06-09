@@ -157,13 +157,6 @@ export const Footer = () => {
             </ul>
           </div>
         </div>
-
-        <div className="mt-12 border-t border-gray-800 pt-8">
-          <p className="text-base text-gray-400 text-center">
-            &copy; {new Date().getFullYear()} CRE Finder AI. All rights
-            reserved.
-          </p>
-        </div>
       </div>
     </footer>
   );

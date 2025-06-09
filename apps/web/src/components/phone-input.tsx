@@ -45,7 +45,9 @@ export function PhoneInput({
         defaultValue={country.iso2}
         onValueChange={(iso2) => setCountry(iso2)}
       >
-        <SelectTrigger className="w-20">
+        <SelectTrigger
+          className={cn("w-20", className?.includes("h-12") && "h-12")}
+        >
           <SelectValue asChild>
             <FlagImage iso2={country.iso2} className="h-4" />
           </SelectValue>

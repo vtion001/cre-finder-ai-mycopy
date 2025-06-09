@@ -80,17 +80,20 @@ export function UpdatePasswordForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <FormField
           control={form.control}
           name="newPassword"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>New Password</FormLabel>
               <FormControl>
-                <PasswordInput {...field} />
+                <PasswordInput
+                  placeholder="New password"
+                  className="h-12 text-base"
+                  {...field}
+                />
               </FormControl>
-              <FormDescription className="text-xs">
+              <FormDescription className="text-xs text-muted-foreground">
                 Password must be at least 8 characters and include uppercase,
                 lowercase, number, and special character.
               </FormDescription>
@@ -105,16 +108,24 @@ export function UpdatePasswordForm() {
           name="confirmPassword"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Confirm New Password</FormLabel>
               <FormControl>
-                <PasswordInput {...field} />
+                <PasswordInput
+                  placeholder="Confirm new password"
+                  className="h-12 text-base"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
 
-        <Button type="submit" className="w-full mt-6" disabled={isLoading}>
+        <Button
+          type="submit"
+          size="lg"
+          className="w-full h-12 text-base bg-primary hover:bg-primary/90 text-primary-foreground"
+          disabled={isLoading}
+        >
           {isLoading ? "Updating..." : "Update Password"}
         </Button>
       </form>
