@@ -53,8 +53,10 @@ export function NavRecords({
   };
 
   return (
-    <SidebarGroup className="group-data-[collapsible=icon]:hidden">
-      <SidebarGroupLabel>Records</SidebarGroupLabel>
+    <SidebarGroup>
+      <SidebarGroupLabel className="group-data-[collapsible=icon]:hidden">
+        Records
+      </SidebarGroupLabel>
       <SidebarGroupContent className="flex flex-col gap-2">
         <SidebarMenu>
           {licenses.map((item) => {
@@ -85,7 +87,10 @@ export function NavRecords({
                 </SidebarMenuButton>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <SidebarMenuAction showOnHover>
+                    <SidebarMenuAction
+                      showOnHover
+                      className="group-data-[collapsible=icon]:hidden"
+                    >
                       <MoreHorizontal />
                       <span className="sr-only">More</span>
                     </SidebarMenuAction>
