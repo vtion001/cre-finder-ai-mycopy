@@ -41,7 +41,7 @@ export function DataTable({ data: initialData }: DataTableProps) {
   });
 
   return (
-    <Table>
+    <Table divClassname="max-h-screen overflow-y-scroll">
       <DataTableHeader table={table} />
       <TableBody>
         {table.getRowModel().rows?.length ? (

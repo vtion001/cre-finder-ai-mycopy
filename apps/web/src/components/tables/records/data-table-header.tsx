@@ -168,8 +168,8 @@ export function DataTableHeader<TData>({ table, loading }: Props<TData>) {
   );
 
   return (
-    <TableHeader>
-      <TableRow className="h-[45px] hover:bg-transparent">
+    <TableHeader className="sticky top-0 h-[45px] bg-background z-10 !opacity-100 hover:bg-background">
+      <TableRow className="">
         <TableHead className="min-w-[50px] hidden md:table-cell px-3 md:px-4 py-2">
           <Checkbox
             checked={
