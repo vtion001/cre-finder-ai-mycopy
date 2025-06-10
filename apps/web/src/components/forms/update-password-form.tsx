@@ -1,5 +1,6 @@
 "use client";
 
+import { passwordSchema } from "@/actions/schema";
 import { PasswordInput } from "@/components/password-input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createClient } from "@v1/supabase/client";
@@ -21,19 +22,7 @@ import * as z from "zod";
 
 const updatePasswordSchema = z
   .object({
-    newPassword: z
-      .string()
-      .min(8, { message: "Password must be at least 8 characters" })
-      .regex(/[A-Z]/, {
-        message: "Password must contain at least one uppercase letter",
-      })
-      .regex(/[a-z]/, {
-        message: "Password must contain at least one lowercase letter",
-      })
-      .regex(/[0-9]/, { message: "Password must contain at least one number" })
-      .regex(/[^A-Za-z0-9]/, {
-        message: "Password must contain at least one special character",
-      }),
+    newPassword: passwordSchema,
     confirmPassword: z
       .string()
       .min(1, { message: "Please confirm your password" }),

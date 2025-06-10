@@ -1,5 +1,6 @@
 "use client";
 
+import { passwordSchema } from "@/actions/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createClient } from "@v1/supabase/client";
 import { Button } from "@v1/ui/button";
@@ -49,9 +50,7 @@ const signupSchema = z.object({
       return false;
     }
   }, "Please enter a valid phone number"),
-  password: z
-    .string()
-    .min(8, { message: "Password must be at least 8 characters long" }),
+  password: passwordSchema,
   role: z.string().min(1, { message: "Please select your role" }),
   agreeToTerms: z.boolean().refine((val) => val === true, {
     message: "You must agree to the terms and privacy policy",
