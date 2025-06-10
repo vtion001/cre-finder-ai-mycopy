@@ -274,7 +274,7 @@ export async function checkoutLicenseWithStripe({
         })),
       ],
       mode: "subscription",
-      cancel_url: getURL(redirectPath),
+      cancel_url: getURL("/dashboard/search"),
       success_url: getURL(redirectPath),
       metadata: {
         type: "license",
