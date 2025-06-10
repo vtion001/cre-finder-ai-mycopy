@@ -12,7 +12,7 @@ export default async function Page() {
     <>
       <div className="space-y-6 p-6 pb-16">
         {/* @ts-expect-error  */}
-        <LicensesOverview licenses={licenses} />
+        <LicensesOverview licenses={data} />
       </div>
     </>
   );
