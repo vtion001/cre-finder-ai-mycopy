@@ -34,7 +34,7 @@ export async function Table({
     map,
   } = searchParamsCache.all();
 
-  const hasFilters = locations.length > 1;
+  const hasFilters = locations.length === 0;
 
   // Convert 1-based page to 0-based for Supabase range
   const from = (page - 1) * per_page;
