@@ -1,16 +1,18 @@
 import { ErrorBoundary } from "@/components/error-boundary";
 import { PropertyMapServer } from "@/components/property-map.server";
 import { PropertySearchFilters } from "@/components/property-search-filters";
+import { SiteHeader } from "@/components/site-header";
 import { Table } from "@/components/tables/records";
-import { Loading } from "@/components/tables/records/loading";
 import { searchParamsCache } from "@/lib/nuqs/property-search-params";
 import type { GetPropertySearchParams } from "@v1/property-data/types";
-import { getAssetTypeLicenses } from "@v1/supabase/cached-queries";
-import { createClient } from "@v1/supabase/server";
+import {
+  getAssetTypeLicenses,
+  getUser,
+  getUserLicensesByAssetType,
+} from "@v1/supabase/cached-queries";
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import type { SearchParams } from "nuqs";
-import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Records - CRE Finder AI",
@@ -22,6 +24,12 @@ export default async function Page({
 }: {
   searchParams: SearchParams;
 }) {
+  const cachedUser = await getUser();
+
+  if (!cachedUser?.data) {
+    redirect("/login");
+  }
+
   const {
     q: query,
     page,
@@ -36,6 +44,7 @@ export default async function Page({
   }
 
   const { data, meta } = await getAssetTypeLicenses(asset_type);
+  const { data: userLicenses } = await getUserLicensesByAssetType();
 
   if (!data || !meta.assetType || !meta.locations) {
     return notFound();
@@ -59,38 +68,46 @@ export default async function Page({
   ];
 
   return (
-    <div className="p-4 space-y-6 ">
-      <ErrorBoundary>
-        <PropertySearchFilters
-          licenses={meta.locations || []}
-          assetType={asset_type}
-          assetTypeName={meta.assetType.name}
-          searchParams={
-            data.search_params as unknown as GetPropertySearchParams
-          }
-        />
-      </ErrorBoundary>
-
-      <div
-        className={`grid gap-6 ${map ? "lg:grid-cols-[1fr,480px]" : "grid-cols-1"}`}
-      >
-        <div className="h-[calc(100vh-7rem)] w-full overflow-hidden">
-          <Table
+    <>
+      <SiteHeader
+        title={`${meta.assetType.name} Records`}
+        user={cachedUser.data}
+        licenses={userLicenses || []}
+        showMobileDrawer={true}
+      />
+      <div className="p-4 space-y-6">
+        <ErrorBoundary>
+          <PropertySearchFilters
+            licenses={meta.locations || []}
+            assetType={asset_type}
             assetTypeName={meta.assetType.name}
+            searchParams={
+              data.search_params as unknown as GetPropertySearchParams
+            }
+          />
+        </ErrorBoundary>
+
+        <div
+          className={`grid gap-6 ${map ? "lg:grid-cols-[1fr,480px]" : "grid-cols-1"}`}
+        >
+          <div className="h-[calc(100vh-10.5rem)] w-full overflow-hidden">
+            <Table
+              assetTypeName={meta.assetType.name}
+              assetLicenseId={data.id}
+              locationCodes={locations || []}
+              sort={sort}
+              page={page}
+              per_page={per_page}
+              query={query}
+            />
+          </div>
+
+          <PropertyMapServer
             assetLicenseId={data.id}
             locationCodes={locations || []}
-            sort={sort}
-            page={page}
-            per_page={per_page}
-            query={query}
           />
         </div>
-
-        <PropertyMapServer
-          assetLicenseId={data.id}
-          locationCodes={locations || []}
-        />
       </div>
-    </div>
+    </>
   );
 }

@@ -1,6 +1,9 @@
 import { AccountSettings } from "@/components/account-settings";
 import { SiteHeader } from "@/components/site-header";
-import { getUser } from "@v1/supabase/cached-queries";
+import {
+  getUser,
+  getUserLicensesByAssetType,
+} from "@v1/supabase/cached-queries";
 import type { Metadata } from "next";
 
 import { redirect } from "next/navigation";
@@ -17,9 +20,16 @@ export default async function Account() {
     redirect("/login");
   }
 
+  const { data: licenses } = await getUserLicensesByAssetType();
+
   return (
     <>
-      <SiteHeader title="Account Settings" />
+      <SiteHeader
+        title="Account Settings"
+        user={cachedUser.data}
+        licenses={licenses || []}
+        showMobileDrawer={true}
+      />
       <div className="p-4 sm:p-6 pb-16">
         <AccountSettings user={cachedUser.data} />
       </div>

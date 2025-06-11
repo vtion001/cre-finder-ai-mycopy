@@ -1,6 +1,13 @@
 import { PreviewSearchInterface } from "@/components/preview-search-interface";
-import { getAllLicenses, getAssetTypes } from "@v1/supabase/cached-queries";
+import { SiteHeader } from "@/components/site-header";
+import {
+  getAllLicenses,
+  getAssetTypes,
+  getUser,
+  getUserLicensesByAssetType,
+} from "@v1/supabase/cached-queries";
 import type { Metadata } from "next";
+import { redirect } from "next/navigation";
 import type { SearchParams } from "nuqs";
 
 export const metadata: Metadata = {
@@ -13,16 +20,31 @@ export default async function Page({
 }: {
   searchParams: SearchParams;
 }) {
+  const cachedUser = await getUser();
+
+  if (!cachedUser?.data) {
+    redirect("/login");
+  }
+
   const { data: assetTypes } = await getAssetTypes();
   const { data: licenses } = await getAllLicenses();
+  const { data: userLicenses } = await getUserLicensesByAssetType();
 
   const unusedAssetTypes = assetTypes?.filter((type) => {
     return !licenses?.some((license) => license.asset_type_slug === type.slug);
   });
 
   return (
-    <div className="h-screen overflow-hidden p-4 pt-32 ">
-      <PreviewSearchInterface assetTypes={unusedAssetTypes || []} />
-    </div>
+    <>
+      <SiteHeader
+        title="Property Search"
+        user={cachedUser.data}
+        licenses={userLicenses || []}
+        showMobileDrawer={true}
+      />
+      <div className="h-[calc(100vh-3.5rem)] overflow-hidden p-4 pt-8">
+        <PreviewSearchInterface assetTypes={unusedAssetTypes || []} />
+      </div>
+    </>
   );
 }

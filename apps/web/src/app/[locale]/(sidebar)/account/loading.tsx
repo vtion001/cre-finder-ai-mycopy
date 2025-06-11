@@ -6,7 +6,7 @@ export default function AccountLoading() {
   return (
     <>
       <SiteHeader title="Account Settings" />
-      <div className="p-6 pb-16">
+      <div className="p-4 sm:p-6 pb-16">
         {/* Account Settings */}
         <div className="grid gap-8 lg:grid-cols-2">
           {/* Profile Information Section */}

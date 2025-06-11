@@ -46,7 +46,7 @@ export function AppSidebar({ user, licenses, ...props }: SidebarProps) {
             </div>
           </SidebarMenuItem>
         </SidebarMenu>
-        <SidebarTrigger className="absolute right-0 top-7 -translate-y-1/2 translate-x-1/2 bg-background rounded-full border z-50" />
+        <SidebarTrigger className="hidden md:flex absolute right-0 top-7 -translate-y-1/2 translate-x-1/2 bg-background rounded-full border z-50" />
       </SidebarHeader>
       <SidebarContent className="flex flex-col">
         <NavMain />
