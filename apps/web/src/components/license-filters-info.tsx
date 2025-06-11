@@ -8,9 +8,13 @@ import { ChevronDownIcon, FilterIcon } from "lucide-react";
 
 interface LicenseFiltersInfoProps {
   searchParams: GetPropertySearchParams | null;
+  className?: string;
 }
 
-export function LicenseFiltersInfo({ searchParams }: LicenseFiltersInfoProps) {
+export function LicenseFiltersInfo({
+  searchParams,
+  className,
+}: LicenseFiltersInfoProps) {
   // Don't render if no search params
   if (!searchParams) {
     return null;

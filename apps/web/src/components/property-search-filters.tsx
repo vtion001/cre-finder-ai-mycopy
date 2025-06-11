@@ -51,6 +51,8 @@ export function PropertySearchFilters({
               assetTypeName={assetTypeName}
               existingLicenses={licenses}
             />
+
+            <LicenseFiltersInfo searchParams={searchParams} />
             <Button
               onClick={() => setState({ map: !state.map })}
               className={cn(
@@ -62,8 +64,6 @@ export function PropertySearchFilters({
               <IconMap2 className="h-4 w-4" />
             </Button>
           </div>
-
-          <LicenseFiltersInfo searchParams={searchParams} />
         </div>
       </div>
     </div>
