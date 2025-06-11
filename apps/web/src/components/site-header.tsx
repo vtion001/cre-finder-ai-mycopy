@@ -2,6 +2,7 @@
 
 import { MobileNavDrawer } from "@/components/mobile-nav-drawer";
 import type { Tables } from "@v1/supabase/types";
+import { cn } from "@v1/ui/cn";
 import { SidebarTrigger } from "@v1/ui/sidebar";
 import type { ReactNode } from "react";
 
@@ -11,6 +12,7 @@ interface SiteHeaderProps {
   user?: Tables<"users">;
   licenses?: Tables<"user_licenses_by_asset_type">[];
   showMobileDrawer?: boolean;
+  className?: string;
 }
 
 export function SiteHeader({
@@ -19,9 +21,15 @@ export function SiteHeader({
   user,
   licenses,
   showMobileDrawer = false,
+  className,
 }: SiteHeaderProps) {
   return (
-    <header className="group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 flex h-14 shrink-0 items-center border-b transition-[width,height] ease-linear ">
+    <header
+      className={cn(
+        "group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 flex h-14 shrink-0 items-center border-b transition-[width,height] ease-linear",
+        className,
+      )}
+    >
       <div className="flex w-full items-center gap-1 px-3 sm:px-6 lg:gap-2">
         {/* Mobile navigation - either sidebar trigger or drawer */}
         {showMobileDrawer && user && licenses ? (

@@ -70,6 +70,7 @@ export default async function Page({
   return (
     <>
       <SiteHeader
+        className="md:hidden"
         title={`${meta.assetType.name} Records`}
         user={cachedUser.data}
         licenses={userLicenses || []}

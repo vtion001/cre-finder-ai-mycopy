@@ -44,7 +44,8 @@ export default async function Page({
   return (
     <>
       <SiteHeader
-        title="License Checkout"
+        className="md:hidden"
+        title="Preview Search"
         user={cachedUser.data}
         licenses={userLicenses || []}
         showMobileDrawer={true}

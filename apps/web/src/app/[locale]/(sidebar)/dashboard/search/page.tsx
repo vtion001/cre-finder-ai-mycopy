@@ -37,7 +37,8 @@ export default async function Page({
   return (
     <>
       <SiteHeader
-        title="Property Search"
+        className="md:hidden"
+        title="New Search"
         user={cachedUser.data}
         licenses={userLicenses || []}
         showMobileDrawer={true}
