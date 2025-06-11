@@ -29,9 +29,9 @@ export async function LicenseWarning({ unlicensed }: { unlicensed: string[] }) {
   const { data: assetTypeData } = await getAssetType(asset_type!);
 
   return (
-    <div className="absolute inset-0 flex flex-col justify-center z-40">
-      <div className="text-center space-y-3 mb-8 mx-auto max-w-xl">
-        <h1 className="text-4xl font-semibold tracking-tight text-foreground">
+    <div className="absolute inset-0 flex flex-col justify-center z-40 px-4 sm:px-0">
+      <div className="text-center space-y-2 sm:space-y-3 mb-6 sm:mb-8 mx-auto max-w-xl">
+        <h1 className="text-2xl sm:text-3xl lg:text-4xl font-semibold tracking-tight text-foreground leading-tight">
           Expand Your {assetTypeData?.name} Search
         </h1>
         <p className="text-sm text-muted-foreground leading-relaxed">
@@ -41,22 +41,22 @@ export async function LicenseWarning({ unlicensed }: { unlicensed: string[] }) {
 
       {/* Creative Search Filters Display */}
       {params && Object.keys(params).length > 0 && (
-        <div className="mb-8 mx-auto max-w-4xl">
+        <div className="mb-6 sm:mb-8 mx-auto max-w-4xl px-2 sm:px-0">
           {/* Creative filter cards grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-3xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 max-w-3xl mx-auto">
             {/* Building Size Filter */}
             {(params.building_size_min || params.building_size_max) && (
-              <div className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-blue-50/80 to-blue-100/50 dark:from-blue-950/30 dark:to-blue-900/20 border border-blue-200/50 dark:border-blue-800/30 p-4 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-blue-500/10">
-                <div className="absolute top-0 right-0 w-16 h-16 bg-blue-500/10 rounded-full -translate-y-8 translate-x-8 group-hover:scale-150 transition-transform duration-500" />
-                <div className="relative flex items-center gap-3">
-                  <div className="p-2 rounded-lg bg-blue-500/10 text-blue-600 dark:text-blue-400">
-                    <IconBuilding className="h-4 w-4" />
+              <div className="group relative overflow-hidden rounded-lg sm:rounded-xl bg-gradient-to-br from-blue-50/80 to-blue-100/50 dark:from-blue-950/30 dark:to-blue-900/20 border border-blue-200/50 dark:border-blue-800/30 p-3 sm:p-4 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-blue-500/10">
+                <div className="absolute top-0 right-0 w-12 h-12 sm:w-16 sm:h-16 bg-blue-500/10 rounded-full -translate-y-6 translate-x-6 sm:-translate-y-8 sm:translate-x-8 group-hover:scale-150 transition-transform duration-500" />
+                <div className="relative flex items-center gap-2 sm:gap-3">
+                  <div className="p-1.5 sm:p-2 rounded-lg bg-blue-500/10 text-blue-600 dark:text-blue-400">
+                    <IconBuilding className="h-3 w-3 sm:h-4 sm:w-4" />
                   </div>
                   <div>
                     <div className="text-xs font-medium text-blue-700 dark:text-blue-300 uppercase tracking-wide">
                       Building Size
                     </div>
-                    <div className="text-sm font-semibold text-blue-900 dark:text-blue-100">
+                    <div className="text-xs sm:text-sm font-semibold text-blue-900 dark:text-blue-100 leading-tight">
                       {params.building_size_min && params.building_size_max
                         ? `${params.building_size_min.toLocaleString()} - ${params.building_size_max.toLocaleString()} sqft`
                         : params.building_size_min
@@ -70,17 +70,17 @@ export async function LicenseWarning({ unlicensed }: { unlicensed: string[] }) {
 
             {/* Lot Size Filter */}
             {(params.lot_size_min || params.lot_size_max) && (
-              <div className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-green-50/80 to-green-100/50 dark:from-green-950/30 dark:to-green-900/20 border border-green-200/50 dark:border-green-800/30 p-4 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-green-500/10">
-                <div className="absolute top-0 right-0 w-16 h-16 bg-green-500/10 rounded-full -translate-y-8 translate-x-8 group-hover:scale-150 transition-transform duration-500" />
-                <div className="relative flex items-center gap-3">
-                  <div className="p-2 rounded-lg bg-green-500/10 text-green-600 dark:text-green-400">
-                    <IconRuler className="h-4 w-4" />
+              <div className="group relative overflow-hidden rounded-lg sm:rounded-xl bg-gradient-to-br from-green-50/80 to-green-100/50 dark:from-green-950/30 dark:to-green-900/20 border border-green-200/50 dark:border-green-800/30 p-3 sm:p-4 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-green-500/10">
+                <div className="absolute top-0 right-0 w-12 h-12 sm:w-16 sm:h-16 bg-green-500/10 rounded-full -translate-y-6 translate-x-6 sm:-translate-y-8 sm:translate-x-8 group-hover:scale-150 transition-transform duration-500" />
+                <div className="relative flex items-center gap-2 sm:gap-3">
+                  <div className="p-1.5 sm:p-2 rounded-lg bg-green-500/10 text-green-600 dark:text-green-400">
+                    <IconRuler className="h-3 w-3 sm:h-4 sm:w-4" />
                   </div>
                   <div>
                     <div className="text-xs font-medium text-green-700 dark:text-green-300 uppercase tracking-wide">
                       Lot Size
                     </div>
-                    <div className="text-sm font-semibold text-green-900 dark:text-green-100">
+                    <div className="text-xs sm:text-sm font-semibold text-green-900 dark:text-green-100 leading-tight">
                       {params.lot_size_min && params.lot_size_max
                         ? `${params.lot_size_min.toLocaleString()} - ${params.lot_size_max.toLocaleString()} sqft`
                         : params.lot_size_min
@@ -94,17 +94,17 @@ export async function LicenseWarning({ unlicensed }: { unlicensed: string[] }) {
 
             {/* Year Built Filter */}
             {(params.year_min || params.year_max) && (
-              <div className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-purple-50/80 to-purple-100/50 dark:from-purple-950/30 dark:to-purple-900/20 border border-purple-200/50 dark:border-purple-800/30 p-4 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-purple-500/10">
-                <div className="absolute top-0 right-0 w-16 h-16 bg-purple-500/10 rounded-full -translate-y-8 translate-x-8 group-hover:scale-150 transition-transform duration-500" />
-                <div className="relative flex items-center gap-3">
-                  <div className="p-2 rounded-lg bg-purple-500/10 text-purple-600 dark:text-purple-400">
-                    <IconCalendar className="h-4 w-4" />
+              <div className="group relative overflow-hidden rounded-lg sm:rounded-xl bg-gradient-to-br from-purple-50/80 to-purple-100/50 dark:from-purple-950/30 dark:to-purple-900/20 border border-purple-200/50 dark:border-purple-800/30 p-3 sm:p-4 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-purple-500/10">
+                <div className="absolute top-0 right-0 w-12 h-12 sm:w-16 sm:h-16 bg-purple-500/10 rounded-full -translate-y-6 translate-x-6 sm:-translate-y-8 sm:translate-x-8 group-hover:scale-150 transition-transform duration-500" />
+                <div className="relative flex items-center gap-2 sm:gap-3">
+                  <div className="p-1.5 sm:p-2 rounded-lg bg-purple-500/10 text-purple-600 dark:text-purple-400">
+                    <IconCalendar className="h-3 w-3 sm:h-4 sm:w-4" />
                   </div>
                   <div>
                     <div className="text-xs font-medium text-purple-700 dark:text-purple-300 uppercase tracking-wide">
                       Year Built
                     </div>
-                    <div className="text-sm font-semibold text-purple-900 dark:text-purple-100">
+                    <div className="text-xs sm:text-sm font-semibold text-purple-900 dark:text-purple-100 leading-tight">
                       {params.year_min && params.year_max
                         ? `${params.year_min} - ${params.year_max}`
                         : params.year_min
@@ -118,17 +118,17 @@ export async function LicenseWarning({ unlicensed }: { unlicensed: string[] }) {
 
             {/* Last Sale Date Filter */}
             {(params.last_sale_year || params.last_sale_month) && (
-              <div className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-orange-50/80 to-orange-100/50 dark:from-orange-950/30 dark:to-orange-900/20 border border-orange-200/50 dark:border-orange-800/30 p-4 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-orange-500/10">
-                <div className="absolute top-0 right-0 w-16 h-16 bg-orange-500/10 rounded-full -translate-y-8 translate-x-8 group-hover:scale-150 transition-transform duration-500" />
-                <div className="relative flex items-center gap-3">
-                  <div className="p-2 rounded-lg bg-orange-500/10 text-orange-600 dark:text-orange-400">
-                    <IconCalendar className="h-4 w-4" />
+              <div className="group relative overflow-hidden rounded-lg sm:rounded-xl bg-gradient-to-br from-orange-50/80 to-orange-100/50 dark:from-orange-950/30 dark:to-orange-900/20 border border-orange-200/50 dark:border-orange-800/30 p-3 sm:p-4 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-orange-500/10">
+                <div className="absolute top-0 right-0 w-12 h-12 sm:w-16 sm:h-16 bg-orange-500/10 rounded-full -translate-y-6 translate-x-6 sm:-translate-y-8 sm:translate-x-8 group-hover:scale-150 transition-transform duration-500" />
+                <div className="relative flex items-center gap-2 sm:gap-3">
+                  <div className="p-1.5 sm:p-2 rounded-lg bg-orange-500/10 text-orange-600 dark:text-orange-400">
+                    <IconCalendar className="h-3 w-3 sm:h-4 sm:w-4" />
                   </div>
                   <div>
                     <div className="text-xs font-medium text-orange-700 dark:text-orange-300 uppercase tracking-wide">
                       Last Sale
                     </div>
-                    <div className="text-sm font-semibold text-orange-900 dark:text-orange-100">
+                    <div className="text-xs sm:text-sm font-semibold text-orange-900 dark:text-orange-100 leading-tight">
                       {params.last_sale_month !== undefined &&
                       params.last_sale_year
                         ? `${new Date(params.last_sale_year, params.last_sale_month).toLocaleDateString("en-US", { month: "short", year: "numeric" })}`
@@ -163,9 +163,9 @@ export async function LicenseWarning({ unlicensed }: { unlicensed: string[] }) {
         </div>
       )}
 
-      <div className="mx-auto w-full max-w-lg">
+      <div className="mx-auto w-full max-w-lg px-2 sm:px-0">
         {/* Location Preview List */}
-        <div className="mb-8">
+        <div className="mb-6 sm:mb-8">
           <LocationSearchPreviewList locations={unlicensed} />
         </div>
 
@@ -182,7 +182,7 @@ export async function LicenseWarning({ unlicensed }: { unlicensed: string[] }) {
               buttonVariants({
                 variant: "ghost",
               }),
-              "h-12 px-8",
+              "h-11 sm:h-12 px-6 sm:px-8 text-sm sm:text-base",
             )}
           >
             <IconArrowLeft className="h-4 w-4" />
@@ -193,7 +193,7 @@ export async function LicenseWarning({ unlicensed }: { unlicensed: string[] }) {
             fallback={
               <Button
                 disabled
-                className="h-12 px-8 bg-primary hover:bg-primary/90 text-primary-foreground"
+                className="h-11 sm:h-12 px-6 sm:px-8 bg-primary hover:bg-primary/90 text-primary-foreground text-sm sm:text-base"
               >
                 Loading...
               </Button>
@@ -230,19 +230,19 @@ async function LocationSearchPreviewServer({
   );
 
   return (
-    <div className="flex items-center justify-between py-3 px-4 rounded-md bg-muted/30 border border-border/50">
-      <div className="flex items-center gap-3">
-        <div className="w-2 h-2 rounded-full bg-primary/60" />
-        <span className="text-sm font-medium text-foreground">
+    <div className="flex items-center justify-between py-2.5 sm:py-3 px-3 sm:px-4 rounded-md bg-muted/30 border border-border/50">
+      <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
+        <div className="w-2 h-2 rounded-full bg-primary/60 flex-shrink-0" />
+        <span className="text-xs sm:text-sm font-medium text-foreground truncate">
           {formattedLocation}
         </span>
       </div>
       {resultCount > 0 ? (
-        <div className="text-xs font-medium text-primary bg-primary/10 px-2 py-1 rounded border border-primary/20">
+        <div className="text-xs font-medium text-primary bg-primary/10 px-2 py-1 rounded border border-primary/20 flex-shrink-0">
           {resultCount.toLocaleString()} results
         </div>
       ) : (
-        <div className="text-xs font-medium text-warning bg-warning/10 px-2 py-1 rounded border border-warning/20">
+        <div className="text-xs font-medium text-warning bg-warning/10 px-2 py-1 rounded border border-warning/20 flex-shrink-0">
           No results
         </div>
       )}
@@ -258,12 +258,12 @@ function LocationSearchPreview({
   return (
     <Suspense
       fallback={
-        <div className="flex items-center justify-between py-3 px-4 rounded-md bg-muted/20 border border-border/30">
-          <div className="flex items-center gap-3">
-            <div className="w-2 h-2 rounded-full bg-muted animate-pulse" />
-            <div className="h-4 w-32 bg-muted rounded animate-pulse" />
+        <div className="flex items-center justify-between py-2.5 sm:py-3 px-3 sm:px-4 rounded-md bg-muted/20 border border-border/30">
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
+            <div className="w-2 h-2 rounded-full bg-muted animate-pulse flex-shrink-0" />
+            <div className="h-3 sm:h-4 w-24 sm:w-32 bg-muted rounded animate-pulse" />
           </div>
-          <div className="h-6 w-16 bg-muted rounded animate-pulse" />
+          <div className="h-5 sm:h-6 w-12 sm:w-16 bg-muted rounded animate-pulse flex-shrink-0" />
         </div>
       }
     >
@@ -361,14 +361,14 @@ async function CheckoutValidation({ locations }: { locations: string[] }) {
   }
 
   return (
-    <div className="mb-6">
-      <div className="p-4 rounded-lg bg-muted/50 border border-border">
-        <div className="flex items-start gap-3">
-          <div className="w-5 h-5 rounded-full bg-muted flex items-center justify-center mt-0.5">
-            <IconMapPin className="w-3 h-3 text-muted-foreground" />
+    <div className="mb-4 sm:mb-6">
+      <div className="p-3 sm:p-4 rounded-lg bg-muted/50 border border-border">
+        <div className="flex items-start gap-2 sm:gap-3">
+          <div className="w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-muted flex items-center justify-center mt-0.5 flex-shrink-0">
+            <IconMapPin className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-muted-foreground" />
           </div>
-          <div className="flex-1">
-            <div className="text-sm font-medium text-foreground mb-2">
+          <div className="flex-1 min-w-0">
+            <div className="text-xs sm:text-sm font-medium text-foreground mb-1 sm:mb-2">
               No properties available in selected locations
             </div>
             <div className="text-xs text-muted-foreground leading-relaxed">
@@ -398,8 +398,8 @@ async function LocationSearchPreviewList({
   }
 
   return (
-    <div className="space-y-2 max-h-64 overflow-y-auto">
-      <div className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-3 px-1">
+    <div className="space-y-2 max-h-56 sm:max-h-64 overflow-y-auto">
+      <div className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-2 sm:mb-3 px-1">
         Preview Results
       </div>
       {locations.map((location) => (

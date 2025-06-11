@@ -130,7 +130,7 @@ export function PreviewSearchForm({
           </div>
 
           {/* Location Search */}
-          <div className="flex-1">
+          <div className="flex-1 w-full">
             <FormField
               control={form.control}
               name="locations"
@@ -141,7 +141,7 @@ export function PreviewSearchForm({
                       value={field.value}
                       onValueChange={field.onChange}
                       placeholder="Search cities or counties..."
-                      className="h-12 text-base"
+                      className="h-12 text-base "
                     />
                   </FormControl>
                   <FormMessage />
@@ -234,7 +234,7 @@ export function PreviewSearchForm({
             type="submit"
             size="lg"
             disabled={!form.formState.isValid}
-            className="h-12 px-8 bg-primary hover:bg-primary/90 text-primary-foreground"
+            className="h-12 px-8 bg-primary hover:bg-primary/90 text-primary-foreground w-full sm:w-max"
           >
             Search
           </Button>

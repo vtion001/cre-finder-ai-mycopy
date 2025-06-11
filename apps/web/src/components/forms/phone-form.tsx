@@ -63,8 +63,11 @@ export function PhoneForm({ user }: { user: Tables<"users"> }) {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <div className="flex gap-4">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-4 md:space-y-6"
+      >
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
           <FormField
             control={form.control}
             name="phone"
@@ -75,7 +78,7 @@ export function PhoneForm({ user }: { user: Tables<"users"> }) {
                     value={field.value}
                     onValueChange={(value) => form.setValue(field.name, value)}
                     placeholder="Phone number"
-                    className="h-12 text-base"
+                    className="h-10 sm:h-12 text-sm sm:text-base"
                   />
                 </FormControl>
                 <FormMessage />
@@ -85,13 +88,13 @@ export function PhoneForm({ user }: { user: Tables<"users"> }) {
           <Button
             type="submit"
             size="lg"
-            className="h-12 text-base px-6"
+            className="h-10 sm:h-12 text-sm sm:text-base px-4 sm:px-6 w-full sm:w-auto"
             disabled={isLoading || !form.formState.isDirty}
           >
             {isLoading ? "Saving..." : "Save"}
           </Button>
         </div>
-        <p className="text-xs text-muted-foreground">
+        <p className="text-xs text-muted-foreground leading-relaxed">
           We'll use this number for account verification and important
           notifications.
         </p>

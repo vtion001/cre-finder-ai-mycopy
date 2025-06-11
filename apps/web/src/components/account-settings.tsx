@@ -11,40 +11,38 @@ import Link from "next/link";
 
 export function AccountSettings({ user }: { user: Tables<"users"> }) {
   return (
-    <div className="space-y-12 lg:space-y-0">
-      <div className="grid gap-12 lg:grid-cols-[1fr_auto_1fr] lg:gap-16">
+    <div className="space-y-8 md:space-y-12 lg:space-y-0">
+      <div className="grid gap-8 md:gap-12 lg:grid-cols-[1fr_auto_1fr] lg:gap-16">
         {/* Profile Information Section */}
-        <div className="space-y-8">
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-primary/10 rounded-lg">
-              <User className="h-5 w-5 text-primary" />
+        <div className="space-y-6 md:space-y-8">
+          <div className="flex items-start sm:items-center gap-3">
+            <div className="p-2 bg-primary/10 rounded-lg flex-shrink-0">
+              <User className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
             </div>
-            <div>
-              <h2 className="text-xl font-semibold text-foreground">
+            <div className="min-w-0 flex-1">
+              <h2 className="text-lg sm:text-xl font-semibold text-foreground">
                 Profile Information
               </h2>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-xs sm:text-sm text-muted-foreground mt-1">
                 Update your account profile information
               </p>
             </div>
           </div>
 
-          <div className="space-y-8">
+          <div className="space-y-6 md:space-y-8">
             {/* Name Section */}
-            <div className="space-y-4">
-              <div className="flex items-center gap-2">
-                <h3 className="text-base font-medium text-foreground">
-                  Full Name
-                </h3>
-              </div>
+            <div className="space-y-3 md:space-y-4">
+              <h3 className="text-sm sm:text-base font-medium text-foreground">
+                Full Name
+              </h3>
               <NameForm user={user} />
             </div>
 
             <Separator />
 
             {/* Email Section */}
-            <div className="space-y-4">
-              <h3 className="text-base font-medium text-foreground">
+            <div className="space-y-3 md:space-y-4">
+              <h3 className="text-sm sm:text-base font-medium text-foreground">
                 Email Address
               </h3>
               <EmailForm user={user} />
@@ -53,8 +51,8 @@ export function AccountSettings({ user }: { user: Tables<"users"> }) {
             <Separator />
 
             {/* Phone Section */}
-            <div className="space-y-4">
-              <h3 className="text-base font-medium text-foreground">
+            <div className="space-y-3 md:space-y-4">
+              <h3 className="text-sm sm:text-base font-medium text-foreground">
                 Phone Number
               </h3>
               <PhoneForm user={user} />
@@ -68,27 +66,27 @@ export function AccountSettings({ user }: { user: Tables<"users"> }) {
         </div>
 
         {/* Security Section */}
-        <div className="space-y-8">
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-primary/10 rounded-lg">
-              <Shield className="h-5 w-5 text-primary" />
+        <div className="space-y-6 md:space-y-8">
+          <div className="flex items-start sm:items-center gap-3">
+            <div className="p-2 bg-primary/10 rounded-lg flex-shrink-0">
+              <Shield className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
             </div>
-            <div>
-              <h2 className="text-xl font-semibold text-foreground">
+            <div className="min-w-0 flex-1">
+              <h2 className="text-lg sm:text-xl font-semibold text-foreground">
                 Security
               </h2>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-xs sm:text-sm text-muted-foreground mt-1">
                 Manage your account security settings
               </p>
             </div>
           </div>
 
-          <div className="space-y-6">
-            <div className="space-y-4">
-              <h3 className="text-base font-medium text-foreground">
+          <div className="space-y-4 md:space-y-6">
+            <div className="space-y-3 md:space-y-4">
+              <h3 className="text-sm sm:text-base font-medium text-foreground">
                 Password
               </h3>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
                 Update your password to maintain account security. We recommend
                 using a strong, unique password.
               </p>
@@ -96,7 +94,7 @@ export function AccountSettings({ user }: { user: Tables<"users"> }) {
                 <Button
                   variant="outline"
                   size="lg"
-                  className="h-12 text-base gap-2"
+                  className="h-10 sm:h-12 text-sm sm:text-base gap-2 w-full sm:w-auto"
                 >
                   <KeyIcon className="h-4 w-4" />
                   Change Password

@@ -20,7 +20,7 @@ export default async function Account() {
   return (
     <>
       <SiteHeader title="Account Settings" />
-      <div className="p-6 pb-16">
+      <div className="p-4 sm:p-6 pb-16">
         <AccountSettings user={cachedUser.data} />
       </div>
     </>

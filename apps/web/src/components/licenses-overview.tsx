@@ -111,14 +111,16 @@ export function LicensesOverview({ licenses }: LicensesOverviewProps) {
     return (
       <Card>
         <CardHeader>
-          <CardTitle>Licensed Locations</CardTitle>
-          <CardDescription>
+          <CardTitle className="text-lg sm:text-xl">
+            Licensed Locations
+          </CardTitle>
+          <CardDescription className="text-sm">
             You don't have any active licenses yet. Start by searching for
             properties and licensing locations.
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Button asChild>
+          <Button asChild className="w-full sm:w-auto">
             <a href="/dashboard/search">Start Searching</a>
           </Button>
         </CardContent>
@@ -139,17 +141,21 @@ export function LicensesOverview({ licenses }: LicensesOverviewProps) {
   );
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-2xl font-semibold tracking-tight">
+    <div className="space-y-4 md:space-y-6">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div className="min-w-0 flex-1">
+          <h2 className="text-xl sm:text-2xl font-semibold tracking-tight">
             Licensed Locations
           </h2>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-xs sm:text-sm text-muted-foreground mt-1">
             Manage your property search licenses and billing
           </p>
         </div>
-        <Button onClick={handleStripePortalRequest} disabled={isSubmitting}>
+        <Button
+          onClick={handleStripePortalRequest}
+          disabled={isSubmitting}
+          className="w-full sm:w-auto"
+        >
           <IconCreditCard className="h-4 w-4 mr-2" />
           Manage Billing
         </Button>
@@ -157,93 +163,95 @@ export function LicensesOverview({ licenses }: LicensesOverviewProps) {
 
       <Card>
         <CardHeader>
-          <CardTitle>Active Licenses</CardTitle>
+          <CardTitle className="text-lg sm:text-xl">Active Licenses</CardTitle>
         </CardHeader>
-        <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Asset Type</TableHead>
-                <TableHead>Location</TableHead>
-                <TableHead className="text-right w-36">Licensed</TableHead>
-                <TableHead className="text-right w-24">Fee</TableHead>
-                <TableHead className="text-right w-20">Status</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {Object.entries(groupedRows).map(([assetType, rows]) =>
-                rows.map((row, index) => (
-                  <TableRow
-                    key={`${row.assetTypeSlug}-${row.locationName}-${index}`}
-                  >
-                    <TableCell className="font-medium">
-                      {index === 0 ? assetType : ""}
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center gap-2">
-                        <Badge variant="outline" className="text-xs">
-                          {row.locationType}
-                        </Badge>
-                        <span>
-                          {row.locationName}, {row.locationState}
-                        </span>
-                      </div>
-                    </TableCell>
-                    <TableCell className="text-right text-sm">
-                      <div className="flex flex-col items-end">
-                        <span>
-                          {format(new Date(row.licensedDate), "MMM d, yyyy")}
-                        </span>
-                        {row.expiresAt &&
-                          (row.status === "Expiring" ||
-                            row.status === "Expired") && (
-                            <span
-                              className={`text-xs ${
-                                row.status === "Expiring"
-                                  ? "text-yellow-600"
-                                  : "text-red-600"
-                              }`}
-                            >
-                              {row.status === "Expiring"
-                                ? "Expires"
-                                : "Expired"}{" "}
-                              {format(new Date(row.expiresAt), "MMM d")}
-                            </span>
-                          )}
-                      </div>
-                    </TableCell>
-                    <TableCell className="text-right text-sm font-medium">
-                      ${row.monthlyFee.toFixed(2)}
-                    </TableCell>
-                    <TableCell className="text-right">
-                      <div className="flex items-center justify-end gap-1">
-                        <div
-                          className={`w-2 h-2 rounded-full ${
-                            row.statusColor === "green"
-                              ? "bg-green-500"
-                              : row.statusColor === "yellow"
-                                ? "bg-yellow-500"
-                                : "bg-red-500"
-                          }`}
-                        />
-                        <span
-                          className={`text-xs font-medium ${
-                            row.statusColor === "green"
-                              ? "text-green-700"
-                              : row.statusColor === "yellow"
-                                ? "text-yellow-700"
-                                : "text-red-700"
-                          }`}
-                        >
-                          {row.status}
-                        </span>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                )),
-              )}
-            </TableBody>
-          </Table>
+        <CardContent className="p-0 sm:p-6">
+          <div className="overflow-x-auto">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Asset Type</TableHead>
+                  <TableHead>Location</TableHead>
+                  <TableHead className="text-right w-36">Licensed</TableHead>
+                  <TableHead className="text-right w-24">Fee</TableHead>
+                  <TableHead className="text-right w-20">Status</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {Object.entries(groupedRows).map(([assetType, rows]) =>
+                  rows.map((row, index) => (
+                    <TableRow
+                      key={`${row.assetTypeSlug}-${row.locationName}-${index}`}
+                    >
+                      <TableCell className="font-medium">
+                        {index === 0 ? assetType : ""}
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex items-center gap-2">
+                          <Badge variant="outline" className="text-xs">
+                            {row.locationType}
+                          </Badge>
+                          <span>
+                            {row.locationName}, {row.locationState}
+                          </span>
+                        </div>
+                      </TableCell>
+                      <TableCell className="text-right text-sm">
+                        <div className="flex flex-col items-end">
+                          <span>
+                            {format(new Date(row.licensedDate), "MMM d, yyyy")}
+                          </span>
+                          {row.expiresAt &&
+                            (row.status === "Expiring" ||
+                              row.status === "Expired") && (
+                              <span
+                                className={`text-xs ${
+                                  row.status === "Expiring"
+                                    ? "text-yellow-600"
+                                    : "text-red-600"
+                                }`}
+                              >
+                                {row.status === "Expiring"
+                                  ? "Expires"
+                                  : "Expired"}{" "}
+                                {format(new Date(row.expiresAt), "MMM d")}
+                              </span>
+                            )}
+                        </div>
+                      </TableCell>
+                      <TableCell className="text-right text-sm font-medium">
+                        ${row.monthlyFee.toFixed(2)}
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <div className="flex items-center justify-end gap-1">
+                          <div
+                            className={`w-2 h-2 rounded-full ${
+                              row.statusColor === "green"
+                                ? "bg-green-500"
+                                : row.statusColor === "yellow"
+                                  ? "bg-yellow-500"
+                                  : "bg-red-500"
+                            }`}
+                          />
+                          <span
+                            className={`text-xs font-medium ${
+                              row.statusColor === "green"
+                                ? "text-green-700"
+                                : row.statusColor === "yellow"
+                                  ? "text-yellow-700"
+                                  : "text-red-700"
+                            }`}
+                          >
+                            {row.status}
+                          </span>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  )),
+                )}
+              </TableBody>
+            </Table>
+          </div>
         </CardContent>
       </Card>
     </div>

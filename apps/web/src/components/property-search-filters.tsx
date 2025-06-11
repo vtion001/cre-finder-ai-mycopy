@@ -1,8 +1,11 @@
 "use client";
 
 import { parsers } from "@/lib/nuqs/property-search-params";
+import { IconMap2 } from "@tabler/icons-react";
 import type { GetPropertySearchParams } from "@v1/property-data/types";
 import type { Tables } from "@v1/supabase/types";
+import { Button } from "@v1/ui/button";
+import { cn } from "@v1/ui/cn";
 import { Label } from "@v1/ui/label";
 import { Switch } from "@v1/ui/switch";
 import { useQueryStates } from "nuqs";
@@ -27,8 +30,8 @@ export function PropertySearchFilters({
 
   return (
     <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
-      <div className="flex-1">
-        <div className="flex max-w-4xl flex-col sm:flex-row gap-4 items-end ">
+      <div className="flex-1 w-full">
+        <div className="flex  flex-col sm:flex-row gap-4 items-end ">
           <div className="w-full sm:max-w-md">
             <LicensesCombobox
               value={state.locations}
@@ -41,24 +44,26 @@ export function PropertySearchFilters({
               className="h-12 text-base"
             />
           </div>
-          <AddLocationsButton
-            assetType={assetType}
-            assetTypeName={assetTypeName}
-            existingLicenses={licenses}
-          />
+
+          <div className="flex items-center justify-end gap-3 w-full">
+            <AddLocationsButton
+              assetType={assetType}
+              assetTypeName={assetTypeName}
+              existingLicenses={licenses}
+            />
+            <Button
+              onClick={() => setState({ map: !state.map })}
+              className={cn(
+                "h-12 px-4 gap-2 border-muted-foreground/20 text-muted-foreground hover:text-foreground",
+                state.map && "border-primary text-primary bg-primary/5",
+              )}
+              variant="outline"
+            >
+              <IconMap2 className="h-4 w-4" />
+            </Button>
+          </div>
+
           <LicenseFiltersInfo searchParams={searchParams} />
-        </div>
-      </div>
-      <div className="flex items-center gap-3">
-        <div className="flex items-center gap-2">
-          <Label htmlFor="show-map" className="text-sm font-medium">
-            Map
-          </Label>
-          <Switch
-            id="show-map"
-            checked={state.map}
-            onCheckedChange={(value) => setState({ map: value })}
-          />
         </div>
       </div>
     </div>

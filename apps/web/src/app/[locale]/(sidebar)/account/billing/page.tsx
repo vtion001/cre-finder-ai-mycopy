@@ -10,7 +10,7 @@ export default async function Page() {
 
   return (
     <>
-      <div className="space-y-6 p-6 pb-16">
+      <div className="space-y-4 md:space-y-6 p-4 sm:p-6 pb-16">
         {/* @ts-expect-error  */}
         <LicensesOverview licenses={data} />
       </div>

@@ -31,10 +31,10 @@ export default async function Page({
   const unlicensedLocations = locations.filter((loc) => !ids.includes(loc));
 
   return (
-    <div className="p-4 sm:p-6 pb-16 space-y-6">
+    <div className="p-3 sm:p-4 lg:p-6 pb-12 sm:pb-16 space-y-4 sm:space-y-6">
       {/* Only show warning if there are unlicensed locations */}
       {unlicensedLocations.length > 0 ? (
-        <div className="relative overflow-hidden ">
+        <div className="relative overflow-hidden">
           <LicenseWarning unlicensed={unlicensedLocations} />
           <SearchLoading isEmpty />
         </div>

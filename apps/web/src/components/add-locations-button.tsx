@@ -30,10 +30,10 @@ export function AddLocationsButton({
         variant="outline"
         size="lg"
         onClick={() => setDialogOpen(true)}
-        className="h-12 px-4 border-dashed"
+        className="h-12 px-4 border-dashed gap-2"
       >
-        <IconPlus className="h-4 w-4 mr-2" />
-        Add Locations
+        <IconPlus className="h-4 w-4" />
+        <span className="hidden sm:inline">Add Locations</span>
       </Button>
 
       <AddLocationsDialog
