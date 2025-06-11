@@ -91,7 +91,7 @@ export default async function Page({
         <div
           className={`grid gap-6 ${map ? "lg:grid-cols-[1fr,480px]" : "grid-cols-1"}`}
         >
-          <div className="h-[calc(100vh-10.5rem)] w-full overflow-hidden">
+          <div className="h-[calc(100vh-7rem)] w-full overflow-hidden">
             <Table
               assetTypeName={meta.assetType.name}
               assetLicenseId={data.id}
