@@ -216,3 +216,163 @@ export type GetPropertySearchParams = {
   state?: string;
   resultIndex?: number;
 };
+
+// Skip Trace API Types
+export type GetSkipTraceParams = {
+  first_name?: string;
+  last_name?: string;
+  address: string;
+  city: string;
+  state: string;
+  zip: string;
+};
+
+export type SkipTraceIdentity = {
+  name?: {
+    first?: string;
+    last?: string;
+    middle?: string;
+    full?: string;
+  };
+  addresses?: Array<{
+    address?: string;
+    city?: string;
+    state?: string;
+    zip?: string;
+    type?: string;
+    date_first_seen?: string;
+    date_last_seen?: string;
+  }>;
+  phones?: Array<{
+    number?: string;
+    type?: string;
+    carrier?: string;
+    line_type?: string;
+    date_first_seen?: string;
+    date_last_seen?: string;
+  }>;
+  emails?: Array<{
+    email?: string;
+    type?: string;
+    date_first_seen?: string;
+    date_last_seen?: string;
+  }>;
+  relatives?: Array<{
+    name?: string;
+    relationship?: string;
+    age?: number;
+  }>;
+};
+
+export type SkipTraceDemographics = {
+  age?: number;
+  birth_date?: string;
+  gender?: string;
+  education?: string;
+  occupation?: string;
+  income_range?: string;
+  marital_status?: string;
+  children?: number;
+  home_owner?: boolean;
+  length_of_residence?: number;
+};
+
+export type SkipTraceStats = {
+  phones_found?: number;
+  emails_found?: number;
+  jobs_found?: number;
+  relationships_found?: number;
+  addresses_found?: number;
+};
+
+export type SkipTraceResponse = {
+  identity?: SkipTraceIdentity;
+  demographics?: SkipTraceDemographics;
+  stats?: SkipTraceStats;
+  statusCode: number;
+  statusMessage: string;
+  requestExecutionTimeMS: string;
+};
+
+// Bulk Skip Trace API Types
+export type BulkSkipTraceRequest = {
+  key: string | number;
+  first_name?: string;
+  last_name?: string;
+  address: string;
+  city: string;
+  state: string;
+  zip: string;
+  webhook_url?: string;
+};
+
+export type GetBulkSkipTraceParams = {
+  webhook_url?: string;
+  webcomplete_url?: string;
+  requests: BulkSkipTraceRequest[];
+};
+
+export type BulkSkipTraceResponse = {
+  batchId: string;
+  receiveCount: number;
+  batchRequestIds: Array<{
+    key: string | number;
+    batchRequestId: string;
+  }>;
+  statusCode: number;
+  statusMessage: string;
+  requestExecutionTimeMS: string;
+};
+
+export type BulkSkipTraceWebhookResponse = {
+  batchId: string;
+  batchRequestId: string;
+  requestId: string;
+  input: {
+    key: string | number;
+    first_name?: string;
+    last_name?: string;
+    address: string;
+    city: string;
+    state: string;
+    zip: string;
+  };
+  identity?: SkipTraceIdentity;
+  demographics?: SkipTraceDemographics;
+  stats?: SkipTraceStats;
+  statusCode: number;
+  statusMessage: string;
+  requestExecutionTimeMS: string;
+};
+
+// Bulk Skip Trace Await API Types
+export type BulkSkipTraceAwaitRequest = {
+  key: string | number;
+  first_name?: string;
+  last_name?: string;
+  address: string;
+  city: string;
+  state: string;
+  zip: string;
+};
+
+export type GetBulkSkipTraceAwaitParams = {
+  requests: BulkSkipTraceAwaitRequest[];
+};
+
+export type BulkSkipTraceAwaitResult = {
+  key: string | number;
+  identity?: SkipTraceIdentity;
+  demographics?: SkipTraceDemographics;
+  stats?: SkipTraceStats;
+  statusCode: number;
+  statusMessage: string;
+};
+
+export type BulkSkipTraceAwaitResponse = {
+  results: BulkSkipTraceAwaitResult[];
+  totalProcessed: number;
+  statusCode: number;
+  statusMessage: string;
+  requestExecutionTimeMS: string;
+};

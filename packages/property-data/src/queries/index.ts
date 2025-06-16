@@ -3,10 +3,16 @@
 import { getStorageFacilities } from "../providers/google/lib";
 import {
   getAutocomplete,
+  getBulkSkipTrace,
+  getBulkSkipTraceAwait,
   getPropertySearch,
+  getSkipTrace,
 } from "../providers/realestateapi/lib";
 import type {
+  GetBulkSkipTraceAwaitParams,
+  GetBulkSkipTraceParams,
   GetPropertySearchParams,
+  GetSkipTraceParams,
   PropertySearchResponse,
 } from "../providers/realestateapi/types";
 import { parseLocationCode } from "../utils/format";
@@ -101,4 +107,39 @@ export async function getAutocompleteQuery({
   searchTypes: Array<string>;
 }) {
   return await getAutocomplete({ query, searchTypes });
+}
+
+export async function getSkipTraceQuery(params: GetSkipTraceParams) {
+  const start_time = performance.now();
+
+  const response = await getSkipTrace(params);
+
+  const end_time = performance.now();
+  const executionTime = end_time - start_time;
+
+  return { response, executionTime: Math.round(executionTime) };
+}
+
+export async function getBulkSkipTraceQuery(params: GetBulkSkipTraceParams) {
+  const start_time = performance.now();
+
+  const response = await getBulkSkipTrace(params);
+
+  const end_time = performance.now();
+  const executionTime = end_time - start_time;
+
+  return { response, executionTime: Math.round(executionTime) };
+}
+
+export async function getBulkSkipTraceAwaitQuery(
+  params: GetBulkSkipTraceAwaitParams,
+) {
+  const start_time = performance.now();
+
+  const response = await getBulkSkipTraceAwait(params);
+
+  const end_time = performance.now();
+  const executionTime = end_time - start_time;
+
+  return { response, executionTime: Math.round(executionTime) };
 }

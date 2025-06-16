@@ -1,9 +1,15 @@
 import type {
   AutocompleteResponse,
+  BulkSkipTraceAwaitResponse,
+  BulkSkipTraceResponse,
   GetAutocompleteParams,
+  GetBulkSkipTraceAwaitParams,
+  GetBulkSkipTraceParams,
   GetPropertySearchParams,
+  GetSkipTraceParams,
   PropertySearchResponse,
   PropertySearchResult,
+  SkipTraceResponse,
 } from "./types";
 
 export async function getAutocomplete({
@@ -106,4 +112,63 @@ export async function getPropertySearch(
     resultCount: allResults.length,
     recordCount: allResults.length,
   };
+}
+
+export async function getSkipTrace(params: GetSkipTraceParams) {
+  console.log("getSkipTrace", params);
+
+  const response = await fetch("https://api.realestateapi.com/v1/SkipTrace", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "x-api-key": process.env.REALESTATEAPI_SKIP_KEY!,
+      "x-user-id": "CREFinderAI",
+    },
+    body: JSON.stringify(params),
+  });
+
+  const data = (await response.json()) as SkipTraceResponse;
+  return data;
+}
+
+export async function getBulkSkipTrace(params: GetBulkSkipTraceParams) {
+  console.log("getBulkSkipTrace", params);
+
+  const response = await fetch(
+    "https://api.realestateapi.com/v1/SkipTraceBatch",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": process.env.REALESTATEAPI_API_KEY!,
+        "x-user-id": "CREFinderAI",
+      },
+      body: JSON.stringify(params),
+    },
+  );
+
+  const data = (await response.json()) as BulkSkipTraceResponse;
+  return data;
+}
+
+export async function getBulkSkipTraceAwait(
+  params: GetBulkSkipTraceAwaitParams,
+) {
+  console.log("getBulkSkipTraceAwait", params);
+
+  const response = await fetch(
+    "https://api.realestateapi.com/v1/SkipTraceBatchAwait",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": process.env.REALESTATEAPI_API_KEY!,
+        "x-user-id": "CREFinderAI",
+      },
+      body: JSON.stringify(params),
+    },
+  );
+
+  const data = (await response.json()) as BulkSkipTraceAwaitResponse;
+  return data;
 }

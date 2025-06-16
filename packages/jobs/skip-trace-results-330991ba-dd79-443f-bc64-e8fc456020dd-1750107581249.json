@@ -1,0 +1,938 @@
+{
+  "licenseId": "330991ba-dd79-443f-bc64-e8fc456020dd",
+  "locationInternalId": "c-sc-greenville",
+  "totalRecords": 5,
+  "processed": 5,
+  "timestamp": "2025-06-16T20:59:41.250Z",
+  "results": [
+    {
+      "propertyId": "240268646",
+      "address": "7 Harley Barn Ct, Greenville, SC 29611",
+      "owner": "Wade Phillips Holdings Llc",
+      "skipTraceResponse": {
+        "requestId": "dabb43dd-3840-4a5e-bb5e-6fe2058fa258",
+        "responseCode": 0,
+        "requestDate": "2025-06-16T20:59:39.269Z",
+        "responseMessage": "Successful",
+        "warnings": "None",
+        "input": {
+          "last_name": "Wade Phillips Holdings Llc",
+          "address": "7 Harley Barn Ct, Greenville, SC 29611",
+          "city": "Greenville",
+          "state": "SC",
+          "zip": "29611"
+        },
+        "output": {
+          "identity": {
+            "names": [
+              {
+                "firstName": "Ryan",
+                "middleName": "",
+                "lastName": "Datko",
+                "fullName": "Ryan Datko"
+              },
+              {
+                "firstName": "Lindsey",
+                "middleName": "",
+                "lastName": "Smith",
+                "fullName": "Lindsey Smith"
+              },
+              {
+                "firstName": "Emma",
+                "middleName": "",
+                "lastName": "Datko",
+                "fullName": "Emma Datko"
+              },
+              {
+                "firstName": "Daniel",
+                "middleName": "",
+                "lastName": "Scherdt",
+                "fullName": "Daniel Scherdt"
+              },
+              {
+                "firstName": "Stephanie",
+                "middleName": "",
+                "lastName": "Scherdt",
+                "fullName": "Stephanie Scherdt"
+              }
+            ],
+            "address": {
+              "house": "311",
+              "preDir": "",
+              "street": "Shadow Ridge",
+              "postDir": "",
+              "strType": "Cir",
+              "aptNbr": "",
+              "aptType": "",
+              "city": "Simpsonville",
+              "state": "SC",
+              "county": "",
+              "zip": "29681",
+              "z4": "1953",
+              "latitude": "",
+              "longitude": "",
+              "formattedAddress": "311 Shadow Ridge Cir, Simpsonville, SC 29681",
+              "lastSeen": "2025-03-14",
+              "validSince": ""
+            },
+            "addressHistory": [
+              {
+                "house": "16",
+                "preDir": "",
+                "street": "Kershaw",
+                "postDir": "",
+                "strType": "Ct",
+                "aptNbr": "",
+                "aptType": "",
+                "city": "Greenville",
+                "state": "SC",
+                "county": "",
+                "zip": "29607",
+                "z4": "5986",
+                "latitude": "",
+                "longitude": "",
+                "formattedAddress": "16 Kershaw Ct, Greenville, SC 29607",
+                "lastSeen": "2025-03-14",
+                "validSince": ""
+              }
+            ],
+            "phones": [
+              {
+                "phone": "8643042968",
+                "telcoName": "",
+                "phoneDisplay": "(864) 304-2968",
+                "phoneExtension": "",
+                "isConnected": true,
+                "doNotCall": true,
+                "phoneType": "mobile",
+                "lastSeen": "2025-03-14",
+                "validSince": ""
+              },
+              {
+                "phone": "8642830309",
+                "telcoName": "",
+                "phoneDisplay": "(864) 283-0309",
+                "phoneExtension": "",
+                "isConnected": true,
+                "doNotCall": true,
+                "phoneType": "landline",
+                "lastSeen": "2025-03-14",
+                "validSince": ""
+              },
+              {
+                "phone": "8645615442",
+                "telcoName": "",
+                "phoneDisplay": "(864) 561-5442",
+                "phoneExtension": "",
+                "isConnected": true,
+                "doNotCall": true,
+                "phoneType": "mobile",
+                "lastSeen": "2025-03-14",
+                "validSince": ""
+              }
+            ],
+            "emails": [
+              {
+                "email": "rdatko@gmail.com",
+                "emailType": "personal"
+              },
+              {
+                "email": "rdatko1@att.com",
+                "emailType": "personal"
+              },
+              {
+                "email": "lindseydatko@gmail.com",
+                "emailType": "personal"
+              },
+              {
+                "email": "erubiera2@aol.com",
+                "emailType": "personal"
+              }
+            ]
+          },
+          "demographics": {
+            "dob": "1979 - 1980",
+            "dod": "",
+            "deceased": false,
+            "gender": "Male",
+            "age": 45,
+            "ageDisplay": "45 years old",
+            "images": [],
+            "social": [],
+            "education": [],
+            "jobs": [
+              {
+                "title": "Clerical or Service Worker",
+                "org": "",
+                "industry": "",
+                "display": "Clerical or Service Worker",
+                "dates": ""
+              }
+            ],
+            "names": [
+              {
+                "type": "",
+                "prefix": "",
+                "firstName": "Ryan",
+                "lastName": "Datko",
+                "middleName": "",
+                "suffix": "",
+                "fullName": "Ryan Datko",
+                "lastSeen": "",
+                "validSince": ""
+              },
+              {
+                "type": "",
+                "prefix": "",
+                "firstName": "Lindsey",
+                "lastName": "Smith",
+                "middleName": "",
+                "suffix": "",
+                "fullName": "Lindsey Smith",
+                "lastSeen": "",
+                "validSince": ""
+              },
+              {
+                "type": "",
+                "prefix": "",
+                "firstName": "Emma",
+                "lastName": "Datko",
+                "middleName": "",
+                "suffix": "",
+                "fullName": "Emma Datko",
+                "lastSeen": "",
+                "validSince": ""
+              },
+              {
+                "type": "",
+                "prefix": "",
+                "firstName": "Daniel",
+                "lastName": "Scherdt",
+                "middleName": "",
+                "suffix": "",
+                "fullName": "Daniel Scherdt",
+                "lastSeen": "",
+                "validSince": ""
+              },
+              {
+                "type": "",
+                "prefix": "",
+                "firstName": "Stephanie",
+                "lastName": "Scherdt",
+                "middleName": "",
+                "suffix": "",
+                "fullName": "Stephanie Scherdt",
+                "lastSeen": "",
+                "validSince": ""
+              }
+            ]
+          },
+          "relationships": [],
+          "stats": {
+            "searchResults": 1,
+            "names": 5,
+            "addresses": 2,
+            "phoneNumbers": 3,
+            "emailAddresses": 4,
+            "associates": 0,
+            "jobs": 1,
+            "socialProfiles": 0,
+            "images": 0
+          }
+        },
+        "match": true,
+        "cached": false,
+        "statusCode": 200,
+        "statusMessage": "Success",
+        "credits": 10,
+        "live": true,
+        "requestExecutionTimeMS": "175ms"
+      },
+      "executionTime": 678,
+      "timestamp": "2025-06-16T20:59:39.241Z"
+    },
+    {
+      "propertyId": "149097538",
+      "address": "122 S Fish Trap Rd, Greenville, SC 29611",
+      "owner": "C&V Holdings Llc",
+      "skipTraceResponse": {
+        "requestId": "6e502bb6-4f10-4fc0-aa76-8e8d59753250",
+        "responseCode": 0,
+        "requestDate": "2025-06-16T20:59:39.849Z",
+        "responseMessage": "Successful",
+        "warnings": "None",
+        "input": {
+          "last_name": "C&V Holdings Llc",
+          "address": "122 S Fish Trap Rd, Greenville, SC 29611",
+          "city": "Greenville",
+          "state": "SC",
+          "zip": "29611"
+        },
+        "output": {
+          "identity": {
+            "names": [
+              {
+                "firstName": "Irina",
+                "middleName": "",
+                "lastName": "Ivanova",
+                "fullName": "Irina Ivanova"
+              },
+              {
+                "firstName": "Vladimir",
+                "middleName": "",
+                "lastName": "Panayotov",
+                "fullName": "Vladimir Panayotov"
+              }
+            ],
+            "address": {
+              "house": "173",
+              "preDir": "",
+              "street": "Po",
+              "postDir": "",
+              "strType": "",
+              "aptNbr": "Oakto",
+              "aptType": "Box",
+              "city": "n",
+              "state": "VA",
+              "county": "",
+              "zip": "22124",
+              "z4": "0173",
+              "latitude": "",
+              "longitude": "",
+              "formattedAddress": "173 Po Box, Oakton, VA 22124",
+              "lastSeen": "2025-03-14",
+              "validSince": ""
+            },
+            "addressHistory": [
+              {
+                "house": "227",
+                "preDir": "",
+                "street": "Shale",
+                "postDir": "",
+                "strType": "Dr",
+                "aptNbr": "",
+                "aptType": "",
+                "city": "Easley",
+                "state": "SC",
+                "county": "",
+                "zip": "29642",
+                "z4": "7302",
+                "latitude": "",
+                "longitude": "",
+                "formattedAddress": "227 Shale Dr, Easley, SC 29642",
+                "lastSeen": "2025-03-14",
+                "validSince": ""
+              }
+            ],
+            "phones": [
+              {
+                "phone": "2024608025",
+                "telcoName": "",
+                "phoneDisplay": "(202) 460-8025",
+                "phoneExtension": "",
+                "isConnected": false,
+                "doNotCall": false,
+                "phoneType": "mobile",
+                "lastSeen": "2025-03-14",
+                "validSince": ""
+              }
+            ],
+            "emails": []
+          },
+          "demographics": {
+            "dob": "1981 - 1982",
+            "dod": "",
+            "deceased": false,
+            "gender": "Female",
+            "age": 43,
+            "ageDisplay": "43 years old",
+            "images": [],
+            "social": [],
+            "education": [],
+            "jobs": [
+              {
+                "title": "Professional/Technical",
+                "org": "",
+                "industry": "",
+                "display": "Professional/Technical",
+                "dates": ""
+              }
+            ],
+            "names": [
+              {
+                "type": "",
+                "prefix": "",
+                "firstName": "Irina",
+                "lastName": "Ivanova",
+                "middleName": "",
+                "suffix": "",
+                "fullName": "Irina Ivanova",
+                "lastSeen": "",
+                "validSince": ""
+              },
+              {
+                "type": "",
+                "prefix": "",
+                "firstName": "Vladimir",
+                "lastName": "Panayotov",
+                "middleName": "",
+                "suffix": "",
+                "fullName": "Vladimir Panayotov",
+                "lastSeen": "",
+                "validSince": ""
+              }
+            ]
+          },
+          "relationships": [],
+          "stats": {
+            "searchResults": 1,
+            "names": 2,
+            "addresses": 2,
+            "phoneNumbers": 1,
+            "emailAddresses": 0,
+            "associates": 0,
+            "jobs": 1,
+            "socialProfiles": 0,
+            "images": 0
+          }
+        },
+        "match": true,
+        "cached": false,
+        "statusCode": 200,
+        "statusMessage": "Success",
+        "credits": 10,
+        "live": true,
+        "requestExecutionTimeMS": "284ms"
+      },
+      "executionTime": 541,
+      "timestamp": "2025-06-16T20:59:39.891Z"
+    },
+    {
+      "propertyId": "700123854662",
+      "address": "3671 Calhoun Memorial Hwy, Greenville, SC 29611",
+      "owner": "Michael Holsenback",
+      "skipTraceResponse": {
+        "requestId": "dc21b4a0-6851-4502-8066-39a9a3533f80",
+        "responseCode": 0,
+        "requestDate": "2025-06-16T20:59:40.272Z",
+        "responseMessage": "Successful",
+        "warnings": "None",
+        "input": {
+          "first_name": "Michael",
+          "last_name": "Holsenback",
+          "address": "3671 Calhoun Memorial Hwy, Greenville, SC 29611",
+          "city": "Greenville",
+          "state": "SC",
+          "zip": "29611"
+        },
+        "output": {
+          "identity": {
+            "names": [
+              {
+                "firstName": "Michael",
+                "middleName": "",
+                "lastName": "Holsenback",
+                "fullName": "Michael Holsenback"
+              }
+            ],
+            "address": {
+              "house": "",
+              "preDir": "",
+              "street": "",
+              "postDir": "",
+              "strType": "",
+              "aptNbr": "",
+              "aptType": "",
+              "city": "Greenville",
+              "state": "SC",
+              "county": "",
+              "zip": "29611",
+              "z4": "",
+              "latitude": "",
+              "longitude": "",
+              "formattedAddress": "Greenville, SC 29611",
+              "lastSeen": "2025-03-14",
+              "validSince": ""
+            },
+            "addressHistory": [
+              {
+                "house": "3671",
+                "preDir": "",
+                "street": "Calhoun Memorial",
+                "postDir": "",
+                "strType": "Hwy",
+                "aptNbr": "",
+                "aptType": "",
+                "city": "Greenville",
+                "state": "SC",
+                "county": "",
+                "zip": "29611",
+                "z4": "7026",
+                "latitude": "",
+                "longitude": "",
+                "formattedAddress": "3671 Calhoun Memorial Hwy, Greenville, SC 29611",
+                "lastSeen": "2025-03-14",
+                "validSince": ""
+              }
+            ],
+            "phones": [
+              {
+                "phone": "8642950270",
+                "telcoName": "",
+                "phoneDisplay": "(864) 295-0270",
+                "phoneExtension": "",
+                "isConnected": false,
+                "doNotCall": false,
+                "phoneType": "landline",
+                "lastSeen": "2025-03-14",
+                "validSince": ""
+              },
+              {
+                "phone": "8644445008",
+                "telcoName": "",
+                "phoneDisplay": "(864) 444-5008",
+                "phoneExtension": "",
+                "isConnected": true,
+                "doNotCall": false,
+                "phoneType": "mobile",
+                "lastSeen": "2025-03-14",
+                "validSince": ""
+              }
+            ],
+            "emails": [
+              {
+                "email": "mholsenback@address.com",
+                "emailType": "personal"
+              }
+            ]
+          },
+          "demographics": {
+            "dob": "1959 - 1960",
+            "dod": "",
+            "deceased": false,
+            "gender": "Male",
+            "age": 65,
+            "ageDisplay": "65 years old",
+            "images": [],
+            "social": [],
+            "education": [],
+            "jobs": [
+              {
+                "title": "Upper Management/Executive",
+                "org": "",
+                "industry": "",
+                "display": "Upper Management/Executive",
+                "dates": ""
+              }
+            ],
+            "names": [
+              {
+                "type": "",
+                "prefix": "",
+                "firstName": "Michael",
+                "lastName": "Holsenback",
+                "middleName": "",
+                "suffix": "",
+                "fullName": "Michael Holsenback",
+                "lastSeen": "",
+                "validSince": ""
+              }
+            ]
+          },
+          "relationships": [],
+          "stats": {
+            "searchResults": 1,
+            "names": 1,
+            "addresses": 1,
+            "phoneNumbers": 2,
+            "emailAddresses": 1,
+            "associates": 0,
+            "jobs": 1,
+            "socialProfiles": 0,
+            "images": 0
+          }
+        },
+        "match": true,
+        "cached": false,
+        "statusCode": 200,
+        "statusMessage": "Success",
+        "credits": 10,
+        "live": true,
+        "requestExecutionTimeMS": "55ms"
+      },
+      "executionTime": 197,
+      "timestamp": "2025-06-16T20:59:40.196Z"
+    },
+    {
+      "propertyId": "195485579",
+      "address": "3642 Calhoun Memorial Hwy, Greenville, SC 29611",
+      "owner": "Highway 123 Prop Llc",
+      "skipTraceResponse": {
+        "requestId": "d7556b07-260a-43bb-8b5d-a4c9077df330",
+        "responseCode": 0,
+        "requestDate": "2025-06-16T20:59:40.714Z",
+        "responseMessage": "Successful",
+        "warnings": "None",
+        "input": {
+          "last_name": "Highway 123 Prop Llc",
+          "address": "3642 Calhoun Memorial Hwy, Greenville, SC 29611",
+          "city": "Greenville",
+          "state": "SC",
+          "zip": "29611"
+        },
+        "output": {
+          "identity": {
+            "names": [
+              {
+                "firstName": "Kassidy",
+                "middleName": "",
+                "lastName": "Brown",
+                "fullName": "Kassidy Brown"
+              }
+            ],
+            "address": {
+              "house": "3375",
+              "preDir": "",
+              "street": "Pelzer",
+              "postDir": "",
+              "strType": "Hwy",
+              "aptNbr": "",
+              "aptType": "",
+              "city": "Easley",
+              "state": "SC",
+              "county": "",
+              "zip": "29642",
+              "z4": "8373",
+              "latitude": "",
+              "longitude": "",
+              "formattedAddress": "3375 Pelzer Hwy, Easley, SC 29642",
+              "lastSeen": "2025-03-14",
+              "validSince": ""
+            },
+            "addressHistory": [
+              {
+                "house": "3630",
+                "preDir": "",
+                "street": "Calhoun Memorial",
+                "postDir": "",
+                "strType": "Hwy",
+                "aptNbr": "",
+                "aptType": "",
+                "city": "Greenville",
+                "state": "SC",
+                "county": "",
+                "zip": "29611",
+                "z4": "7025",
+                "latitude": "",
+                "longitude": "",
+                "formattedAddress": "3630 Calhoun Memorial Hwy, Greenville, SC 29611",
+                "lastSeen": "2025-03-14",
+                "validSince": ""
+              }
+            ],
+            "phones": [
+              {
+                "phone": "8646097546",
+                "telcoName": "",
+                "phoneDisplay": "(864) 609-7546",
+                "phoneExtension": "",
+                "isConnected": true,
+                "doNotCall": true,
+                "phoneType": "mobile",
+                "lastSeen": "2025-03-14",
+                "validSince": ""
+              }
+            ],
+            "emails": []
+          },
+          "demographics": {
+            "dob": "1988 - 1989",
+            "dod": "",
+            "deceased": false,
+            "gender": "Female",
+            "age": 36,
+            "ageDisplay": "36 years old",
+            "images": [],
+            "social": [],
+            "education": [],
+            "jobs": [
+              {
+                "title": "Unknown",
+                "org": "",
+                "industry": "",
+                "display": "Unknown",
+                "dates": ""
+              }
+            ],
+            "names": [
+              {
+                "type": "",
+                "prefix": "",
+                "firstName": "Kassidy",
+                "lastName": "Brown",
+                "middleName": "",
+                "suffix": "",
+                "fullName": "Kassidy Brown",
+                "lastSeen": "",
+                "validSince": ""
+              }
+            ]
+          },
+          "relationships": [],
+          "stats": {
+            "searchResults": 1,
+            "names": 1,
+            "addresses": 2,
+            "phoneNumbers": 1,
+            "emailAddresses": 0,
+            "associates": 0,
+            "jobs": 1,
+            "socialProfiles": 0,
+            "images": 0
+          }
+        },
+        "match": true,
+        "cached": false,
+        "statusCode": 200,
+        "statusMessage": "Success",
+        "credits": 10,
+        "live": true,
+        "requestExecutionTimeMS": "168ms"
+      },
+      "executionTime": 384,
+      "timestamp": "2025-06-16T20:59:40.692Z"
+    },
+    {
+      "propertyId": "216139216",
+      "address": "11 Harley Barn Ct, Greenville, SC 29611",
+      "owner": "Joseph Dilberto Iv",
+      "skipTraceResponse": {
+        "requestId": "687655fa-8d08-4287-8693-71eb961ea416",
+        "responseCode": 0,
+        "requestDate": "2025-06-16T20:59:41.167Z",
+        "responseMessage": "Successful",
+        "warnings": "None",
+        "input": {
+          "first_name": "Joseph",
+          "last_name": "Dilberto Iv",
+          "address": "11 Harley Barn Ct, Greenville, SC 29611",
+          "city": "Greenville",
+          "state": "SC",
+          "zip": "29611"
+        },
+        "output": {
+          "identity": {
+            "names": [
+              {
+                "firstName": "Stephanie",
+                "middleName": "",
+                "lastName": "Turaj",
+                "fullName": "Stephanie Turaj"
+              },
+              {
+                "firstName": "Stephen",
+                "middleName": "",
+                "lastName": "Oswalt",
+                "fullName": "Stephen Oswalt"
+              },
+              {
+                "firstName": "Joseph",
+                "middleName": "",
+                "lastName": "Dilberto Iv",
+                "fullName": "Joseph Dilberto Iv"
+              },
+              {
+                "firstName": "Joseph",
+                "middleName": "Dilberto",
+                "lastName": "Dilberto Iv",
+                "fullName": "Joseph Dilberto Dilberto Iv"
+              },
+              {
+                "firstName": "Stephanie",
+                "middleName": "",
+                "lastName": "Oswalt",
+                "fullName": "Stephanie Oswalt"
+              }
+            ],
+            "address": {
+              "house": "9",
+              "preDir": "",
+              "street": "Kilberry",
+              "postDir": "",
+              "strType": "Blvd",
+              "aptNbr": "",
+              "aptType": "",
+              "city": "Greenville",
+              "state": "SC",
+              "county": "",
+              "zip": "29605",
+              "z4": "5981",
+              "latitude": "",
+              "longitude": "",
+              "formattedAddress": "9 Kilberry Blvd, Greenville, SC 29605",
+              "lastSeen": "2025-03-14",
+              "validSince": ""
+            },
+            "addressHistory": [
+              {
+                "house": "49",
+                "preDir": "",
+                "street": "Orchard Park",
+                "postDir": "",
+                "strType": "Dr",
+                "aptNbr": "19",
+                "aptType": "Apt",
+                "city": "Greenville",
+                "state": "SC",
+                "county": "",
+                "zip": "29615",
+                "z4": "3519",
+                "latitude": "",
+                "longitude": "",
+                "formattedAddress": "49 Orchard Park Dr, Apt 19, Greenville, SC 29615",
+                "lastSeen": "2025-03-14",
+                "validSince": ""
+              }
+            ],
+            "phones": [
+              {
+                "phone": "2039085574",
+                "telcoName": "",
+                "phoneDisplay": "(203) 908-5574",
+                "phoneExtension": "",
+                "isConnected": true,
+                "doNotCall": false,
+                "phoneType": "mobile",
+                "lastSeen": "2025-03-14",
+                "validSince": ""
+              },
+              {
+                "phone": "5172193597",
+                "telcoName": "",
+                "phoneDisplay": "(517) 219-3597",
+                "phoneExtension": "",
+                "isConnected": true,
+                "doNotCall": false,
+                "phoneType": "mobile",
+                "lastSeen": "2025-03-14",
+                "validSince": ""
+              }
+            ],
+            "emails": [
+              {
+                "email": "stephanie.turaj@gmail.com",
+                "emailType": "personal"
+              },
+              {
+                "email": "stephanieturaj@gmail.com",
+                "emailType": "personal"
+              },
+              {
+                "email": "stephanie@powerscore.com",
+                "emailType": "personal"
+              }
+            ]
+          },
+          "demographics": {
+            "dob": "1990 - 1991",
+            "dod": "",
+            "deceased": false,
+            "gender": "Female",
+            "age": 34,
+            "ageDisplay": "34 years old",
+            "images": [],
+            "social": [],
+            "education": [],
+            "jobs": [
+              {
+                "title": "Unknown",
+                "org": "",
+                "industry": "",
+                "display": "Unknown",
+                "dates": ""
+              }
+            ],
+            "names": [
+              {
+                "type": "",
+                "prefix": "",
+                "firstName": "Stephanie",
+                "lastName": "Turaj",
+                "middleName": "",
+                "suffix": "",
+                "fullName": "Stephanie Turaj",
+                "lastSeen": "",
+                "validSince": ""
+              },
+              {
+                "type": "",
+                "prefix": "",
+                "firstName": "Stephen",
+                "lastName": "Oswalt",
+                "middleName": "",
+                "suffix": "",
+                "fullName": "Stephen Oswalt",
+                "lastSeen": "",
+                "validSince": ""
+              },
+              {
+                "type": "",
+                "prefix": "",
+                "firstName": "Joseph",
+                "lastName": "Dilberto Iv",
+                "middleName": "",
+                "suffix": "",
+                "fullName": "Joseph Dilberto Iv",
+                "lastSeen": "",
+                "validSince": ""
+              },
+              {
+                "type": "",
+                "prefix": "",
+                "firstName": "Joseph",
+                "lastName": "Dilberto Iv",
+                "middleName": "Dilberto",
+                "suffix": "",
+                "fullName": "Joseph Dilberto Iv",
+                "lastSeen": "",
+                "validSince": ""
+              },
+              {
+                "type": "",
+                "prefix": "",
+                "firstName": "Stephanie",
+                "lastName": "Oswalt",
+                "middleName": "",
+                "suffix": "",
+                "fullName": "Stephanie Oswalt",
+                "lastSeen": "",
+                "validSince": ""
+              }
+            ]
+          },
+          "relationships": [],
+          "stats": {
+            "searchResults": 1,
+            "names": 5,
+            "addresses": 2,
+            "phoneNumbers": 2,
+            "emailAddresses": 3,
+            "associates": 0,
+            "jobs": 1,
+            "socialProfiles": 0,
+            "images": 0
+          }
+        },
+        "match": true,
+        "cached": false,
+        "statusCode": 200,
+        "statusMessage": "Success",
+        "credits": 10,
+        "live": true,
+        "requestExecutionTimeMS": "147ms"
+      },
+      "executionTime": 337,
+      "timestamp": "2025-06-16T20:59:41.139Z"
+    }
+  ]
+}

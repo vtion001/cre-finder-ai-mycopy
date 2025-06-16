@@ -316,6 +316,8 @@ export type Database = {
           rent_amount: string | null
           reo: boolean | null
           rooms_count: number | null
+          skip_trace_data: Json | null
+          skip_trace_updated_at: string | null
           square_feet: number | null
           state: string
           stories: number | null
@@ -421,6 +423,8 @@ export type Database = {
           rent_amount?: string | null
           reo?: boolean | null
           rooms_count?: number | null
+          skip_trace_data?: Json | null
+          skip_trace_updated_at?: string | null
           square_feet?: number | null
           state: string
           stories?: number | null
@@ -526,6 +530,8 @@ export type Database = {
           rent_amount?: string | null
           reo?: boolean | null
           rooms_count?: number | null
+          skip_trace_data?: Json | null
+          skip_trace_updated_at?: string | null
           square_feet?: number | null
           state?: string
           stories?: number | null
