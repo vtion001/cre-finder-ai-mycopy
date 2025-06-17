@@ -103,3 +103,34 @@ export const getOwnerInitials = (row: Tables<"property_records">) => {
   }
   return "?";
 };
+
+// Helper function to format phone numbers for display
+export const formatPhoneNumber = (phone: string) => {
+  // Remove all non-digit characters
+  const cleaned = phone.replace(/\D/g, "");
+
+  // Check if it's a US phone number (10 digits)
+  if (cleaned.length === 10) {
+    return `(${cleaned.slice(0, 3)}) ${cleaned.slice(3, 6)}-${cleaned.slice(6)}`;
+  }
+
+  // Check if it's a US phone number with country code (11 digits starting with 1)
+  if (cleaned.length === 11 && cleaned.startsWith("1")) {
+    const withoutCountryCode = cleaned.slice(1);
+    return `(${withoutCountryCode.slice(0, 3)}) ${withoutCountryCode.slice(3, 6)}-${withoutCountryCode.slice(6)}`;
+  }
+
+  // Return original if not a standard US format
+  return phone;
+};
+
+// Helper function to create phone link
+export const createPhoneLink = (phone: string) => {
+  const cleaned = phone.replace(/\D/g, "");
+  return `tel:+1${cleaned.length === 10 ? cleaned : cleaned.slice(-10)}`;
+};
+
+// Helper function to create email link
+export const createEmailLink = (email: string) => {
+  return `mailto:${email}`;
+};

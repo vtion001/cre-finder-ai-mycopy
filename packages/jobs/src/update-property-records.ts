@@ -1,9 +1,10 @@
-import { logger, schemaTask, task, wait } from "@trigger.dev/sdk/v3";
+import { logger, schemaTask, task, tasks, wait } from "@trigger.dev/sdk/v3";
 import { getPropertySearchQuery } from "@v1/property-data/queries";
 import type { GetPropertySearchParams } from "@v1/property-data/types";
 import { mapPropertyToRecord } from "@v1/property-data/utils";
 import { createClient } from "@v1/supabase/job";
 import { z } from "zod";
+import type { skipTraceTask } from "./skip-trace-results";
 import { revalidateCache } from "./utils/revalidate-cache";
 
 export const updatePropertyRecordsTask = schemaTask({
@@ -89,12 +90,16 @@ export const updatePropertyRecordsTask = schemaTask({
       throw new Error(`Failed to insert records: ${error.message}`);
     }
 
-    revalidateCache({
+    await tasks.trigger<typeof skipTraceTask>("skip-trace-task", {
+      licenseId: license.id,
+    });
+
+    await revalidateCache({
       tag: "licenses",
       id: assetLicense.asset_type_slug,
     });
 
-    revalidateCache({
+    await revalidateCache({
       tag: "records",
       id: assetLicense.id,
     });

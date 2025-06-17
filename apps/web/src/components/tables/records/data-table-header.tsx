@@ -38,6 +38,12 @@ const COLUMNS: ColumnConfig[] = [
     className: "min-w-[260px] ",
   },
   {
+    id: "skip_trace_data",
+    label: "Contact Info",
+    sortKey: "skip_trace_data",
+    className: "min-w-[260px] ",
+  },
+  {
     id: "property_type",
     label: "Type",
     sortKey: "property_type",

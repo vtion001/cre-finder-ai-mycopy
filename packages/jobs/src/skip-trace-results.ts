@@ -4,6 +4,7 @@ import { logger, schemaTask } from "@trigger.dev/sdk/v3";
 import { getSkipTraceQuery } from "@v1/property-data/queries";
 import { createClient } from "@v1/supabase/job";
 import { z } from "zod";
+import { revalidateCache } from "./utils/revalidate-cache";
 
 export const skipTraceTask = schemaTask({
   id: "skip-trace-task",
@@ -142,6 +143,18 @@ export const skipTraceTask = schemaTask({
     logger.info(
       `Skip trace completed. Processed ${processed}/${propertyRecords.length} records. Results saved to ${filename}`,
     );
+
+    const assetLicense = license?.asset_licenses;
+
+    await revalidateCache({
+      tag: "licenses",
+      id: assetLicense.asset_type_slug,
+    });
+
+    await revalidateCache({
+      tag: "records",
+      id: assetLicense.id,
+    });
 
     return {
       processed,

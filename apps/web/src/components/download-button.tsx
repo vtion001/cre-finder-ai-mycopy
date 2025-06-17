@@ -2,18 +2,54 @@
 
 import { useState } from "react";
 
-import {
-  IconDatabaseExport,
-  IconDownload,
-  IconFileDownload,
-  IconFileExport,
-} from "@tabler/icons-react";
+import { IconFileDownload } from "@tabler/icons-react";
 import type { Tables } from "@v1/supabase/types";
 import { Button } from "@v1/ui/button";
 import { format, isValid, parse } from "date-fns";
-import { DownloadIcon } from "lucide-react";
 import { toast } from "sonner";
 import * as XLSX from "xlsx";
+
+// Import skip trace types from the proper package
+import type {
+  SkipTraceDemographics,
+  SkipTraceIdentity,
+  SkipTraceResponse,
+  SkipTraceStats,
+} from "@v1/property-data/types";
+
+// Type for the actual stored API response structure (with output wrapper)
+type StoredSkipTraceResponse = {
+  output?: {
+    identity: {
+      phones: Array<{
+        phone: string;
+        phoneDisplay: string;
+        isConnected: boolean;
+        phoneType: string;
+      }>;
+      emails: Array<{
+        email: string;
+        emailType: string;
+      }>;
+      address: {
+        formattedAddress: string;
+      };
+      addressHistory: Array<{
+        formattedAddress: string;
+      }>;
+    };
+    demographics: {
+      age: number;
+      gender: string;
+      dob: string;
+    };
+    stats: {
+      phoneNumbers: number;
+      emailAddresses: number;
+      addresses: number;
+    };
+  };
+};
 
 interface ExportButtonProps {
   data: Tables<"property_records">[];
@@ -32,6 +68,83 @@ const formatDate = (dateString: string): string => {
   } catch (error) {
     return dateString;
   }
+};
+
+// Helper function to extract skip trace data for CSV export
+const extractSkipTraceData = (
+  skipTraceData: StoredSkipTraceResponse | null,
+) => {
+  const skipTraceFields: Record<string, string | number> = {};
+
+  if (!skipTraceData?.output?.identity) {
+    // No skip trace data available
+    skipTraceFields["Skip Trace Status"] = "No Data";
+    skipTraceFields["Skip Trace Primary Phone"] = "";
+    skipTraceFields["Skip Trace Primary Email"] = "";
+    skipTraceFields["Skip Trace Current Address"] = "";
+    skipTraceFields["Skip Trace Age"] = "";
+    skipTraceFields["Skip Trace Gender"] = "";
+    skipTraceFields["Skip Trace Phone Count"] = 0;
+    skipTraceFields["Skip Trace Email Count"] = 0;
+    skipTraceFields["Skip Trace All Phones"] = "";
+    skipTraceFields["Skip Trace All Emails"] = "";
+    skipTraceFields["Skip Trace Previous Addresses"] = "";
+    return skipTraceFields;
+  }
+
+  const { identity, demographics, stats } = skipTraceData.output;
+  const phones = identity.phones || [];
+  const emails = identity.emails || [];
+  const currentAddress = identity.address;
+  const addressHistory = identity.addressHistory || [];
+
+  // Basic skip trace status
+  skipTraceFields["Skip Trace Status"] = "Data Available";
+
+  // Primary contact information
+  const primaryPhone = phones.find((p) => p.isConnected) || phones[0];
+  const primaryEmail = emails[0];
+
+  skipTraceFields["Skip Trace Primary Phone"] =
+    primaryPhone?.phoneDisplay || primaryPhone?.phone || "";
+  skipTraceFields["Skip Trace Primary Email"] = primaryEmail?.email || "";
+
+  // Demographics
+  skipTraceFields["Skip Trace Age"] = demographics?.age || "";
+  skipTraceFields["Skip Trace Gender"] = demographics?.gender || "";
+  skipTraceFields["Skip Trace Date of Birth"] = demographics?.dob || "";
+
+  // Statistics
+  skipTraceFields["Skip Trace Phone Count"] = stats?.phoneNumbers || 0;
+  skipTraceFields["Skip Trace Email Count"] = stats?.emailAddresses || 0;
+  skipTraceFields["Skip Trace Address Count"] = stats?.addresses || 0;
+
+  // All phone numbers (concatenated)
+  const allPhones = phones
+    .map((p) => p.phoneDisplay || p.phone || "")
+    .filter((phone) => phone.length > 0)
+    .join("; ");
+  skipTraceFields["Skip Trace All Phones"] = allPhones || "";
+
+  // All email addresses (concatenated)
+  const allEmails = emails
+    .map((e) => e.email || "")
+    .filter((email) => email.length > 0)
+    .join("; ");
+  skipTraceFields["Skip Trace All Emails"] = allEmails || "";
+
+  // Current address
+  skipTraceFields["Skip Trace Current Address"] =
+    currentAddress?.formattedAddress || "";
+
+  // Previous addresses (concatenated)
+  const previousAddresses = addressHistory
+    .slice(0, 3)
+    .map((addr) => addr.formattedAddress)
+    .join("; ");
+  skipTraceFields["Skip Trace Previous Addresses"] = previousAddresses || "";
+
+  return skipTraceFields;
 };
 
 export function DownloadButton({ data, assetTypeName }: ExportButtonProps) {
@@ -100,13 +213,14 @@ export function DownloadButton({ data, assetTypeName }: ExportButtonProps) {
         "High Equity": result.high_equity ? "Yes" : "No",
         "Equity %": result.equity_percent || 0,
 
-        // Skip Trace Information (placeholder fields as they don't exist in the API)
-        "Skip Trace Name":
-          `${result.owner1_first_name || ""} ${result.owner1_last_name || ""}`.trim() ||
-          "N/A",
-        "Skip Trace Phone": "N/A", // Not available in the API
-        "Skip Trace Email": "N/A", // Not available in the API
-        "Skip Trace Most Recent Address": result.mail_address || "N/A",
+        // Skip Trace Information
+        ...extractSkipTraceData(
+          result.skip_trace_data
+            ? (JSON.parse(
+                JSON.stringify(result.skip_trace_data),
+              ) as StoredSkipTraceResponse)
+            : null,
+        ),
 
         // Additional Information
         Latitude: result.latitude || "",

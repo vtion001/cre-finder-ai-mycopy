@@ -14,6 +14,7 @@ import { Avatar, AvatarFallback } from "@v1/ui/avatar";
 import { Badge } from "@v1/ui/badge";
 import { Checkbox } from "@v1/ui/checkbox";
 import { Building2, Calendar } from "lucide-react";
+import { SkipTraceContactInfo } from "./skip-trace-info";
 
 export type PropertyRecord = Tables<"property_records">;
 
@@ -69,6 +70,22 @@ export const columns: ColumnDef<PropertyRecord>[] = [
           </Avatar>
           <span className="truncate">{getOwnerName(row.original)}</span>
         </div>
+      );
+    },
+  },
+  {
+    accessorKey: "skip_trace_data",
+    header: "Contact Info",
+    cell: ({ row }) => {
+      return (
+        <SkipTraceContactInfo
+          skipTraceData={
+            row.original.skip_trace_data
+              ? JSON.parse(JSON.stringify(row.original.skip_trace_data))
+              : null
+          }
+          ownerName={getOwnerName(row.original)}
+        />
       );
     },
   },
