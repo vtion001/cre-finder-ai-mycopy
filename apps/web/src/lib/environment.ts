@@ -1,6 +1,6 @@
 export function getUrl() {
-  if (process.env.NEXT_PUBLIC_URL) {
-    return process.env.NEXT_PUBLIC_URL;
+  if (process.env.NEXT_PUBLIC_SITE_URL) {
+    return process.env.NEXT_PUBLIC_SITE_URL;
   }
 
   if (process.env.VERCEL_TARGET_ENV === "preview") {
