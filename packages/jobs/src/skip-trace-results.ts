@@ -138,7 +138,7 @@ export const skipTraceTask = schemaTask({
       results: skipTraceResults,
     };
 
-    writeFileSync(filepath, JSON.stringify(outputData, null, 2));
+    // writeFileSync(filepath, JSON.stringify(outputData, null, 2));
 
     logger.info(
       `Skip trace completed. Processed ${processed}/${propertyRecords.length} records. Results saved to ${filename}`,

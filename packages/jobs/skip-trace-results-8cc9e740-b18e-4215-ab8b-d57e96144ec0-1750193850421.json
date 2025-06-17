@@ -1,0 +1,212 @@
+{
+  "licenseId": "8cc9e740-b18e-4215-ab8b-d57e96144ec0",
+  "locationInternalId": "c-fl-vero-beach",
+  "totalRecords": 1,
+  "processed": 1,
+  "timestamp": "2025-06-17T20:57:30.422Z",
+  "results": [
+    {
+      "propertyId": "164358586",
+      "address": "5100 42nd Pl, Vero Beach, FL 32967",
+      "owner": "Kat Investments & Co Inc",
+      "skipTraceResponse": {
+        "requestId": "c9ea4d54-3979-4893-952e-c70c031e6584",
+        "responseCode": 0,
+        "requestDate": "2025-06-17T20:57:30.292Z",
+        "responseMessage": "Successful",
+        "warnings": "None",
+        "input": {
+          "last_name": "Kat Investments & Co Inc",
+          "address": "5100 42nd Pl, Vero Beach, FL 32967",
+          "city": "Vero Beach",
+          "state": "FL",
+          "zip": "32967"
+        },
+        "output": {
+          "identity": {
+            "names": [
+              {
+                "firstName": "Thomas",
+                "middleName": "",
+                "lastName": "Thompson",
+                "fullName": "Thomas Thompson"
+              },
+              {
+                "firstName": "Peggy",
+                "middleName": "",
+                "lastName": "Thompson",
+                "fullName": "Peggy Thompson"
+              },
+              {
+                "firstName": "Thomas",
+                "middleName": "J",
+                "lastName": "Thompson",
+                "fullName": "Thomas J Thompson"
+              },
+              {
+                "firstName": "Peggy S",
+                "middleName": "S",
+                "lastName": "Thompson",
+                "fullName": "Peggy S S Thompson"
+              }
+            ],
+            "address": {
+              "house": "2327",
+              "preDir": "",
+              "street": "Seville",
+              "postDir": "",
+              "strType": "Ave",
+              "aptNbr": "",
+              "aptType": "",
+              "city": "Vero Beach",
+              "state": "FL",
+              "county": "",
+              "zip": "32960",
+              "z4": "2970",
+              "latitude": "",
+              "longitude": "",
+              "formattedAddress": "2327 Seville Ave, Vero Beach, FL 32960",
+              "lastSeen": "2025-03-14",
+              "validSince": ""
+            },
+            "addressHistory": [
+              {
+                "house": "2307",
+                "preDir": "",
+                "street": "Seville",
+                "postDir": "",
+                "strType": "Ave",
+                "aptNbr": "",
+                "aptType": "",
+                "city": "Vero Beach",
+                "state": "FL",
+                "county": "",
+                "zip": "32960",
+                "z4": "2970",
+                "latitude": "",
+                "longitude": "",
+                "formattedAddress": "2307 Seville Ave, Vero Beach, FL 32960",
+                "lastSeen": "2025-03-14",
+                "validSince": ""
+              }
+            ],
+            "phones": [
+              {
+                "phone": "7727780044",
+                "telcoName": "",
+                "phoneDisplay": "(772) 778-0044",
+                "phoneExtension": "",
+                "isConnected": false,
+                "doNotCall": true,
+                "phoneType": "landline",
+                "lastSeen": "2025-03-14",
+                "validSince": ""
+              }
+            ],
+            "emails": [
+              {
+                "email": "jeff@veromillwork.com",
+                "emailType": "personal"
+              },
+              {
+                "email": "jpkvero@aol.com",
+                "emailType": "personal"
+              },
+              {
+                "email": "peggy@veromillwork.com",
+                "emailType": "personal"
+              }
+            ]
+          },
+          "demographics": {
+            "dob": "1957 - 1958",
+            "dod": "",
+            "deceased": false,
+            "gender": "Male",
+            "age": 67,
+            "ageDisplay": "67 years old",
+            "images": [],
+            "social": [],
+            "education": [],
+            "jobs": [
+              {
+                "title": "Upper Management/Executive",
+                "org": "",
+                "industry": "",
+                "display": "Upper Management/Executive",
+                "dates": ""
+              }
+            ],
+            "names": [
+              {
+                "type": "",
+                "prefix": "",
+                "firstName": "Thomas",
+                "lastName": "Thompson",
+                "middleName": "",
+                "suffix": "",
+                "fullName": "Thomas Thompson",
+                "lastSeen": "",
+                "validSince": ""
+              },
+              {
+                "type": "",
+                "prefix": "",
+                "firstName": "Peggy",
+                "lastName": "Thompson",
+                "middleName": "",
+                "suffix": "",
+                "fullName": "Peggy Thompson",
+                "lastSeen": "",
+                "validSince": ""
+              },
+              {
+                "type": "",
+                "prefix": "",
+                "firstName": "Thomas",
+                "lastName": "Thompson",
+                "middleName": "J",
+                "suffix": "",
+                "fullName": "Thomas Thompson",
+                "lastSeen": "",
+                "validSince": ""
+              },
+              {
+                "type": "",
+                "prefix": "",
+                "firstName": "Peggy S",
+                "lastName": "Thompson",
+                "middleName": "S",
+                "suffix": "",
+                "fullName": "Peggy S Thompson",
+                "lastSeen": "",
+                "validSince": ""
+              }
+            ]
+          },
+          "relationships": [],
+          "stats": {
+            "searchResults": 1,
+            "names": 4,
+            "addresses": 2,
+            "phoneNumbers": 1,
+            "emailAddresses": 3,
+            "associates": 0,
+            "jobs": 1,
+            "socialProfiles": 0,
+            "images": 0
+          }
+        },
+        "match": true,
+        "cached": false,
+        "statusCode": 200,
+        "statusMessage": "Success",
+        "credits": 10,
+        "live": true,
+        "requestExecutionTimeMS": "98ms"
+      },
+      "executionTime": 519,
+      "timestamp": "2025-06-17T20:57:30.306Z"
+    }
+  ]
+}
