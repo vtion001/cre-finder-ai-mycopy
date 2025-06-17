@@ -127,16 +127,16 @@ export const skipTraceTask = schemaTask({
 
     // Save results to JSON file for testing
     const filename = `skip-trace-results-${license.id}-${Date.now()}.json`;
-    const filepath = join(process.cwd(), filename);
+    // const filepath = join(process.cwd(), filename);
 
-    const outputData = {
-      licenseId: license.id,
-      locationInternalId: license.location_internal_id,
-      totalRecords: propertyRecords.length,
-      processed,
-      timestamp: new Date().toISOString(),
-      results: skipTraceResults,
-    };
+    // const outputData = {
+    //   licenseId: license.id,
+    //   locationInternalId: license.location_internal_id,
+    //   totalRecords: propertyRecords.length,
+    //   processed,
+    //   timestamp: new Date().toISOString(),
+    //   results: skipTraceResults,
+    // };
 
     // writeFileSync(filepath, JSON.stringify(outputData, null, 2));
 
