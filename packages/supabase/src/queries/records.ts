@@ -63,3 +63,20 @@ export async function getPropertyRecordsQuery(
     },
   };
 }
+
+export async function getPropertyRecord(
+  supabase: Client,
+  propertyRecordId: string,
+) {
+  const { data, error } = await supabase
+    .from("property_records")
+    .select("*")
+    .eq("id", propertyRecordId)
+    .single();
+
+  if (error) {
+    throw new Error(`Failed to get property record: ${error.message}`);
+  }
+
+  return { data, error };
+}

@@ -14,9 +14,13 @@
   "dependencies": {
     "@googlemaps/places": "^2.0.1",
     "@tabler/icons-react": "^3.34.0",
+    "@tanstack/react-query-devtools": "^5.80.7",
     "@tanstack/react-table": "^8.21.3",
     "@trigger.dev/react-hooks": "^3.3.17",
     "@trigger.dev/sdk": "^3.3.17",
+    "@trpc/client": "^11.4.1",
+    "@trpc/server": "^11.4.1",
+    "@trpc/tanstack-react-query": "^11.4.1",
     "@v1/jobs": "workspace:*",
     "@v1/property-data": "workspace:*",
     "@v1/supabase": "workspace:*",
