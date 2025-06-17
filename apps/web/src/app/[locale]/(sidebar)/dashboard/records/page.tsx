@@ -42,7 +42,7 @@ export default async function Page({
   } = searchParamsCache.parse(searchParams);
 
   if (!asset_type) {
-    return notFound();
+    notFound();
   }
 
   const { data, meta } = await getAssetTypeLicenses(asset_type);
@@ -50,7 +50,7 @@ export default async function Page({
 
   if (!data || !meta.assetType || !meta.locations) {
     if (!success) {
-      return notFound();
+      notFound();
     }
 
     return <ProcessingState assetType={asset_type} />;
