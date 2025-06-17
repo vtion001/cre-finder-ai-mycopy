@@ -1,4 +1,5 @@
 import { ErrorBoundary } from "@/components/error-boundary";
+import { ProcessingState } from "@/components/processing-state";
 import { PropertyMapServer } from "@/components/property-map.server";
 import { PropertySearchFilters } from "@/components/property-search-filters";
 import { SiteHeader } from "@/components/site-header";
@@ -47,7 +48,8 @@ export default async function Page({
   const { data: userLicenses } = await getUserLicensesByAssetType();
 
   if (!data || !meta.assetType || !meta.locations) {
-    return notFound();
+    console.error("License not found");
+    return <ProcessingState assetType={asset_type} />;
   }
 
   const availableLocations = meta.locations.map(
