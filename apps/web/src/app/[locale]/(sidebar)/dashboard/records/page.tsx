@@ -38,6 +38,7 @@ export default async function Page({
     asset_type,
     locations,
     map,
+    success,
   } = searchParamsCache.parse(searchParams);
 
   if (!asset_type) {
@@ -48,7 +49,10 @@ export default async function Page({
   const { data: userLicenses } = await getUserLicensesByAssetType();
 
   if (!data || !meta.assetType || !meta.locations) {
-    console.error("License not found");
+    if (!success) {
+      return notFound();
+    }
+
     return <ProcessingState assetType={asset_type} />;
   }
 

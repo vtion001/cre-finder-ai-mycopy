@@ -55,7 +55,7 @@ export const checkoutLicenseAction = authActionClient
 
       const filteredLocations = filteredCounts.map((count) => count.internalId);
 
-      const redirectPath = `/dashboard/records?asset_type=${assetType}&locations=${filteredLocations.join(",")}`;
+      const redirectPath = `/dashboard/records?asset_type=${assetType}&locations=${filteredLocations.join(",")}&success=true`;
 
       const result = await checkoutLicenseWithStripe({
         assetTypeSlug: assetType,

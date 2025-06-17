@@ -17,6 +17,7 @@ export const parsers = {
   asset_type: parseAsString,
   map: parseAsBoolean.withDefault(false),
   params: parseAsJson(searchFiltersSchema.parse),
+  success: parseAsBoolean.withDefault(false),
 };
 
 export const searchParamsCache = createSearchParamsCache(parsers);
