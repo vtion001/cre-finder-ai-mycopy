@@ -1,11 +1,9 @@
 import type { inferRouterInputs, inferRouterOutputs } from "@trpc/server";
 import { createTRPCRouter } from "../init";
-import { headlinesRouter } from "./headlines";
-import { websitesRouter } from "./websites";
+import { recordsRouter } from "./records";
 
 export const appRouter = createTRPCRouter({
-  headlines: headlinesRouter,
-  websites: websitesRouter,
+  records: recordsRouter,
 });
 
 // export type definition of API
