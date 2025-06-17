@@ -62,7 +62,6 @@ export function PropertyMap({ records, className }: PropertyMapProps) {
   const { theme } = useTheme();
   const mapRef = useRef<MapRef>(null);
   const [hoveredMarkerId, setHoveredMarkerId] = useState<string | null>(null);
-  const [clickedMarkerId, setClickedMarkerId] = useState<string | null>(null);
 
   // Filter records with valid coordinates and create map pins
   const mapPins = useMemo<MapPin[]>(() => {
@@ -183,13 +182,10 @@ export function PropertyMap({ records, className }: PropertyMapProps) {
               }}
             >
               <Popover
-                open={hoveredMarkerId === pin.id || clickedMarkerId === pin.id}
-                onOpenChange={(open) => {
-                  if (!open) {
-                    setHoveredMarkerId(null);
-                    setClickedMarkerId(null);
-                  }
-                }}
+                open={hoveredMarkerId === pin.id}
+                onOpenChange={(open) =>
+                  setHoveredMarkerId(open ? pin.id : null)
+                }
               >
                 <PopoverTrigger asChild>
                   <button
@@ -198,28 +194,8 @@ export function PropertyMap({ records, className }: PropertyMapProps) {
                       "relative group transition-all duration-200 hover:scale-110 hover:-translate-y-1",
                       "focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-full",
                     )}
-                    onMouseEnter={() => {
-                      if (clickedMarkerId !== pin.id) {
-                        setHoveredMarkerId(pin.id);
-                      }
-                    }}
-                    onMouseLeave={() => {
-                      if (clickedMarkerId !== pin.id) {
-                        setHoveredMarkerId(null);
-                      }
-                    }}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      if (clickedMarkerId === pin.id) {
-                        // If already clicked, close it
-                        setClickedMarkerId(null);
-                        setHoveredMarkerId(null);
-                      } else {
-                        // Open this one and close any others
-                        setClickedMarkerId(pin.id);
-                        setHoveredMarkerId(null);
-                      }
-                    }}
+                    onMouseEnter={() => setHoveredMarkerId(pin.id)}
+                    onMouseLeave={() => setHoveredMarkerId(null)}
                   >
                     {/* Marker shadow */}
                     <div className="absolute inset-0 bg-black/20 rounded-full blur-sm translate-y-1 group-hover:translate-y-2 transition-transform duration-200" />
@@ -238,16 +214,8 @@ export function PropertyMap({ records, className }: PropertyMapProps) {
                   side="top"
                   align="center"
                   sideOffset={10}
-                  onMouseEnter={() => {
-                    if (clickedMarkerId !== pin.id) {
-                      setHoveredMarkerId(pin.id);
-                    }
-                  }}
-                  onMouseLeave={() => {
-                    if (clickedMarkerId !== pin.id) {
-                      setHoveredMarkerId(null);
-                    }
-                  }}
+                  onMouseEnter={() => setHoveredMarkerId(pin.id)}
+                  onMouseLeave={() => setHoveredMarkerId(null)}
                 >
                   <div className="p-4 space-y-3">
                     {/* Header */}
