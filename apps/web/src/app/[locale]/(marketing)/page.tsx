@@ -7,24 +7,27 @@ import { NavBar } from "@/components/marketing/nav-bar";
 import { PricingSection } from "@/components/marketing/pricing-section";
 import { TestimonialsSection } from "@/components/marketing/testimonials-section";
 import { ThemeProvider } from "next-themes";
+import { redirect } from "next/navigation";
 
 export const metadata = {
   title: "CREFinderAI",
 };
 
 export default function Marketing() {
-  return (
-    <div className="min-h-screen flex flex-col light ">
-      <NavBar />
-      <main className="flex-grow">
-        <HeroSection />
-        <FeaturesSection />
-        <HowItWorksSection />
-        <PricingSection />
-        <TestimonialsSection />
-        <CTASection />
-      </main>
-      <Footer />
-    </div>
-  );
+  return redirect("/dashboard");
+
+  // return (
+  //   <div className="min-h-screen flex flex-col light ">
+  //     <NavBar />
+  //     <main className="flex-grow">
+  //       <HeroSection />
+  //       <FeaturesSection />
+  //       <HowItWorksSection />
+  //       <PricingSection />
+  //       <TestimonialsSection />
+  //       <CTASection />
+  //     </main>
+  //     <Footer />
+  //   </div>
+  // );
 }
