@@ -100,6 +100,16 @@ export async function getStorageFacilities(params: GooglePlacesSearchParams) {
     nextPageToken = data.next_page_token;
   } while (nextPageToken && pageCount < maxPages);
 
+  const isCounty = !!params.county;
+
+  if (!isCounty) {
+    return {
+      results: allResults,
+      status: PLACES_STATUS.OK,
+      next_page_token: undefined,
+    };
+  }
+
   const filteredResults = allResults.filter((result) => {
     return result.formatted_address
       .toLowerCase()
