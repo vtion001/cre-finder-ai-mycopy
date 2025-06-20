@@ -1,4 +1,3 @@
-import { Button } from "@v1/ui/button";
 const HowItWorksSection = () => {
   const steps = [
     {

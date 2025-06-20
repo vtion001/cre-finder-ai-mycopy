@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@v1/ui/button";
 import {
   Card,

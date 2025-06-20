@@ -17,7 +17,7 @@ export default async function Marketing() {
   const user = await getUser();
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col light">
       <NavBar user={user?.data} />
       <main className="flex-grow">
         <HeroSection />
