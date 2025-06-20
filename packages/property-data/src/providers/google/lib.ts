@@ -62,6 +62,8 @@ async function makeGooglePlacesRequest(
 export async function getStorageFacilities(params: GooglePlacesSearchParams) {
   const { city, county, state } = params;
 
+  const isCountySearch = county && state;
+
   let locationQuery = "";
   if (city && state) {
     locationQuery = `${city}, ${state}`;
@@ -100,9 +102,7 @@ export async function getStorageFacilities(params: GooglePlacesSearchParams) {
     nextPageToken = data.next_page_token;
   } while (nextPageToken && pageCount < maxPages);
 
-  const isCounty = !!params.county;
-
-  if (!isCounty) {
+  if (isCountySearch) {
     return {
       results: allResults,
       status: PLACES_STATUS.OK,
