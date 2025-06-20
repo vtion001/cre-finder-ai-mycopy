@@ -20,7 +20,7 @@ const NavBar = ({ user }: { user?: Tables<"users"> | null }) => {
       scope: "local",
     });
 
-    router.push("/");
+    router.push("/login");
     setIsSigningOut(false);
   };
 
