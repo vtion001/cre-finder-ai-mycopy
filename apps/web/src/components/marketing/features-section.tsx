@@ -5,8 +5,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@v1/ui/card";
-
-export const FeaturesSection = () => {
+const FeaturesSection = () => {
   const features = [
     {
       title: "Instant Property Search",
@@ -18,7 +17,7 @@ export const FeaturesSection = () => {
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
-          className="h-6 w-6 text-blue-600"
+          className="h-6 w-6 text-[#0072FF]"
         >
           <path
             strokeLinecap="round"
@@ -39,7 +38,7 @@ export const FeaturesSection = () => {
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
-          className="h-6 w-6 text-blue-600"
+          className="h-6 w-6 text-[#0072FF]"
         >
           <path
             strokeLinecap="round"
@@ -60,7 +59,7 @@ export const FeaturesSection = () => {
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
-          className="h-6 w-6 text-blue-600"
+          className="h-6 w-6 text-[#0072FF]"
         >
           <path
             strokeLinecap="round"
@@ -81,7 +80,7 @@ export const FeaturesSection = () => {
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
-          className="h-6 w-6 text-blue-600"
+          className="h-6 w-6 text-[#0072FF]"
         >
           <path
             strokeLinecap="round"
@@ -93,22 +92,22 @@ export const FeaturesSection = () => {
       ),
     },
     {
-      title: "Deal Analytics",
+      title: "Property Updates",
       description:
-        "Analyze property metrics including cap rates, price per square foot, and recent comparable sales to make informed investment decisions.",
+        "Receive updates on any changes to your subscribed property data set.",
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
-          className="h-6 w-6 text-blue-600"
+          className="h-6 w-6 text-[#0072FF]"
         >
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth={2}
-            d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
           />
         </svg>
       ),
@@ -116,14 +115,14 @@ export const FeaturesSection = () => {
     {
       title: "Export & Reporting",
       description:
-        "Export property data to CSV or PDF formats for easy sharing with partners or inclusion in your investment portfolio reports.",
+        "Export property data to CSV format for easy upload to your sales and marketing CRM.",
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
-          className="h-6 w-6 text-blue-600"
+          className="h-6 w-6 text-[#0072FF]"
         >
           <path
             strokeLinecap="round"
@@ -140,10 +139,11 @@ export const FeaturesSection = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center">
           <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
-            Features That Transform Your Property Search
+            Features
           </h2>
-          <p className="mt-4 max-w-2xl mx-auto text-xl text-gray-500">
-            Our platform gives you the tools to 4x your off-market deal flow
+          <p className="mt-4 max-w-2xl mx-auto text-xl text-slate-600">
+            Unlock access to more than 5 million properties across 3,144
+            counties in the US to find your next CRE deal!
           </p>
         </div>
 
@@ -172,3 +172,4 @@ export const FeaturesSection = () => {
     </section>
   );
 };
+export default FeaturesSection;

@@ -1,7 +1,7 @@
 import { Button } from "@v1/ui/button";
 import { Input } from "@v1/ui/input";
 
-export const HeroSection = () => {
+const HeroSection = () => {
   return (
     <div className="relative bg-gradient-to-b from-blue-50 to-white overflow-hidden">
       {/* Background elements */}
@@ -15,24 +15,17 @@ export const HeroSection = () => {
             <div className="text-center lg:text-left md:max-w-2xl md:mx-auto lg:mx-0">
               <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl">
                 <span className="block">Find Off-Market Commercial</span>{" "}
-                <span className="block text-blue-600">
+                <span className="block text-[#0072ff]">
                   Properties in Seconds
                 </span>
               </h1>
-              <p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-xl lg:text-lg xl:text-xl">
+              <p className="mt-3 text-base text-slate-600 sm:mt-5 sm:text-xl lg:text-lg xl:text-xl">
                 Skip the painful search process! Instantly discover and filter
                 commercial real estate properties by asset type and county, with
                 skip-traced owner contact information.
               </p>
-              <div className="mt-8 sm:mt-10 sm:flex sm:justify-center lg:justify-start">
-                <div className="rounded-md shadow">
-                  <Button className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 md:py-4 md:text-lg md:px-10">
-                    Start Finding Properties
-                  </Button>
-                </div>
-                <div className="mt-3 sm:mt-0 sm:ml-3" />
-              </div>
-              <div className="mt-6 text-sm text-gray-500" />
+
+              <div className="mt-6 text-sm text-slate-600" />
             </div>
           </div>
 
@@ -53,64 +46,40 @@ export const HeroSection = () => {
                       </h3>
                     </div>
                     <div className="px-4 py-5 sm:p-6">
-                      <div className="border-b border-gray-200 pb-5">
-                        <div className="flex flex-col sm:flex-row gap-4">
-                          <div className="flex-1">
-                            <label className="block text-sm font-medium text-gray-700">
-                              Asset Type
-                            </label>
-                            <select className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md border">
-                              <option>Retail</option>
-                              <option>Office</option>
-                              <option>Industrial</option>
-                              <option>Multifamily</option>
-                              <option>Storage Units</option>
-                            </select>
-                          </div>
-                          <div className="flex-1">
-                            <label className="block text-sm font-medium text-gray-700">
-                              County
-                            </label>
-                            <Input
-                              className="mt-1 block w-full py-2 text-base border-gray-300"
-                              placeholder="Enter county name"
-                            />
-                          </div>
+                      <div className="flex flex-col sm:flex-row gap-4">
+                        <div className="flex-1">
+                          <label className="block text-sm font-medium text-gray-700">
+                            Select Asset Type
+                          </label>
+                          <select className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md border">
+                            <option>Retail</option>
+                            <option>Office</option>
+                            <option>Industrial</option>
+                            <option>Multifamily</option>
+                            <option>Hospitality</option>
+                            <option>Land</option>
+                            <option>Mixed-Use</option>
+                          </select>
                         </div>
-                        <div className="mt-4">
-                          <Button className="w-full bg-blue-600">
-                            Find Properties
-                          </Button>
+                        <div className="flex-1">
+                          <label className="block text-sm font-medium text-gray-700">
+                            City/County
+                          </label>
+                          <Input
+                            className="mt-1 block w-full py-2 text-base border-gray-300"
+                            placeholder="Enter county name"
+                          />
                         </div>
                       </div>
                       <div className="mt-4">
-                        <div className="text-sm mb-2 font-medium text-gray-700">
-                          Search Results (15 Properties)
-                        </div>
-                        {[1, 2, 3].map((item) => (
-                          <div
-                            key={item}
-                            className="border border-gray-200 rounded-md p-3 mb-3 hover:bg-blue-50"
-                          >
-                            <div className="flex justify-between items-start">
-                              <div>
-                                <h3 className="text-sm font-semibold text-gray-800">
-                                  Retail Property #{item}
-                                </h3>
-                                <p className="text-xs text-gray-500">
-                                  12,500 sqft | $3.2M | Miami-Dade County
-                                </p>
-                              </div>
-                              <Button
-                                size="sm"
-                                variant="outline"
-                                className="text-xs"
-                              >
-                                Contact Owner
-                              </Button>
-                            </div>
-                          </div>
-                        ))}
+                        <Button
+                          className="w-full bg-[#0072ff]"
+                          onClick={() =>
+                            window.open("https://app.crefinder.ai/", "_blank")
+                          }
+                        >
+                          Find Properties
+                        </Button>
                       </div>
                     </div>
                   </div>
@@ -123,3 +92,5 @@ export const HeroSection = () => {
     </div>
   );
 };
+
+export default HeroSection;

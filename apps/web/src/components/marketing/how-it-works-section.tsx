@@ -1,4 +1,5 @@
-export const HowItWorksSection = () => {
+import { Button } from "@v1/ui/button";
+const HowItWorksSection = () => {
   const steps = [
     {
       number: "01",
@@ -33,7 +34,7 @@ export const HowItWorksSection = () => {
             <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
               How It Works
             </h2>
-            <p className="mt-4 text-lg text-gray-600">
+            <p className="mt-4 text-lg text-slate-600">
               Find commercial properties and contact owners in seconds, not
               months, with our streamlined 4-step process.
             </p>
@@ -42,7 +43,7 @@ export const HowItWorksSection = () => {
               {steps.map((step, index) => (
                 <div key={index} className="flex">
                   <div className="flex-shrink-0">
-                    <div className="flex items-center justify-center h-12 w-12 rounded-md bg-blue-600 text-white">
+                    <div className="flex items-center justify-center h-12 w-12 rounded-md bg-[#0072FF] text-white">
                       <span className="font-bold">{step.number}</span>
                     </div>
                   </div>
@@ -61,28 +62,59 @@ export const HowItWorksSection = () => {
 
           <div className="mt-10 lg:mt-0 lg:col-span-7">
             <div className="relative">
-              <div className="absolute inset-0 bg-blue-600 rounded-lg mix-blend-multiply blur-xl opacity-50" />
+              <div className="absolute inset-0 bg-[#0072FF] rounded-lg mix-blend-multiply blur-xl opacity-50" />
               <div className="relative">
                 <div className="bg-white rounded-lg shadow-xl overflow-hidden border border-gray-200">
-                  <div className="p-6 bg-gray-50 border-b border-gray-200">
-                    <h3 className="text-xl font-semibold text-gray-800">
-                      Property Search Workflow
-                    </h3>
+                  <div className="p-6 bg-gradient-to-r from-gray-50 to-blue-50 border-b border-gray-200">
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-xl font-semibold text-gray-800">
+                        Property Search Dashboard
+                      </h3>
+                      <div className="flex items-center space-x-2">
+                        <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                        <span className="text-sm text-green-600 font-medium">
+                          Live
+                        </span>
+                      </div>
+                    </div>
+                    <p className="text-sm text-gray-600 mt-1">
+                      Real-time commercial property discovery
+                    </p>
                   </div>
+
                   <div className="p-6">
-                    <div className="space-y-6">
+                    <div className="grid grid-cols-2 gap-4 mb-6">
+                      <div className="bg-blue-50 p-3 rounded-lg border border-blue-200">
+                        <div className="text-2xl font-bold text-[#0072FF]">
+                          2,847
+                        </div>
+                        <div className="text-sm text-gray-600">
+                          Properties Found
+                        </div>
+                      </div>
+                      <div className="bg-green-50 p-3 rounded-lg border border-green-200">
+                        <div className="text-2xl font-bold text-green-600">
+                          2,847
+                        </div>
+                        <div className="text-sm text-gray-600">
+                          Owners Information Retrieved
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="space-y-4">
                       <div>
                         <div className="flex justify-between mb-2">
-                          <span className="text-sm font-medium text-gray-600">
-                            Step 1: Market Selection
+                          <span className="text-sm font-medium text-gray-700">
+                            County Database Search
                           </span>
                           <span className="text-sm font-medium text-green-600">
-                            Completed
+                            Complete
                           </span>
                         </div>
                         <div className="w-full bg-gray-200 rounded-full h-2">
                           <div
-                            className="bg-green-500 h-2 rounded-full"
+                            className="bg-green-500 h-2 rounded-full transition-all duration-500 animate-pulse"
                             style={{
                               width: "100%",
                             }}
@@ -92,67 +124,78 @@ export const HowItWorksSection = () => {
 
                       <div>
                         <div className="flex justify-between mb-2">
-                          <span className="text-sm font-medium text-gray-600">
-                            Step 2: Asset Filtering
+                          <span className="text-sm font-medium text-gray-700">
+                            Filters Applied
                           </span>
                           <span className="text-sm font-medium text-green-600">
-                            Completed
+                            Complete
                           </span>
                         </div>
                         <div className="w-full bg-gray-200 rounded-full h-2">
                           <div
-                            className="bg-green-500 h-2 rounded-full"
                             style={{
                               width: "100%",
                             }}
+                            className="bg-green-500 h-2 rounded-full transition-all duration-500 animate-pulse"
                           />
                         </div>
                       </div>
 
                       <div>
                         <div className="flex justify-between mb-2">
-                          <span className="text-sm font-medium text-gray-600">
-                            Step 3: Results Review
+                          <span className="text-sm font-medium text-gray-700">
+                            Results Processed
                           </span>
-                          <span className="text-sm font-medium text-blue-600">
-                            In Progress
+                          <span className="text-sm font-medium text-green-600">
+                            Complete
                           </span>
                         </div>
                         <div className="w-full bg-gray-200 rounded-full h-2">
                           <div
-                            className="bg-blue-500 h-2 rounded-full"
                             style={{
-                              width: "75%",
+                              width: "100%",
                             }}
+                            className="bg-green-500 h-2 rounded-full transition-all duration-500 animate-pulse"
                           />
                         </div>
                       </div>
 
                       <div>
                         <div className="flex justify-between mb-2">
-                          <span className="text-sm font-medium text-gray-600">
-                            Step 4: Owner Contact
+                          <span className="text-sm font-medium text-gray-700">
+                            Owners Skip Traced
                           </span>
-                          <span className="text-sm font-medium text-gray-400">
-                            Pending
+                          <span className="text-sm font-medium text-green-600">
+                            Complete
                           </span>
                         </div>
                         <div className="w-full bg-gray-200 rounded-full h-2">
                           <div
-                            className="bg-gray-300 h-2 rounded-full"
                             style={{
-                              width: "0%",
+                              width: "100%",
                             }}
+                            className="bg-green-500 h-2 rounded-full transition-all duration-500 animate-pulse"
                           />
                         </div>
                       </div>
                     </div>
 
-                    <div className="mt-8 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                      <div className="flex">
+                    <div className="mt-6 grid grid-cols-1 gap-3">
+                      <a
+                        href="https://app.crefinder.ai/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full bg-[#0072FF] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors text-center block"
+                      >
+                        View Properties
+                      </a>
+                    </div>
+
+                    <div className="mt-6 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg">
+                      <div className="flex items-start">
                         <div className="flex-shrink-0">
                           <svg
-                            className="h-5 w-5 text-blue-400"
+                            className="h-5 w-5 text-blue-500"
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 20 20"
                             fill="currentColor"
@@ -164,10 +207,14 @@ export const HowItWorksSection = () => {
                             />
                           </svg>
                         </div>
-                        <div className="ml-3 text-sm text-blue-700">
-                          <p>
-                            Found 27 properties matching your criteria. Click on
-                            any property to view details and contact the owner.
+                        <div className="ml-3">
+                          <p className="text-sm text-blue-800 font-medium">
+                            Search Complete!
+                          </p>
+                          <p className="text-sm text-blue-700 mt-1">
+                            Found 2,847 commercial properties across 5 counties.
+                            Click to explore opportunities and contact verified
+                            owners.
                           </p>
                         </div>
                       </div>
@@ -182,3 +229,4 @@ export const HowItWorksSection = () => {
     </section>
   );
 };
+export default HowItWorksSection;

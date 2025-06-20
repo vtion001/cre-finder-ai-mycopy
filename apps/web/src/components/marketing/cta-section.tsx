@@ -1,27 +1,19 @@
 import { Button } from "@v1/ui/button";
-
-export const CTASection = () => {
+const CTASection = () => {
   return (
-    <section className="bg-blue-600">
+    <section className="bg-[#0072FF]">
       <div className="max-w-7xl mx-auto py-12 px-4 sm:py-16 sm:px-6 lg:px-8 lg:py-20">
         <div className="lg:grid lg:grid-cols-12 lg:gap-8 items-center">
           <div className="lg:col-span-7">
             <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
-              Ready to transform your property search?
+              Sync to your counties in seconds
             </h2>
             <p className="mt-3 max-w-3xl text-lg text-blue-100">
-              Start finding commercial properties in seconds, not months. Our
-              platform gives you instant access to property data across all
-              counties, with owner contact information at your fingertips.
+              Connect with commercial properties in seconds. CRE Finder AI gives
+              you instant access to property data across all counties, with
+              owner contact information and more.{" "}
             </p>
-            <div className="mt-8 flex space-x-4">
-              <Button
-                size="lg"
-                className="bg-white text-blue-600 hover:bg-blue-50"
-              >
-                Discover CRE Properties
-              </Button>
-            </div>
+
             <div className="mt-6 text-sm text-blue-100" />
           </div>
           <div className="mt-8 lg:mt-0 lg:col-span-5">
@@ -33,16 +25,21 @@ export const CTASection = () => {
                   </h3>
                   <div className="mt-4 flex items-center justify-center">
                     <span className="text-5xl font-extrabold text-gray-900">
-                      $499
+                      $1
                     </span>
                     <span className="ml-1 text-xl font-medium text-gray-500">
-                      /mo
+                      /property
                     </span>
                   </div>
                   <p className="mt-4 text-sm text-gray-500">cancel anytime</p>
                 </div>
                 <div className="mt-6">
-                  <Button className="w-full bg-blue-600 hover:bg-blue-700">
+                  <Button
+                    className="w-full bg-[#0072FF] hover:bg-[#0060CC]"
+                    onClick={() =>
+                      window.open("https://app.crefinder.ai/", "_blank")
+                    }
+                  >
                     Start Finding Properties
                   </Button>
                 </div>
@@ -59,3 +56,4 @@ export const CTASection = () => {
     </section>
   );
 };
+export default CTASection;

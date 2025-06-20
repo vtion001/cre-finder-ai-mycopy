@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@v1/ui/card";
 
-export const TestimonialsSection = () => {
+const TestimonialsSection = () => {
   const testimonials = [
     {
       content:
@@ -38,7 +38,7 @@ export const TestimonialsSection = () => {
           <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
             Trusted by Real Estate Investors
           </h2>
-          <p className="mt-4 max-w-2xl mx-auto text-xl text-gray-500">
+          <p className="mt-4 max-w-2xl mx-auto text-xl text-slate-600">
             See what our clients have to say about their experience with our
             platform.
           </p>
@@ -102,3 +102,5 @@ export const TestimonialsSection = () => {
     </section>
   );
 };
+
+export default TestimonialsSection;
