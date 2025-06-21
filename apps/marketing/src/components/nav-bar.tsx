@@ -49,7 +49,7 @@ const NavBar = () => {
             </a>
 
             <div className="flex items-center space-x-3">
-              <Link href="/auth">
+              <Link href="https://app.crefinder.ai/login">
                 <Button
                   variant="outline"
                   className="text-gray-600 border-gray-300 hover:text-[#0072FF] hover:border-[#0072FF]"
@@ -57,7 +57,7 @@ const NavBar = () => {
                   Sign In
                 </Button>
               </Link>
-              <Link href="/auth">
+              <Link href="https://app.crefinder.ai/dashboard/search">
                 <Button className="bg-[#0072FF] hover:bg-[#0060CC] text-white">
                   Get Started
                 </Button>
@@ -138,7 +138,7 @@ const NavBar = () => {
             </a>
 
             <div className="pt-2">
-              <Link href="/auth">
+              <Link href="https://app.crefinder.ai/dashboard/search">
                 <Button className="w-full bg-[#0072FF] hover:bg-[#0060CC] text-white">
                   Get Started
                 </Button>
