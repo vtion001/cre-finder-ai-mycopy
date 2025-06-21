@@ -7,22 +7,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-const NavBar = ({ user }: { user?: Tables<"users"> | null }) => {
+const NavBar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [isSigningOut, setIsSigningOut] = useState(false);
-  const supabase = createClient();
-  const router = useRouter();
-
-  const signOut = async () => {
-    setIsSigningOut(true);
-
-    await supabase.auth.signOut({
-      scope: "local",
-    });
-
-    router.push("/login");
-    setIsSigningOut(false);
-  };
 
   return (
     <nav className="bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-gray-200">
@@ -62,40 +48,21 @@ const NavBar = ({ user }: { user?: Tables<"users"> | null }) => {
               Testimonials
             </a>
 
-            {user ? (
-              <>
-                <Link
-                  href="/dashboard"
-                  className="text-gray-600 hover:text-[#0072FF] transition-colors font-medium"
-                >
-                  Dashboard
-                </Link>
+            <div className="flex items-center space-x-3">
+              <Link href="/auth">
                 <Button
-                  onClick={signOut}
                   variant="outline"
-                  className="ml-4"
-                  disabled={isSigningOut}
+                  className="text-gray-600 border-gray-300 hover:text-[#0072FF] hover:border-[#0072FF]"
                 >
-                  {isSigningOut ? "Signing Out..." : "Sign Out"}
+                  Sign In
                 </Button>
-              </>
-            ) : (
-              <div className="flex items-center space-x-3">
-                <Link href="/auth">
-                  <Button
-                    variant="outline"
-                    className="text-gray-600 border-gray-300 hover:text-[#0072FF] hover:border-[#0072FF]"
-                  >
-                    Sign In
-                  </Button>
-                </Link>
-                <Link href="/auth">
-                  <Button className="bg-[#0072FF] hover:bg-[#0060CC] text-white">
-                    Get Started
-                  </Button>
-                </Link>
-              </div>
-            )}
+              </Link>
+              <Link href="/auth">
+                <Button className="bg-[#0072FF] hover:bg-[#0060CC] text-white">
+                  Get Started
+                </Button>
+              </Link>
+            </div>
           </div>
 
           <div className="md:hidden flex items-center">
@@ -170,34 +137,13 @@ const NavBar = ({ user }: { user?: Tables<"users"> | null }) => {
               Testimonials
             </a>
 
-            {user ? (
-              <>
-                <Link
-                  href="/dashboard"
-                  className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-[#0072FF] hover:bg-gray-50"
-                >
-                  Dashboard
-                </Link>
-                <div className="pt-2">
-                  <Button
-                    onClick={signOut}
-                    variant="outline"
-                    className="w-full"
-                    disabled={isSigningOut}
-                  >
-                    {isSigningOut ? "Signing Out..." : "Sign Out"}
-                  </Button>
-                </div>
-              </>
-            ) : (
-              <div className="pt-2">
-                <Link href="/auth">
-                  <Button className="w-full bg-[#0072FF] hover:bg-[#0060CC] text-white">
-                    Get Started
-                  </Button>
-                </Link>
-              </div>
-            )}
+            <div className="pt-2">
+              <Link href="/auth">
+                <Button className="w-full bg-[#0072FF] hover:bg-[#0060CC] text-white">
+                  Get Started
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
       )}
