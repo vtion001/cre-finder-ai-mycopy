@@ -39,7 +39,10 @@ const CTASection = () => {
                   <Button
                     className="w-full bg-[#0072FF] hover:bg-[#0060CC]"
                     onClick={() =>
-                      window.open("https://app.crefinder.ai/", "_blank")
+                      window.open(
+                        "https://app.crefinder.ai/dashboard/search",
+                        "_blank",
+                      )
                     }
                   >
                     Start Finding Properties

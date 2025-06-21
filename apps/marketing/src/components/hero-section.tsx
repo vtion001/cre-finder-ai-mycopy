@@ -77,7 +77,10 @@ const HeroSection = () => {
                         <Button
                           className="w-full bg-[#0072ff]"
                           onClick={() =>
-                            window.open("https://app.crefinder.ai/", "_blank")
+                            window.open(
+                              "https://app.crefinder.ai/dashboard/search",
+                              "_blank",
+                            )
                           }
                         >
                           Find Properties

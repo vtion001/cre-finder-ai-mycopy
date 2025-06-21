@@ -181,7 +181,7 @@ const HowItWorksSection = () => {
 
                     <div className="mt-6 grid grid-cols-1 gap-3">
                       <a
-                        href="https://app.crefinder.ai/"
+                        href="https://app.crefinder.ai/dashboard/search"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="w-full bg-[#0072FF] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors text-center block"

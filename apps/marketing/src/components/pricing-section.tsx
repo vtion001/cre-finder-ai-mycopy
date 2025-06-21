@@ -96,7 +96,7 @@ const PricingSection = () => {
                   onClick={() =>
                     window.open(
                       tier.mostPopular
-                        ? "https://app.crefinder.ai/"
+                        ? "https://app.crefinder.ai/dashboard/search"
                         : "https://cal.com/jaceperry/crefinder",
                       "_blank",
                     )
