@@ -70,6 +70,7 @@ export async function Table({
           </Suspense>
           <ScrollBar orientation="horizontal" />
         </ScrollArea>
+        ''
       </div>
       <div className="flex-shrink-0 flex flex-row items-center w-full">
         <DownloadButton assetTypeName={assetTypeName} data={data} />

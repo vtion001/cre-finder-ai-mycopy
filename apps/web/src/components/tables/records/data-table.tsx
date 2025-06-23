@@ -21,7 +21,7 @@ type DataTableProps = {
   data: Tables<"property_records">[];
 };
 
-export function DataTable({ data: initialData }: DataTableProps) {
+export async function DataTable({ data: initialData }: DataTableProps) {
   const data = useMemo(() => initialData, [initialData]);
 
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});

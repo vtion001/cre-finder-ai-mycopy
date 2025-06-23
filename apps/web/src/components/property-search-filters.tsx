@@ -34,6 +34,7 @@ export function PropertySearchFilters({
         <div className="flex  flex-col sm:flex-row gap-4 items-end ">
           <div className="w-full sm:max-w-md">
             <LicensesCombobox
+              placeholder="Select active locations..."
               value={state.locations}
               onValueChange={(value) =>
                 setState({
