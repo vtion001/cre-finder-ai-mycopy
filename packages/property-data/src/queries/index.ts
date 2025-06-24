@@ -54,6 +54,44 @@ export async function getPropertyCountQuery(
   };
 }
 
+export async function getTestPropertyCountQuery(
+  assetType: { slug: string; name: string; use_codes: number[] },
+  location: string,
+  useGoogle?: boolean,
+  params?: GetPropertySearchParams | null,
+) {
+  const storageUnitType = assetType.slug === "self-storage";
+
+  const locationParams = parseLocationCode(location);
+  const formattedLocation = `${locationParams.city || locationParams.county}, ${locationParams.state}`;
+
+  const realestateapiParams = {
+    ...locationParams,
+    ...params,
+    property_use_code: assetType.use_codes || [],
+  };
+
+  const realestateapiResponse = await getPropertySearch(
+    realestateapiParams,
+    true,
+  );
+
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  let googleResponse: any;
+
+  if (useGoogle && storageUnitType) {
+    googleResponse = await getStorageFacilities(locationParams);
+  }
+
+  return {
+    realestateapi: realestateapiResponse.resultCount,
+    google: googleResponse?.results.length,
+    formattedLocation,
+    assetTypeName: assetType.name,
+    internalId: location,
+  };
+}
+
 export async function getPropertySearchQuery(
   assetType: { slug: string; name: string; use_codes: number[] },
   location: string,

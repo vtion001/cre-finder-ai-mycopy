@@ -30,6 +30,7 @@ interface PreviewSearchFormProps {
   onSubmit: (values: PreviewSearchFormValues) => void;
   className?: string;
   initialValues?: PreviewSearchFormValues;
+  hideFilters?: boolean;
 }
 
 export function PreviewSearchForm({
@@ -37,6 +38,7 @@ export function PreviewSearchForm({
   onSubmit,
   className,
   initialValues,
+  hideFilters = false,
 }: PreviewSearchFormProps) {
   // Define the base default values for reset functionality
   const baseDefaultValues = {
@@ -151,83 +153,85 @@ export function PreviewSearchForm({
           </div>
 
           {/* More Filters Dropdown */}
-          <div>
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="outline"
-                  type="button"
-                  className={`h-12 px-4 gap-2 ${
-                    hasActiveFilters()
-                      ? "border-primary text-primary bg-primary/5"
-                      : ""
-                  }`}
-                >
-                  <FilterIcon className="h-4 w-4" />
-                  <span>
-                    {hasActiveFilters() ? (
-                      <span className="bg-primary rounded-full text-primary-foreground text-xs font-medium px-1.5">
-                        {getActiveFiltersCount()}
-                      </span>
-                    ) : (
-                      ""
-                    )}
-                  </span>
-                  <ChevronDownIcon className="h-4 w-4" />
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-96" align="end">
-                <div className="space-y-6">
-                  <div className="space-y-4">
-                    {/* Building Size Filter */}
-                    <InlineRangeFilter
-                      control={form.control}
-                      minFieldName="building_size_min"
-                      maxFieldName="building_size_max"
-                      label="Building Size (sq ft)"
-                      minPlaceholder="Min"
-                      maxPlaceholder="Max"
-                    />
+          {!hideFilters && (
+            <div>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    type="button"
+                    className={`h-12 px-4 gap-2 ${
+                      hasActiveFilters()
+                        ? "border-primary text-primary bg-primary/5"
+                        : ""
+                    }`}
+                  >
+                    <FilterIcon className="h-4 w-4" />
+                    <span>
+                      {hasActiveFilters() ? (
+                        <span className="bg-primary rounded-full text-primary-foreground text-xs font-medium px-1.5">
+                          {getActiveFiltersCount()}
+                        </span>
+                      ) : (
+                        ""
+                      )}
+                    </span>
+                    <ChevronDownIcon className="h-4 w-4" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-96" align="end">
+                  <div className="space-y-6">
+                    <div className="space-y-4">
+                      {/* Building Size Filter */}
+                      <InlineRangeFilter
+                        control={form.control}
+                        minFieldName="building_size_min"
+                        maxFieldName="building_size_max"
+                        label="Building Size (sq ft)"
+                        minPlaceholder="Min"
+                        maxPlaceholder="Max"
+                      />
 
-                    {/* Lot Size Filter */}
-                    <InlineRangeFilter
-                      control={form.control}
-                      minFieldName="lot_size_min"
-                      maxFieldName="lot_size_max"
-                      label="Lot Size (sq ft)"
-                      minPlaceholder="Min"
-                      maxPlaceholder="Max"
-                    />
+                      {/* Lot Size Filter */}
+                      <InlineRangeFilter
+                        control={form.control}
+                        minFieldName="lot_size_min"
+                        maxFieldName="lot_size_max"
+                        label="Lot Size (sq ft)"
+                        minPlaceholder="Min"
+                        maxPlaceholder="Max"
+                      />
 
-                    {/* Last Sale Filter */}
-                    <InlineDateFilter
-                      control={form.control}
-                      yearFieldName="last_sale_year"
-                      monthFieldName="last_sale_month"
-                      label="Last Sale Date"
-                    />
+                      {/* Last Sale Filter */}
+                      <InlineDateFilter
+                        control={form.control}
+                        yearFieldName="last_sale_year"
+                        monthFieldName="last_sale_month"
+                        label="Last Sale Date"
+                      />
 
-                    {/* Year Built Filter */}
-                    <InlineRangeFilter
-                      control={form.control}
-                      minFieldName="year_min"
-                      maxFieldName="year_max"
-                      label="Year Built"
-                      minValue={1800}
-                      maxValue={new Date().getFullYear()}
-                      minPlaceholder="Min Year"
-                      maxPlaceholder="Max Year"
-                    />
+                      {/* Year Built Filter */}
+                      <InlineRangeFilter
+                        control={form.control}
+                        minFieldName="year_min"
+                        maxFieldName="year_max"
+                        label="Year Built"
+                        minValue={1800}
+                        maxValue={new Date().getFullYear()}
+                        minPlaceholder="Min Year"
+                        maxPlaceholder="Max Year"
+                      />
+                    </div>
+
+                    {/* Filter Actions */}
+                    <div className="pt-4 border-t">
+                      <FilterActions onReset={clearFilters} showApply={false} />
+                    </div>
                   </div>
-
-                  {/* Filter Actions */}
-                  <div className="pt-4 border-t">
-                    <FilterActions onReset={clearFilters} showApply={false} />
-                  </div>
-                </div>
-              </PopoverContent>
-            </Popover>
-          </div>
+                </PopoverContent>
+              </Popover>
+            </div>
+          )}
 
           {/* Search Button */}
           <Button

@@ -80,12 +80,15 @@ export async function getStorageFacilities(params: GooglePlacesSearchParams) {
   const allResults: GooglePlaceResult[] = [];
   let nextPageToken: string | undefined;
   let pageCount = 0;
-  const maxPages = 10;
+  const maxPages = 3; // Google Places API returns maximum 3 pages (60 results total)
 
   do {
     pageCount++;
 
     if (nextPageToken) {
+      console.log(
+        `Google Places: Waiting 2s before requesting page ${pageCount}...`,
+      );
       await delay(2000);
     }
 
@@ -97,9 +100,20 @@ export async function getStorageFacilities(params: GooglePlacesSearchParams) {
 
     if (data.results && data.results.length > 0) {
       allResults.push(...data.results);
+      console.log(
+        `Google Places: Page ${pageCount} returned ${data.results.length} results. Total so far: ${allResults.length}`,
+      );
+    } else {
+      console.log(`Google Places: Page ${pageCount} returned no results`);
     }
 
     nextPageToken = data.next_page_token;
+
+    if (!nextPageToken) {
+      console.log(
+        `Google Places: No more pages available. Final result count: ${allResults.length}`,
+      );
+    }
   } while (nextPageToken && pageCount < maxPages);
 
   if (isCountySearch) {
