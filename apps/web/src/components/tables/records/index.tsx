@@ -70,10 +70,13 @@ export async function Table({
           </Suspense>
           <ScrollBar orientation="horizontal" />
         </ScrollArea>
-        ''
       </div>
       <div className="flex-shrink-0 flex flex-row items-center w-full">
-        <DownloadButton assetTypeName={assetTypeName} data={data} />
+        <DownloadButton
+          assetTypeName={assetTypeName}
+          locations={locations}
+          data={data}
+        />
         <DataTablePagination
           totalCount={meta.count || 0}
           currentPage={page}

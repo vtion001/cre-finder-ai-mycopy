@@ -3,8 +3,8 @@ import type { Client } from "../types";
 export type GetPropertyRecordsParams = {
   assetLicenseId: string;
   locationCodes: string[];
-  to: number;
-  from: number;
+  to?: number;
+  from?: number;
   sort?: [string, "asc" | "desc"];
   searchQuery?: string | null;
   // filter?: {
@@ -50,7 +50,12 @@ export async function getPropertyRecordsQuery(
     query.ilike("address", `%${searchQuery}%`);
   }
 
-  const { data, count, error } = await query.range(from, to);
+  const result =
+    from !== undefined && to !== undefined
+      ? await query.range(from, to)
+      : await query;
+
+  const { data, count, error } = result;
 
   if (error) {
     throw new Error(`Failed to get property records: ${error.message}`);
