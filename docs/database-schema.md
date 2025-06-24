@@ -386,3 +386,6 @@ CREATE INDEX idx_asset_licenses_user_type ON asset_licenses(user_id, asset_type_
 - **Seed Data**: Located in `apps/api/supabase/seed.sql`
 - **Type Generation**: Run `bun run generate` in `apps/api/`
 - **Backups**: Handled by Supabase automatically
+- **Email Templates**:
+  - Development: `apps/api/supabase/templates/`
+  - Production: Managed through Loops service

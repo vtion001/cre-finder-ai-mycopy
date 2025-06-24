@@ -158,6 +158,10 @@ This will start:
 2. Default credentials are usually auto-configured
 3. Explore the database schema and data
 
+**Note:** For email configuration:
+- **Development**: Uses local email templates from `apps/api/supabase/templates/`
+- **Production**: Email templates are managed through Loops service, not Supabase
+
 #### Run Migrations
 
 ```bash

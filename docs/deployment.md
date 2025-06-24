@@ -70,7 +70,8 @@ supabase db diff
    - Magic Link
 
 4. **Email Templates:**
-   - Upload custom templates from `apps/api/supabase/templates/`
+   - **Development**: Use templates from `apps/api/supabase/templates/`
+   - **Production**: Email templates are managed through Loops (not Supabase templates)
 
 #### Set Environment Variables
 

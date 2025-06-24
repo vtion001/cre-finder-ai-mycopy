@@ -128,6 +128,8 @@ Supabase configuration including database migrations, seed data, and configurati
 - Storage buckets
 - Edge functions
 
+**Note:** Production email templates are managed through Loops, not the local templates folder.
+
 ## 📦 Shared Packages
 
 ### UI Package (`packages/ui`)
