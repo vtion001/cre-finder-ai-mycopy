@@ -60,7 +60,11 @@ export async function Table({
   return (
     <div className="flex flex-col h-full">
       <Suspense fallback={<Loading />} key={loadingKey}>
-        <DataTable dataPromise={dataPromise} hasFilters={hasFilters} />
+        <DataTable
+          dataPromise={dataPromise}
+          hasFilters={hasFilters}
+          assetTypeName={assetTypeName}
+        />
       </Suspense>
     </div>
   );

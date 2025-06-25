@@ -21,13 +21,19 @@ import { columns } from "./columns";
 import { DataTableHeader } from "./data-table-header";
 import { DataTablePagination } from "./data-table-pagination";
 import { EmptyState, NoResults } from "./empty-states";
+import { RecordsTableActionBar } from "./records-action-bar";
 
 type DataTableProps = {
   dataPromise: ReturnType<typeof getPropertyRecordsQuery>;
   hasFilters: boolean;
+  assetTypeName: string;
 };
 
-export function DataTable({ dataPromise, hasFilters }: DataTableProps) {
+export function DataTable({
+  dataPromise,
+  hasFilters,
+  assetTypeName,
+}: DataTableProps) {
   const { data, meta } = use(dataPromise);
 
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
@@ -139,6 +145,10 @@ export function DataTable({ dataPromise, hasFilters }: DataTableProps) {
         /> */}
 
         <DataTablePagination table={table} total={meta.count || 0} />
+
+        {table.getFilteredSelectedRowModel().rows.length > 0 && (
+          <RecordsTableActionBar table={table} assetTypeName={assetTypeName} />
+        )}
       </div>
     </div>
   );
