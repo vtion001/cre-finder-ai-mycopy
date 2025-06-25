@@ -1,9 +1,11 @@
 "use client";
 
 import { checkoutLicenseAction } from "@/actions/checkout";
-import { getPropertyCountsAction } from "@/actions/property-count";
+
 import type { locationSchema } from "@/actions/schema";
-import { IconCurrencyDollar, IconMapPin } from "@tabler/icons-react";
+import { useTRPC } from "@/trpc/client";
+import { IconMapPin } from "@tabler/icons-react";
+import { useQuery } from "@tanstack/react-query";
 import { getStripe } from "@v1/stripe/client";
 import { Button } from "@v1/ui/button";
 import {
@@ -14,9 +16,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@v1/ui/dialog";
-import { Skeleton } from "@v1/ui/skeleton";
 import { useAction } from "next-safe-action/hooks";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import type { z } from "zod";
 import { MultiLocationCombobox } from "./multi-location-combobox";
 
@@ -45,56 +46,30 @@ export function AddLocationsDialog({
   existingLocationIds,
 }: AddLocationsDialogProps) {
   const [selected, setSelected] = useState<Location[]>([]);
-  const [propertyCounts, setPropertyCounts] = useState<PropertyCount[]>([]);
-  const [isLoadingCounts, setIsLoadingCounts] = useState(false);
 
   const { isPending, executeAsync } = useAction(checkoutLicenseAction);
-  const { executeAsync: getPropertyCounts } = useAction(
-    getPropertyCountsAction,
+
+  const trpc = useTRPC();
+  const { data: propertyCountsData, isLoading } = useQuery(
+    trpc.search.getPropertyCounts.queryOptions(
+      {
+        locations: selected.map((loc) => loc.internal_id),
+        assetTypeSlug: assetType,
+      },
+      {
+        refetchInterval: false,
+        refetchIntervalInBackground: false,
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
+      },
+    ),
   );
 
-  // Fetch property counts when selected locations change
-  useEffect(() => {
-    if (selected.length === 0) {
-      setPropertyCounts([]);
-      return;
-    }
-
-    const fetchPropertyCounts = async () => {
-      setIsLoadingCounts(true);
-      try {
-        const result = await getPropertyCounts({
-          locations: selected.map((loc) => loc.internal_id),
-          assetType,
-        });
-
-        if (result?.data) {
-          setPropertyCounts(result.data);
-        }
-      } catch (error) {
-        console.error("Error fetching property counts:", error);
-        setPropertyCounts([]);
-      } finally {
-        setIsLoadingCounts(false);
-      }
-    };
-
-    fetchPropertyCounts();
-  }, [selected, assetType, getPropertyCounts]);
-
-  const totalPropertyCount = propertyCounts.reduce(
-    (sum, count) => sum + count.resultCount,
-    0,
-  );
-  const totalCost = totalPropertyCount * 1; // $1 per property
-
-  // Validation logic
-  const hasSelectedLocations = selected.length > 0;
-  const hasLoadedCounts =
-    !isLoadingCounts && propertyCounts.length === selected.length;
-  const hasValidResults = totalPropertyCount > 0;
-  const canCheckout =
-    hasSelectedLocations && hasLoadedCounts && hasValidResults;
+  const validResults =
+    (!!propertyCountsData?.length &&
+      propertyCountsData.every((count) => count.resultCount > 0)) ||
+    false;
 
   const handleCheckout = async () => {
     const result = await executeAsync({
@@ -155,39 +130,26 @@ export function AddLocationsDialog({
 
               {/* Location List with Counts */}
               <div className="space-y-2 max-h-48 overflow-y-auto">
-                {selected.map((location) => {
-                  const propertyCount = propertyCounts.find(
-                    (count) => count.internalId === location.internal_id,
-                  );
-
+                {propertyCountsData?.map((location) => {
                   return (
                     <div
-                      key={location.internal_id}
+                      key={location.internalId}
                       className="flex items-center justify-between py-2 px-3 rounded-md bg-muted/30 border border-border/50"
                     >
                       <div className="flex items-center gap-2">
                         <div className="w-2 h-2 rounded-full bg-primary/60" />
                         <span className="text-sm font-medium text-foreground">
-                          {location.display_name}
+                          {location.formattedLocation}
                         </span>
                       </div>
                       <div className="text-xs font-medium">
-                        {isLoadingCounts ? (
-                          <Skeleton className="h-5 w-16" />
-                        ) : propertyCount ? (
-                          propertyCount.resultCount > 0 ? (
-                            <div className="text-primary bg-primary/10 px-2 py-1 rounded border border-primary/20">
-                              {propertyCount.resultCount.toLocaleString()}{" "}
-                              results
-                            </div>
-                          ) : (
-                            <div className="text-warning bg-warning/10 px-2 py-1 rounded border border-warning/20">
-                              No results
-                            </div>
-                          )
+                        {location.resultCount > 0 ? (
+                          <div className="text-primary bg-primary/10 px-2 py-1 rounded border border-primary/20">
+                            {location.resultCount.toLocaleString()} results
+                          </div>
                         ) : (
-                          <div className="text-muted-foreground bg-secondary/50 px-2 py-1 rounded">
-                            Loading...
+                          <div className="text-warning bg-warning/10 px-2 py-1 rounded border border-warning/20">
+                            No results
                           </div>
                         )}
                       </div>
@@ -197,7 +159,7 @@ export function AddLocationsDialog({
               </div>
 
               {/* Validation Info Message */}
-              {!isLoadingCounts && hasLoadedCounts && !hasValidResults && (
+              {!validResults && (
                 <div className="border-t pt-4">
                   <div className="p-4 rounded-lg bg-muted/50 border border-border">
                     <div className="flex items-start gap-3">
@@ -235,7 +197,10 @@ export function AddLocationsDialog({
           <Button variant="outline" onClick={handleClose} disabled={isPending}>
             Cancel
           </Button>
-          <Button onClick={handleCheckout} disabled={isPending || !canCheckout}>
+          <Button
+            onClick={handleCheckout}
+            disabled={isPending || !validResults}
+          >
             {isPending ? "Processing..." : "Add Locations"}
           </Button>
         </DialogFooter>
