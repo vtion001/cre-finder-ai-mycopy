@@ -64,6 +64,8 @@ export async function Table({
           dataPromise={dataPromise}
           hasFilters={hasFilters}
           assetTypeName={assetTypeName}
+          assetLicenseId={assetLicenseId}
+          locations={locationCodes}
         />
       </Suspense>
     </div>

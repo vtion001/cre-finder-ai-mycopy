@@ -12,6 +12,7 @@ import {
 } from "@tanstack/react-table";
 import type { Tables } from "@v1/supabase/types";
 
+import { DownloadButton } from "@/components/download-button";
 import type { getPropertyRecordsQuery } from "@v1/supabase/queries";
 import { ScrollArea, ScrollBar } from "@v1/ui/scroll-area";
 import { Table, TableBody, TableCell, TableRow } from "@v1/ui/table";
@@ -27,12 +28,16 @@ type DataTableProps = {
   dataPromise: ReturnType<typeof getPropertyRecordsQuery>;
   hasFilters: boolean;
   assetTypeName: string;
+  assetLicenseId: string;
+  locations: string[];
 };
 
 export function DataTable({
   dataPromise,
   hasFilters,
   assetTypeName,
+  assetLicenseId,
+  locations,
 }: DataTableProps) {
   const { data, meta } = use(dataPromise);
 
@@ -138,11 +143,11 @@ export function DataTable({
       </div>
 
       <div className="flex-shrink-0 flex flex-row items-center w-full">
-        {/* <DownloadButton
+        <DownloadButton
           assetTypeName={assetTypeName}
           assetLicenseId={assetLicenseId}
           locations={locations}
-        /> */}
+        />
 
         <DataTablePagination table={table} total={meta.count || 0} />
 

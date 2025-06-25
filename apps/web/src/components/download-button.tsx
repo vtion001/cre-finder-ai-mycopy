@@ -1,16 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import { startTransition, useCallback, useState } from "react";
 
-import { exportRecordsToXLSX } from "@/lib/export";
+import { exportRecordsToCSV, exportRecordsToXLSX } from "@/lib/export";
 import { useTRPC } from "@/trpc/client";
-import { IconFileDownload } from "@tabler/icons-react";
+import { IconDownload, IconFileDownload } from "@tabler/icons-react";
 import { useQuery } from "@tanstack/react-query";
 // Import skip trace types from the proper package
 import { Button } from "@v1/ui/button";
-import { toast } from "sonner";
+import { DataTableActionBarAction } from "./data-table-action-bar";
 
-// Type for the actual stored API response structure (with output wrapper)
+const actions = ["export-csv", "export-xlsx"] as const;
+
+type Action = (typeof actions)[number];
 
 interface ExportButtonProps {
   assetTypeName: string;
@@ -23,59 +25,61 @@ export function DownloadButton({
   assetLicenseId,
   locations,
 }: ExportButtonProps) {
-  const [isExporting, setIsExporting] = useState(false);
+  const [currentAction, setCurrentAction] = useState<Action | null>(null);
 
   const trpc = useTRPC();
 
-  const { data } = useQuery(
+  const { refetch } = useQuery(
     trpc.records.download.queryOptions(
       {
         assetLicenseId: assetLicenseId,
         locationCodes: locations,
       },
       {
-        refetchInterval: false,
-        refetchIntervalInBackground: false,
-        refetchOnMount: false,
-        refetchOnWindowFocus: false,
-        refetchOnReconnect: false,
+        enabled: false,
       },
     ),
   );
 
-  // Handle export to Excel
-  const handleExport = async () => {
-    if (!data) {
-      return;
-    }
+  const onExportCSV = useCallback(() => {
+    setCurrentAction("export-csv");
+    startTransition(async () => {
+      const { data } = await refetch();
+      if (data) {
+        exportRecordsToCSV(data.data, assetTypeName);
+        setCurrentAction(null);
+      }
+    });
+  }, [refetch]);
 
-    setIsExporting(true);
-
-    try {
-      // Format data for Excel with all requested fields
-      exportRecordsToXLSX(data.data, assetTypeName);
-
-      // Update search log status if searchLogId is provided
-
-      toast.success("Results exported successfully");
-    } catch (error) {
-      console.error("Export error:", error);
-      toast.error("Failed to export results");
-    } finally {
-      setIsExporting(false);
-    }
-  };
+  const onExportXLSX = useCallback(() => {
+    setCurrentAction("export-xlsx");
+    startTransition(async () => {
+      const { data } = await refetch();
+      if (data) {
+        exportRecordsToXLSX(data.data, assetTypeName);
+        setCurrentAction(null);
+      }
+    });
+  }, [refetch]);
 
   return (
-    <Button
-      size="sm"
-      variant="ghost"
-      onClick={handleExport}
-      disabled={isExporting || !data}
-      className="flex items-center gap-2"
-    >
-      <IconFileDownload className="size-4" />
-      {isExporting ? "Downloading..." : "Export"}
-    </Button>
+    <div className="flex items-center gap-1.5">
+      <DataTableActionBarAction
+        tooltip="Export All (CSV)"
+        isPending={currentAction === "export-csv"}
+        onClick={onExportCSV}
+      >
+        <IconDownload /> CSV
+      </DataTableActionBarAction>
+
+      <DataTableActionBarAction
+        tooltip="Export All (XLSX)"
+        isPending={currentAction === "export-xlsx"}
+        onClick={onExportXLSX}
+      >
+        <IconDownload /> XLSX
+      </DataTableActionBarAction>
+    </div>
   );
 }
