@@ -6,7 +6,7 @@ import { cn } from "@v1/ui/cn";
 
 import { Popover, PopoverContent, PopoverTrigger } from "@v1/ui/popover";
 import { useTheme } from "next-themes";
-import { useMemo, useRef, useState } from "react";
+import { use, useMemo, useRef, useState } from "react";
 import ReactMap, {
   FullscreenControl,
   type MapRef,
@@ -21,7 +21,7 @@ import { format } from "date-fns";
 type PropertyRecord = Tables<"property_records">;
 
 interface PropertyMapProps {
-  records: PropertyRecord[];
+  dataPromise: Promise<{ data: PropertyRecord[] }>;
   className?: string;
 }
 
@@ -58,7 +58,9 @@ function formatOwnerName(firstName: string | null, lastName: string): string {
   return lastName;
 }
 
-export function PropertyMap({ records, className }: PropertyMapProps) {
+export function PropertyMap({ dataPromise, className }: PropertyMapProps) {
+  const { data: records } = use(dataPromise);
+
   const { theme } = useTheme();
   const mapRef = useRef<MapRef>(null);
   const [hoveredMarkerId, setHoveredMarkerId] = useState<string | null>(null);

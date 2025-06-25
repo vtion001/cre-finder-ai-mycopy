@@ -10,7 +10,7 @@ export async function PropertyMapServer({
 }: { assetLicenseId: string; locationCodes: string[] }) {
   const map = searchParamsCache.get("map");
 
-  const { data: records } = await getPropertyRecords({
+  const dataPromise = getPropertyRecords({
     assetLicenseId,
     locationCodes,
     to: 100,
@@ -30,12 +30,13 @@ export async function PropertyMapServer({
           }
         >
           <Suspense
+            key={JSON.stringify({ assetLicenseId, locationCodes })}
             fallback={
               <div className="h-[calc(100vh-7rem)] bg-muted rounded-lg animate-pulse" />
             }
           >
             <PropertyMap
-              records={records || []}
+              dataPromise={dataPromise}
               className="h-[calc(100vh-7rem)]"
             />
           </Suspense>
