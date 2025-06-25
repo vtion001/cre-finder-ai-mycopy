@@ -1,7 +1,8 @@
 "use client";
 
-import { getRealEstateLocationsAction } from "@/actions/get-real-estate-locations-action";
 import type { locationSchema } from "@/actions/schema";
+import { useTRPC } from "@/trpc/client";
+import { useQuery } from "@tanstack/react-query";
 import { Button } from "@v1/ui/button";
 import { cn } from "@v1/ui/cn";
 import {
@@ -21,8 +22,7 @@ import {
   MapPinIcon,
   X,
 } from "lucide-react";
-import { useAction } from "next-safe-action/hooks";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import type { z } from "zod";
 
 type Location = z.infer<typeof locationSchema>;
@@ -43,22 +43,24 @@ export function MultiLocationCombobox({
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
 
-  const {
-    execute: fetchLocations,
-    isPending: isLoading,
-    result: { data: locations = [] },
-  } = useAction(getRealEstateLocationsAction);
+  const trpc = useTRPC();
 
   const debouncedQuery = useDebounce(query, 500);
 
-  useEffect(() => {
-    if (debouncedQuery.trim()) {
-      fetchLocations({
+  const { data: locations = [], isLoading } = useQuery(
+    trpc.search.getAutocomplete.queryOptions(
+      {
         query: debouncedQuery,
-        searchTypes: ["C", "N"], // Both cities and counties
-      });
-    }
-  }, [debouncedQuery, fetchLocations]);
+      },
+      {
+        refetchInterval: false,
+        refetchIntervalInBackground: false,
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
+      },
+    ),
+  );
 
   const handleSelect = (location: Location) => {
     const isSelected = value.some(

@@ -1,5 +1,6 @@
+import { locationSchema } from "@/actions/schema";
 import {
-  getPropertyCountQuery,
+  getAutocompleteQuery,
   getTestPropertyCountQuery,
 } from "@v1/property-data/queries";
 import { z } from "zod";
@@ -62,5 +63,47 @@ export const searchRouter = createTRPCRouter({
         propertyCounts,
         assetType,
       };
+    }),
+
+  getAutocomplete: protectedProcedure
+    .input(
+      z.object({
+        query: z.string(),
+        searchTypes: z.array(z.string()).optional().default(["C", "N"]),
+      }),
+    )
+    .query(async ({ input: { query, searchTypes }, ctx: { supabase } }) => {
+      try {
+        if (!query.trim()) {
+          return [];
+        }
+
+        const data = await getAutocompleteQuery({
+          query,
+          searchTypes,
+        });
+
+        // Normalize cities and counties into a common format
+        const normalizedLocations = data.map((item) => {
+          // Generate a unique ID for the location
+          const id =
+            `${item.searchType}-${item.state}-${item.searchType === "C" ? item.city : item.county}`
+              .toLowerCase()
+              .replace(/\s+/g, "-");
+
+          return locationSchema.parse({
+            internal_id: id,
+            state_code: item.state,
+            title: item.searchType === "C" ? item.city : item.county,
+            type: item.searchType === "C" ? "city" : "county",
+            display_name: item.title,
+          });
+        });
+
+        return normalizedLocations;
+      } catch (err) {
+        console.error("Error fetching locations from RealEstate API:", err);
+        return [];
+      }
     }),
 });
