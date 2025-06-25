@@ -2,13 +2,9 @@
 
 import { useState } from "react";
 
+import { useTRPC } from "@/trpc/client";
 import { IconFileDownload } from "@tabler/icons-react";
-import type { Tables } from "@v1/supabase/types";
-import { Button } from "@v1/ui/button";
-import { format, isValid, parse } from "date-fns";
-import { toast } from "sonner";
-import * as XLSX from "xlsx";
-
+import { useQuery } from "@tanstack/react-query";
 // Import skip trace types from the proper package
 import type {
   SkipTraceDemographics,
@@ -16,6 +12,11 @@ import type {
   SkipTraceResponse,
   SkipTraceStats,
 } from "@v1/property-data/types";
+import type { Tables } from "@v1/supabase/types";
+import { Button } from "@v1/ui/button";
+import { format, isValid, parse } from "date-fns";
+import { toast } from "sonner";
+import * as XLSX from "xlsx";
 
 // Type for the actual stored API response structure (with output wrapper)
 type StoredSkipTraceResponse = {
@@ -52,8 +53,9 @@ type StoredSkipTraceResponse = {
 };
 
 interface ExportButtonProps {
-  data: Tables<"property_records">[];
   assetTypeName: string;
+  assetLicenseId: string;
+  locations: string[];
 }
 
 const formatDate = (dateString: string): string => {
@@ -147,16 +149,42 @@ const extractSkipTraceData = (
   return skipTraceFields;
 };
 
-export function DownloadButton({ data, assetTypeName }: ExportButtonProps) {
+export function DownloadButton({
+  assetTypeName,
+  assetLicenseId,
+  locations,
+}: ExportButtonProps) {
   const [isExporting, setIsExporting] = useState(false);
+
+  const trpc = useTRPC();
+
+  const { data } = useQuery(
+    trpc.records.download.queryOptions(
+      {
+        assetLicenseId: assetLicenseId,
+        locationCodes: locations,
+      },
+      {
+        refetchInterval: false,
+        refetchIntervalInBackground: false,
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
+      },
+    ),
+  );
 
   // Handle export to Excel
   const handleExport = async () => {
+    if (!data) {
+      return;
+    }
+
     setIsExporting(true);
 
     try {
       // Format data for Excel with all requested fields
-      const exportData = data.map((result) => ({
+      const exportData = data?.data.map((result) => ({
         // Basic Property Info
         "Property ID": result.property_id,
         Address: result.address,
@@ -260,7 +288,7 @@ export function DownloadButton({ data, assetTypeName }: ExportButtonProps) {
       size="sm"
       variant="ghost"
       onClick={handleExport}
-      disabled={isExporting}
+      disabled={isExporting || !data}
       className="flex items-center gap-2"
     >
       <IconFileDownload className="size-4" />

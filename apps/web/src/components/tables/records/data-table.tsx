@@ -1,71 +1,145 @@
 "use client";
 
 import {
+  type PaginationState,
   type RowSelectionState,
+  type Updater,
   type VisibilityState,
   flexRender,
   getCoreRowModel,
+  getPaginationRowModel,
   useReactTable,
 } from "@tanstack/react-table";
 import type { Tables } from "@v1/supabase/types";
 
+import type { getPropertyRecordsQuery } from "@v1/supabase/queries";
 import { ScrollArea, ScrollBar } from "@v1/ui/scroll-area";
 import { Table, TableBody, TableCell, TableRow } from "@v1/ui/table";
-import { useMemo, useState } from "react";
+import { parseAsInteger, useQueryState } from "nuqs";
+import React, { use, useMemo, useState } from "react";
 import { columns } from "./columns";
 import { DataTableHeader } from "./data-table-header";
 import { DataTablePagination } from "./data-table-pagination";
-import { NoResults } from "./empty-states";
+import { EmptyState, NoResults } from "./empty-states";
 
 type DataTableProps = {
-  data: Tables<"property_records">[];
+  dataPromise: ReturnType<typeof getPropertyRecordsQuery>;
+  hasFilters: boolean;
 };
 
-export async function DataTable({ data: initialData }: DataTableProps) {
-  const data = useMemo(() => initialData, [initialData]);
+export function DataTable({ dataPromise, hasFilters }: DataTableProps) {
+  const { data, meta } = use(dataPromise);
 
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
+
+  const [page, setPage] = useQueryState(
+    "page",
+    parseAsInteger.withOptions({ shallow: false }).withDefault(1),
+  );
+  const [perPage, setPerPage] = useQueryState(
+    "per_page",
+    parseAsInteger.withOptions({ shallow: false }).withDefault(25),
+  );
+
+  const pagination: PaginationState = React.useMemo(() => {
+    return {
+      pageIndex: page - 1,
+      pageSize: perPage,
+    };
+  }, [page, perPage]);
+
+  const pageCount = useMemo(() => {
+    if (!meta.count) {
+      return 1;
+    }
+
+    return Math.ceil(meta.count / perPage);
+  }, [meta.count, perPage]);
+
+  const onPaginationChange = React.useCallback(
+    (updaterOrValue: Updater<PaginationState>) => {
+      if (typeof updaterOrValue === "function") {
+        const newPagination = updaterOrValue(pagination);
+        void setPage(newPagination.pageIndex + 1);
+        void setPerPage(newPagination.pageSize);
+      } else {
+        void setPage(updaterOrValue.pageIndex + 1);
+        void setPerPage(updaterOrValue.pageSize);
+      }
+    },
+    [pagination, setPage, setPerPage],
+  );
 
   const table = useReactTable({
     getRowId: (row) => row.id,
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
     onRowSelectionChange: setRowSelection,
-    onColumnVisibilityChange: setColumnVisibility,
+    onPaginationChange,
+    manualPagination: true,
+    pageCount,
     state: {
+      pagination,
       rowSelection,
-      columnVisibility,
     },
   });
 
+  if (!data?.length) {
+    return hasFilters ? <NoResults /> : <EmptyState />;
+  }
+
   return (
-    <Table divClassname="max-h-screen overflow-y-scroll">
-      <DataTableHeader table={table} />
-      <TableBody>
-        {table.getRowModel().rows?.length ? (
-          table.getRowModel().rows.map((row) => (
-            <TableRow
-              key={row.id}
-              data-state={row.getIsSelected() && "selected"}
-              className="h-[45px]"
-            >
-              {row.getVisibleCells().map((cell) => (
-                <TableCell key={cell.id} className="px-3 md:px-4 py-2">
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </TableCell>
-              ))}
-            </TableRow>
-          ))
-        ) : (
-          <TableRow>
-            <TableCell colSpan={columns.length} className="h-24 text-center">
-              <NoResults />
-            </TableCell>
-          </TableRow>
-        )}
-      </TableBody>
-    </Table>
+    <div className="flex flex-col h-full">
+      <div className="flex-1 min-h-0">
+        <ScrollArea hideScrollbar className="h-full rounded-md border">
+          <Table divClassname="overflow-y-scroll">
+            <DataTableHeader table={table} />
+            <TableBody>
+              {table.getRowModel().rows?.length ? (
+                table.getRowModel().rows.map((row) => (
+                  <TableRow
+                    key={row.id}
+                    data-state={row.getIsSelected() && "selected"}
+                    className="h-[45px]"
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell key={cell.id} className="px-3 md:px-4 py-2">
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext(),
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell
+                    colSpan={columns.length}
+                    className="h-24 text-center"
+                  >
+                    <NoResults />
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+
+          <ScrollBar orientation="horizontal" />
+        </ScrollArea>
+      </div>
+
+      <div className="flex-shrink-0 flex flex-row items-center w-full">
+        {/* <DownloadButton
+          assetTypeName={assetTypeName}
+          assetLicenseId={assetLicenseId}
+          locations={locations}
+        /> */}
+
+        <DataTablePagination table={table} total={meta.count || 0} />
+      </div>
+    </div>
   );
 }

@@ -1,12 +1,7 @@
 "use client";
 
+import type { Table } from "@tanstack/react-table";
 import { Button } from "@v1/ui/button";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-} from "@v1/ui/pagination";
 import {
   Select,
   SelectContent,
@@ -14,95 +9,28 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@v1/ui/select";
+import { Skeleton } from "@v1/ui/skeleton";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { parseAsInteger, useQueryState } from "nuqs";
-import { useCallback } from "react";
+import type { PropertyRecord } from "./columns";
 
 type DataTablePaginationProps = {
-  totalCount: number;
-  currentPage: number;
-  pageSize: number;
+  table?: Table<PropertyRecord>;
+  total: number;
   loading?: boolean;
-  showPageNumbers?: boolean;
 };
 
 const PAGE_SIZE_OPTIONS = [10, 25, 50, 100];
 
 export function DataTablePagination({
-  totalCount,
-  currentPage,
-  pageSize,
+  table,
+  total,
   loading = false,
-  showPageNumbers = false,
 }: DataTablePaginationProps) {
-  const [page, setPage] = useQueryState(
-    "page",
-    parseAsInteger.withOptions({ shallow: false }),
-  );
-  const [perPage, setPerPage] = useQueryState(
-    "per_page",
-    parseAsInteger.withOptions({ shallow: false }),
-  );
+  const pageIndex = table?.getState().pagination.pageIndex ?? 0;
+  const pageSize = table?.getState().pagination.pageSize ?? 0;
 
-  const totalPages = Math.ceil(totalCount / pageSize);
-  const startItem = totalCount === 0 ? 0 : (currentPage - 1) * pageSize + 1;
-  const endItem = Math.min(currentPage * pageSize, totalCount);
-
-  const handlePageChange = useCallback(
-    (newPage: number) => {
-      if (!loading && newPage >= 1 && newPage <= totalPages) {
-        setPage(newPage);
-      }
-    },
-    [setPage, totalPages, loading],
-  );
-
-  const handlePageSizeChange = useCallback(
-    (newPageSize: string) => {
-      if (!loading) {
-        setPerPage(Number(newPageSize));
-        setPage(1); // Reset to first page when changing page size
-      }
-    },
-    [setPerPage, setPage, loading],
-  );
-
-  // Generate page numbers to show
-  const getVisiblePages = () => {
-    const delta = 2; // Number of pages to show on each side of current page
-
-    // When loading, always show a consistent layout: 1, 2, 3, ..., 5
-    if (loading) {
-      return [1, 2, 3, "...", 5];
-    }
-
-    const range = [];
-    const rangeWithDots = [];
-
-    for (
-      let i = Math.max(2, currentPage - delta);
-      i <= Math.min(totalPages - 1, currentPage + delta);
-      i++
-    ) {
-      range.push(i);
-    }
-
-    if (currentPage - delta > 2) {
-      rangeWithDots.push(1, "...");
-    } else {
-      rangeWithDots.push(1);
-    }
-
-    rangeWithDots.push(...range);
-
-    if (currentPage + delta < totalPages - 1) {
-      rangeWithDots.push("...", totalPages);
-    } else if (totalPages > 1) {
-      rangeWithDots.push(totalPages);
-    }
-
-    return rangeWithDots;
-  };
+  const startItem = total === 0 ? 0 : pageIndex * pageSize + 1;
+  const endItem = Math.min((pageIndex + 1) * pageSize, total);
 
   return (
     <div className="flex items-center justify-between px-4 py-3 bg-background w-full">
@@ -110,8 +38,10 @@ export function DataTablePagination({
         <div className="flex items-center space-x-2">
           <p className="text-sm text-muted-foreground">Rows per page</p>
           <Select
-            value={pageSize.toString()}
-            onValueChange={handlePageSizeChange}
+            value={`${table?.getState().pagination.pageSize}`}
+            onValueChange={(value) => {
+              table?.setPageSize(Number(value));
+            }}
             disabled={loading}
           >
             <SelectTrigger className="h-8 w-[70px]">
@@ -129,51 +59,30 @@ export function DataTablePagination({
       </div>
 
       <div className="flex items-center space-x-2">
-        <div className="text-sm text-muted-foreground">
-          Showing {startItem} - {endItem} of {totalCount} results
-        </div>
+        {loading ? (
+          <Skeleton className="h-5 w-32" />
+        ) : (
+          <div className="text-sm text-muted-foreground">
+            Showing {startItem} - {endItem} of {total} results
+          </div>
+        )}
         <Button
           variant="outline"
           size="sm"
-          onClick={() => handlePageChange(currentPage - 1)}
-          disabled={loading || currentPage <= 1}
           className="h-8 px-2"
+          onClick={() => table?.previousPage()}
+          disabled={loading || !table?.getCanPreviousPage()}
         >
           <ChevronLeft className="h-4 w-4" />
           <span className="sr-only">Previous page</span>
         </Button>
 
-        {showPageNumbers ? (
-          <Pagination className="mx-0 w-auto">
-            <PaginationContent className="gap-1">
-              {getVisiblePages().map((pageNum, index) => (
-                <PaginationItem key={index}>
-                  {pageNum === "..." ? (
-                    <span className="flex h-8 w-8 items-center justify-center text-sm text-muted-foreground">
-                      ...
-                    </span>
-                  ) : (
-                    <PaginationLink
-                      onClick={() => handlePageChange(pageNum as number)}
-                      isActive={pageNum === currentPage}
-                      className={`h-8 w-8 ${loading ? "cursor-not-allowed opacity-50" : "cursor-pointer"}`}
-                      style={{ pointerEvents: loading ? "none" : "auto" }}
-                    >
-                      {pageNum}
-                    </PaginationLink>
-                  )}
-                </PaginationItem>
-              ))}
-            </PaginationContent>
-          </Pagination>
-        ) : null}
-
         <Button
           variant="outline"
           size="sm"
-          onClick={() => handlePageChange(currentPage + 1)}
-          disabled={loading || currentPage >= totalPages}
           className="h-8 px-2"
+          onClick={() => table?.nextPage()}
+          disabled={loading || !table?.getCanNextPage()}
         >
           <ChevronRight className="h-4 w-4" />
           <span className="sr-only">Next page</span>
