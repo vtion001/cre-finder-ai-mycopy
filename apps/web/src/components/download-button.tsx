@@ -18,6 +18,7 @@ interface ExportButtonProps {
   assetTypeName: string;
   assetLicenseId: string;
   locations: string[];
+  className?: string;
 }
 
 export function DownloadButton({

@@ -24,7 +24,6 @@ type ColumnConfig = {
 };
 
 const COLUMNS: ColumnConfig[] = [
-  // { id: "property_id", label: "Property ID", sortKey: "property_id", className: "min-w-[140px]" },
   {
     id: "address",
     label: "Address",
@@ -126,7 +125,6 @@ const COLUMNS: ColumnConfig[] = [
 ];
 
 export function DataTableHeader<TData>({ table, loading }: Props<TData>) {
-  const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
   const [sort, setSort] = useQueryState("sort", { shallow: false });
@@ -176,7 +174,7 @@ export function DataTableHeader<TData>({ table, loading }: Props<TData>) {
   return (
     <TableHeader className="sticky top-0 h-[45px] bg-background z-10 !opacity-100 hover:bg-background">
       <TableRow className="">
-        <TableHead className="min-w-[50px] hidden md:table-cell px-3 md:px-4 py-2">
+        <TableHead className="min-w-[50px] table-cell px-3 md:px-4 py-2">
           <Checkbox
             checked={
               table?.getIsAllPageRowsSelected() ||
