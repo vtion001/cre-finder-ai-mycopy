@@ -82,7 +82,7 @@ export function RecordsTableActionBar({
       />
       <div className="flex items-center gap-1.5">
         <DataTableActionBarAction
-          tooltip="Export records as CSV"
+          tooltip="Export selected as CSV"
           isPending={getIsActionPending("export-csv")}
           onClick={onExportCSV}
         >
@@ -90,7 +90,7 @@ export function RecordsTableActionBar({
         </DataTableActionBarAction>
 
         <DataTableActionBarAction
-          tooltip="Export records as XLSX"
+          tooltip="Export selected as XLSX"
           isPending={getIsActionPending("export-xlsx")}
           onClick={onExportXLSX}
         >
@@ -98,7 +98,7 @@ export function RecordsTableActionBar({
         </DataTableActionBarAction>
         <DataTableActionBarAction
           size="icon"
-          tooltip="Delete records"
+          tooltip="Delete selected"
           isPending={getIsActionPending("delete")}
           onClick={onRecordDelete}
         >

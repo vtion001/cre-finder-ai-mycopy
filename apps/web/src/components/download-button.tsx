@@ -66,7 +66,7 @@ export function DownloadButton({
   return (
     <div className="flex items-center gap-1.5">
       <DataTableActionBarAction
-        tooltip="Export All (CSV)"
+        tooltip="Export all records as CSV "
         isPending={currentAction === "export-csv"}
         onClick={onExportCSV}
       >
@@ -74,7 +74,7 @@ export function DownloadButton({
       </DataTableActionBarAction>
 
       <DataTableActionBarAction
-        tooltip="Export All (XLSX)"
+        tooltip="Export all records as XLSX"
         isPending={currentAction === "export-xlsx"}
         onClick={onExportXLSX}
       >
