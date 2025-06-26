@@ -170,7 +170,7 @@ export function DataTableHeader<TData>({ table, loading }: Props<TData>) {
       {config.sortKey === column && value === "desc" && <ArrowUp size={16} />}
     </Button>
   );
-
+  //
   return (
     <TableHeader className="sticky top-0 h-[45px] bg-background z-10 !opacity-100 hover:bg-background">
       <TableRow className="">
