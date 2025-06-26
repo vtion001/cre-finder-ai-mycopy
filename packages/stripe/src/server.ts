@@ -237,7 +237,7 @@ export async function checkoutLicenseWithStripe({
     });
 
     const oneTimeFee = await stripe.prices.create({
-      unit_amount: totalPropertyCount * 100, // $1 per property one-time fee
+      unit_amount: totalPropertyCount * 50,
       currency: "usd",
       product: oneTimeProduct.id,
     });
