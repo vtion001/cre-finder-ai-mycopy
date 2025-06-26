@@ -29,6 +29,7 @@ export function CheckoutLicenseButton({
     });
 
     if (!result?.data?.sessionId) {
+      console.error("Failed to create checkout session", result);
       throw new Error("Failed to create checkout session");
     }
 
