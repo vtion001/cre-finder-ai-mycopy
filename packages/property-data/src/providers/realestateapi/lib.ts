@@ -43,6 +43,29 @@ export async function getPropertySearch(
 ) {
   console.log("getPropertySearch", params);
 
+  // Transform loan_paid_off_percent_min/max to equity_percent and equity_percent_operator
+  const {
+    loan_paid_off_percent_min,
+    loan_paid_off_percent_max,
+    ...baseParams
+  } = params;
+  const transformedParams = { ...baseParams };
+
+  // Convert to API format
+  if (loan_paid_off_percent_min && loan_paid_off_percent_max) {
+    // If both min and max are provided, use the min value with "gte" operator
+    transformedParams.equity_percent = loan_paid_off_percent_min;
+    transformedParams.equity_percent_operator = "gte";
+  } else if (loan_paid_off_percent_min) {
+    // Only min provided
+    transformedParams.equity_percent = loan_paid_off_percent_min;
+    transformedParams.equity_percent_operator = "gte";
+  } else if (loan_paid_off_percent_max) {
+    // Only max provided
+    transformedParams.equity_percent = loan_paid_off_percent_max;
+    transformedParams.equity_percent_operator = "lte";
+  }
+
   // If count is true, just get the count without pagination
   if (count) {
     const response = await fetch(
@@ -55,7 +78,7 @@ export async function getPropertySearch(
           "x-user-id": "CREFinderAI",
         },
         body: JSON.stringify({
-          ...params,
+          ...transformedParams,
           count: true,
         }),
       },
@@ -82,7 +105,7 @@ export async function getPropertySearch(
           "x-user-id": "CREFinderAI",
         },
         body: JSON.stringify({
-          ...params,
+          ...transformedParams,
           count: false,
           size: pageSize,
           resultIndex,

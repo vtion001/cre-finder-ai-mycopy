@@ -27,7 +27,9 @@ export function LicenseFiltersInfo({
     searchParams.lot_size_max ||
     searchParams.last_sale_date ||
     searchParams.year_min ||
-    searchParams.year_max
+    searchParams.year_max ||
+    searchParams.loan_paid_off_percent_min ||
+    searchParams.loan_paid_off_percent_max
   );
 
   // Don't render if no filters are set

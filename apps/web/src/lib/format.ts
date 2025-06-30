@@ -47,6 +47,16 @@ export const formatSearchParams = (params: GetPropertySearchParams) => {
     parts.push(`Last Sale: ${params.last_sale_date}`);
   }
 
+  if (params.loan_paid_off_percent_min || params.loan_paid_off_percent_max) {
+    const min = params.loan_paid_off_percent_min
+      ? `${params.loan_paid_off_percent_min}%`
+      : "Any";
+    const max = params.loan_paid_off_percent_max
+      ? `${params.loan_paid_off_percent_max}%`
+      : "Any";
+    parts.push(`Loan Paid Off: ${min} - ${max}`);
+  }
+
   return parts;
 };
 

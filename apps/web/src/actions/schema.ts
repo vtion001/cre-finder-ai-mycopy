@@ -67,6 +67,16 @@ export const searchFiltersSchema = z
         `Year must be before ${new Date().getFullYear() + 1}`,
       )
       .optional(),
+    loan_paid_off_percent_min: z.coerce
+      .number()
+      .min(0, "Percentage must be between 0 and 100")
+      .max(100, "Percentage must be between 0 and 100")
+      .optional(),
+    loan_paid_off_percent_max: z.coerce
+      .number()
+      .min(0, "Percentage must be between 0 and 100")
+      .max(100, "Percentage must be between 0 and 100")
+      .optional(),
   })
   .refine(
     (data) => {
@@ -121,6 +131,19 @@ export const searchFiltersSchema = z
     {
       message: "Both year and month must be selected together",
       path: ["last_sale_month"],
+    },
+  )
+  .refine(
+    (data) => {
+      // If both min and max are provided, ensure min <= max
+      if (data.loan_paid_off_percent_min && data.loan_paid_off_percent_max) {
+        return data.loan_paid_off_percent_min <= data.loan_paid_off_percent_max;
+      }
+      return true;
+    },
+    {
+      message: "Minimum percentage must be less than or equal to maximum",
+      path: ["loan_paid_off_percent_min"],
     },
   );
 

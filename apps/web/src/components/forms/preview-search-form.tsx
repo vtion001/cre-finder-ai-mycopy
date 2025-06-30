@@ -50,6 +50,8 @@ export function PreviewSearchForm({
     last_sale_month: undefined,
     year_min: undefined,
     year_max: undefined,
+    loan_paid_off_percent_min: undefined,
+    loan_paid_off_percent_max: undefined,
   };
 
   const form = useForm<PreviewSearchFormValues>({
@@ -89,7 +91,9 @@ export function PreviewSearchForm({
       values.last_sale_year ||
       values.last_sale_month ||
       values.year_min ||
-      values.year_max
+      values.year_max ||
+      values.loan_paid_off_percent_min ||
+      values.loan_paid_off_percent_max
     );
   };
 
@@ -101,6 +105,8 @@ export function PreviewSearchForm({
     if (values.lot_size_min || values.lot_size_max) count++;
     if (values.last_sale_year && values.last_sale_month) count++;
     if (values.year_min || values.year_max) count++;
+    if (values.loan_paid_off_percent_min || values.loan_paid_off_percent_max)
+      count++;
     return count;
   };
 
@@ -220,6 +226,18 @@ export function PreviewSearchForm({
                         maxValue={new Date().getFullYear()}
                         minPlaceholder="Min Year"
                         maxPlaceholder="Max Year"
+                      />
+
+                      {/* Loan Paid Off Percentage Filter */}
+                      <InlineRangeFilter
+                        control={form.control}
+                        minFieldName="loan_paid_off_percent_min"
+                        maxFieldName="loan_paid_off_percent_max"
+                        label="Loan Paid Off %"
+                        minValue={0}
+                        maxValue={100}
+                        minPlaceholder="Min %"
+                        maxPlaceholder="Max %"
                       />
                     </div>
 

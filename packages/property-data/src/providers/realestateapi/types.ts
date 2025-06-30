@@ -210,6 +210,10 @@ export type GetPropertySearchParams = {
   last_sale_date?: string; // "YYYY-MM-DD"
   year_min?: number;
   year_max?: number;
+  equity_percent?: number;
+  equity_percent_operator?: "gt" | "lt" | "gte" | "lte" | "eq";
+  loan_paid_off_percent_min?: number;
+  loan_paid_off_percent_max?: number;
   property_use_code?: number[];
   city?: string;
   county?: string;
