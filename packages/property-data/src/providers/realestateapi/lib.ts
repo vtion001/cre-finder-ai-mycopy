@@ -48,6 +48,7 @@ export async function getPropertySearch(
     loan_paid_off_percent_min,
     loan_paid_off_percent_max,
     number_of_units,
+    mortgage_free_and_clear,
     ...baseParams
   } = params;
   const transformedParams = { ...baseParams };
@@ -72,6 +73,11 @@ export async function getPropertySearch(
     transformedParams.mfh_2to4 = true;
   } else if (number_of_units === "5+") {
     transformedParams.mfh_5plus = true;
+  }
+
+  // Convert mortgage free and clear to API format
+  if (mortgage_free_and_clear) {
+    transformedParams.free_clear = true;
   }
 
   // If count is true, just get the count without pagination

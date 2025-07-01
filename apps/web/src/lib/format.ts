@@ -61,6 +61,10 @@ export const formatSearchParams = (params: GetPropertySearchParams) => {
     parts.push(`Units: ${params.number_of_units}`);
   }
 
+  if (params.mortgage_free_and_clear) {
+    parts.push("Mortgage Free & Clear");
+  }
+
   return parts;
 };
 

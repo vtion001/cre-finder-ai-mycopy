@@ -84,6 +84,7 @@ export const searchFiltersSchema = z
         }),
       })
       .optional(),
+    mortgage_free_and_clear: z.boolean().optional(),
   })
   .refine(
     (data) => {

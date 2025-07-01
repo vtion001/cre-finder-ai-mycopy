@@ -10,6 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import type { Tables } from "@v1/supabase/types";
 import { Badge } from "@v1/ui/badge";
 import { Button } from "@v1/ui/button";
+import { Checkbox } from "@v1/ui/checkbox";
 import {
   Form,
   FormControl,
@@ -61,6 +62,7 @@ export function PreviewSearchForm({
     loan_paid_off_percent_min: undefined,
     loan_paid_off_percent_max: undefined,
     number_of_units: undefined,
+    mortgage_free_and_clear: undefined,
   };
 
   const form = useForm<PreviewSearchFormValues>({
@@ -109,7 +111,8 @@ export function PreviewSearchForm({
       values.year_max ||
       values.loan_paid_off_percent_min ||
       values.loan_paid_off_percent_max ||
-      values.number_of_units
+      values.number_of_units ||
+      values.mortgage_free_and_clear
     );
   };
 
@@ -124,6 +127,7 @@ export function PreviewSearchForm({
     if (values.loan_paid_off_percent_min || values.loan_paid_off_percent_max)
       count++;
     if (values.number_of_units) count++;
+    if (values.mortgage_free_and_clear) count++;
     return count;
   };
 
@@ -296,6 +300,33 @@ export function PreviewSearchForm({
                           />
                         </div>
                       )}
+
+                      {/* Mortgage Free & Clear Filter - For all asset types */}
+                      <div className="space-y-2">
+                        <FormField
+                          control={form.control}
+                          name="mortgage_free_and_clear"
+                          render={({ field }) => (
+                            <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                              <FormControl>
+                                <Checkbox
+                                  checked={field.value || false}
+                                  onCheckedChange={field.onChange}
+                                />
+                              </FormControl>
+                              <div className="space-y-1 leading-none">
+                                <Label className="text-sm font-medium">
+                                  Mortgage Free & Clear
+                                </Label>
+                                <p className="text-xs text-muted-foreground">
+                                  Properties with no open mortgage balance
+                                </p>
+                              </div>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
                     </div>
 
                     {/* Filter Actions */}

@@ -217,6 +217,8 @@ export type GetPropertySearchParams = {
   number_of_units?: "2-4" | "5+";
   mfh_2to4?: boolean;
   mfh_5plus?: boolean;
+  mortgage_free_and_clear?: boolean;
+  free_clear?: boolean;
   property_use_code?: number[];
   city?: string;
   county?: string;
