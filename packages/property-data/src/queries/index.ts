@@ -1,6 +1,6 @@
 "use server";
 
-import { getStorageFacilities } from "../providers/google/lib";
+import { searchRegionAssets } from "../providers/google/lib";
 import {
   getAutocomplete,
   getBulkSkipTrace,
@@ -16,54 +16,16 @@ import type {
   PropertySearchResponse,
 } from "../providers/realestateapi/types";
 import { parseLocationCode } from "../utils/format";
-import { crossReferenceResults } from "../utils/transform";
 
 export async function getPropertyCountQuery(
   assetType: { slug: string; name: string; use_codes: number[] },
   location: string,
   params?: GetPropertySearchParams | null,
 ) {
-  const storageUnitType = assetType.slug === "self-storage";
-
   const locationParams = parseLocationCode(location);
   const formattedLocation = `${locationParams.city || locationParams.county}, ${locationParams.state}`;
 
   let resultCount = 0;
-  if (storageUnitType) {
-    const googleResponse = await getStorageFacilities(locationParams);
-    resultCount = googleResponse.results.length;
-  } else {
-    const realestateapiParams = {
-      ...locationParams,
-      ...params,
-      property_use_code: assetType.use_codes || [],
-    };
-
-    const realestateapiResponse = await getPropertySearch(
-      realestateapiParams,
-      true,
-    );
-    resultCount = realestateapiResponse.resultCount;
-  }
-
-  return {
-    resultCount,
-    formattedLocation,
-    assetTypeName: assetType.name,
-    internalId: location,
-  };
-}
-
-export async function getTestPropertyCountQuery(
-  assetType: { slug: string; name: string; use_codes: number[] },
-  location: string,
-  useGoogle?: boolean,
-  params?: GetPropertySearchParams | null,
-) {
-  const storageUnitType = assetType.slug === "self-storage";
-
-  const locationParams = parseLocationCode(location);
-  const formattedLocation = `${locationParams.city || locationParams.county}, ${locationParams.state}`;
 
   const realestateapiParams = {
     ...locationParams,
@@ -75,17 +37,10 @@ export async function getTestPropertyCountQuery(
     realestateapiParams,
     true,
   );
-
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-  let googleResponse: any;
-
-  if (useGoogle && storageUnitType) {
-    googleResponse = await getStorageFacilities(locationParams);
-  }
+  resultCount = realestateapiResponse.resultCount;
 
   return {
-    realestateapi: realestateapiResponse.resultCount,
-    google: googleResponse?.results.length,
+    resultCount,
     formattedLocation,
     assetTypeName: assetType.name,
     internalId: location,
@@ -97,13 +52,9 @@ export async function getPropertySearchQuery(
   location: string,
   params?: GetPropertySearchParams | null,
 ) {
-  const storageUnitType = assetType.slug === "self-storage";
-
   const locationParams = parseLocationCode(location);
 
   const start_time = performance.now();
-
-  let response: PropertySearchResponse;
 
   const realestateapiParams = {
     ...locationParams,
@@ -111,25 +62,7 @@ export async function getPropertySearchQuery(
     property_use_code: assetType.use_codes || [],
   };
 
-  if (storageUnitType) {
-    const [googleResponse, realEstateResponse] = await Promise.all([
-      getStorageFacilities(locationParams),
-      getPropertySearch(realestateapiParams, false),
-    ]);
-
-    const crossReferencedData = crossReferenceResults(
-      realEstateResponse.data,
-      googleResponse.results,
-    );
-
-    response = {
-      ...realEstateResponse,
-      data: crossReferencedData,
-      resultCount: crossReferencedData.length,
-    };
-  } else {
-    response = await getPropertySearch(realestateapiParams, false);
-  }
+  const response = await getPropertySearch(realestateapiParams, false);
 
   const end_time = performance.now();
   const executionTime = end_time - start_time;
@@ -180,4 +113,27 @@ export async function getBulkSkipTraceAwaitQuery(
   const executionTime = end_time - start_time;
 
   return { response, executionTime: Math.round(executionTime) };
+}
+
+export async function getStorageFacilitiesQuery(locationParams: {
+  city?: string;
+  county?: string;
+  state: string;
+}) {
+  const regionName = locationParams.city || locationParams.county!;
+  const regionType = locationParams.city ? "city" : "county";
+
+  console.log(
+    `🚀 Starting storage facility search for: ${regionName}, ${locationParams.state}`,
+  );
+
+  const results = await searchRegionAssets(
+    regionName,
+    "storage facilities",
+    regionType,
+    locationParams.state,
+  );
+
+  console.log(`📦 Found ${results.length} storage facilities`);
+  return { results };
 }

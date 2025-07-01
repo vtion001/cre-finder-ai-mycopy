@@ -15,7 +15,9 @@
     "./utils": "./src/utils/index.ts"
   },
   "dependencies": {
+    "@googlemaps/google-maps-services-js": "^3.4.1",
     "@t3-oss/env-nextjs": "^0.11.1",
+    "@turf/turf": "^7.2.0",
     "zod": "^3.25.56"
   },
   "devDependencies": {

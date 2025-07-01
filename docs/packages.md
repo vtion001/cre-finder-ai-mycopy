@@ -320,7 +320,7 @@ Utilities for property data processing and external API integrations.
 import { getPropertySearchQuery, getAutocompleteQuery } from '@v1/property-data/queries';
 
 // Utility functions
-import { mapPropertyToRecord, parseLocationCode } from '@v1/property-data/utils';
+import { mapPropertyToRecord, parseLocationCode, getStateFullName, isValidStateCode } from '@v1/property-data/utils';
 
 // Types
 import type { PropertySearchParams, Location } from '@v1/property-data/types';
@@ -353,6 +353,12 @@ const suggestions = await getAutocompleteQuery({
 import { mapPropertyToRecord } from '@v1/property-data/utils';
 
 const record = mapPropertyToRecord(apiProperty, licenseId, userId);
+
+// State code utilities
+import { getStateFullName, isValidStateCode } from '@v1/property-data/utils';
+
+const fullStateName = getStateFullName('FL'); // Returns "Florida"
+const isValid = isValidStateCode('CA'); // Returns true
 ```
 
 ### Types

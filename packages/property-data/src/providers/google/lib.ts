@@ -1,144 +1,246 @@
-import fs from "node:fs";
-import type {
-  GooglePlaceResult,
-  GooglePlacesResponse,
-  GooglePlacesSearchParams,
-} from "./types";
+import { writeFileSync } from "node:fs";
+import { Client, type PlaceData } from "@googlemaps/google-maps-services-js";
+import { bbox } from "@turf/turf";
+import * as turf from "@turf/turf";
+import axios from "axios";
+import type { Feature, Point, Polygon } from "geojson";
+import { getStateFullName } from "../../utils/states";
+import type { OSMBoundaryResponse } from "./types";
 
-// Google Places API status codes
-const PLACES_STATUS = {
-  OK: "OK",
-  ZERO_RESULTS: "ZERO_RESULTS",
-  OVER_QUERY_LIMIT: "OVER_QUERY_LIMIT",
-  REQUEST_DENIED: "REQUEST_DENIED",
-  INVALID_REQUEST: "INVALID_REQUEST",
-  UNKNOWN_ERROR: "UNKNOWN_ERROR",
-} as const;
+const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY;
+const client = new Client({});
 
-// Helper function to add delay between requests
-function delay(ms: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
+const OVERPASS_API = "https://overpass-api.de/api/interpreter";
+const SEARCH_RADIUS_METERS = 20000; // 20 km
+const MAX_REQUESTS = 156; // ~$5 cap at $0.032/request
 
-// Helper function to make a single Google Places API request
-async function makeGooglePlacesRequest(
-  searchQuery: string,
-  state?: string,
-  pageToken?: string,
-): Promise<GooglePlacesResponse> {
-  const url = new URL(
-    "https://maps.googleapis.com/maps/api/place/textsearch/json",
+export async function searchRegionAssets(
+  regionName: string,
+  assetType: string,
+  regionType: "city" | "county",
+  stateCode: string,
+): Promise<PlaceData[]> {
+  console.log(
+    `🔍 Starting asset search for "${assetType}" in ${regionType} "${regionName}, ${stateCode}"`,
   );
 
-  url.searchParams.append("query", searchQuery);
-  url.searchParams.append("type", "storage");
-  url.searchParams.append("key", process.env.GOOGLE_API_KEY!);
+  // Convert state code to full state name for Overpass API
+  const stateFullName = getStateFullName(stateCode);
+  const boundary = await getRegionBoundary(
+    regionName,
+    regionType,
+    stateFullName,
+  );
+  console.log("✅ Fetched region boundary");
 
-  // Add radius parameter to maximize search area (50,000 meters is the max for Text Search)
-  // url.searchParams.append("radius", "50000");
+  console.log(`📏 Region boundary area: ${turf.area(boundary).toFixed(2)} sqm`);
 
-  // Add region parameter for location bias if state is available
-  if (state) {
-    // Convert state code to region format (lowercase)
-    url.searchParams.append("region", state.toLowerCase());
+  const aproxRadius = getPolygonApproxRadius(boundary);
+  console.log(`📏 Region boundary radius: ${aproxRadius.toFixed(2)} km`);
+
+  const points = generateGridPoints(boundary, SEARCH_RADIUS_METERS);
+  console.log(`📍 Generated ${points.length} grid points for tiling`);
+
+  const allResults: PlaceData[] = [];
+  let requestCount = 0;
+
+  for (const [i, center] of points.entries()) {
+    if (requestCount >= MAX_REQUESTS) {
+      console.warn("⚠️ Reached max request limit. Stopping further queries.");
+      break;
+    }
+
+    try {
+      console.log(
+        `➡️ (${requestCount + 1}) Requesting Google Places for point ${i + 1}/${points.length}...`,
+      );
+
+      const results = await nearbySearchAllPages(center, assetType);
+      allResults.push(...results);
+      requestCount++;
+
+      await sleep(200); // Basic throttling
+    } catch (err) {
+      console.error(`❌ Error fetching for point ${i + 1}:`, err);
+    }
   }
 
-  if (pageToken) {
-    url.searchParams.append("pagetoken", pageToken);
-  }
+  const filtered = filterResultsWithinBoundary(allResults, boundary);
 
-  const response = await fetch(url.toString(), {
-    method: "GET",
-    headers: {
-      Accept: "application/json",
-    },
-  });
-
-  const data: GooglePlacesResponse = await response.json();
-
-  return data;
+  console.log(
+    `✅ Finished search. Total unique results within boundary: ${filtered.length}`,
+  );
+  return filtered;
 }
 
-export async function getStorageFacilities(params: GooglePlacesSearchParams) {
-  const { city, county, state } = params;
+async function getRegionBoundary(
+  regionName: string,
+  regionType: "city" | "county",
+  stateName: string,
+) {
+  const adminLevel = regionType === "city" ? 8 : 6;
 
-  const isCountySearch = county && state;
+  const query = `
+    [out:json][timeout:25];
+    area["admin_level"="4"]["name"="${stateName}"]->.state;
+    relation["boundary"="administrative"]["admin_level"="${adminLevel}"]["name"="${regionName}"](area.state);
+    out geom;
+  `;
 
-  let locationQuery = "";
-  if (city && state) {
-    locationQuery = `${city}, ${state}`;
-  } else if (county && state) {
-    locationQuery = `${county}, ${state}`;
-  } else if (state) {
-    locationQuery = state;
-  }
+  console.log(
+    `🌐 Fetching boundary from Overpass for ${regionName}, ${stateName}...`,
+  );
 
-  const searchQuery = `"storage facilities in ${locationQuery}`;
-
-  console.log("Google Places Search Query:", searchQuery);
-
-  const allResults: GooglePlaceResult[] = [];
-  let nextPageToken: string | undefined;
-  let pageCount = 0;
-  const maxPages = 3; // Google Places API returns maximum 3 pages (60 results total)
-
-  do {
-    pageCount++;
-
-    if (nextPageToken) {
-      console.log(
-        `Google Places: Waiting 2s before requesting page ${pageCount}...`,
-      );
-      await delay(2000);
-    }
-
-    const data = await makeGooglePlacesRequest(
-      searchQuery,
-      state,
-      nextPageToken,
-    );
-
-    if (data.results && data.results.length > 0) {
-      allResults.push(...data.results);
-      console.log(
-        `Google Places: Page ${pageCount} returned ${data.results.length} results. Total so far: ${allResults.length}`,
-      );
-    } else {
-      console.log(`Google Places: Page ${pageCount} returned no results`);
-    }
-
-    nextPageToken = data.next_page_token;
-
-    if (!nextPageToken) {
-      console.log(
-        `Google Places: No more pages available. Final result count: ${allResults.length}`,
-      );
-    }
-  } while (nextPageToken && pageCount < maxPages);
-
-  if (isCountySearch) {
-    return {
-      results: allResults,
-      status: PLACES_STATUS.OK,
-      next_page_token: undefined,
-    };
-  }
-
-  const filteredResults = allResults.filter((result) => {
-    return result.formatted_address
-      .toLowerCase()
-      .includes(locationQuery.toLowerCase());
+  const { data } = await axios.get<OSMBoundaryResponse>(OVERPASS_API, {
+    params: { data: query },
   });
 
-  // console.log(
-  //   `Filtered ${allResults.length} results down to ${filteredResults.length} results that contain "${locationQuery}"`,
-  // );
+  if (!data.elements || !data.elements.length) {
+    console.error("❌ Region boundary not found in OSM");
+    throw new Error("Region boundary not found in OSM");
+  }
 
-  // writeLogFile(locationQuery, filteredResults);
+  const coords: [number, number][] = [];
 
-  return {
-    results: filteredResults,
-    status: PLACES_STATUS.OK,
-    next_page_token: undefined,
+  for (const element of data.elements) {
+    if (element.type === "relation" && element.members) {
+      for (const member of element.members) {
+        // Only process "way" members that have geometry, ignore "node" members
+        if (member.type === "way" && member.geometry) {
+          for (const point of member.geometry) {
+            // Convert lat/lon to [lon, lat] format for GeoJSON
+            coords.push([point.lon, point.lat]);
+          }
+        }
+      }
+    }
+  }
+
+  if (coords.length === 0) {
+    console.error("❌ No way geometries found in OSM boundary response");
+    throw new Error("No way geometries found in OSM boundary response");
+  }
+
+  // Ensure the polygon is closed by adding the first point at the end if needed
+  if (
+    coords.length > 0 &&
+    (coords[0]![0] !== coords[coords.length - 1]![0] ||
+      coords[0]![1] !== coords[coords.length - 1]![1])
+  ) {
+    coords.push(coords[0]!);
+  }
+
+  console.log(`✅ Boundary received with ${coords.length} coordinate points`);
+  return turf.polygon([coords]);
+}
+
+function generateGridPoints(
+  polygon: Feature<Polygon>,
+  radius: number,
+): Point[] {
+  const bounds = bbox(polygon);
+  const cellSize = radius / 1000; // km
+  const pointGrid = turf.pointGrid(bounds, cellSize, {
+    units: "kilometers",
+    mask: polygon,
+  });
+
+  console.log(`📏 Grid bounds: ${bounds}, cellSize: ${cellSize}km`);
+  const points = pointGrid.features.map((f) => f.geometry);
+
+  if (points.length < 1) {
+    console.log(
+      "⚠️ No grid points generated - boundary area too small. Using center point fallback.",
+    );
+    return [turf.centroid(polygon).geometry];
+  }
+
+  return points;
+}
+
+async function nearbySearchAllPages(
+  center: Point,
+  keyword: string,
+  radius = SEARCH_RADIUS_METERS,
+): Promise<PlaceData[]> {
+  const location = {
+    lat: center.coordinates[1]!,
+    lng: center.coordinates[0]!,
   };
+
+  const allResults: PlaceData[] = [];
+  let pagetoken: string | undefined;
+
+  console.log(
+    `🌐 Starting Google Places search at ${location.lat}, ${location.lng}`,
+  );
+
+  for (let i = 0; i < 3; i++) {
+    const response = await client.placesNearby({
+      params: {
+        key: GOOGLE_API_KEY!,
+        location,
+        radius,
+        keyword,
+        pagetoken,
+      },
+      timeout: 10000,
+    });
+
+    const results = response.data.results;
+    allResults.push(...(results as PlaceData[]));
+
+    console.log(`📄 Page ${i + 1}: Retrieved ${results.length} results`);
+
+    if (!response.data.next_page_token) break;
+    pagetoken = response.data.next_page_token;
+    await sleep(2000); // Google requires wait time for next page
+  }
+
+  return allResults;
+}
+
+function filterResultsWithinBoundary(
+  results: PlaceData[],
+  boundary: Feature<Polygon>,
+) {
+  const allResults: Map<string, PlaceData> = new Map();
+
+  let filteredCount = 0;
+  let addedCount = 0;
+
+  for (const place of results) {
+    if (!allResults.has(place.place_id)) {
+      // Filter out results outside the boundary
+      if (place.geometry?.location) {
+        const placePoint = turf.point([
+          place.geometry.location.lng,
+          place.geometry.location.lat,
+        ]);
+        if (turf.booleanPointInPolygon(placePoint, boundary)) {
+          allResults.set(place.place_id, place);
+          addedCount++;
+        } else {
+          filteredCount++;
+        }
+      }
+    }
+  }
+
+  console.log(
+    `✅ Retrieved ${results.length} results (${addedCount} added, ${filteredCount} filtered out as outside boundary)`,
+  );
+
+  return Array.from(allResults.values());
+}
+
+function getPolygonApproxRadius(polygon: Feature<Polygon>): number {
+  const [minX, minY, maxX, maxY] = bbox(polygon);
+  const centerPoint = turf.center(polygon);
+  const furthestCorner = turf.point([maxX, maxY]);
+  return turf.distance(centerPoint, furthestCorner, { units: "kilometers" });
+}
+
+function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }

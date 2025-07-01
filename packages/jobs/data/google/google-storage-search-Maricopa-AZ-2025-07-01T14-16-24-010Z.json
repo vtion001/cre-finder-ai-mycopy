@@ -1,0 +1,1493 @@
+{
+  "searchParams": {
+    "city": "Maricopa",
+    "state": "AZ",
+    "locationType": "city"
+  },
+  "timestamp": "2025-07-01T14:16:24.012Z",
+  "resultCount": 30,
+  "results": [
+    {
+      "business_status": "OPERATIONAL",
+      "geometry": {
+        "location": {
+          "lat": 33.2201071,
+          "lng": -111.8414
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 33.22152682989272,
+            "lng": -111.8401848201073
+          },
+          "southwest": {
+            "lat": 33.21882717010728,
+            "lng": -111.8428844798927
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+      "icon_background_color": "#7B9EB0",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+      "name": "Self-Storage at U-Haul",
+      "opening_hours": {
+        "open_now": true
+      },
+      "place_id": "ChIJJbZTTc5VKocRGi2xbSIEA6c",
+      "plus_code": {
+        "compound_code": "65C5+2C Sun Lakes, Arizona, USA",
+        "global_code": "855C65C5+2C"
+      },
+      "rating": 5,
+      "reference": "ChIJJbZTTc5VKocRGi2xbSIEA6c",
+      "scope": "GOOGLE",
+      "types": [
+        "moving_company",
+        "storage",
+        "point_of_interest",
+        "establishment"
+      ],
+      "user_ratings_total": 3,
+      "vicinity": "24908 S Arizona Ave, Sun Lakes"
+    },
+    {
+      "business_status": "OPERATIONAL",
+      "geometry": {
+        "location": {
+          "lat": 32.8922069,
+          "lng": -111.7586449
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 32.89353187989272,
+            "lng": -111.7572947201073
+          },
+          "southwest": {
+            "lat": 32.89083222010728,
+            "lng": -111.7599943798927
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+      "icon_background_color": "#7B9EB0",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+      "name": "Casa Grande Mini Storage",
+      "opening_hours": {
+        "open_now": true
+      },
+      "place_id": "ChIJpbRcgFJnKocRtGYzB3nFvTo",
+      "plus_code": {
+        "compound_code": "V6RR+VG Casa Grande, Arizona, USA",
+        "global_code": "854CV6RR+VG"
+      },
+      "rating": 3.4,
+      "reference": "ChIJpbRcgFJnKocRtGYzB3nFvTo",
+      "scope": "GOOGLE",
+      "types": [
+        "storage",
+        "point_of_interest",
+        "establishment"
+      ],
+      "user_ratings_total": 5,
+      "vicinity": "420 W Cholla St, Casa Grande"
+    },
+    {
+      "business_status": "OPERATIONAL",
+      "geometry": {
+        "location": {
+          "lat": 33.0428031,
+          "lng": -112.0202739
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 33.04412667989273,
+            "lng": -112.0188281201073
+          },
+          "southwest": {
+            "lat": 33.04142702010729,
+            "lng": -112.0215277798927
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+      "icon_background_color": "#7B9EB0",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+      "name": "Public Storage",
+      "opening_hours": {
+        "open_now": true
+      },
+      "photos": [
+        {
+          "height": 1200,
+          "html_attributions": [
+            "<a href=\"https://maps.google.com/maps/contrib/116183666141861069824\">Public Storage</a>"
+          ],
+          "photo_reference": "ATKogpcKskIkWiEU7_5lfGH1SVApSssXKWug1uX1F4v-UVlPk7CqCrFWQkW2OEecmUCT9M-LzHKtFSXVDmEy9jzqwClGYQfNwGiZ13RdWGG00m5hlfP928Mi5VOjucK_gfIRQ6hYtWUU2PDG_c_Y67p7tDzupAaF5kfbWXpWIRVK1gcCZAxZ-XkHR_Es_jdXr6lC9uBP53CevT_fiTIsrmmPhQZ9w55ykbMc9SwmNuEQfO0wme33_xwuixBxOxGCOgNwzwUzSmSJdVbSoKDEG2BhZrIN86z43Dd5GmMwsqzIPGk2rImIL1g",
+          "width": 1799
+        }
+      ],
+      "place_id": "ChIJFXBtlX_7KocRgI6ezl_YX6o",
+      "plus_code": {
+        "compound_code": "2XVH+4V Maricopa, Arizona, USA",
+        "global_code": "85592XVH+4V"
+      },
+      "rating": 4.7,
+      "reference": "ChIJFXBtlX_7KocRgI6ezl_YX6o",
+      "scope": "GOOGLE",
+      "types": [
+        "storage",
+        "point_of_interest",
+        "store",
+        "establishment"
+      ],
+      "user_ratings_total": 130,
+      "vicinity": "18000 N Stonegate Rd, Maricopa"
+    },
+    {
+      "business_status": "OPERATIONAL",
+      "geometry": {
+        "location": {
+          "lat": 32.8995021,
+          "lng": -111.7569049
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 32.90088062989272,
+            "lng": -111.7556260701073
+          },
+          "southwest": {
+            "lat": 32.89818097010728,
+            "lng": -111.7583257298927
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+      "icon_background_color": "#7B9EB0",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+      "name": "C G Mini Storage",
+      "opening_hours": {
+        "open_now": true
+      },
+      "photos": [
+        {
+          "height": 810,
+          "html_attributions": [
+            "<a href=\"https://maps.google.com/maps/contrib/110470411133068283641\">C G Mini Storage</a>"
+          ],
+          "photo_reference": "ATKogpcmp5-OgAKhdEGXJmGtXF_maf5sYi-CKBc3WhZYXz1uxxxguSwDAcn35mqokynexzjifriJe0ANl8XDaneJBqmUTGs9Yaz6mQ_eZnYo6ixqddyOhC3gtzqgVryGCaF6Vm5UbiK88Ca0Qkoqm82kK7XK079kJoZZp_fF5OeBKw_kgtaDLxtH5rIhtwlEjdrM9urMvqGmK2qZiBmXnudayjQccyl-_B3d3EKayRoE5lYSQI6fulVKlmJ7GoxEpPR7Tzb5k2h9enML_vkgwSHdoSf6_p3_giUu-I2alx7bLQF4vnQlxlY",
+          "width": 1080
+        }
+      ],
+      "place_id": "ChIJdUFePlRnKocRlVceollQdIw",
+      "plus_code": {
+        "compound_code": "V6XV+R6 Casa Grande, Arizona, USA",
+        "global_code": "854CV6XV+R6"
+      },
+      "rating": 4.4,
+      "reference": "ChIJdUFePlRnKocRlVceollQdIw",
+      "scope": "GOOGLE",
+      "types": [
+        "storage",
+        "point_of_interest",
+        "establishment"
+      ],
+      "user_ratings_total": 64,
+      "vicinity": "1742 N Pinal Ave #2, Casa Grande"
+    },
+    {
+      "business_status": "OPERATIONAL",
+      "geometry": {
+        "location": {
+          "lat": 32.9838637,
+          "lng": -111.9269536
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 32.98523277989273,
+            "lng": -111.9256138201073
+          },
+          "southwest": {
+            "lat": 32.98253312010728,
+            "lng": -111.9283134798927
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+      "icon_background_color": "#7B9EB0",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+      "name": "Orange Storage",
+      "opening_hours": {
+        "open_now": true
+      },
+      "photos": [
+        {
+          "height": 360,
+          "html_attributions": [
+            "<a href=\"https://maps.google.com/maps/contrib/101128990162320074820\">A Google User</a>"
+          ],
+          "photo_reference": "ATKogpdULHALHkUeGiV1Swe8hiLmS484dTS_nzXhUMCOgfuzddrrS1xdr_mf27yyHBVBZoExCAJXFUugdemXZAb_EJpspJ3tZkoG_TkhReCpf6_9R2MfILWD_gLBXQpVppQfzCjCPQAFFY3Ka9fTx_IGsjv2UozkwdS71L5w92g1XXNLunHETN4e99BkBEybK8e4FIue5gE-QNN83OY8fYTBfgN9Qt7g4iHkw1OiThE2EvlcRO4n6U0H3JP3dJsJC1-ICWjgQctWQnpOhcHpiaD03WWf-vEFPvtsk1Ak12C_Z5e4toRjb_s",
+          "width": 640
+        }
+      ],
+      "place_id": "ChIJQ75aXRP3KocRalmsaP_9TjY",
+      "plus_code": {
+        "compound_code": "X3MF+G6 Maricopa, Arizona, USA",
+        "global_code": "854CX3MF+G6"
+      },
+      "rating": 5,
+      "reference": "ChIJQ75aXRP3KocRalmsaP_9TjY",
+      "scope": "GOOGLE",
+      "types": [
+        "storage",
+        "point_of_interest",
+        "establishment"
+      ],
+      "user_ratings_total": 1,
+      "vicinity": "33461 W Trading Post Rd, Maricopa"
+    },
+    {
+      "business_status": "OPERATIONAL",
+      "geometry": {
+        "location": {
+          "lat": 33.0806862,
+          "lng": -112.1374219
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 33.08241177989273,
+            "lng": -112.1360697701073
+          },
+          "southwest": {
+            "lat": 33.07971212010728,
+            "lng": -112.1387694298927
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+      "icon_background_color": "#7B9EB0",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+      "name": "Maricopa City Storage",
+      "opening_hours": {
+        "open_now": true
+      },
+      "photos": [
+        {
+          "height": 480,
+          "html_attributions": [
+            "<a href=\"https://maps.google.com/maps/contrib/104537842369201746683\">Maricopa City Storage</a>"
+          ],
+          "photo_reference": "ATKogpfZrYMwdd91izI3IP4aCBMx42spOr0QwHMHMZqvlAefwRfpcJmnI_i6W2g80pLfAGGef8ZBq2_HG9YS_QDhvgmdp1zNAeRv1nGtMh2ZKk-FXtDiEVg785_4pgHTl50ZRObP9xarOMPe7IrcFF3ZdfykU-86ZKAVR-2-OFYFN5Mk_vKMCL4HendTuo66hF3Z2gxT3J8O7g3im3mPQpY7S8MYqsIbutNphxFpLlfVbPpYJNMfvuDG0cpkCLGGdr_Q8QbpEa9S3IFA1L-z8C0xk4D6-xNSe9ujCLpCq1Czf2_Ob456zb8",
+          "width": 640
+        }
+      ],
+      "place_id": "ChIJlzI9XgPkKocRJ-kEPgklvus",
+      "plus_code": {
+        "compound_code": "3VJ7+72 Maricopa, Arizona, USA",
+        "global_code": "85593VJ7+72"
+      },
+      "rating": 4.9,
+      "reference": "ChIJlzI9XgPkKocRJ-kEPgklvus",
+      "scope": "GOOGLE",
+      "types": [
+        "storage",
+        "point_of_interest",
+        "establishment"
+      ],
+      "user_ratings_total": 15,
+      "vicinity": "53035 W Jersey Dr, Maricopa"
+    },
+    {
+      "business_status": "OPERATIONAL",
+      "geometry": {
+        "location": {
+          "lat": 33.057673,
+          "lng": -112.004571
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 33.05917417989272,
+            "lng": -112.0033799701073
+          },
+          "southwest": {
+            "lat": 33.05647452010728,
+            "lng": -112.0060796298927
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+      "icon_background_color": "#7B9EB0",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+      "name": "Public Storage",
+      "opening_hours": {
+        "open_now": true
+      },
+      "photos": [
+        {
+          "height": 1200,
+          "html_attributions": [
+            "<a href=\"https://maps.google.com/maps/contrib/100980579649637723847\">Public Storage</a>"
+          ],
+          "photo_reference": "ATKogpc7a07YWSxOdodquJs2JzCzm87DScBWm-xK_Am9wNGpSBjo7NL34C0jg6nCI4sghiytWluX66kGt-7FFYhuvKv95rmasPNdZsxqxm_kCvY3m1viYUsmABzOLYE3yavJNF7-oxrYluoDmA-D1R_q8eX4swPPiylypk30YuHxW4fNzKT-koH3XUXWued6frcsVKYxzZi6m7dIuvQX6-7ii3mhFDyAckuDQfiatawBZ9C54Zn9vEp_cjDOuZbX8DQCaWoVvBUBE68LUUU50lH6wYsiEPrDIvq3Z7Jiwv_fM4R9Ak8De9I",
+          "width": 1799
+        }
+      ],
+      "place_id": "ChIJpbGE2fb6KocRGOj64Kal0c0",
+      "plus_code": {
+        "compound_code": "3X5W+35 Maricopa, Arizona, USA",
+        "global_code": "85593X5W+35"
+      },
+      "rating": 4.6,
+      "reference": "ChIJpbGE2fb6KocRGOj64Kal0c0",
+      "scope": "GOOGLE",
+      "types": [
+        "storage",
+        "point_of_interest",
+        "store",
+        "establishment"
+      ],
+      "user_ratings_total": 141,
+      "vicinity": "40675 Honeycutt Rd, Maricopa"
+    },
+    {
+      "business_status": "OPERATIONAL",
+      "geometry": {
+        "location": {
+          "lat": 33.220105,
+          "lng": -111.8416433
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 33.22152577989272,
+            "lng": -111.8402819201073
+          },
+          "southwest": {
+            "lat": 33.21882612010727,
+            "lng": -111.8429815798927
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+      "icon_background_color": "#7B9EB0",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+      "name": "U-Haul Moving & Storage of Sun Lakes",
+      "opening_hours": {
+        "open_now": true
+      },
+      "photos": [
+        {
+          "height": 1200,
+          "html_attributions": [
+            "<a href=\"https://maps.google.com/maps/contrib/107194951426309804749\">U-Haul Moving &amp; Storage of Sun Lakes</a>"
+          ],
+          "photo_reference": "ATKogpc5S4A4hbXP2L9r-2s4GXY-mUTfqfbq7zyNwqFRLKLxJH2To7UxLgoYunoJiF3479NOUEhRo9h_PQQ5w2d-3YKUUnUcymaUR-43tfElD9gun_W1nB0ApFa2nxufhnYYLFg2bZLGCNZ936fLf0dw5RGNZ6kuk2lgGD1DKZ_9kcK9wuqL1wgkNpsfE_OGkm--ZnCGw0yRTMl1xebP3SDwRY2jfPJRO3jY6Ci5Lp6ejEWCr0pyS3tJ_iAjlXKYm322KS1otDEzYXiP2M0YBoOGXjAe9TWyQrjpnP5jYDaT5BSD_cGjSoQ",
+          "width": 1600
+        }
+      ],
+      "place_id": "ChIJBY6QTIZVKocRW6uQ32Ykx1Y",
+      "plus_code": {
+        "compound_code": "65C5+28 Sun Lakes, Arizona, USA",
+        "global_code": "855C65C5+28"
+      },
+      "rating": 4,
+      "reference": "ChIJBY6QTIZVKocRW6uQ32Ykx1Y",
+      "scope": "GOOGLE",
+      "types": [
+        "moving_company",
+        "storage",
+        "point_of_interest",
+        "store",
+        "establishment"
+      ],
+      "user_ratings_total": 111,
+      "vicinity": "24908 S Arizona Ave, Sun Lakes"
+    },
+    {
+      "business_status": "OPERATIONAL",
+      "geometry": {
+        "location": {
+          "lat": 33.0635911,
+          "lng": -112.0463175
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 33.06492532989272,
+            "lng": -112.0451900701073
+          },
+          "southwest": {
+            "lat": 33.06222567010728,
+            "lng": -112.0478897298927
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+      "icon_background_color": "#7B9EB0",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+      "name": "Extra Space Storage",
+      "opening_hours": {
+        "open_now": false
+      },
+      "photos": [
+        {
+          "height": 600,
+          "html_attributions": [
+            "<a href=\"https://maps.google.com/maps/contrib/111496697670994367394\">Extra Space Storage</a>"
+          ],
+          "photo_reference": "ATKogpfO8rKrMJ19C_Uzaa1B9nIKYZZ06Pkwz45-7Uu-esGsY5NnYmwjLZ6yAj_D_wlTVsnf_Jm2wElpcQpDorQKHtJDDJlOJ3mrz7K08mCav4lfbGzJIEKqsKuhHF1aSraFhPCBoynKlOQh-DRDGaU2pQe8zqGKyd-qcyv5VdKF0sN9-8D1Ya0woBw3ONO0e_8YyD1CEV2vPTdhgGhkOdaj5GxZhosQ9rCrlMgdkjecoQq3qzcoUhRAxGVYnmLKR9DwcydSLY3H-VjdVE7EYpCjxSfdhQtLI6_Xga1vRfXfSRWKUf0Fv18",
+          "width": 800
+        }
+      ],
+      "place_id": "ChIJj6Z-ADT7KocRU3X8sqNDpNA",
+      "plus_code": {
+        "compound_code": "3X73+CF Maricopa, Arizona, USA",
+        "global_code": "85593X73+CF"
+      },
+      "rating": 4.9,
+      "reference": "ChIJj6Z-ADT7KocRU3X8sqNDpNA",
+      "scope": "GOOGLE",
+      "types": [
+        "moving_company",
+        "storage",
+        "point_of_interest",
+        "store",
+        "establishment"
+      ],
+      "user_ratings_total": 653,
+      "vicinity": "20215 N John Wayne Pkwy, Maricopa"
+    },
+    {
+      "business_status": "OPERATIONAL",
+      "geometry": {
+        "location": {
+          "lat": 33.06236,
+          "lng": -112.04672
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 33.06371672989273,
+            "lng": -112.0453700201073
+          },
+          "southwest": {
+            "lat": 33.06101707010728,
+            "lng": -112.0480696798927
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+      "icon_background_color": "#7B9EB0",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+      "name": "Maricopa Storage Solutions",
+      "opening_hours": {
+        "open_now": false
+      },
+      "photos": [
+        {
+          "height": 544,
+          "html_attributions": [
+            "<a href=\"https://maps.google.com/maps/contrib/111621997295332162727\">Maricopa Storage Solutions</a>"
+          ],
+          "photo_reference": "ATKogpdSqnWNObktOYh6NBjy1tgoGlDwYEUmCgLgu0TC_epYwUKtwMOsgAKB8G3Zi4O0ArtWWhlOun2tMP-VswjavwWBFWPFVmA0xC66V5fXiYjZOQV1ggW5BARo01Lsiqz9C9x0TRgxztgqeJ_0IiYwSOyJl4JXO3cVhz-UK5TXBumUbwgfRUbaD3Fp0ilxj85H00WwJtQj_y3v9fy8xCHTJLNWaena4GOgFVulDrtYfr0wXt1cj3WNB6cPB1b52a3tmEOGdx4eQfxiwPeX1KrZQzdQAIFUWgX3jRRhrWRAhgV2YWJTXUk",
+          "width": 987
+        }
+      ],
+      "place_id": "ChIJ64PRVSvlKocRiLNrWOtJ0i0",
+      "plus_code": {
+        "compound_code": "3X63+W8 Maricopa, Arizona, USA",
+        "global_code": "85593X63+W8"
+      },
+      "rating": 4.7,
+      "reference": "ChIJ64PRVSvlKocRiLNrWOtJ0i0",
+      "scope": "GOOGLE",
+      "types": [
+        "storage",
+        "point_of_interest",
+        "establishment"
+      ],
+      "user_ratings_total": 384,
+      "vicinity": "20125 N John Wayne Pkwy, Maricopa"
+    },
+    {
+      "business_status": "OPERATIONAL",
+      "geometry": {
+        "location": {
+          "lat": 32.8946409,
+          "lng": -111.7469525
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 32.89599087989272,
+            "lng": -111.7456183201073
+          },
+          "southwest": {
+            "lat": 32.89329122010728,
+            "lng": -111.7483179798927
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+      "icon_background_color": "#7B9EB0",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+      "name": "Plaza De Los Alamos Mini Storage",
+      "opening_hours": {
+        "open_now": false
+      },
+      "place_id": "ChIJ08eZ01pnKocReFjDlOb9d9k",
+      "plus_code": {
+        "compound_code": "V7V3+V5 Casa Grande, Arizona, USA",
+        "global_code": "854CV7V3+V5"
+      },
+      "rating": 5,
+      "reference": "ChIJ08eZ01pnKocReFjDlOb9d9k",
+      "scope": "GOOGLE",
+      "types": [
+        "storage",
+        "point_of_interest",
+        "establishment"
+      ],
+      "user_ratings_total": 1,
+      "vicinity": "550 E Cottonwood Ln # C, Casa Grande"
+    },
+    {
+      "business_status": "OPERATIONAL",
+      "geometry": {
+        "location": {
+          "lat": 33.2194008,
+          "lng": -111.8189117
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 33.22071292989272,
+            "lng": -111.8174957201073
+          },
+          "southwest": {
+            "lat": 33.21801327010728,
+            "lng": -111.8201953798927
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+      "icon_background_color": "#7B9EB0",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+      "name": "SmartStop Self Storage",
+      "opening_hours": {
+        "open_now": false
+      },
+      "photos": [
+        {
+          "height": 652,
+          "html_attributions": [
+            "<a href=\"https://maps.google.com/maps/contrib/105757472014126175173\">SmartStop Self Storage</a>"
+          ],
+          "photo_reference": "ATKogpfxnrHKSvvEL-CyDGPoSS2EF-SNLxsR7jMYVcJIhO8ErycoaPtvhi-pNGllHuZQRt4ZWqGe1nvPF3CBEcsSSgpTO8ID0udS0aEmKIbPlVDKjEedGq544uzG1978H586byNxWus36I6pk-GeKDcZlvWrn0qJrAadwJmO7NPq6_8yUVK98pIoW0vN7xUSI5IkmLvKlCeQKFN6XGhB-CRbH1ZXXs33zLxbNK2wQsHBPFpsNg-81ElecqD7wxbt597qJTLPglYh-W8PCJWskPsIIIz70N1whpQYfG0zlzTsIhYUwj9uIwA",
+          "width": 978
+        }
+      ],
+      "place_id": "ChIJpzGzUjtVKocRWeDiIEVGCaU",
+      "plus_code": {
+        "compound_code": "659J+QC Chandler, Arizona, USA",
+        "global_code": "855C659J+QC"
+      },
+      "rating": 4.7,
+      "reference": "ChIJpzGzUjtVKocRWeDiIEVGCaU",
+      "scope": "GOOGLE",
+      "types": [
+        "storage",
+        "point_of_interest",
+        "establishment"
+      ],
+      "user_ratings_total": 287,
+      "vicinity": "12220 E Riggs Rd # 107, Chandler"
+    },
+    {
+      "business_status": "OPERATIONAL",
+      "geometry": {
+        "location": {
+          "lat": 32.8973739,
+          "lng": -111.7565027
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 32.89871802989271,
+            "lng": -111.7549922201073
+          },
+          "southwest": {
+            "lat": 32.89601837010727,
+            "lng": -111.7576918798927
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+      "icon_background_color": "#7B9EB0",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+      "name": "A Storage Place of Casa Grande",
+      "opening_hours": {
+        "open_now": false
+      },
+      "photos": [
+        {
+          "height": 1920,
+          "html_attributions": [
+            "<a href=\"https://maps.google.com/maps/contrib/105029507611297823384\">A Storage Place of Casa Grande</a>"
+          ],
+          "photo_reference": "ATKogpc4wFdziFRBOiFZoUDpFzjUyBydLt33YrykfpNn68xPzU_w1DUl_vlxE_rNu0WEYu4vH3OJkHIUxwh7lMR_4mZWcNd7_gsUvCbvIZXhz2UJLZCWzsKRfgzg69pQ437zfKQ-TQ85HqMSi74W_12UY6JPAQXoTcy1EPBHD4ev_hWR6ZkmlGBJ66aNhkXnZWbIAwBmsvHz1ysadcr0qlyLmgDWeiGJupDGxi50V3ntKqeLse93tBOR_zV-R3CP9CBqrQSd3obn_xiHZQ6gbI2qkwA3FKksPhzBra-1nymjS866jxPmQDo",
+          "width": 2560
+        }
+      ],
+      "place_id": "ChIJi4fwilNnKocRYsliCIhQEdQ",
+      "plus_code": {
+        "compound_code": "V6WV+W9 Casa Grande, Arizona, USA",
+        "global_code": "854CV6WV+W9"
+      },
+      "rating": 4.5,
+      "reference": "ChIJi4fwilNnKocRYsliCIhQEdQ",
+      "scope": "GOOGLE",
+      "types": [
+        "moving_company",
+        "storage",
+        "point_of_interest",
+        "store",
+        "establishment"
+      ],
+      "user_ratings_total": 68,
+      "vicinity": "1688 N Pinal Ave, Casa Grande"
+    },
+    {
+      "business_status": "OPERATIONAL",
+      "geometry": {
+        "location": {
+          "lat": 32.8641076,
+          "lng": -111.7352415
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 32.86544172989272,
+            "lng": -111.7338610701073
+          },
+          "southwest": {
+            "lat": 32.86274207010728,
+            "lng": -111.7365607298927
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+      "icon_background_color": "#7B9EB0",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+      "name": "Casa Grande Self Storage",
+      "opening_hours": {
+        "open_now": false
+      },
+      "photos": [
+        {
+          "height": 3000,
+          "html_attributions": [
+            "<a href=\"https://maps.google.com/maps/contrib/108451730422832402379\">Casa Grande Self Storage</a>"
+          ],
+          "photo_reference": "ATKogpct6k_fOymcgrAveZC0TsakPHHUDeRhZNHP8O3AH73VwlvXdRmmNiXvCrsYEv0LJ-M_qKdjldIj6js9NRDpk3bYxBqqL0WJ6d1992_IYFHVFpWv-F0MPZRyydnmPTj2M7s92kHKki0rMaevm1td2iWPbgNQ9kKn8MS8Mp_gdGVon-iNpcq3hNQQ0SU3-CR7n9EjRCOXpC2GSP8go70iV7KuO6nO5gIJR8P8DC7es4vUTW-SVdlvcO_6A_Wx3_6iUS6EySpdbj6uwSOCRD4BDmnkk8e-BhmwwLJY5uV85KmoxRFR91A",
+          "width": 4000
+        }
+      ],
+      "place_id": "ChIJdW5UKuBmKocRwSeyYiizViE",
+      "plus_code": {
+        "compound_code": "V777+JV Casa Grande, Arizona, USA",
+        "global_code": "854CV777+JV"
+      },
+      "rating": 4.8,
+      "reference": "ChIJdW5UKuBmKocRwSeyYiizViE",
+      "scope": "GOOGLE",
+      "types": [
+        "storage",
+        "point_of_interest",
+        "store",
+        "establishment"
+      ],
+      "user_ratings_total": 92,
+      "vicinity": "15566 W Jimmie Kerr Blvd, Casa Grande"
+    },
+    {
+      "business_status": "OPERATIONAL",
+      "geometry": {
+        "location": {
+          "lat": 33.2184022,
+          "lng": -111.7275095
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 33.22015547989272,
+            "lng": -111.7264410701073
+          },
+          "southwest": {
+            "lat": 33.21745582010728,
+            "lng": -111.7291407298927
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+      "icon_background_color": "#7B9EB0",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+      "name": "SmartStop Self Storage",
+      "opening_hours": {
+        "open_now": false
+      },
+      "photos": [
+        {
+          "height": 480,
+          "html_attributions": [
+            "<a href=\"https://maps.google.com/maps/contrib/115747022359588767909\">SmartStop Self Storage</a>"
+          ],
+          "photo_reference": "ATKogpfEoLcGx0BHAub3kR_a0hvruWQH73M5ug_whDx1PaL0EWCS979xmRUdKZmVl80Hc4wxWt6n4vbPu-2KGxLPEIcG_yT0QJkhxTSASsdZttfFthiiFCPYp6IAPbFV2qc7gu88RvVeEvnhEdurjd1z3GN82wmOnBy8TciArmBax3pLYF0xXCsVeauxl-IVCRb0ArQCc0IIMy7DbaHycv0xOpd6FA6OXUjtMZ_obNR9oUQhxpx6SYM1tL4JW2YFx4XXDPAX-qhjFh4cuwI-OYCCL9UlDm3qbRS8fddNQOAiTEHA-k85tnA",
+          "width": 853
+        }
+      ],
+      "place_id": "ChIJmehpkCNTKocRMmR-pfpQVGc",
+      "plus_code": {
+        "compound_code": "679C+9X Gilbert, Arizona, USA",
+        "global_code": "855C679C+9X"
+      },
+      "rating": 4.6,
+      "reference": "ChIJmehpkCNTKocRMmR-pfpQVGc",
+      "scope": "GOOGLE",
+      "types": [
+        "storage",
+        "point_of_interest",
+        "establishment"
+      ],
+      "user_ratings_total": 355,
+      "vicinity": "2845 E Riggs Rd, Gilbert"
+    },
+    {
+      "business_status": "OPERATIONAL",
+      "geometry": {
+        "location": {
+          "lat": 33.213852,
+          "lng": -111.8416918
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 33.21520067989272,
+            "lng": -111.8402567201073
+          },
+          "southwest": {
+            "lat": 33.21250102010728,
+            "lng": -111.8429563798927
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+      "icon_background_color": "#7B9EB0",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+      "name": "StorAmerica Self Storage",
+      "opening_hours": {
+        "open_now": false
+      },
+      "photos": [
+        {
+          "height": 756,
+          "html_attributions": [
+            "<a href=\"https://maps.google.com/maps/contrib/113374981673990069645\">StorAmerica Self Storage</a>"
+          ],
+          "photo_reference": "ATKogpdnasuQSP6haF2B4PhWJHn2cCZj-XMDXvDoZ_0mnoZlPURPL62ZLurZb3xiAHIpbcowRLskxnb-vohX6jSRBn1Yk0nMv7_px4J_BgQ4QM2J-fNZ0VXiNGRO45EB8OB3AHjeFTo1iEAyb3-rJVBUcWFlqec9tyZwAkh1aX_yRHl1hy_JL68E9jmrOQXUhUUWTGk0nTtEDCqah786HzP_9w1vgdLIHS-f5VMm_gdrCyqQ0vkazx4wXDok74Q6ICLusi_BN6mtWUzkpKfD9tXJWOV8ehhMGFkxebYWYbjAdszRURcCSiQ",
+          "width": 1008
+        }
+      ],
+      "place_id": "ChIJXQeQmEZVKocR0W9DcTUl5mw",
+      "plus_code": {
+        "compound_code": "6575+G8 Sun Lakes, Arizona, USA",
+        "global_code": "855C6575+G8"
+      },
+      "rating": 4.8,
+      "reference": "ChIJXQeQmEZVKocR0W9DcTUl5mw",
+      "scope": "GOOGLE",
+      "types": [
+        "storage",
+        "point_of_interest",
+        "establishment"
+      ],
+      "user_ratings_total": 91,
+      "vicinity": "25710 S Arizona Ave, Sun Lakes"
+    },
+    {
+      "business_status": "OPERATIONAL",
+      "geometry": {
+        "location": {
+          "lat": 32.8944445,
+          "lng": -111.7539531
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 32.89577972989272,
+            "lng": -111.7525812201073
+          },
+          "southwest": {
+            "lat": 32.89308007010727,
+            "lng": -111.7552808798927
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+      "icon_background_color": "#7B9EB0",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+      "name": "Park'n Shade RV & Boat Storage",
+      "opening_hours": {
+        "open_now": true
+      },
+      "place_id": "ChIJg3S0plFnKocRo_BbTOoyzHU",
+      "plus_code": {
+        "compound_code": "V6VW+QF Casa Grande, Arizona, USA",
+        "global_code": "854CV6VW+QF"
+      },
+      "rating": 4,
+      "reference": "ChIJg3S0plFnKocRo_BbTOoyzHU",
+      "scope": "GOOGLE",
+      "types": [
+        "storage",
+        "point_of_interest",
+        "establishment"
+      ],
+      "user_ratings_total": 43,
+      "vicinity": "140 W Cottonwood Ln, Casa Grande"
+    },
+    {
+      "business_status": "OPERATIONAL",
+      "geometry": {
+        "location": {
+          "lat": 32.9226973,
+          "lng": -111.7412742
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 32.92409147989272,
+            "lng": -111.7399242701073
+          },
+          "southwest": {
+            "lat": 32.92139182010727,
+            "lng": -111.7426239298927
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+      "icon_background_color": "#7B9EB0",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+      "name": "Rodeo Storage 24/7 Access",
+      "opening_hours": {
+        "open_now": false
+      },
+      "photos": [
+        {
+          "height": 1000,
+          "html_attributions": [
+            "<a href=\"https://maps.google.com/maps/contrib/104077718190906633190\">Access 24-7 Rodeo Storage</a>"
+          ],
+          "photo_reference": "ATKogpf3tDC83fmI8z7T2CHfNGB1Oqb6R-0pSxfTRYNTgRYa8IONyuPQwgt1oR8Bwa3s8qU8NgTI_IHD0Tlw5irh85rtjLxdAjsIqjOGfDlC16iu5ieZRYTlQ8XU_5ddVrNFSyLw66piVPI-c5dFkju63Ju07jhFlqK2fZr1yz_uq1l3uZU0udKyjecsauW93AIF9sKsru9O3GXwa4qjY1tTHjrexOtLk9vR9GO-GOp9J19coj5pYyIg5zczQ8froLSUpZ0qXQMed7KLSQsWnW7nAlJHpdWyHHeizUqj1qGaqHt9qNHS7H4",
+          "width": 1500
+        }
+      ],
+      "place_id": "ChIJfYwchetdKocRs7imRaz-YOU",
+      "plus_code": {
+        "compound_code": "W7F5+3F Casa Grande, Arizona, USA",
+        "global_code": "854CW7F5+3F"
+      },
+      "rating": 4.4,
+      "reference": "ChIJfYwchetdKocRs7imRaz-YOU",
+      "scope": "GOOGLE",
+      "types": [
+        "storage",
+        "point_of_interest",
+        "establishment"
+      ],
+      "user_ratings_total": 43,
+      "vicinity": "1009 E Rodeo Rd, Casa Grande"
+    },
+    {
+      "business_status": "OPERATIONAL",
+      "geometry": {
+        "location": {
+          "lat": 33.2211598,
+          "lng": -111.7886909
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 33.22244932989272,
+            "lng": -111.7873437201073
+          },
+          "southwest": {
+            "lat": 33.21974967010728,
+            "lng": -111.7900433798927
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+      "icon_background_color": "#7B9EB0",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+      "name": "CubeSmart Self Storage",
+      "opening_hours": {
+        "open_now": false
+      },
+      "photos": [
+        {
+          "height": 1080,
+          "html_attributions": [
+            "<a href=\"https://maps.google.com/maps/contrib/100260129479824041580\">CubeSmart Self Storage</a>"
+          ],
+          "photo_reference": "ATKogpeGcO70UtzXGURvAc5qYHwab77IrHL_2mxJxtYa5fQz0ps-Cy9zMxevkjlXGXCM5Iu36LcS-7Jdx04Yw7OsPBBrN-coShgdTpKP5Gl-jZ8U9g_naUpnhKalEuxzT17Rvr7GLSBwaL3dz2gBMHPvre4reDmMhfP4wDnmvq6JRaOJuKHLhvQUBMV99dqVTUItDhstH7bc1FzrRcrBNJrpnOVev9u7_BbOdmVNFEKVMI-iyKwckpSo5q9lLWeImFy12VTm2vAEfpjEBTIPkXgYJkOfTXpbRtxc0AyCtkztMqPxokju7Jk",
+          "width": 1618
+        }
+      ],
+      "place_id": "ChIJLS62t8FUKocRGlp8_8OLQyo",
+      "plus_code": {
+        "compound_code": "66C6+FG Chandler, Arizona, USA",
+        "global_code": "855C66C6+FG"
+      },
+      "rating": 4.7,
+      "reference": "ChIJLS62t8FUKocRGlp8_8OLQyo",
+      "scope": "GOOGLE",
+      "types": [
+        "moving_company",
+        "storage",
+        "point_of_interest",
+        "store",
+        "establishment"
+      ],
+      "user_ratings_total": 93,
+      "vicinity": "5959 S Gilbert Rd, Chandler"
+    },
+    {
+      "business_status": "OPERATIONAL",
+      "geometry": {
+        "location": {
+          "lat": 33.2201071,
+          "lng": -111.8414
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 33.22152682989272,
+            "lng": -111.8401848201073
+          },
+          "southwest": {
+            "lat": 33.21882717010728,
+            "lng": -111.8428844798927
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+      "icon_background_color": "#7B9EB0",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+      "name": "U-Box at U-Haul",
+      "opening_hours": {
+        "open_now": true
+      },
+      "photos": [
+        {
+          "height": 340,
+          "html_attributions": [
+            "<a href=\"https://maps.google.com/maps/contrib/115091193037892820573\">A Google User</a>"
+          ],
+          "photo_reference": "ATKogpev6_S29F1MbLPne0FZeYiiPuMYFO4ICAqPzGMqfXXTaQDxANJBZ4jefRYQ7QEnFld52lJg2RV_aWjhKWZD0yvNpHZ_DPztU92SnHjL2geKfEyYWyA0g7r0HlJmWbYmdDIlKpq38iyjieptDF6laZSoARLzD59HTCyVgq8nrCqzKsasyt_0Oh7QE5NlbA1K-TMVmOG2ZbPeMHyCySFRzjSMH4gSM6Vcg75b4-oV7xkUu8KCre5hvDsu_HsWWuSXhGZKQ-VhYTYOPW3ym17hVnRzW0pFsgZH_QzgGze_8UtysDF-kJc",
+          "width": 500
+        }
+      ],
+      "place_id": "ChIJ0Vgn6edVKocRpk7h1SQnMw0",
+      "plus_code": {
+        "compound_code": "65C5+2C Sun Lakes, Arizona, USA",
+        "global_code": "855C65C5+2C"
+      },
+      "rating": 4.8,
+      "reference": "ChIJ0Vgn6edVKocRpk7h1SQnMw0",
+      "scope": "GOOGLE",
+      "types": [
+        "moving_company",
+        "storage",
+        "point_of_interest",
+        "store",
+        "establishment"
+      ],
+      "user_ratings_total": 5,
+      "vicinity": "24908 S Arizona Ave, Sun Lakes"
+    },
+    {
+      "business_status": "OPERATIONAL",
+      "geometry": {
+        "location": {
+          "lat": 32.8804997,
+          "lng": -111.7596729
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 32.88197317989272,
+            "lng": -111.7582534701073
+          },
+          "southwest": {
+            "lat": 32.87927352010728,
+            "lng": -111.7609531298927
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+      "icon_background_color": "#7B9EB0",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+      "name": "Crossroads Self Storage",
+      "opening_hours": {
+        "open_now": false
+      },
+      "photos": [
+        {
+          "height": 480,
+          "html_attributions": [
+            "<a href=\"https://maps.google.com/maps/contrib/110277029251582523892\">James Hemingway</a>"
+          ],
+          "photo_reference": "ATKogpdbWq2zZKIVtsY-CKW8G1dKBLipC0BzacFuW8vxFowY6EY8ce-h_c3Q4TAAPq7oeLpUanydXTTNO-zcF6q88-YQ-bLdCAPIMM7TMjuPZizmuWB3cOBZDY9rWgngXOBqRm8ht1fGrVN3r43oQEK_ceFGP_PpqpGaL9s3wueUJIxJ002-98Xhb4fcMOHnU2g_sU6qGlBw1AB_YEVxkogdAH0JTgZE6zWtWJq2nJDrxUqT1Q6jGvPmdTC55hNsQHpZliZiI2Yt9vQ9HtaT0QfW4ng8Pdgvwral50AFnNUUlqGCZufPXrlQjfKF3e-06tLqSMnuMpwH1EXKKqDDm8OZ2gxGwGTffIoSsqKsejptTLtw50wB4AZvNnLk8h9_cuqZMf5m-0ol957weD87Fp42EQgBFo_-QxLmTtXSmZU7U7eg12mtrGH1Lov5srckx49o4X8bVeauyNpGlpXW43JsCj0vzyySJwUXPZpvcyeJaJj-25qe8d0yAf2KCZAvpHjB9Gw7DEAwTQNf81RPgcv-fVI_uqP-L6qZQq-bo-iHGzCOWba9xvqIIhtoA0eGNHTUafNYZA",
+          "width": 640
+        }
+      ],
+      "place_id": "ChIJnWa8nUxnKocRQ3BbaGM332s",
+      "plus_code": {
+        "compound_code": "V6JR+54 Casa Grande, Arizona, USA",
+        "global_code": "854CV6JR+54"
+      },
+      "rating": 4.3,
+      "reference": "ChIJnWa8nUxnKocRQ3BbaGM332s",
+      "scope": "GOOGLE",
+      "types": [
+        "moving_company",
+        "storage",
+        "point_of_interest",
+        "store",
+        "establishment"
+      ],
+      "user_ratings_total": 69,
+      "vicinity": "819 N French St, Casa Grande"
+    },
+    {
+      "business_status": "OPERATIONAL",
+      "geometry": {
+        "location": {
+          "lat": 33.0561777,
+          "lng": -112.0487661
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 33.05743232989273,
+            "lng": -112.0473831201073
+          },
+          "southwest": {
+            "lat": 33.05473267010728,
+            "lng": -112.0500827798927
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+      "icon_background_color": "#7B9EB0",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+      "name": "Maricopa Business Barn",
+      "place_id": "ChIJnQom2SzlKocRHj8eLevu8_g",
+      "plus_code": {
+        "compound_code": "3X42+FF Maricopa, Arizona, USA",
+        "global_code": "85593X42+FF"
+      },
+      "rating": 3,
+      "reference": "ChIJnQom2SzlKocRHj8eLevu8_g",
+      "scope": "GOOGLE",
+      "types": [
+        "storage",
+        "point_of_interest",
+        "establishment"
+      ],
+      "user_ratings_total": 2,
+      "vicinity": "19428 N John Wayne Pkwy, Maricopa"
+    },
+    {
+      "business_status": "OPERATIONAL",
+      "geometry": {
+        "location": {
+          "lat": 32.8834284,
+          "lng": -111.7855355
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 32.88478002989272,
+            "lng": -111.7843033201073
+          },
+          "southwest": {
+            "lat": 32.88208037010727,
+            "lng": -111.7870029798927
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+      "icon_background_color": "#7B9EB0",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+      "name": "MyPlace Self Storage",
+      "opening_hours": {
+        "open_now": false
+      },
+      "photos": [
+        {
+          "height": 1000,
+          "html_attributions": [
+            "<a href=\"https://maps.google.com/maps/contrib/106928020673206430406\">MyPlace Self Storage</a>"
+          ],
+          "photo_reference": "ATKogpeCIv45uuuKfHWqX9eDszwUQmFTsUpovsqNuyWx_p2p6LJwRJI-57cwswavDHYYM0RsE0BOMvt2yMwMM670Dh2M8VzhYI8Vjeu5qSk1RmWTJ30LAMUOANFAbXk0sEkpD8kx9dtoG2fZyiq4jRfIOBhL-6d739WAjiekffHXPInAJLX40Bf21Q3MQIEdQNbIgo4xQDKV_Pod3ig3mX8paLUewhCSvsBdiXhpJ8vBX-vWV-4LVVOu0GIAfGhYxyO3qlmPo2J4R8dv-eZve-QpQ_fhLMPIIoFjqbADMKLji1Y7yrZ9wkw",
+          "width": 1500
+        }
+      ],
+      "place_id": "ChIJ_6TCBpZgKocRyvq9xsX-9SY",
+      "plus_code": {
+        "compound_code": "V6M7+9Q Casa Grande, Arizona, USA",
+        "global_code": "854CV6M7+9Q"
+      },
+      "rating": 4.1,
+      "reference": "ChIJ_6TCBpZgKocRyvq9xsX-9SY",
+      "scope": "GOOGLE",
+      "types": [
+        "moving_company",
+        "storage",
+        "point_of_interest",
+        "establishment"
+      ],
+      "user_ratings_total": 105,
+      "vicinity": "1040 N V I P Blvd, Casa Grande"
+    },
+    {
+      "business_status": "OPERATIONAL",
+      "geometry": {
+        "location": {
+          "lat": 32.8778986,
+          "lng": -111.732007
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 32.87929932989272,
+            "lng": -111.7304963701073
+          },
+          "southwest": {
+            "lat": 32.87659967010728,
+            "lng": -111.7331960298927
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+      "icon_background_color": "#7B9EB0",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+      "name": "Securlock Storage at Casa Grande",
+      "opening_hours": {
+        "open_now": false
+      },
+      "photos": [
+        {
+          "height": 2213,
+          "html_attributions": [
+            "<a href=\"https://maps.google.com/maps/contrib/100633261169689092028\">Securlock Storage at Casa Grande</a>"
+          ],
+          "photo_reference": "ATKogpeOzFrolzVGFozgQsj-owWrOTNpa6q2YgnOx8LV98FQZ_P5qqnvYL6Rq_HtTshAYws-xrAOYs31y22diCib-dHQNWvQL1Dm8rntRzJy8sOCz3s0Le6UF1GnXYo6W2E61UITkztrWlSW9o-oOf316jpHMgnNG0KYgo2jpPgle_V61bhEir2OzBui6ntwoXpBKS1wj3MMZwJMg3T9Ay0NQEmRsIqEYJhr38WAIIrQPwPcAf2mPlat8TzPPD1FlwVwDJNKY45ZxrvBtoeXooVilR_6bTmnGx82nfov-nd92vB5QjNIgIQ",
+          "width": 4495
+        }
+      ],
+      "place_id": "ChIJO5G4LBdnKocRzEMo2251HGI",
+      "plus_code": {
+        "compound_code": "V7H9+65 Casa Grande, Arizona, USA",
+        "global_code": "854CV7H9+65"
+      },
+      "rating": 4.7,
+      "reference": "ChIJO5G4LBdnKocRzEMo2251HGI",
+      "scope": "GOOGLE",
+      "types": [
+        "storage",
+        "point_of_interest",
+        "store",
+        "establishment"
+      ],
+      "user_ratings_total": 81,
+      "vicinity": "517 N Colorado St, Casa Grande"
+    },
+    {
+      "business_status": "OPERATIONAL",
+      "geometry": {
+        "location": {
+          "lat": 32.9730646,
+          "lng": -111.7580113
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 32.97431802989273,
+            "lng": -111.7566396201073
+          },
+          "southwest": {
+            "lat": 32.97161837010729,
+            "lng": -111.7593392798927
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+      "icon_background_color": "#7B9EB0",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+      "name": "Copper Mountain Self Storage Casa Grande",
+      "opening_hours": {
+        "open_now": false
+      },
+      "photos": [
+        {
+          "height": 325,
+          "html_attributions": [
+            "<a href=\"https://maps.google.com/maps/contrib/117501591898839232803\">Copper Mountain Self Storage Casa Grande</a>"
+          ],
+          "photo_reference": "ATKogpdxomo___WLznKtAhhRCzC0V4kqnkewyjXwcqyMLXEIbdfvQ1m45QBam5jRaSvPmUivEbOVDErArEzHJP-eKdbyrX2-LnRjvUUDMsDA59ve9WbtPl1auvoaAQKkURd7UcJRUYwebkX3uL6MEZ5HvP1Sd3yqZzA1YNT-VLQZl6YXWikrHkLsghVhVmcgwWbP6b064-nB0FvwjBd85vs_4gWEedGYp0gBAAz05jy72_4Bk9gJbfsSb1KMLhBpQ0X-gddwR_1rVQ-4DoNJSAVfzwEkJaBu5V236rm_5mzlxwC33jbvekM",
+          "width": 550
+        }
+      ],
+      "place_id": "ChIJwTCKgx5cKocRlp8nw1qSRZ8",
+      "plus_code": {
+        "compound_code": "X6FR+6Q Casa Grande, Arizona, USA",
+        "global_code": "854CX6FR+6Q"
+      },
+      "rating": 4.6,
+      "reference": "ChIJwTCKgx5cKocRlp8nw1qSRZ8",
+      "scope": "GOOGLE",
+      "types": [
+        "storage",
+        "point_of_interest",
+        "store",
+        "establishment"
+      ],
+      "user_ratings_total": 103,
+      "vicinity": "3751 N Pinal Ave, Casa Grande"
+    },
+    {
+      "business_status": "OPERATIONAL",
+      "geometry": {
+        "location": {
+          "lat": 33.2217948,
+          "lng": -111.8233288
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 33.22315122989272,
+            "lng": -111.8219787201073
+          },
+          "southwest": {
+            "lat": 33.22045157010728,
+            "lng": -111.8246783798927
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+      "icon_background_color": "#7B9EB0",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+      "name": "McQueen RV & Boat Storage L.L.C",
+      "opening_hours": {
+        "open_now": true
+      },
+      "photos": [
+        {
+          "height": 1347,
+          "html_attributions": [
+            "<a href=\"https://maps.google.com/maps/contrib/102573883793978276724\">John Ramirez</a>"
+          ],
+          "photo_reference": "ATKogpdCcuhCRtKBvbHeHxbIdZTkRrh4fA6S_PdywOap05IA7A22rcprUEKS4tJ0vZkLFiMd9Y7hyibV21T8oDMjdEHIh0XDqAzOdcl0zWecg5ONzNmu6WXDHcClxOE-qNz9WLGA9mgoS-x4INt3o7mQPtpKFc6RN0e9zu40nPxO58LdlHzy_kpmz5FRHzBZZ5Uj3iD-uP0tDRZJ-cgqG1e6r0ucEq0b3Io0K2JESVCjf7fEiWaEi6KfAzPzYKQF_AB_1R68QTCtX1j3ZycRxB0y4Tpvp2Gq09gDUmHszZQz4yAM8RvLnjXd87MTAZ9vOdNkwYsACiBJpPgkTIj7QyVvppCBZdANhAkZ8pJUMNOCx4yURPw-odmIsMgSFFqse_kXybiu4IKVyneGrNxSBkX-HBzUsRsuD_i31_hfzV9AYWSW3v-ZInQtaUmW15l4g1-0CEN6a4Jc4NwVhK_AvESTkWW1vevQlKDYFckYJteVpvkg43kFUgVZZnJXAcP7_ePdThx-1NUTBQMh9A41WZ71JfUzggzi4p0gP6mK1caPDIkLEc-RcUygXtzl9jlFCtG3SPHZfk9q",
+          "width": 2048
+        }
+      ],
+      "place_id": "ChIJ45cBzzpVKocRfjf8YRCwYYw",
+      "plus_code": {
+        "compound_code": "65CG+PM Chandler, Arizona, USA",
+        "global_code": "855C65CG+PM"
+      },
+      "rating": 3.6,
+      "reference": "ChIJ45cBzzpVKocRfjf8YRCwYYw",
+      "scope": "GOOGLE",
+      "types": [
+        "storage",
+        "point_of_interest",
+        "establishment"
+      ],
+      "user_ratings_total": 30,
+      "vicinity": "24823 S McQueen Rd, Chandler"
+    },
+    {
+      "business_status": "OPERATIONAL",
+      "geometry": {
+        "location": {
+          "lat": 32.8816517,
+          "lng": -111.7315442
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 32.88300487989272,
+            "lng": -111.7301968201073
+          },
+          "southwest": {
+            "lat": 32.88030522010728,
+            "lng": -111.7328964798927
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+      "icon_background_color": "#7B9EB0",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+      "name": "Southern Pavilion Casa Grande",
+      "opening_hours": {
+        "open_now": false
+      },
+      "photos": [
+        {
+          "height": 3456,
+          "html_attributions": [
+            "<a href=\"https://maps.google.com/maps/contrib/100362785784009482528\">Southern Pavilion Casa Grande</a>"
+          ],
+          "photo_reference": "ATKogpe2hKEOSOrirYW1i7zgA2MGOt7gm_z33gq-d29Ft3IMPeJHPH4HcJDUwNYJefeQB3KYVwu1VkmHR-6ZPYj4Y4H1M8WuH0f5nc5IvHeHhXn4RMaRPxc99qXnXjG85wUyjApIiF5pvh4n2zCVpJZoyvTwCBJMAvpHlUEj_JavsFwhcNrYAH8CBTATaYlZnLDZqnEYM-lBzCQVB6L_Tq_i_er4R7qwPq_c9sRXwWPsK7smoHOlCG7n7DWsdSd9bVy4c7SOVqtNlFc2DQiI3AXyHZCUEhxPAZHNbgEjmdHRxJhqD1vjk54",
+          "width": 4608
+        }
+      ],
+      "place_id": "ChIJ328WDhRnKocRuZ4eBb1YJtg",
+      "plus_code": {
+        "compound_code": "V7J9+M9 Casa Grande, Arizona, USA",
+        "global_code": "854CV7J9+M9"
+      },
+      "rating": 4.7,
+      "reference": "ChIJ328WDhRnKocRuZ4eBb1YJtg",
+      "scope": "GOOGLE",
+      "types": [
+        "storage",
+        "point_of_interest",
+        "establishment"
+      ],
+      "user_ratings_total": 81,
+      "vicinity": "847 N Colorado St, Casa Grande"
+    },
+    {
+      "business_status": "OPERATIONAL",
+      "geometry": {
+        "location": {
+          "lat": 32.8942487,
+          "lng": -111.7675551
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 32.89563892989273,
+            "lng": -111.7662093201073
+          },
+          "southwest": {
+            "lat": 32.89293927010728,
+            "lng": -111.7689089798927
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+      "icon_background_color": "#7B9EB0",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+      "name": "KDJJ RV Storage",
+      "place_id": "ChIJPWuYn65gKocRZTZi5kXk0KM",
+      "plus_code": {
+        "compound_code": "V6VJ+RX Casa Grande, Arizona, USA",
+        "global_code": "854CV6VJ+RX"
+      },
+      "reference": "ChIJPWuYn65gKocRZTZi5kXk0KM",
+      "scope": "GOOGLE",
+      "types": [
+        "storage",
+        "point_of_interest",
+        "establishment"
+      ],
+      "vicinity": "850 W Cottonwood Ln, Casa Grande"
+    },
+    {
+      "business_status": "OPERATIONAL",
+      "geometry": {
+        "location": {
+          "lat": 32.8665211,
+          "lng": -111.7685586
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 32.86787097989272,
+            "lng": -111.7671878701073
+          },
+          "southwest": {
+            "lat": 32.86517132010727,
+            "lng": -111.7698875298927
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+      "icon_background_color": "#7B9EB0",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+      "name": "Walmart Distribution Center",
+      "opening_hours": {
+        "open_now": true
+      },
+      "photos": [
+        {
+          "height": 4608,
+          "html_attributions": [
+            "<a href=\"https://maps.google.com/maps/contrib/103427631267900710794\">Paul Pilkington</a>"
+          ],
+          "photo_reference": "ATKogpftqcRsorOu-8t1ijugKIVdP9elJ3xmYq0XvZLLyscqBDdn5KVJ7Rbz9m5kzDJ4KpdB7zONhRG6vq80fTQGEAtCq5WYf5Qm9L4GZxJb4Kk4R_FZig5xTroePAQvMygiVFGtBaklspy3aQ2sRLDOkivHO1Iplq8-z08i-JMAStEnAGdLfxxh8SlrNMg2_52RThXRxYBOasWQBjcN-ywOl90RZuCA_2ktuB5MdeIOlWpTGQJ8DcbP5HEcy25e7x0uGZTmbbfFCZ9hNhIgG1DUIM2hF_SM-opI7FYAm4YCuZHygL3sZM2dSt2A6-aqhPQtL2rKhxKOjlW-GUXMbf0-JwYrpztY5Z_psKsbOiTDjZR335J0z_4hil40OnIgOfAVRc8CZ_tcGGagyJoX4u0cdxt_bAIZWfNHM8DxCs2FLB4sCviXbOwcyUrxGit74WH3Y48sjyTNq1Dw2j03M7TAeXxX-9-7diEUFURxX99IE2hIhK_R9PDG-tusOpuGJUIZXXEV1xiX_38yg6nJz-JK98qRVo-b71sT6pp28Zb62bCfAfeUWkGVuyZWZXu-6KEtHqVPoOe2",
+          "width": 3456
+        }
+      ],
+      "place_id": "ChIJo9OhntFgKocRY4JEpFHg0r0",
+      "plus_code": {
+        "compound_code": "V68J+JH Casa Grande, Arizona, USA",
+        "global_code": "854CV68J+JH"
+      },
+      "price_level": 1,
+      "rating": 3.3,
+      "reference": "ChIJo9OhntFgKocRY4JEpFHg0r0",
+      "scope": "GOOGLE",
+      "types": [
+        "storage",
+        "point_of_interest",
+        "establishment"
+      ],
+      "user_ratings_total": 677,
+      "vicinity": "868 W Peters Rd, Casa Grande"
+    },
+    {
+      "business_status": "OPERATIONAL",
+      "geometry": {
+        "location": {
+          "lat": 33.0821408,
+          "lng": -112.100076
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 33.08349012989272,
+            "lng": -112.0988980701073
+          },
+          "southwest": {
+            "lat": 33.08079047010727,
+            "lng": -112.1015977298927
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+      "icon_background_color": "#7B9EB0",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+      "name": "Hwy 238 RV Storage",
+      "opening_hours": {
+        "open_now": false
+      },
+      "photos": [
+        {
+          "height": 2592,
+          "html_attributions": [
+            "<a href=\"https://maps.google.com/maps/contrib/112615198123873038163\">Hwy 238 RV Storage</a>"
+          ],
+          "photo_reference": "ATKogpf9TKxB1CDeK4xnDFyBcv-SMI4IDDb2Rnz0Lzi4c_29kDXMjv3xqNcByNfS_7YewLgfFpXx9f1-hLh97lZ3l1WTP1HyySGDnA4ClQIDUp8uuhDSDNj1GoCtpmTo4kfNg7oP_JHZPHosY_QeYvsAkgx-_g4InqhePso8--acCaAEcuKgw1bGPFRRiujDnKd78rJQewod92uE5WBt2d0CuxNsEt56CS151gh4lHLZJs5O5rLnmeJ88YZCFghYCXZ3bVKQEPuTuXgSwdxb31eNDkiTABRNuQcbSPYVjnpMcWnfBSs6jrE",
+          "width": 3872
+        }
+      ],
+      "place_id": "ChIJB_IW5EbhKocR82armhpWRyg",
+      "plus_code": {
+        "compound_code": "3VJX+VX Maricopa, Arizona, USA",
+        "global_code": "85593VJX+VX"
+      },
+      "rating": 4.6,
+      "reference": "ChIJB_IW5EbhKocR82armhpWRyg",
+      "scope": "GOOGLE",
+      "types": [
+        "storage",
+        "point_of_interest",
+        "establishment"
+      ],
+      "user_ratings_total": 97,
+      "vicinity": "22111 N White Rd #3, Maricopa"
+    }
+  ]
+}

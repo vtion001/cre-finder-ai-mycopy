@@ -1,0 +1,204 @@
+{
+  "searchParams": {
+    "city": "Maricopa",
+    "state": "AZ",
+    "locationType": "city"
+  },
+  "timestamp": "2025-07-01T14:46:38.765Z",
+  "resultCount": 4,
+  "results": [
+    {
+      "business_status": "OPERATIONAL",
+      "geometry": {
+        "location": {
+          "lat": 33.0635911,
+          "lng": -112.0463175
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 33.06492532989272,
+            "lng": -112.0451900701073
+          },
+          "southwest": {
+            "lat": 33.06222567010728,
+            "lng": -112.0478897298927
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+      "icon_background_color": "#7B9EB0",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+      "name": "Extra Space Storage",
+      "opening_hours": {
+        "open_now": false
+      },
+      "photos": [
+        {
+          "height": 600,
+          "html_attributions": [
+            "<a href=\"https://maps.google.com/maps/contrib/111496697670994367394\">Extra Space Storage</a>"
+          ],
+          "photo_reference": "ATKogpdcI1OoiP345g6E2hPF51WyZHFtisqPayG-YRTvOFdzRzKt3IlQZH2cNJEmF8ocadmLgqoq6i5SpFLLIE_cbg619KOOfMW6BCWv1P-k6YdLCq32nFx0NVjOwnaOa_AUEBbacszU8JoWxYfIk6MkLo43UikzSEXImfqVQK6AfKZBWHfvpLTIwQUarGw9YHgnPrfeNGm62GHB-FMM3F0YOUp25mPnIhntCtFp4mtjTYSQEWeOVVgk8Tzmlgkf-pgQ02TY7fy6dnnvo0RajCl-pnjWexSZgcxSOZqICTZ4I8N-3aT6D-0",
+          "width": 800
+        }
+      ],
+      "place_id": "ChIJj6Z-ADT7KocRU3X8sqNDpNA",
+      "plus_code": {
+        "compound_code": "3X73+CF Maricopa, Arizona, USA",
+        "global_code": "85593X73+CF"
+      },
+      "rating": 4.9,
+      "reference": "ChIJj6Z-ADT7KocRU3X8sqNDpNA",
+      "scope": "GOOGLE",
+      "types": [
+        "moving_company",
+        "storage",
+        "point_of_interest",
+        "store",
+        "establishment"
+      ],
+      "user_ratings_total": 653,
+      "vicinity": "20215 N John Wayne Pkwy, Maricopa"
+    },
+    {
+      "business_status": "OPERATIONAL",
+      "geometry": {
+        "location": {
+          "lat": 33.06236,
+          "lng": -112.04672
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 33.06371672989273,
+            "lng": -112.0453700201073
+          },
+          "southwest": {
+            "lat": 33.06101707010728,
+            "lng": -112.0480696798927
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+      "icon_background_color": "#7B9EB0",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+      "name": "Maricopa Storage Solutions",
+      "opening_hours": {
+        "open_now": false
+      },
+      "photos": [
+        {
+          "height": 544,
+          "html_attributions": [
+            "<a href=\"https://maps.google.com/maps/contrib/111621997295332162727\">Maricopa Storage Solutions</a>"
+          ],
+          "photo_reference": "ATKogpf7GKYxN4-V9bwMLpAXqEuq0LzpZpuJ0i3huqV0dyp6IcYfjrywEsuRNrfXDSIoA4N56OG-wojmLSdaBqR8LkZVqoGQlr7alnleIEYgXg0Ynp5_XT4xXeMq7omK90v86KEly23-70zPoepHSBsbzCc42QUQX_vlfGbB6PTVeEG5Q2pJ-OxZZFmYwRGVN8S5g3eo8oMG3cLCa8_g4vg2tMtBOElLn08eFPGTlMmokig_lsn84qGX9fPNl3L8pT91eSm5Hk19I5ncn7uLSpPDPFdyIMgF2hHvqlgsyk3HXU06dHQHKSk",
+          "width": 987
+        }
+      ],
+      "place_id": "ChIJ64PRVSvlKocRiLNrWOtJ0i0",
+      "plus_code": {
+        "compound_code": "3X63+W8 Maricopa, Arizona, USA",
+        "global_code": "85593X63+W8"
+      },
+      "rating": 4.7,
+      "reference": "ChIJ64PRVSvlKocRiLNrWOtJ0i0",
+      "scope": "GOOGLE",
+      "types": [
+        "storage",
+        "point_of_interest",
+        "establishment"
+      ],
+      "user_ratings_total": 384,
+      "vicinity": "20125 N John Wayne Pkwy, Maricopa"
+    },
+    {
+      "business_status": "OPERATIONAL",
+      "geometry": {
+        "location": {
+          "lat": 33.0561777,
+          "lng": -112.0487661
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 33.05743232989273,
+            "lng": -112.0473831201073
+          },
+          "southwest": {
+            "lat": 33.05473267010728,
+            "lng": -112.0500827798927
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+      "icon_background_color": "#7B9EB0",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+      "name": "Maricopa Business Barn",
+      "place_id": "ChIJnQom2SzlKocRHj8eLevu8_g",
+      "plus_code": {
+        "compound_code": "3X42+FF Maricopa, Arizona, USA",
+        "global_code": "85593X42+FF"
+      },
+      "rating": 3,
+      "reference": "ChIJnQom2SzlKocRHj8eLevu8_g",
+      "scope": "GOOGLE",
+      "types": [
+        "storage",
+        "point_of_interest",
+        "establishment"
+      ],
+      "user_ratings_total": 2,
+      "vicinity": "19428 N John Wayne Pkwy, Maricopa"
+    },
+    {
+      "business_status": "OPERATIONAL",
+      "geometry": {
+        "location": {
+          "lat": 33.0821408,
+          "lng": -112.100076
+        },
+        "viewport": {
+          "northeast": {
+            "lat": 33.08349012989272,
+            "lng": -112.0988980701073
+          },
+          "southwest": {
+            "lat": 33.08079047010727,
+            "lng": -112.1015977298927
+          }
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+      "icon_background_color": "#7B9EB0",
+      "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+      "name": "Hwy 238 RV Storage",
+      "opening_hours": {
+        "open_now": false
+      },
+      "photos": [
+        {
+          "height": 2592,
+          "html_attributions": [
+            "<a href=\"https://maps.google.com/maps/contrib/112615198123873038163\">Hwy 238 RV Storage</a>"
+          ],
+          "photo_reference": "ATKogpf7kteO9vWJEkcfJdabsBPPEcihctmpUgCKFWdBsubhIUmALWGIetySt05GqKnL2hdNdzeCI5c3suDpGwj0_L60rhkMz5NZRON9ym3yQbcemtR2WqdvA0FRz5AZilGsykdFip5Lk-sCZZjfsbJnRnf1F8ieHCPd-voNfEYtAkq4Dn5IzpFAtf28yvj13Epd9n5mU8IKl0MecAWwKeYeGZa7AEG0jhmFlPuWTPS2CXLGLS3RMn2kXY1p_vE7Hf1rtd-HTdnWUO5Vt9rmrFteNPG1Mew-ypZO9Tr2xHYcBix4Chlq7G8",
+          "width": 3872
+        }
+      ],
+      "place_id": "ChIJB_IW5EbhKocR82armhpWRyg",
+      "plus_code": {
+        "compound_code": "3VJX+VX Maricopa, Arizona, USA",
+        "global_code": "85593VJX+VX"
+      },
+      "rating": 4.6,
+      "reference": "ChIJB_IW5EbhKocR82armhpWRyg",
+      "scope": "GOOGLE",
+      "types": [
+        "storage",
+        "point_of_interest",
+        "establishment"
+      ],
+      "user_ratings_total": 97,
+      "vicinity": "22111 N White Rd #3, Maricopa"
+    }
+  ]
+}

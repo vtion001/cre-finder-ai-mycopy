@@ -125,23 +125,8 @@ export const skipTraceTask = schemaTask({
       }
     }
 
-    // Save results to JSON file for testing
-    const filename = `skip-trace-results-${license.id}-${Date.now()}.json`;
-    // const filepath = join(process.cwd(), filename);
-
-    // const outputData = {
-    //   licenseId: license.id,
-    //   locationInternalId: license.location_internal_id,
-    //   totalRecords: propertyRecords.length,
-    //   processed,
-    //   timestamp: new Date().toISOString(),
-    //   results: skipTraceResults,
-    // };
-
-    // writeFileSync(filepath, JSON.stringify(outputData, null, 2));
-
     logger.info(
-      `Skip trace completed. Processed ${processed}/${propertyRecords.length} records. Results saved to ${filename}`,
+      `Skip trace completed. Processed ${processed}/${propertyRecords.length} records.`,
     );
 
     const assetLicense = license?.asset_licenses;
@@ -159,7 +144,6 @@ export const skipTraceTask = schemaTask({
     return {
       processed,
       total: propertyRecords.length,
-      resultsFile: filename,
       results: skipTraceResults,
     };
   },
