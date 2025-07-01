@@ -214,6 +214,9 @@ export type GetPropertySearchParams = {
   equity_percent_operator?: "gt" | "lt" | "gte" | "lte" | "eq";
   loan_paid_off_percent_min?: number;
   loan_paid_off_percent_max?: number;
+  number_of_units?: "2-4" | "5+";
+  mfh_2to4?: boolean;
+  mfh_5plus?: boolean;
   property_use_code?: number[];
   city?: string;
   county?: string;

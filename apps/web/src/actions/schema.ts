@@ -77,6 +77,13 @@ export const searchFiltersSchema = z
       .min(0, "Percentage must be between 0 and 100")
       .max(100, "Percentage must be between 0 and 100")
       .optional(),
+    number_of_units: z
+      .enum(["2-4", "5+"], {
+        errorMap: () => ({
+          message: "Please select a valid unit count option",
+        }),
+      })
+      .optional(),
   })
   .refine(
     (data) => {

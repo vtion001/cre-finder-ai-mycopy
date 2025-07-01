@@ -43,15 +43,16 @@ export async function getPropertySearch(
 ) {
   console.log("getPropertySearch", params);
 
-  // Transform loan_paid_off_percent_min/max to equity_percent and equity_percent_operator
+  // Transform frontend fields to API parameters
   const {
     loan_paid_off_percent_min,
     loan_paid_off_percent_max,
+    number_of_units,
     ...baseParams
   } = params;
   const transformedParams = { ...baseParams };
 
-  // Convert to API format
+  // Convert loan paid off percentage to API format
   if (loan_paid_off_percent_min && loan_paid_off_percent_max) {
     // If both min and max are provided, use the min value with "gte" operator
     transformedParams.equity_percent = loan_paid_off_percent_min;
@@ -64,6 +65,13 @@ export async function getPropertySearch(
     // Only max provided
     transformedParams.equity_percent = loan_paid_off_percent_max;
     transformedParams.equity_percent_operator = "lte";
+  }
+
+  // Convert number of units to API format
+  if (number_of_units === "2-4") {
+    transformedParams.mfh_2to4 = true;
+  } else if (number_of_units === "5+") {
+    transformedParams.mfh_5plus = true;
   }
 
   // If count is true, just get the count without pagination

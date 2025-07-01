@@ -29,7 +29,8 @@ export function LicenseFiltersInfo({
     searchParams.year_min ||
     searchParams.year_max ||
     searchParams.loan_paid_off_percent_min ||
-    searchParams.loan_paid_off_percent_max
+    searchParams.loan_paid_off_percent_max ||
+    searchParams.number_of_units
   );
 
   // Don't render if no filters are set

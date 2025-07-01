@@ -57,6 +57,10 @@ export const formatSearchParams = (params: GetPropertySearchParams) => {
     parts.push(`Loan Paid Off: ${min} - ${max}`);
   }
 
+  if (params.number_of_units) {
+    parts.push(`Units: ${params.number_of_units}`);
+  }
+
   return parts;
 };
 

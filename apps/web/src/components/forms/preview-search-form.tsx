@@ -17,7 +17,15 @@ import {
   FormItem,
   FormMessage,
 } from "@v1/ui/form";
+import { Label } from "@v1/ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "@v1/ui/popover";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@v1/ui/select";
 import { ChevronDownIcon, FilterIcon } from "lucide-react";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -52,6 +60,7 @@ export function PreviewSearchForm({
     year_max: undefined,
     loan_paid_off_percent_min: undefined,
     loan_paid_off_percent_max: undefined,
+    number_of_units: undefined,
   };
 
   const form = useForm<PreviewSearchFormValues>({
@@ -80,6 +89,12 @@ export function PreviewSearchForm({
     });
   };
 
+  // Helper function to check if current asset type is multi-family
+  const isMultiFamilyAssetType = () => {
+    const currentAssetTypeSlug = form.watch("asset_type_slug");
+    return currentAssetTypeSlug === "multi-family";
+  };
+
   // Check if any filters are active
   const hasActiveFilters = () => {
     const values = form.getValues();
@@ -93,7 +108,8 @@ export function PreviewSearchForm({
       values.year_min ||
       values.year_max ||
       values.loan_paid_off_percent_min ||
-      values.loan_paid_off_percent_max
+      values.loan_paid_off_percent_max ||
+      values.number_of_units
     );
   };
 
@@ -107,6 +123,7 @@ export function PreviewSearchForm({
     if (values.year_min || values.year_max) count++;
     if (values.loan_paid_off_percent_min || values.loan_paid_off_percent_max)
       count++;
+    if (values.number_of_units) count++;
     return count;
   };
 
@@ -239,6 +256,46 @@ export function PreviewSearchForm({
                         minPlaceholder="Min %"
                         maxPlaceholder="Max %"
                       />
+
+                      {/* Number of Units Filter - Only for Multi-Family */}
+                      {isMultiFamilyAssetType() && (
+                        <div className="space-y-2">
+                          <Label className="text-sm font-medium">
+                            Number of Units
+                          </Label>
+                          <FormField
+                            control={form.control}
+                            name="number_of_units"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormControl>
+                                  <Select
+                                    value={field.value || ""}
+                                    onValueChange={(value) =>
+                                      field.onChange(
+                                        value === "" ? undefined : value,
+                                      )
+                                    }
+                                  >
+                                    <SelectTrigger>
+                                      <SelectValue placeholder="Select unit count" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                      <SelectItem value="2-4">
+                                        2-4 Units
+                                      </SelectItem>
+                                      <SelectItem value="5+">
+                                        5+ Units
+                                      </SelectItem>
+                                    </SelectContent>
+                                  </Select>
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+                      )}
                     </div>
 
                     {/* Filter Actions */}
