@@ -146,4 +146,9 @@ VALUES (
         'Mixed-Use',
         'Properties with multiple uses (e.g., retail on ground floor, residential above)',
         '{140, 161, 171, 187}'
+    ),
+    (
+        'Mobile Homes',
+        'Manufactured, modular, pre-fabricated, and mobile homes',
+        '{371, 373}'
     );
