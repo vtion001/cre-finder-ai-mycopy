@@ -21,12 +21,7 @@ export function FilterActions({
   return (
     <div className={`flex gap-2 ${className}`}>
       {showApply && (
-        <Button
-          variant="ghost"
-          className="text-primary"
-          type="button"
-          onClick={onApply}
-        >
+        <Button type="button" onClick={onApply}>
           <CheckIcon className="!size-2.5" />
           Apply
         </Button>

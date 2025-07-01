@@ -33,6 +33,13 @@ export function PreviewSearchInterface({
     router.push(`/dashboard/search/checkout${serializedParams}`);
   };
 
+  const handleReset = () => {
+    setState({
+      ...state,
+      params: null,
+    });
+  };
+
   const formattedLocations = state.locations?.map((loc) => {
     const { city, county, state } = parseLocationCode(loc);
     const name = city || county!;
@@ -59,6 +66,7 @@ export function PreviewSearchInterface({
       <PreviewSearchForm
         assetTypes={assetTypes}
         onSubmit={handleSubmit}
+        onReset={handleReset}
         className="space-y-4"
         initialValues={{
           locations: formattedLocations || [],
