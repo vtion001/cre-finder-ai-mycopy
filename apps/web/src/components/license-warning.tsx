@@ -1,6 +1,7 @@
 import { parsers, searchParamsCache } from "@/lib/nuqs/property-search-params";
 
 import { formatSearchParams } from "@/lib/format";
+import { getUseCodeName } from "@/lib/use-codes";
 import {
   IconArrowLeft,
   IconBuilding,
@@ -12,6 +13,7 @@ import {
 import type { GetPropertySearchParams } from "@v1/property-data/types";
 import { getPropertyCount } from "@v1/supabase/cached-queries";
 import { getAssetType } from "@v1/supabase/cached-queries";
+import { Badge } from "@v1/ui/badge";
 import { Button, buttonVariants } from "@v1/ui/button";
 import { cn } from "@v1/ui/cn";
 import Link from "next/link";
@@ -20,16 +22,23 @@ import { Suspense } from "react";
 import { CheckoutLicenseButton } from "./checkout-license-button";
 
 export async function LicenseWarning({ unlicensed }: { unlicensed: string[] }) {
-  const { asset_type, locations, params } = searchParamsCache.all();
+  const { asset_type, locations, params, use_codes } = searchParamsCache.all();
 
   const serialize = createSerializer(parsers);
 
-  const serializedParams = serialize({ locations, asset_type, params });
+  const serializedParams = serialize({
+    locations,
+    asset_type,
+    params,
+    use_codes,
+  });
 
   const { data: assetTypeData } = await getAssetType(asset_type!);
 
+  const formattedUseCodes = use_codes.map((code) => getUseCodeName(code));
+
   return (
-    <div className="absolute inset-0 flex flex-col justify-center z-40 px-4 sm:px-0">
+    <div className="absolute inset-0 flex flex-col justify-center z-40 gap-4 px-4 sm:px-0">
       <div className="text-center space-y-2 sm:space-y-3 mb-6 sm:mb-8 mx-auto max-w-xl">
         <h1 className="text-2xl sm:text-3xl lg:text-4xl font-semibold tracking-tight text-foreground leading-tight">
           Expand Your {assetTypeData?.name} Search
@@ -39,108 +48,84 @@ export async function LicenseWarning({ unlicensed }: { unlicensed: string[] }) {
         </p>
       </div>
 
-      {/* Creative Search Filters Display */}
+      <div className="flex flex-wrap justify-center max-w-xl gap-2 sm:gap-3 mx-auto">
+        {formattedUseCodes.map((code) => (
+          <Badge variant="secondary" key={code}>
+            <span className="text-xs text-muted-foreground">{code}</span>
+          </Badge>
+        ))}
+      </div>
+
+      {/* Search Filters Display */}
       {params && Object.keys(params).length > 0 && (
-        <div className="mb-6 sm:mb-8 mx-auto max-w-4xl px-2 sm:px-0">
-          {/* Creative filter cards grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 max-w-3xl mx-auto">
-            {/* Building Size Filter */}
-            {(params.building_size_min || params.building_size_max) && (
-              <div className="group relative overflow-hidden rounded-lg sm:rounded-xl bg-gradient-to-br from-blue-50/80 to-blue-100/50 dark:from-blue-950/30 dark:to-blue-900/20 border border-blue-200/50 dark:border-blue-800/30 p-3 sm:p-4 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-blue-500/10">
-                <div className="absolute top-0 right-0 w-12 h-12 sm:w-16 sm:h-16 bg-blue-500/10 rounded-full -translate-y-6 translate-x-6 sm:-translate-y-8 sm:translate-x-8 group-hover:scale-150 transition-transform duration-500" />
-                <div className="relative flex items-center gap-2 sm:gap-3">
-                  <div className="p-1.5 sm:p-2 rounded-lg bg-blue-500/10 text-blue-600 dark:text-blue-400">
-                    <IconBuilding className="h-3 w-3 sm:h-4 sm:w-4" />
-                  </div>
-                  <div>
-                    <div className="text-xs font-medium text-blue-700 dark:text-blue-300 uppercase tracking-wide">
-                      Building Size
-                    </div>
-                    <div className="text-xs sm:text-sm font-semibold text-blue-900 dark:text-blue-100 leading-tight">
-                      {params.building_size_min && params.building_size_max
-                        ? `${params.building_size_min.toLocaleString()} - ${params.building_size_max.toLocaleString()} sqft`
-                        : params.building_size_min
-                          ? `> ${params.building_size_min.toLocaleString()} sqft`
-                          : `< ${params.building_size_max?.toLocaleString()} sqft`}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
+        <div className="flex flex-wrap justify-center max-w-xl gap-2 sm:gap-3 mx-auto mb-6 sm:mb-8">
+          {(params.building_size_min || params.building_size_max) && (
+            <Badge
+              variant="secondary"
+              className="bg-blue-50/80 dark:bg-blue-950/30 border-blue-200/50 dark:border-blue-800/30 text-blue-700 dark:text-blue-300"
+            >
+              <IconBuilding className="h-3 w-3 mr-1.5 text-blue-600 dark:text-blue-400" />
+              <span className="text-xs">
+                Building Size:{" "}
+                {params.building_size_min && params.building_size_max
+                  ? `${params.building_size_min.toLocaleString()} - ${params.building_size_max.toLocaleString()} sqft`
+                  : params.building_size_min
+                    ? `> ${params.building_size_min.toLocaleString()} sqft`
+                    : `< ${params.building_size_max?.toLocaleString()} sqft`}
+              </span>
+            </Badge>
+          )}
 
-            {/* Lot Size Filter */}
-            {(params.lot_size_min || params.lot_size_max) && (
-              <div className="group relative overflow-hidden rounded-lg sm:rounded-xl bg-gradient-to-br from-green-50/80 to-green-100/50 dark:from-green-950/30 dark:to-green-900/20 border border-green-200/50 dark:border-green-800/30 p-3 sm:p-4 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-green-500/10">
-                <div className="absolute top-0 right-0 w-12 h-12 sm:w-16 sm:h-16 bg-green-500/10 rounded-full -translate-y-6 translate-x-6 sm:-translate-y-8 sm:translate-x-8 group-hover:scale-150 transition-transform duration-500" />
-                <div className="relative flex items-center gap-2 sm:gap-3">
-                  <div className="p-1.5 sm:p-2 rounded-lg bg-green-500/10 text-green-600 dark:text-green-400">
-                    <IconRuler className="h-3 w-3 sm:h-4 sm:w-4" />
-                  </div>
-                  <div>
-                    <div className="text-xs font-medium text-green-700 dark:text-green-300 uppercase tracking-wide">
-                      Lot Size
-                    </div>
-                    <div className="text-xs sm:text-sm font-semibold text-green-900 dark:text-green-100 leading-tight">
-                      {params.lot_size_min && params.lot_size_max
-                        ? `${params.lot_size_min.toLocaleString()} - ${params.lot_size_max.toLocaleString()} sqft`
-                        : params.lot_size_min
-                          ? `> ${params.lot_size_min.toLocaleString()} sqft`
-                          : `< ${params.lot_size_max?.toLocaleString()} sqft`}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
+          {(params.lot_size_min || params.lot_size_max) && (
+            <Badge
+              variant="secondary"
+              className="bg-green-50/80 dark:bg-green-950/30 border-green-200/50 dark:border-green-800/30 text-green-700 dark:text-green-300"
+            >
+              <IconRuler className="h-3 w-3 mr-1.5 text-green-600 dark:text-green-400" />
+              <span className="text-xs">
+                Lot Size:{" "}
+                {params.lot_size_min && params.lot_size_max
+                  ? `${params.lot_size_min.toLocaleString()} - ${params.lot_size_max.toLocaleString()} sqft`
+                  : params.lot_size_min
+                    ? `> ${params.lot_size_min.toLocaleString()} sqft`
+                    : `< ${params.lot_size_max?.toLocaleString()} sqft`}
+              </span>
+            </Badge>
+          )}
 
-            {/* Year Built Filter */}
-            {(params.year_min || params.year_max) && (
-              <div className="group relative overflow-hidden rounded-lg sm:rounded-xl bg-gradient-to-br from-purple-50/80 to-purple-100/50 dark:from-purple-950/30 dark:to-purple-900/20 border border-purple-200/50 dark:border-purple-800/30 p-3 sm:p-4 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-purple-500/10">
-                <div className="absolute top-0 right-0 w-12 h-12 sm:w-16 sm:h-16 bg-purple-500/10 rounded-full -translate-y-6 translate-x-6 sm:-translate-y-8 sm:translate-x-8 group-hover:scale-150 transition-transform duration-500" />
-                <div className="relative flex items-center gap-2 sm:gap-3">
-                  <div className="p-1.5 sm:p-2 rounded-lg bg-purple-500/10 text-purple-600 dark:text-purple-400">
-                    <IconCalendar className="h-3 w-3 sm:h-4 sm:w-4" />
-                  </div>
-                  <div>
-                    <div className="text-xs font-medium text-purple-700 dark:text-purple-300 uppercase tracking-wide">
-                      Year Built
-                    </div>
-                    <div className="text-xs sm:text-sm font-semibold text-purple-900 dark:text-purple-100 leading-tight">
-                      {params.year_min && params.year_max
-                        ? `${params.year_min} - ${params.year_max}`
-                        : params.year_min
-                          ? `> ${params.year_min}`
-                          : `< ${params.year_max}`}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
+          {(params.year_min || params.year_max) && (
+            <Badge
+              variant="secondary"
+              className="bg-purple-50/80 dark:bg-purple-950/30 border-purple-200/50 dark:border-purple-800/30 text-purple-700 dark:text-purple-300"
+            >
+              <IconCalendar className="h-3 w-3 mr-1.5 text-purple-600 dark:text-purple-400" />
+              <span className="text-xs">
+                Year Built:{" "}
+                {params.year_min && params.year_max
+                  ? `${params.year_min} - ${params.year_max}`
+                  : params.year_min
+                    ? `> ${params.year_min}`
+                    : `< ${params.year_max}`}
+              </span>
+            </Badge>
+          )}
 
-            {/* Last Sale Date Filter */}
-            {(params.last_sale_year || params.last_sale_month) && (
-              <div className="group relative overflow-hidden rounded-lg sm:rounded-xl bg-gradient-to-br from-orange-50/80 to-orange-100/50 dark:from-orange-950/30 dark:to-orange-900/20 border border-orange-200/50 dark:border-orange-800/30 p-3 sm:p-4 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-orange-500/10">
-                <div className="absolute top-0 right-0 w-12 h-12 sm:w-16 sm:h-16 bg-orange-500/10 rounded-full -translate-y-6 translate-x-6 sm:-translate-y-8 sm:translate-x-8 group-hover:scale-150 transition-transform duration-500" />
-                <div className="relative flex items-center gap-2 sm:gap-3">
-                  <div className="p-1.5 sm:p-2 rounded-lg bg-orange-500/10 text-orange-600 dark:text-orange-400">
-                    <IconCalendar className="h-3 w-3 sm:h-4 sm:w-4" />
-                  </div>
-                  <div>
-                    <div className="text-xs font-medium text-orange-700 dark:text-orange-300 uppercase tracking-wide">
-                      Last Sale
-                    </div>
-                    <div className="text-xs sm:text-sm font-semibold text-orange-900 dark:text-orange-100 leading-tight">
-                      {params.last_sale_month !== undefined &&
-                      params.last_sale_year
-                        ? `${new Date(params.last_sale_year, params.last_sale_month).toLocaleDateString("en-US", { month: "short", year: "numeric" })}`
-                        : params.last_sale_year
-                          ? `${params.last_sale_year}`
-                          : "Recent"}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
+          {(params.last_sale_year || params.last_sale_month) && (
+            <Badge
+              variant="secondary"
+              className="bg-orange-50/80 dark:bg-orange-950/30 border-orange-200/50 dark:border-orange-800/30 text-orange-700 dark:text-orange-300"
+            >
+              <IconCalendar className="h-3 w-3 mr-1.5 text-orange-600 dark:text-orange-400" />
+              <span className="text-xs">
+                Last Sale:{" "}
+                {params.last_sale_month !== undefined && params.last_sale_year
+                  ? `${new Date(params.last_sale_year, params.last_sale_month).toLocaleDateString("en-US", { month: "short", year: "numeric" })}`
+                  : params.last_sale_year
+                    ? `${params.last_sale_year}`
+                    : "Recent"}
+              </span>
+            </Badge>
+          )}
 
           {/* Fallback for any other filters */}
           {!params.building_size_min &&
@@ -151,14 +136,12 @@ export async function LicenseWarning({ unlicensed }: { unlicensed: string[] }) {
             !params.year_max &&
             !params.last_sale_year &&
             !params.last_sale_month && (
-              <div className="text-center">
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-muted/50 border border-border/50">
-                  <IconFilter className="h-4 w-4 text-muted-foreground" />
-                  <span className="text-sm text-muted-foreground">
-                    {formatSearchParams(params)}
-                  </span>
-                </div>
-              </div>
+              <Badge variant="secondary">
+                <IconFilter className="h-3 w-3 mr-1.5 text-muted-foreground" />
+                <span className="text-xs text-muted-foreground">
+                  {formatSearchParams(params)}
+                </span>
+              </Badge>
             )}
         </div>
       )}
@@ -199,11 +182,7 @@ export async function LicenseWarning({ unlicensed }: { unlicensed: string[] }) {
               </Button>
             }
           >
-            <CheckoutLicenseButtonWithValidation
-              locations={unlicensed}
-              assetType={asset_type!}
-              params={params}
-            />
+            <CheckoutLicenseButtonWithValidation locations={unlicensed} />
           </Suspense>
         </div>
       </div>
@@ -216,15 +195,17 @@ async function LocationSearchPreviewServer({
 }: {
   location: string;
 }) {
-  const assetType = searchParamsCache.get("asset_type");
-  const params = searchParamsCache.get("params");
+  const { asset_type, params, use_codes } = searchParamsCache.all();
 
-  if (!assetType || !params) {
+  if (!asset_type || !params) {
     return null;
   }
 
   const { resultCount, formattedLocation } = await getPropertyCount(
-    assetType,
+    {
+      slug: asset_type,
+      allowed_use_codes: use_codes!,
+    },
     location,
     params,
   );
@@ -274,13 +255,11 @@ function LocationSearchPreview({
 
 async function CheckoutLicenseButtonWithValidation({
   locations,
-  assetType,
-  params,
 }: {
   locations: string[];
-  assetType: string;
-  params: GetPropertySearchParams | null;
 }) {
+  const { asset_type, params, use_codes } = searchParamsCache.all();
+
   if (locations.length === 0) {
     return (
       <Button
@@ -297,7 +276,10 @@ async function CheckoutLicenseButtonWithValidation({
     locations.map(async (location) => {
       try {
         const { resultCount } = await getPropertyCount(
-          assetType,
+          {
+            slug: asset_type!,
+            allowed_use_codes: use_codes!,
+          },
           location,
           params,
         );
@@ -318,7 +300,7 @@ async function CheckoutLicenseButtonWithValidation({
   return (
     <CheckoutLicenseButton
       locations={locations}
-      assetType={assetType}
+      assetType={asset_type!}
       params={params}
       disabled={!hasValidResults}
     />
@@ -326,10 +308,9 @@ async function CheckoutLicenseButtonWithValidation({
 }
 
 async function CheckoutValidation({ locations }: { locations: string[] }) {
-  const assetType = searchParamsCache.get("asset_type");
-  const params = searchParamsCache.get("params");
+  const { asset_type, params, use_codes } = searchParamsCache.all();
 
-  if (!assetType || !params || locations.length === 0) {
+  if (!asset_type || !params || locations.length === 0) {
     return null;
   }
 
@@ -338,7 +319,10 @@ async function CheckoutValidation({ locations }: { locations: string[] }) {
     locations.map(async (location) => {
       try {
         const { resultCount } = await getPropertyCount(
-          assetType,
+          {
+            slug: asset_type!,
+            allowed_use_codes: use_codes!,
+          },
           location,
           params,
         );

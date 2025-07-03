@@ -45,6 +45,15 @@ export const searchRouter = createTRPCRouter({
           throw new Error("Asset type not found");
         }
 
+        const allowedUseCodes = assetLicense.use_codes || [];
+
+        const filteredUseCodes =
+          allowedUseCodes.length > 0
+            ? assetType.use_codes?.filter((code) =>
+                allowedUseCodes.includes(code),
+              )
+            : assetType.use_codes;
+
         // Use existing search params from the asset license
         const searchParams = assetLicense.search_params;
 
@@ -56,7 +65,7 @@ export const searchRouter = createTRPCRouter({
                 {
                   slug: assetType.slug!,
                   name: assetType.name,
-                  use_codes: assetType.use_codes || [],
+                  use_codes: filteredUseCodes || [],
                 },
                 location,
                 searchParams as unknown as GetPropertySearchParams,

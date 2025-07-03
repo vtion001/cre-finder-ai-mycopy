@@ -162,6 +162,7 @@ export const propertySearchSchema = searchFiltersSchema.and(
       .array(locationSchema)
       .min(1, "Please select at least one location"),
     asset_type_slug: z.string().min(1, "Please select a property type"),
+    use_codes: z.array(z.number()).optional(),
     // Optional filter fields
   }),
 );

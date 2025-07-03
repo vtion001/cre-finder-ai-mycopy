@@ -17,6 +17,7 @@ export type Database = {
           is_active: boolean | null
           search_params: Json | null
           updated_at: string | null
+          use_codes: number[] | null
           user_id: string
         }
         Insert: {
@@ -26,6 +27,7 @@ export type Database = {
           is_active?: boolean | null
           search_params?: Json | null
           updated_at?: string | null
+          use_codes?: number[] | null
           user_id: string
         }
         Update: {
@@ -35,6 +37,7 @@ export type Database = {
           is_active?: boolean | null
           search_params?: Json | null
           updated_at?: string | null
+          use_codes?: number[] | null
           user_id?: string
         }
         Relationships: [

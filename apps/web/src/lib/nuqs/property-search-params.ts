@@ -15,6 +15,7 @@ export const parsers = {
 
   locations: parseAsArrayOf(parseAsString).withDefault([]),
   asset_type: parseAsString,
+  use_codes: parseAsArrayOf(parseAsInteger).withDefault([]),
   map: parseAsBoolean.withDefault(false),
   params: parseAsJson(searchFiltersSchema.parse),
   success: parseAsBoolean.withDefault(false),

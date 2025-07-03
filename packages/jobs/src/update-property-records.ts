@@ -51,11 +51,17 @@ export const updatePropertyRecordsTask = schemaTask({
       throw new Error("Asset type not found");
     }
 
+    const allowedUseCodes = assetLicense.use_codes || [];
+    const filteredUseCodes =
+      allowedUseCodes.length > 0
+        ? assetType.use_codes?.filter((code) => allowedUseCodes.includes(code))
+        : assetType.use_codes;
+
     const { response, executionTime } = await getPropertySearchQuery(
       {
         slug: assetType.slug!,
         name: assetType.name,
-        use_codes: assetType.use_codes || [],
+        use_codes: filteredUseCodes || [],
       },
       license.location_internal_id,
       assetLicense.search_params as unknown as GetPropertySearchParams,

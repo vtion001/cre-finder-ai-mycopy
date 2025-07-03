@@ -9,6 +9,7 @@ import { searchFiltersSchema } from "./schema";
 const checkoutLicenseSchema = z.object({
   locations: z.array(z.string()),
   assetType: z.string(),
+  useCodes: z.array(z.number()),
   params: searchFiltersSchema.nullish(),
   isAddingLocations: z.boolean().optional().default(false),
 });
@@ -20,7 +21,13 @@ export const checkoutLicenseAction = authActionClient
   })
   .action(
     async ({
-      parsedInput: { locations, assetType, params, isAddingLocations },
+      parsedInput: {
+        locations,
+        assetType,
+        useCodes,
+        params,
+        isAddingLocations,
+      },
       ctx: { supabase, user },
     }) => {
       let searchParams = params;
@@ -44,7 +51,14 @@ export const checkoutLicenseAction = authActionClient
       // map property counts using the appropriate search params
       const propertyCounts = await Promise.all(
         locations.map((location) =>
-          getPropertyCount(assetType, location, searchParams),
+          getPropertyCount(
+            {
+              slug: assetType,
+              allowed_use_codes: useCodes,
+            },
+            location,
+            searchParams,
+          ),
         ),
       );
 

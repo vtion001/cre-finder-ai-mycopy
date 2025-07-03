@@ -99,7 +99,11 @@ export function PreviewSearchForm({
                   <FormControl>
                     <AssetTypeCombobox
                       value={field.value}
-                      onValueChange={field.onChange}
+                      selectedUseCodes={form.watch("use_codes")}
+                      onValueChange={(assetTypeSlug, useCodes) => {
+                        field.onChange(assetTypeSlug);
+                        form.setValue("use_codes", useCodes);
+                      }}
                       assetTypes={assetTypes}
                       placeholder="Select Property Type"
                       className="h-12 text-base"

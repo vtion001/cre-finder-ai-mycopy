@@ -58,7 +58,7 @@ export const getAssetTypes = async () => {
     ["asset_types"],
     {
       tags: ["asset_types"],
-      revalidate: 3600,
+      revalidate: 180,
     },
   )();
 };
@@ -176,7 +176,10 @@ export async function getPropertyRecords(params: GetPropertyRecordsParams) {
 }
 
 export async function getPropertyCount(
-  asset_type_slug: string,
+  asset_type: {
+    slug: string;
+    allowed_use_codes: number[];
+  },
   location: string,
   params?: GetPropertySearchParams | null,
 ) {
@@ -185,12 +188,19 @@ export async function getPropertyCount(
   const { data: assetType } = await supabase
     .from("asset_types")
     .select("*")
-    .eq("slug", asset_type_slug)
+    .eq("slug", asset_type.slug)
     .single();
 
   if (!assetType || !assetType.slug) {
     throw new Error("Asset type not found");
   }
+
+  const filteredUseCodes =
+    asset_type.allowed_use_codes.length > 0
+      ? assetType.use_codes?.filter((code) =>
+          asset_type.allowed_use_codes.includes(code),
+        )
+      : assetType.use_codes;
 
   return unstable_cache(
     async () => {
@@ -198,17 +208,17 @@ export async function getPropertyCount(
         {
           slug: assetType.slug!,
           name: assetType.name,
-          use_codes: assetType.use_codes || [],
+          use_codes: filteredUseCodes || [],
         },
         location,
         params,
       );
     },
-    ["property-count", asset_type_slug, location, JSON.stringify(params)],
+    ["property-count", location, JSON.stringify({ asset_type, params })],
     {
       tags: ["property-count"],
       revalidate: 180,
     },
     // @ts-expect-error
-  )(asset_type_slug, location);
+  )(asset_type, location);
 }

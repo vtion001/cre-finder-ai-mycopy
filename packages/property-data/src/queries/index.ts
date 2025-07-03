@@ -13,7 +13,6 @@ import type {
   GetBulkSkipTraceParams,
   GetPropertySearchParams,
   GetSkipTraceParams,
-  PropertySearchResponse,
 } from "../providers/realestateapi/types";
 import { parseLocationCode } from "../utils/format";
 

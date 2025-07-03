@@ -4,7 +4,7 @@ export async function getAssetTypesQuery(supabase: Client) {
   const { data, error } = await supabase
     .from("asset_types")
     .select("*")
-    .order("name");
+    .order("created_at", { ascending: true });
 
   return { data, error };
 }

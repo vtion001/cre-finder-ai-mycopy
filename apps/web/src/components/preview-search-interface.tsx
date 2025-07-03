@@ -21,12 +21,13 @@ export function PreviewSearchInterface({
   const router = useRouter();
 
   const handleSubmit = (values: z.infer<typeof propertySearchSchema>) => {
-    const { locations, asset_type_slug, ...params } = values;
+    const { locations, asset_type_slug, use_codes, ...params } = values;
 
     const serialize = createSerializer(parsers);
     const serializedParams = serialize({
       locations: locations.map((loc) => loc.internal_id),
       asset_type: asset_type_slug,
+      use_codes: use_codes,
       params,
     });
 
@@ -71,6 +72,7 @@ export function PreviewSearchInterface({
         initialValues={{
           locations: formattedLocations || [],
           asset_type_slug: state.asset_type!,
+          use_codes: state.use_codes || [],
           ...state.params,
         }}
       />
