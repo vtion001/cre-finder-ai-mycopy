@@ -152,3 +152,96 @@ VALUES (
         'Manufactured, modular, pre-fabricated, and mobile homes',
         '{371, 373}'
     );
+
+-- Insert test user for license testing
+INSERT INTO
+    public.users (
+        id,
+        email,
+        full_name,
+        phone_number,
+        role,
+        created_at,
+        updated_at
+    )
+VALUES (
+        'aec53558-767e-4408-b4d6-1c1e6f17ffe5',
+        'user@example.com',
+        'Test User',
+        '+1234567890',
+        'investor',
+        '2024-09-01 17:21:01.455486+00',
+        '2024-09-01 17:21:01.46295+00'
+    )
+ON CONFLICT (id) DO
+UPDATE
+SET
+    email = EXCLUDED.email,
+    full_name = EXCLUDED.full_name,
+    phone_number = EXCLUDED.phone_number,
+    role = EXCLUDED.role;
+
+-- Insert test asset license for residential properties in Vero Beach, FL
+INSERT INTO
+    public.asset_licenses (
+        id,
+        user_id,
+        asset_type_slug,
+        search_params,
+        is_active,
+        created_at,
+        updated_at
+    )
+VALUES (
+        'bd010a3e-9be9-43ee-86b8-d1711b88d725',
+        'aec53558-767e-4408-b4d6-1c1e6f17ffe5',
+        'residential',
+        '{"building_size_min": 2010, "year_min": 2010, "use_codes": [365, 366, 367, 369, 372, 373, 376, 377, 380, 382, 383, 384, 385, 386, 387, 388, 390]}',
+        true,
+        '2024-09-01 17:21:01.455486+00',
+        '2024-09-01 17:21:01.46295+00'
+    )
+ON CONFLICT (id) DO
+UPDATE
+SET
+    search_params = EXCLUDED.search_params,
+    is_active = EXCLUDED.is_active,
+    updated_at = EXCLUDED.updated_at;
+
+-- Insert test location license for Vero Beach, FL
+INSERT INTO
+    public.location_licenses (
+        id,
+        asset_license_id,
+        location_internal_id,
+        location_name,
+        location_type,
+        location_formatted,
+        location_state,
+        result_count,
+        expires_at,
+        is_active,
+        created_at,
+        updated_at
+    )
+VALUES (
+        'c97acf9f-8a30-4ac1-9196-a0ee144e1298',
+        'bd010a3e-9be9-43ee-86b8-d1711b88d725',
+        'c-fl-vero-beach',
+        'Vero Beach',
+        'city',
+        'Vero Beach, FL',
+        'FL',
+        150,
+        '2025-12-31 23:59:59+00',
+        true,
+        '2024-09-01 17:21:01.455486+00',
+        '2024-09-01 17:21:01.46295+00'
+    )
+ON CONFLICT (id) DO
+UPDATE
+SET
+    result_count = EXCLUDED.result_count,
+    expires_at = EXCLUDED.expires_at,
+    is_active = EXCLUDED.is_active,
+    updated_at = EXCLUDED.updated_at;

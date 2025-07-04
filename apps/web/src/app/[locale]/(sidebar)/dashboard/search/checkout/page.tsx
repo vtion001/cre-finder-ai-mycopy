@@ -33,13 +33,7 @@ export default async function Page({
     return notFound();
   }
 
-  const { meta } = await getAssetTypeLicenses(asset_type);
   const { data: userLicenses } = await getUserLicensesByAssetType();
-
-  const licensedLocations = meta?.locations;
-
-  const ids = licensedLocations?.map((loc) => loc.location_internal_id) || [];
-  const unlicensedLocations = locations.filter((loc) => !ids.includes(loc));
 
   return (
     <>
@@ -51,13 +45,10 @@ export default async function Page({
         showMobileDrawer={true}
       />
       <div className="p-3 sm:p-4 lg:p-6 pb-12 sm:pb-16 space-y-4 sm:space-y-6">
-        {/* Only show warning if there are unlicensed locations */}
-        {unlicensedLocations.length > 0 ? (
-          <div className="relative overflow-hidden">
-            <LicenseWarning unlicensed={unlicensedLocations} />
-            <SearchLoading isEmpty />
-          </div>
-        ) : null}
+        <div className="relative overflow-hidden">
+          <LicenseWarning />
+          <SearchLoading isEmpty />
+        </div>
       </div>
     </>
   );

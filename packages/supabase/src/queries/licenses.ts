@@ -1,3 +1,4 @@
+import { supabaseAdmin } from "../clients/admin";
 import type { Client } from "../types";
 
 // Get asset license with search params
@@ -109,6 +110,34 @@ export async function getAllLicensesQuery(supabase: Client, userId: string) {
   }
 
   return { data, error };
+}
+
+// Check if asset type + location combinations are already licensed by any user
+export async function getLicenseAvailabilityQuery(
+  supabase: Client,
+  assetTypeSlug: string,
+  locationInternalIds: string[],
+) {
+  const { data, error } = await supabase
+    .from("user_licenses")
+    .select("*")
+    .eq("asset_type_slug", assetTypeSlug)
+    .in("location_internal_id", locationInternalIds)
+    .eq("is_active", true);
+
+  if (error) {
+    throw new Error(`Failed to check license availability: ${error.message}`);
+  }
+
+  const takenLocationIds = data?.map((item) => item.location_internal_id) || [];
+
+  return {
+    data: {
+      takenLocationIds,
+      isAnyTaken: takenLocationIds.length > 0,
+    },
+    error,
+  };
 }
 
 export async function getAssetTypeLicensesQuery(

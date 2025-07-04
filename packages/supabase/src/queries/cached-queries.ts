@@ -13,6 +13,7 @@ import { createClient } from "../clients/server";
 import {
   getAllLicensesQuery,
   getAssetTypeLicensesQuery,
+  getLicenseAvailabilityQuery,
   getUserLicensesByAssetTypeQuery,
 } from "./licenses";
 import { getSubscriptionQuery } from "./stripe";
@@ -221,4 +222,27 @@ export async function getPropertyCount(
     },
     // @ts-expect-error
   )(asset_type, location);
+}
+
+export async function getLicenseAvailability(
+  assetTypeSlug: string,
+  locationInternalIds: string[],
+) {
+  const supabase = createClient();
+
+  return unstable_cache(
+    async () => {
+      return getLicenseAvailabilityQuery(
+        supabase,
+        assetTypeSlug,
+        locationInternalIds,
+      );
+    },
+    ["licenses", assetTypeSlug, JSON.stringify(locationInternalIds)],
+    {
+      tags: [`licenses_${assetTypeSlug}`],
+      revalidate: 180,
+    },
+    // @ts-expect-error
+  )(assetTypeSlug, locationInternalIds);
 }
