@@ -3,6 +3,7 @@
 import { passwordSchema } from "@/actions/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createClient } from "@v1/supabase/client";
+import type { Enums } from "@v1/supabase/types";
 import { Button } from "@v1/ui/button";
 import { Checkbox } from "@v1/ui/checkbox";
 import {
@@ -32,6 +33,13 @@ import { PhoneInput } from "../phone-input";
 
 const phoneUtil = PhoneNumberUtil.getInstance();
 
+export const OPTIONS: { value: Enums<"user_role">; label: string }[] = [
+  { value: "investor", label: "Investor" },
+  { value: "wholesaler", label: "Wholesaler" },
+  { value: "broker", label: "Broker" },
+  { value: "admin", label: "Admin" },
+] as const;
+
 const signupSchema = z.object({
   firstName: z
     .string()
@@ -43,7 +51,6 @@ const signupSchema = z.object({
     .max(50, { message: "Last name must not exceed 50 characters" }),
   email: z.string().email({ message: "Please enter a valid email address" }),
   phoneNumber: z.string().refine((phone) => {
-    if (!phone) return true; // Phone is optional
     try {
       return phoneUtil.isValidNumber(phoneUtil.parseAndKeepRawInput(phone));
     } catch (error) {
@@ -51,19 +58,15 @@ const signupSchema = z.object({
     }
   }, "Please enter a valid phone number"),
   password: passwordSchema,
-  role: z.string().min(1, { message: "Please select your role" }),
+  role: z.custom<Enums<"user_role">>(undefined, {
+    message: "Please select your role",
+  }),
   agreeToTerms: z.boolean().refine((val) => val === true, {
     message: "You must agree to the terms and privacy policy",
   }),
 });
 
 type Inputs = z.infer<typeof signupSchema>;
-
-const roleOptions = [
-  { value: "investor", label: "Investor" },
-  { value: "wholesaler", label: "Wholesaler" },
-  { value: "broker", label: "Broker" },
-];
 
 export function SignUpForm() {
   const [isLoading, setIsLoading] = useState(false);
@@ -76,7 +79,7 @@ export function SignUpForm() {
       email: "",
       phoneNumber: "",
       password: "",
-      role: "",
+      role: undefined,
       agreeToTerms: false,
     },
   });
@@ -178,7 +181,7 @@ export function SignUpForm() {
                 <PhoneInput
                   value={field.value}
                   onValueChange={(value) => form.setValue(field.name, value)}
-                  placeholder="Phone number (optional)"
+                  placeholder="Phone number"
                   className="h-12 text-base"
                 />
               </FormControl>
@@ -218,7 +221,7 @@ export function SignUpForm() {
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  {roleOptions.map((option) => (
+                  {OPTIONS.map((option) => (
                     <SelectItem key={option.value} value={option.value}>
                       {option.label}
                     </SelectItem>

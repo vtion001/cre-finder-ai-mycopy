@@ -1,17 +1,6 @@
 import { SignUpForm } from "@/components/forms/signup-form";
 import { Logo } from "@/components/logo";
-import {
-  Building2,
-  CheckCircle,
-  Clock,
-  MapPin,
-  Search,
-  Shield,
-  Target,
-  TrendingUp,
-  Users,
-  Zap,
-} from "lucide-react";
+import { Shield, Target, Users, Zap } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 

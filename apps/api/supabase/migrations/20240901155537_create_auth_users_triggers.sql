@@ -8,7 +8,7 @@ begin
         new.email,
         new.raw_user_meta_data ->> 'full_name',
         new.raw_user_meta_data ->> 'phone_number',
-        new.raw_user_meta_data ->> 'role'
+        COALESCE((new.raw_user_meta_data ->> 'role')::public.user_role, 'investor'::public.user_role)
     );
     return new;
 end;

@@ -1,5 +1,7 @@
+import { createLoopsContact } from "@/lib/loops";
 import type { EmailOtpType } from "@supabase/supabase-js";
 import { updateUser } from "@v1/supabase/mutations";
+import { getUserQuery } from "@v1/supabase/queries";
 import { createClient } from "@v1/supabase/server";
 import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
@@ -30,6 +32,34 @@ export async function GET(request: Request) {
     }
 
     if (!error) {
+      if ((type === "email" || type === "signup") && data?.user) {
+        const userData = await getUserQuery(supabase, data.user.id);
+        const user = userData.data;
+
+        if (user && !user.crm_id) {
+          try {
+            const loopsContact = await createLoopsContact({
+              email: user.email,
+              firstName: user.full_name?.split(" ")[0] ?? "unknown",
+              lastName:
+                user.full_name?.split(" ").slice(1).join(" ") ?? "unknown",
+              role: user.role,
+              phoneNumber: user.phone_number ?? "unknown",
+            });
+
+            if (loopsContact?.id) {
+              await updateUser(supabase, { crm_id: loopsContact.id });
+              console.log(
+                `Created Loops contact ${loopsContact.id} for user ${user.id}`,
+              );
+            }
+          } catch (error) {
+            console.error("Failed to create Loops contact:", error);
+            // Don't fail the auth flow if CRM integration fails
+          }
+        }
+      }
+
       if (type === "email_change" && data?.user) {
         await updateUser(supabase, { email: data.user.email });
         revalidatePath(`user_${data.user.id}`);

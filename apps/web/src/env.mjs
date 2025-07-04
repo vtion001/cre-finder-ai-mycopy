@@ -17,6 +17,7 @@ export const env = createEnv({
     REALESTATEAPI_API_KEY: z.string(),
     STRIPE_SECRET_KEY: z.string(),
     STRIPE_WEBHOOK_SECRET: z.string(),
+    LOOPS_API_KEY: z.string(),
   },
   client: {
     NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string(),
@@ -38,6 +39,7 @@ export const env = createEnv({
       process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
     STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
     STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,
+    LOOPS_API_KEY: process.env.LOOPS_API_KEY,
   },
   skipValidation: !!process.env.CI || !!process.env.SKIP_ENV_VALIDATION,
 });

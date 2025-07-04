@@ -1,6 +1,8 @@
 "use server";
 
+import { updateLoopsContact } from "@/lib/loops";
 import { updateUser } from "@v1/supabase/mutations";
+import type { Enums } from "@v1/supabase/types";
 import {
   revalidatePath as nextRevalidatePath,
   revalidateTag,
@@ -18,6 +20,7 @@ const updateUserSchema = z.object({
   revalidatePath: z.string().optional(),
   email: z.string().email().optional(),
   phone_number: z.string().optional(),
+  role: z.custom<Enums<"user_role">>().optional(),
 });
 
 export const updateUserAction = authActionClient
@@ -38,6 +41,12 @@ export const updateUserAction = authActionClient
         });
       }
 
+      if (data.role) {
+        await supabase.auth.updateUser({
+          data: { role: data.role },
+        });
+      }
+
       if (newEmail) {
         await supabase.auth.updateUser({
           email: newEmail,
@@ -50,6 +59,31 @@ export const updateUserAction = authActionClient
         });
 
         console.log(res, error);
+      }
+
+      // Update Loops contact if user has a CRM ID and relevant fields changed
+      if (
+        user.crm_id &&
+        (data.full_name || newEmail || data.phone_number || data.role)
+      ) {
+        try {
+          await updateLoopsContact(user.crm_id, {
+            email: newEmail || user.email,
+            firstName:
+              data.full_name?.split(" ")[0] || user.full_name?.split(" ")[0],
+            lastName:
+              data.full_name?.split(" ").slice(1).join(" ") ||
+              user.full_name?.split(" ").slice(1).join(" "),
+            role: data.role || user.role,
+            phoneNumber: data.phone_number || user.phone_number || undefined,
+          });
+          console.log(
+            `Updated Loops contact ${user.crm_id} for user ${user.id}`,
+          );
+        } catch (error) {
+          console.error("Failed to update Loops contact:", error);
+          // Don't fail the update if CRM sync fails
+        }
       }
 
       revalidateTag(`user_${user.id}`);

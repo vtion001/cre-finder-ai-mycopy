@@ -652,12 +652,13 @@ export type Database = {
           avatar_url: string | null
           billing_address: Json | null
           created_at: string | null
+          crm_id: string | null
           email: string
           full_name: string | null
           id: string
           locale: string | null
           phone_number: string | null
-          role: string | null
+          role: Database["public"]["Enums"]["user_role"]
           time_format: number | null
           timezone: string | null
           updated_at: string | null
@@ -666,12 +667,13 @@ export type Database = {
           avatar_url?: string | null
           billing_address?: Json | null
           created_at?: string | null
+          crm_id?: string | null
           email: string
           full_name?: string | null
           id: string
           locale?: string | null
           phone_number?: string | null
-          role?: string | null
+          role?: Database["public"]["Enums"]["user_role"]
           time_format?: number | null
           timezone?: string | null
           updated_at?: string | null
@@ -680,12 +682,13 @@ export type Database = {
           avatar_url?: string | null
           billing_address?: Json | null
           created_at?: string | null
+          crm_id?: string | null
           email?: string
           full_name?: string | null
           id?: string
           locale?: string | null
           phone_number?: string | null
-          role?: string | null
+          role?: Database["public"]["Enums"]["user_role"]
           time_format?: number | null
           timezone?: string | null
           updated_at?: string | null
@@ -782,6 +785,7 @@ export type Database = {
         | "past_due"
         | "unpaid"
         | "paused"
+      user_role: "investor" | "wholesaler" | "broker" | "admin"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -910,6 +914,7 @@ export const Constants = {
         "unpaid",
         "paused",
       ],
+      user_role: ["investor", "wholesaler", "broker", "admin"],
     },
   },
 } as const
