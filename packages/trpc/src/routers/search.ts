@@ -1,12 +1,12 @@
-import { locationSchema } from "@/actions/schema";
 import {
   getAutocompleteQuery,
   getPropertyCountQuery,
 } from "@v1/property-data/queries";
 import type { GetPropertySearchParams } from "@v1/property-data/types";
 import { getAssetLicenseQuery } from "@v1/supabase/queries";
+import { locationSchema } from "@v1/trpc/schema";
 import { z } from "zod";
-import { createTRPCRouter, protectedProcedure } from "../init";
+import { createTRPCRouter, protectedProcedure, publicProcedure } from "../init";
 
 export const searchRouter = createTRPCRouter({
   getPropertyCounts: protectedProcedure
@@ -90,7 +90,7 @@ export const searchRouter = createTRPCRouter({
       },
     ),
 
-  getAutocomplete: protectedProcedure
+  getAutocomplete: publicProcedure
     .input(
       z.object({
         query: z.string(),
@@ -107,6 +107,8 @@ export const searchRouter = createTRPCRouter({
           query,
           searchTypes,
         });
+
+        console.log("autocomplete data", data);
 
         // Normalize cities and counties into a common format
         const normalizedLocations = data.map((item) => {

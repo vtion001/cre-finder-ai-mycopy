@@ -1,6 +1,4 @@
-import { logger } from "@v1/logger";
 import { getUser } from "@v1/supabase/cached-queries";
-import { getUserQuery } from "@v1/supabase/queries";
 import { createClient } from "@v1/supabase/server";
 import {
   DEFAULT_SERVER_ERROR_MESSAGE,

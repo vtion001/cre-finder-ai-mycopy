@@ -1,4 +1,4 @@
-import { searchFiltersSchema } from "@/actions/schema";
+import { searchFiltersSchema } from "@v1/trpc/schema";
 import {
   createSearchParamsCache,
   parseAsArrayOf,

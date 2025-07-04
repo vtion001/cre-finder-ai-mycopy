@@ -1,10 +1,5 @@
 "use client";
 
-import {
-  createEmailLink,
-  createPhoneLink,
-  formatPhoneNumber,
-} from "@/lib/format";
 import { Badge } from "@v1/ui/badge";
 import { Button } from "@v1/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@v1/ui/popover";
@@ -15,6 +10,11 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@v1/ui/tooltip";
+import {
+  createEmailLink,
+  createPhoneLink,
+  formatPhoneNumber,
+} from "@v1/utils/format";
 import { Eye, Mail, MapPin, Phone, User } from "lucide-react";
 import { useState } from "react";
 

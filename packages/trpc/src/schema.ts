@@ -1,16 +1,5 @@
 import { z } from "zod";
 
-export const passwordSchema = z
-  .string()
-  .min(8, {
-    message: "Password must be at least 8 characters long",
-  })
-  .max(100)
-  .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/, {
-    message:
-      "Password must contain at least 8 characters, one uppercase, one lowercase, one number and one special character",
-  });
-
 export const locationSchema = z.object({
   internal_id: z.string(),
   state_code: z.string(),
@@ -19,7 +8,6 @@ export const locationSchema = z.object({
   display_name: z.string(),
 });
 
-// Keep the original schema for advanced search/existing functionality
 export const searchFiltersSchema = z
   .object({
     building_size_min: z.coerce
@@ -155,7 +143,6 @@ export const searchFiltersSchema = z
     },
   );
 
-// Simplified schema for the new search interface
 export const propertySearchSchema = searchFiltersSchema.and(
   z.object({
     locations: z
@@ -166,6 +153,19 @@ export const propertySearchSchema = searchFiltersSchema.and(
     // Optional filter fields
   }),
 );
+
+export const passwordSchema = z
+  .string()
+  .min(8, {
+    message: "Password must be at least 8 characters long",
+  })
+  .max(100)
+  .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/, {
+    message:
+      "Password must contain at least 8 characters, one uppercase, one lowercase, one number and one special character",
+  });
+
+// Keep the original schema for advanced search/existing functionality
 
 export const placeSuggestionSchema = z.object({
   description: z.string(),

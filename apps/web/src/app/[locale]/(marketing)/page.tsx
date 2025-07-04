@@ -1,3 +1,5 @@
+import { env } from "@/env.mjs";
+import { getMarketingUrl } from "@v1/utils/environment";
 import { redirect } from "next/navigation";
 
 export const metadata = {
@@ -5,5 +7,7 @@ export const metadata = {
 };
 
 export default async function Marketing() {
-  return redirect("https://crefinder.ai");
+  const url = getMarketingUrl();
+
+  return redirect(url);
 }

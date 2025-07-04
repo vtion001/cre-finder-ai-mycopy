@@ -1,13 +1,10 @@
 "use client";
 
-import { startTransition, useCallback, useState } from "react";
-
 import { exportRecordsToCSV, exportRecordsToXLSX } from "@/lib/export";
-import { useTRPC } from "@/trpc/client";
-import { IconDownload, IconFileDownload } from "@tabler/icons-react";
+import { IconDownload } from "@tabler/icons-react";
 import { useQuery } from "@tanstack/react-query";
-// Import skip trace types from the proper package
-import { Button } from "@v1/ui/button";
+import { useTRPC } from "@v1/trpc/client";
+import { startTransition, useCallback, useState } from "react";
 import { DataTableActionBarAction } from "./data-table-action-bar";
 
 const actions = ["export-csv", "export-xlsx"] as const;

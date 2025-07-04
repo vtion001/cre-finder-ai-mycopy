@@ -1,10 +1,14 @@
+import { Logo } from "@/components/logo";
+
 const Footer = () => {
   return (
     <footer className="bg-gray-900">
       <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="col-span-1 md:col-span-1">
-            <div className="text-xl font-bold text-white">CRE Finder AI</div>
+            <div className="mb-2">
+              <Logo href="/" size="md" className="brightness-0 invert" />
+            </div>
             <p className="mt-2 text-sm text-gray-300">
               Instantly find off-market commercial properties.
             </p>

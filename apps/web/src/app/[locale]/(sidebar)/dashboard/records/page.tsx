@@ -4,13 +4,13 @@ import { PropertyMapServer } from "@/components/property-map.server";
 import { PropertySearchFilters } from "@/components/property-search-filters";
 import { SiteHeader } from "@/components/site-header";
 import { Table } from "@/components/tables/records";
-import { searchParamsCache } from "@/lib/nuqs/property-search-params";
 import type { GetPropertySearchParams } from "@v1/property-data/types";
 import {
   getAssetTypeLicenses,
   getUser,
   getUserLicensesByAssetType,
 } from "@v1/supabase/cached-queries";
+import { searchParamsCache } from "@v1/utils/nuqs/property-search-params";
 import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 import type { SearchParams } from "nuqs";

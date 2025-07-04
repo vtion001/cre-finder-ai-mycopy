@@ -1,10 +1,9 @@
 "use client";
 
-import { createClient } from "@v1/supabase/client";
-import type { Tables } from "@v1/supabase/types";
+import { Logo } from "@/components/logo";
 import { Button } from "@v1/ui/button";
+import { getDashboardUrl } from "@v1/utils/environment";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const NavBar = () => {
@@ -16,9 +15,7 @@ const NavBar = () => {
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <div className="flex-shrink-0 flex items-center">
-              <Link href="/" className="text-2xl font-bold text-[#0072FF]">
-                CRE Finder AI
-              </Link>
+              <Logo href="/" size="md" className="scale-75" />
             </div>
           </div>
 
@@ -49,7 +46,7 @@ const NavBar = () => {
             </a>
 
             <div className="flex items-center space-x-3">
-              <Link href="https://app.crefinder.ai/login">
+              <Link href={`${getDashboardUrl()}/login`}>
                 <Button
                   variant="outline"
                   className="text-gray-600 border-gray-300 hover:text-[#0072FF] hover:border-[#0072FF]"
@@ -57,7 +54,7 @@ const NavBar = () => {
                   Sign In
                 </Button>
               </Link>
-              <Link href="https://app.crefinder.ai/dashboard/search">
+              <Link href={`${getDashboardUrl()}/dashboard/search`}>
                 <Button className="bg-[#0072FF] hover:bg-[#0060CC] text-white">
                   Get Started
                 </Button>
@@ -138,7 +135,7 @@ const NavBar = () => {
             </a>
 
             <div className="pt-2">
-              <Link href="https://app.crefinder.ai/dashboard/search">
+              <Link href={`${getDashboardUrl()}/dashboard/search`}>
                 <Button className="w-full bg-[#0072FF] hover:bg-[#0060CC] text-white">
                   Get Started
                 </Button>

@@ -2,11 +2,11 @@
 
 import { checkoutLicenseAction } from "@/actions/checkout";
 
-import type { locationSchema } from "@/actions/schema";
-import { useTRPC } from "@/trpc/client";
 import { IconMapPin } from "@tabler/icons-react";
 import { useQuery } from "@tanstack/react-query";
 import { getStripe } from "@v1/stripe/client";
+import { useTRPC } from "@v1/trpc/client";
+import type { locationSchema } from "@v1/trpc/schema";
 import { Button } from "@v1/ui/button";
 import {
   Dialog,
@@ -76,6 +76,7 @@ export function AddLocationsDialog({
       locations: selected.map((loc) => loc.internal_id),
       assetType,
       isAddingLocations: true,
+      useCodes: [],
     });
 
     if (!result?.data?.sessionId) {

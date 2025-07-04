@@ -1,6 +1,5 @@
 "use client";
 
-import { formatNumber } from "@/lib/format";
 import type { Tables } from "@v1/supabase/types";
 import { Badge } from "@v1/ui/badge";
 import { Skeleton } from "@v1/ui/skeleton";
@@ -12,6 +11,7 @@ import {
   TableHeader,
   TableRow,
 } from "@v1/ui/table";
+import { formatNumber } from "@v1/utils/format";
 import { format } from "date-fns";
 import { BuildingIcon, MapPinIcon } from "lucide-react";
 

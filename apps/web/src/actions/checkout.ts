@@ -2,9 +2,9 @@
 import { checkoutLicenseWithStripe } from "@v1/stripe/server";
 import { getPropertyCount } from "@v1/supabase/cached-queries";
 import { getAssetLicenseQuery } from "@v1/supabase/queries";
+import { searchFiltersSchema } from "@v1/trpc/schema";
 import { z } from "zod";
 import { authActionClient } from "./safe-action";
-import { searchFiltersSchema } from "./schema";
 
 const checkoutLicenseSchema = z.object({
   locations: z.array(z.string()),

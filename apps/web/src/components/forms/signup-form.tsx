@@ -1,9 +1,9 @@
 "use client";
 
-import { passwordSchema } from "@/actions/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createClient } from "@v1/supabase/client";
 import type { Enums } from "@v1/supabase/types";
+import { passwordSchema } from "@v1/trpc/schema";
 import { Button } from "@v1/ui/button";
 import { Checkbox } from "@v1/ui/checkbox";
 import {

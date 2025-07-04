@@ -1,6 +1,6 @@
 import { ErrorBoundary } from "@/components/error-boundary";
-import { searchParamsCache } from "@/lib/nuqs/property-search-params";
 import { getPropertyRecords } from "@v1/supabase/cached-queries";
+import { searchParamsCache } from "@v1/utils/nuqs/property-search-params";
 import { Suspense } from "react";
 import { PropertyMap } from "./property-map";
 

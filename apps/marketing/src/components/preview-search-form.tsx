@@ -1,12 +1,11 @@
 "use client";
 
 import { AssetTypeCombobox } from "@/components/asset-type-combobox";
-import { PropertyFiltersSheet } from "@/components/filters/property-filters-sheet";
 import { MultiLocationCombobox } from "@/components/multi-location-combobox";
+import { PropertyFiltersSheet } from "@/components/property-filters-sheet";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { Tables } from "@v1/supabase/types";
 import { propertySearchSchema } from "@v1/trpc/schema";
-import { Badge } from "@v1/ui/badge";
 import { Button } from "@v1/ui/button";
 import {
   Form,

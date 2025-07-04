@@ -40,7 +40,7 @@ const CTASection = () => {
                     className="w-full bg-[#0072FF] hover:bg-[#0060CC]"
                     onClick={() =>
                       window.open(
-                        "https://app.crefinder.ai/dashboard/search",
+                        `${getDashboardUrl()}dashboard/search`,
                         "_blank",
                       )
                     }

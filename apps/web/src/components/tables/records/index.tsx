@@ -1,6 +1,6 @@
-import { searchParamsCache } from "@/lib/nuqs/property-search-params";
 import { getPropertyRecords } from "@v1/supabase/cached-queries";
 import { ScrollArea, ScrollBar } from "@v1/ui/scroll-area";
+import { searchParamsCache } from "@v1/utils/nuqs/property-search-params";
 import { Suspense } from "react";
 import { DataTable } from "./data-table";
 import { DataTablePagination } from "./data-table-pagination";

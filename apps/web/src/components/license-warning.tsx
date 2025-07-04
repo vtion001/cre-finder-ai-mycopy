@@ -1,7 +1,8 @@
-import { parsers, searchParamsCache } from "@/lib/nuqs/property-search-params";
+import {
+  parsers,
+  searchParamsCache,
+} from "@v1/utils/nuqs/property-search-params";
 
-import { formatSearchParams } from "@/lib/format";
-import { getUseCodeName } from "@/lib/use-codes";
 import {
   IconArrowLeft,
   IconBuilding,
@@ -19,6 +20,8 @@ import { getAssetType } from "@v1/supabase/cached-queries";
 import { Badge } from "@v1/ui/badge";
 import { buttonVariants } from "@v1/ui/button";
 import { cn } from "@v1/ui/cn";
+import { formatSearchParams } from "@v1/utils/format";
+import { getUseCodeName } from "@v1/utils/use-codes";
 import Link from "next/link";
 import { createSerializer } from "nuqs/server";
 import { CheckoutLicenseButton } from "./checkout-license-button";

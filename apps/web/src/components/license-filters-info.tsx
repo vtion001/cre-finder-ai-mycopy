@@ -1,9 +1,9 @@
 "use client";
 
-import { formatSearchParams } from "@/lib/format";
 import type { GetPropertySearchParams } from "@v1/property-data/types";
 import { Button } from "@v1/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@v1/ui/popover";
+import { formatSearchParams } from "@v1/utils/format";
 import { ChevronDownIcon, FilterIcon } from "lucide-react";
 
 interface LicenseFiltersInfoProps {

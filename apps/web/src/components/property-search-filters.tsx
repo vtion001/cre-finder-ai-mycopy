@@ -1,6 +1,5 @@
 "use client";
 
-import { parsers } from "@/lib/nuqs/property-search-params";
 import { IconMap2 } from "@tabler/icons-react";
 import type { GetPropertySearchParams } from "@v1/property-data/types";
 import type { Tables } from "@v1/supabase/types";
@@ -8,6 +7,7 @@ import { Button } from "@v1/ui/button";
 import { cn } from "@v1/ui/cn";
 import { Label } from "@v1/ui/label";
 import { Switch } from "@v1/ui/switch";
+import { parsers } from "@v1/utils/nuqs/property-search-params";
 import { useQueryStates } from "nuqs";
 import { AddLocationsButton } from "./add-locations-button";
 import { LicenseFiltersInfo } from "./license-filters-info";

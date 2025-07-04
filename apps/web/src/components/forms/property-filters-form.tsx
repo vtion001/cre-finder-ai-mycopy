@@ -1,7 +1,7 @@
 "use client";
 
-import { searchFiltersSchema } from "@/actions/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { searchFiltersSchema } from "@v1/trpc/schema";
 import { Button } from "@v1/ui/button";
 import {
   Form,

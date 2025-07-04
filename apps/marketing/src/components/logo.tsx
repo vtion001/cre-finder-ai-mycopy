@@ -10,5 +10,11 @@ interface LogoProps {
 }
 
 export function Logo(props: LogoProps) {
-  return <BaseLogo {...props} LinkComponent={Link} ImageComponent={Image} />;
+  return (
+    <BaseLogo
+      {...props}
+      LinkComponent={Link}
+      ImageComponent={Image}
+    />
+  );
 }

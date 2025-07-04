@@ -1,8 +1,8 @@
 "use client";
 
-import type { propertySearchSchema } from "@/actions/schema";
-import { parsers } from "@/lib/nuqs/property-search-params";
 import type { Tables } from "@v1/supabase/types";
+import type { propertySearchSchema } from "@v1/trpc/schema";
+import { parsers } from "@v1/utils/nuqs/property-search-params";
 import { useRouter } from "next/navigation";
 import { createSerializer, useQueryStates } from "nuqs";
 import type { z } from "zod";

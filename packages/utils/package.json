@@ -1,0 +1,23 @@
+{
+  "name": "@v1/utils",
+  "version": "1.0.0",
+  "main": "src/index.ts",
+  "private": true,
+  "sideEffects": false,
+  "scripts": {
+    "clean": "rm -rf .turbo node_modules",
+    "lint": "biome check .",
+    "format": "biome format --write .",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./format": "./src/format.ts",
+    "./use-codes": "./src/use-codes.ts",
+    "./environment": "./src/environment.ts",
+    "./nuqs/property-search-params": "./src/nuqs/property-search-params.ts"
+  }
+}

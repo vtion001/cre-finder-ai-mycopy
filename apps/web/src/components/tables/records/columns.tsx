@@ -1,14 +1,14 @@
 "use client";
 
+import type { ColumnDef } from "@tanstack/react-table";
+import type { Tables } from "@v1/supabase/types";
 import {
   formatCurrency,
   formatDate,
   formatTableNumber,
   getOwnerInitials,
   getOwnerName,
-} from "@/lib/format";
-import type { ColumnDef } from "@tanstack/react-table";
-import type { Tables } from "@v1/supabase/types";
+} from "@v1/utils/format";
 
 import { Avatar, AvatarFallback } from "@v1/ui/avatar";
 import { Badge } from "@v1/ui/badge";
