@@ -1,3 +1,5 @@
+"use client";
+
 import { TRPCReactProvider } from "@/trpc/client";
 import "@v1/ui/globals.css";
 
