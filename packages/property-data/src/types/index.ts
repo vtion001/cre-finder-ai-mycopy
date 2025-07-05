@@ -9,6 +9,8 @@ export type {
   GetBulkSkipTraceParams,
   GetPropertySearchParams,
   GetSkipTraceParams,
+  PropertySearchResult,
+  PropertySearchResponse,
   SkipTraceResponse,
   SkipTraceIdentity,
   SkipTraceDemographics,

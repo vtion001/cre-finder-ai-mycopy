@@ -9,6 +9,7 @@ import { useAction } from "next-safe-action/hooks";
 interface CheckoutLicenseButtonProps {
   locations: string[];
   assetType: string;
+  useCodes: number[];
   params?: GetPropertySearchParams | null;
   disabled?: boolean;
 }
@@ -16,6 +17,7 @@ interface CheckoutLicenseButtonProps {
 export function CheckoutLicenseButton({
   locations,
   assetType,
+  useCodes,
   params,
   disabled = false,
 }: CheckoutLicenseButtonProps) {
@@ -26,6 +28,7 @@ export function CheckoutLicenseButton({
       locations,
       assetType,
       params,
+      useCodes: useCodes,
     });
 
     if (!result?.data?.sessionId) {

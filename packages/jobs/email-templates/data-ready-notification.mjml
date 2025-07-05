@@ -1,0 +1,105 @@
+<mjml>
+  <mj-head>
+    <mj-title>Your Property Search is Ready - CRE Finder AI</mj-title>
+    <mj-preview>We found {DATA_VARIABLE:resultCount} properties matching your criteria</mj-preview>
+    <mj-attributes>
+      <mj-all font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"></mj-all>
+      <mj-text font-weight="400" font-size="16px" color="#000000" line-height="24px" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"></mj-text>
+    </mj-attributes>
+    <mj-style inline="inline">
+      .blue-links a {
+        color: #2563eb !important;
+      }
+    </mj-style>
+  </mj-head>
+  <mj-body background-color="#f6f9fc">
+    <mj-section background-color="#ffffff" padding-bottom="0px" padding-top="0">
+      <mj-column>
+        <mj-image width="200px" src="https://via.placeholder.com/200x60/2563eb/ffffff?text=CRE+Finder+AI" alt="CRE Finder AI"></mj-image>
+      </mj-column>
+    </mj-section>
+    
+    <mj-section background-color="#ffffff" padding-bottom="20px" padding-top="20px">
+      <mj-column>
+        <mj-text align="center" color="#1f2937" font-size="28px" font-weight="bold" line-height="36px">
+          🎉 Your Property Search is Ready!
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <mj-section background-color="#ffffff" padding-bottom="20px" padding-top="0px">
+      <mj-column>
+        <mj-text align="center" color="#4b5563" font-size="18px" line-height="28px">
+          Great news! Your search for <strong>{DATA_VARIABLE:assetTypeName}</strong> properties in <strong>{DATA_VARIABLE:locationName}</strong> is now complete.
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <mj-section background-color="#f8fafc" padding="30px 20px" border-radius="8px">
+      <mj-column>
+        <mj-text align="center" color="#1f2937" font-size="48px" font-weight="bold" line-height="56px">
+          {DATA_VARIABLE:resultCount}
+        </mj-text>
+        <mj-text align="center" color="#6b7280" font-size="16px" line-height="24px">
+          Properties Found
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <mj-section background-color="#ffffff" padding-bottom="30px" padding-top="30px">
+      <mj-column>
+        <mj-text align="center" color="#4b5563" font-size="16px" line-height="24px">
+          Your property data includes detailed information about:
+        </mj-text>
+        <mj-text align="left" color="#4b5563" font-size="14px" line-height="22px" padding-left="20px">
+          • Property details and characteristics<br/>
+          • Owner information and contact data<br/>
+          • Financial metrics and valuations<br/>
+          • Market trends and comparable sales<br/>
+          • Investment opportunity indicators
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <mj-section background-color="#ffffff" padding-bottom="30px" padding-top="0px">
+      <mj-column>
+        <mj-button background-color="#2563eb" color="#ffffff" font-size="16px" font-weight="bold" href="https://app.crefinder.ai/dashboard" padding="15px 30px" border-radius="6px">
+          View Your Results
+        </mj-button>
+      </mj-column>
+    </mj-section>
+
+    <mj-section background-color="#ffffff" padding-bottom="20px" padding-top="0px">
+      <mj-column>
+        <mj-text align="center" color="#6b7280" font-size="14px" line-height="20px">
+          You can export your data, apply additional filters, or set up automated alerts for new properties that match your criteria.
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <mj-section background-color="#f9fafb" padding="20px">
+      <mj-column>
+        <mj-text align="center" color="#374151" font-size="16px" font-weight="600" line-height="24px">
+          Need Help?
+        </mj-text>
+        <mj-text align="center" color="#6b7280" font-size="14px" line-height="20px" css-class="blue-links">
+          Contact our support team at <a href="mailto:support@crefinder.ai">support@crefinder.ai</a> or check out our <a href="https://crefinder.ai/help">help center</a>.
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <mj-section background-color="#ffffff" padding="20px">
+      <mj-column>
+        <mj-divider border-color="#e5e7eb"></mj-divider>
+        <mj-text align="center" color="#9ca3af" font-size="12px" line-height="16px">
+          Best regards,<br/>
+          The CRE Finder AI Team
+        </mj-text>
+        <mj-text align="center" color="#9ca3af" font-size="12px" line-height="16px">
+          © 2025 CRE Finder AI. All rights reserved.
+        </mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>
+@

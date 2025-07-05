@@ -1,0 +1,122 @@
+<mjml>
+  <mj-head>
+    <mj-title>Property Updates - CRE Finder AI</mj-title>
+    <mj-preview>{DATA_VARIABLE:changesCount} property updates in {DATA_VARIABLE:locationName}</mj-preview>
+    <mj-attributes>
+      <mj-all font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"></mj-all>
+      <mj-text font-weight="400" font-size="16px" color="#000000" line-height="24px" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"></mj-text>
+    </mj-attributes>
+    <mj-style inline="inline">
+      .blue-links a {
+        color: #2563eb !important;
+      }
+      .update-item {
+        background-color: #f8fafc;
+        border-left: 4px solid #2563eb;
+        padding: 12px 16px;
+        margin: 8px 0;
+        border-radius: 0 4px 4px 0;
+      }
+    </mj-style>
+  </mj-head>
+  <mj-body background-color="#f6f9fc">
+    <mj-section background-color="#ffffff" padding-bottom="0px" padding-top="0">
+      <mj-column>
+        <mj-image width="200px" src="https://via.placeholder.com/200x60/2563eb/ffffff?text=CRE+Finder+AI" alt="CRE Finder AI"></mj-image>
+      </mj-column>
+    </mj-section>
+    
+    <mj-section background-color="#ffffff" padding-bottom="20px" padding-top="20px">
+      <mj-column>
+        <mj-text align="center" color="#1f2937" font-size="28px" font-weight="bold" line-height="36px">
+          📈 Property Updates Available
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <mj-section background-color="#ffffff" padding-bottom="20px" padding-top="0px">
+      <mj-column>
+        <mj-text align="center" color="#4b5563" font-size="18px" line-height="28px">
+          We've detected <strong>{DATA_VARIABLE:changesCount}</strong> important updates to your <strong>{DATA_VARIABLE:assetTypeName}</strong> properties in <strong>{DATA_VARIABLE:locationName}</strong>.
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <mj-section background-color="#fff7ed" padding="20px" border-radius="8px">
+      <mj-column>
+        <mj-text align="center" color="#ea580c" font-size="16px" font-weight="600" line-height="24px">
+          🔔 Recent Changes
+        </mj-text>
+        <mj-text align="left" color="#1f2937" font-size="14px" line-height="22px" padding="10px 0">
+          {DATA_VARIABLE:changesList}
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <mj-section background-color="#ffffff" padding-bottom="30px" padding-top="30px">
+      <mj-column>
+        <mj-text align="center" color="#4b5563" font-size="16px" line-height="24px">
+          These updates include important changes such as:
+        </mj-text>
+        <mj-text align="left" color="#4b5563" font-size="14px" line-height="22px" padding-left="20px">
+          • Property sales and ownership transfers<br/>
+          • New market listings and price changes<br/>
+          • Updated property valuations<br/>
+          • Owner contact information updates<br/>
+          • Investment opportunity status changes
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <mj-section background-color="#ffffff" padding-bottom="30px" padding-top="0px">
+      <mj-column>
+        <mj-button background-color="#2563eb" color="#ffffff" font-size="16px" font-weight="bold" href="https://app.crefinder.ai/dashboard" padding="15px 30px" border-radius="6px">
+          View Updated Properties
+        </mj-button>
+      </mj-column>
+    </mj-section>
+
+    <mj-section background-color="#f0f9ff" padding="20px" border-radius="8px">
+      <mj-column>
+        <mj-text align="center" color="#1e40af" font-size="16px" font-weight="600" line-height="24px">
+          💡 Pro Tip
+        </mj-text>
+        <mj-text align="center" color="#1e3a8a" font-size="14px" line-height="20px">
+          Set up custom alerts to be notified immediately when properties matching your specific criteria become available or change status.
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <mj-section background-color="#ffffff" padding-bottom="20px" padding-top="20px">
+      <mj-column>
+        <mj-text align="center" color="#6b7280" font-size="14px" line-height="20px">
+          All changes are now reflected in your dashboard. You can export the updated data or set up additional monitoring for these properties.
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <mj-section background-color="#f9fafb" padding="20px">
+      <mj-column>
+        <mj-text align="center" color="#374151" font-size="16px" font-weight="600" line-height="24px">
+          Questions About These Updates?
+        </mj-text>
+        <mj-text align="center" color="#6b7280" font-size="14px" line-height="20px" css-class="blue-links">
+          Our team is here to help explain any changes. Contact us at <a href="mailto:support@crefinder.ai">support@crefinder.ai</a> or visit our <a href="https://crefinder.ai/help">help center</a>.
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <mj-section background-color="#ffffff" padding="20px">
+      <mj-column>
+        <mj-divider border-color="#e5e7eb"></mj-divider>
+        <mj-text align="center" color="#9ca3af" font-size="12px" line-height="16px">
+          Best regards,<br/>
+          The CRE Finder AI Team
+        </mj-text>
+        <mj-text align="center" color="#9ca3af" font-size="12px" line-height="16px">
+          © 2025 CRE Finder AI. All rights reserved.
+        </mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>

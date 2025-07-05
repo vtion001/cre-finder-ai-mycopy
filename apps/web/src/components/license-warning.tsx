@@ -234,6 +234,7 @@ export async function LicenseWarning() {
             <CheckoutLicenseButton
               locations={locations}
               assetType={asset_type!}
+              useCodes={use_codes}
               params={params}
               disabled={!hasValidResults}
             />

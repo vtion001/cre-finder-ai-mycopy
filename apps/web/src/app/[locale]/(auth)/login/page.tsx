@@ -1,17 +1,8 @@
 import { CredentialsSignInForm } from "@/components/forms/credentials-signin-form";
 import { OtpSignInForm } from "@/components/forms/otp-signin-form";
 import { Logo } from "@/components/logo";
-import { Separator } from "@v1/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@v1/ui/tabs";
-import {
-  Building2,
-  CheckCircle,
-  Clock,
-  MapPin,
-  Search,
-  TrendingUp,
-  Users,
-} from "lucide-react";
+import { Clock, MapPin, Search, Users } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 

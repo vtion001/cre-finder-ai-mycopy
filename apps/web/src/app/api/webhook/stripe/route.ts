@@ -1,3 +1,4 @@
+import { env } from "@/env.mjs";
 import { tasks } from "@trigger.dev/sdk/v3";
 import type { updatePropertyRecordsTask } from "@v1/jobs/update-property-records";
 import { stripe } from "@v1/stripe/config";
@@ -197,12 +198,13 @@ export async function POST(req: Request) {
 
               console.log("⚠️ Triggering update property records task");
 
-              const handle = await tasks.batchTrigger<
-                typeof updatePropertyRecordsTask
-              >(
+              await tasks.batchTrigger<typeof updatePropertyRecordsTask>(
                 "update-property-records",
                 licenses.map((l) => ({
-                  payload: { licenseId: l.id },
+                  payload: {
+                    licenseId: l.id,
+                    useTestData: process.env.NODE_ENV === "development",
+                  },
                 })),
               );
             }
