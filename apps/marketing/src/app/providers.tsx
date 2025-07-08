@@ -19,15 +19,8 @@ export function Providers({ locale, children }: ProviderProps) {
   return (
     <TRPCReactProvider>
       <NuqsAdapter>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="light"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-          <Toaster />
-        </ThemeProvider>
+        {children}
+        <Toaster />
       </NuqsAdapter>
     </TRPCReactProvider>
   );
