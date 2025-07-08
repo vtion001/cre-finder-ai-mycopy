@@ -1,6 +1,8 @@
 "use client";
 
 import { Button } from "@v1/ui/button";
+import { getDashboardUrl } from "@v1/utils/environment";
+
 const CTASection = () => {
   return (
     <section className="bg-[#0072FF]">
