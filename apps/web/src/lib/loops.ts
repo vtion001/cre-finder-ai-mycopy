@@ -2,7 +2,7 @@ import { env } from "@/env.mjs";
 import { LoopsClient, type Contact as LoopsContact } from "loops";
 
 // Initialize Loops client
-const loops = new LoopsClient(env.LOOPS_API_KEY);
+const loops = new LoopsClient(process.env.LOOPS_API_KEY!);
 
 export interface CreateContactParams {
   email: string;
