@@ -1,8 +1,15 @@
 import { env } from "@/env.mjs";
 import { LoopsClient, type Contact as LoopsContact } from "loops";
 
-// Initialize Loops client
-const loops = new LoopsClient(process.env.LOOPS_API_KEY!);
+// Lazy initialization of Loops client
+let loops: LoopsClient | null = null;
+
+function getLoopsClient(): LoopsClient {
+  if (!loops) {
+    loops = new LoopsClient(env.LOOPS_API_KEY);
+  }
+  return loops;
+}
 
 export interface CreateContactParams {
   email: string;
@@ -18,7 +25,7 @@ export async function createLoopsContact(
   try {
     console.log("Creating Loops contact:", params);
 
-    const response = await loops.createContact(params.email, {
+    const response = await getLoopsClient().createContact(params.email, {
       firstName: params.firstName,
       lastName: params.lastName,
       userGroup: params.role,
@@ -45,7 +52,7 @@ export async function updateLoopsContact(
   try {
     console.log("Updating Loops contact:", contactId, params);
 
-    const response = await loops.updateContact(params.email, {
+    const response = await getLoopsClient().updateContact(params.email, {
       ...(params.firstName && { firstName: params.firstName }),
       ...(params.lastName && { lastName: params.lastName }),
       ...(params.role && { userGroup: params.role }),
@@ -71,7 +78,7 @@ export async function getLoopsContact(
   try {
     console.log("Getting Loops contact:", email);
 
-    const response = await loops.findContact({ email });
+    const response = await getLoopsClient().findContact({ email });
 
     if (response.length > 0) {
       const contact = response[0]!;
