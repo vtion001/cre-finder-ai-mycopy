@@ -90,6 +90,77 @@ export const searchRouter = createTRPCRouter({
       },
     ),
 
+  getPublicPropertyCounts: publicProcedure
+    .input(
+      z.object({
+        locations: z.array(z.string()),
+        assetTypeSlug: z.string(),
+        useCodes: z.array(z.number()).nullish(),
+        params: z.custom<GetPropertySearchParams>().nullish(),
+      }),
+    )
+    .query(
+      async ({
+        input: { assetTypeSlug, locations, useCodes, params },
+        ctx: { supabase },
+      }) => {
+        // Get existing asset license to use its search params
+
+        const { data: assetType } = await supabase
+          .from("asset_types")
+          .select("*")
+          .eq("slug", assetTypeSlug)
+          .single();
+
+        if (!assetType || !assetType.slug) {
+          throw new Error("Asset type not found");
+        }
+
+        const allowedUseCodes = useCodes || [];
+
+        const filteredUseCodes =
+          allowedUseCodes.length > 0
+            ? assetType.use_codes?.filter((code) =>
+                allowedUseCodes.includes(code),
+              )
+            : assetType.use_codes;
+
+        // Use existing search params from the asset license
+        const searchParams = params;
+
+        // Get property counts for each location
+        const propertyCounts = await Promise.all(
+          locations.map(async (location) => {
+            try {
+              const result = await getPropertyCountQuery(
+                {
+                  slug: assetType.slug!,
+                  name: assetType.name,
+                  use_codes: filteredUseCodes || [],
+                },
+                location,
+                searchParams as unknown as GetPropertySearchParams,
+              );
+              return result;
+            } catch (error) {
+              console.error(
+                `Error getting property count for ${location}:`,
+                error,
+              );
+              return {
+                resultCount: 0,
+                formattedLocation: location,
+                assetTypeName: "",
+                internalId: location,
+              };
+            }
+          }),
+        );
+
+        return propertyCounts;
+      },
+    ),
+
   getAutocomplete: publicProcedure
     .input(
       z.object({

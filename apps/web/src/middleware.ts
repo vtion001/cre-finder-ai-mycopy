@@ -39,7 +39,12 @@ export async function middleware(request: NextRequest) {
   );
 
   if (!user && !isAuthPage && newUrl.pathname !== "/") {
-    return NextResponse.redirect(new URL("/login", request.url));
+    const newUrl = new URL("/login", request.url);
+
+    if (pathnameWithoutLocale !== "/") {
+      newUrl.searchParams.append("return_to", pathnameWithoutLocale);
+    }
+    return NextResponse.redirect(newUrl);
   }
 
   if (user && isAuthPage) {
