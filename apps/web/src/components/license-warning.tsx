@@ -184,6 +184,25 @@ export async function LicenseWarning() {
             </Badge>
           )}
 
+          {(params.tax_delinquent_year_min ||
+            params.tax_delinquent_year_max) && (
+            <Badge
+              variant="secondary"
+              className="bg-red-50/80 dark:bg-red-950/30 border-red-200/50 dark:border-red-800/30 text-red-700 dark:text-red-300"
+            >
+              <IconCalendar className="h-3 w-3 mr-1.5 text-red-600 dark:text-red-400" />
+              <span className="text-xs">
+                Tax Delinquent:{" "}
+                {params.tax_delinquent_year_min &&
+                params.tax_delinquent_year_max
+                  ? `${params.tax_delinquent_year_min} - ${params.tax_delinquent_year_max}`
+                  : params.tax_delinquent_year_min
+                    ? `> ${params.tax_delinquent_year_min}`
+                    : `< ${params.tax_delinquent_year_max}`}
+              </span>
+            </Badge>
+          )}
+
           {/* Fallback for any other filters */}
           {!params.building_size_min &&
             !params.building_size_max &&
@@ -192,7 +211,9 @@ export async function LicenseWarning() {
             !params.year_min &&
             !params.year_max &&
             !params.last_sale_year &&
-            !params.last_sale_month && (
+            !params.last_sale_month &&
+            !params.tax_delinquent_year_min &&
+            !params.tax_delinquent_year_max && (
               <Badge variant="secondary">
                 <IconFilter className="h-3 w-3 mr-1.5 text-muted-foreground" />
                 <span className="text-xs text-muted-foreground">

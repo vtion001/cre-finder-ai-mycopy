@@ -31,7 +31,9 @@ export function LicenseFiltersInfo({
     searchParams.loan_paid_off_percent_min ||
     searchParams.loan_paid_off_percent_max ||
     searchParams.number_of_units ||
-    searchParams.mortgage_free_and_clear
+    searchParams.mortgage_free_and_clear ||
+    searchParams.tax_delinquent_year_min ||
+    searchParams.tax_delinquent_year_max
   );
 
   // Don't render if no filters are set

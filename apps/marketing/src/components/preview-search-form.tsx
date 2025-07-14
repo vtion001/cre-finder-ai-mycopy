@@ -51,6 +51,8 @@ export function PreviewSearchForm({
     loan_paid_off_percent_max: undefined,
     number_of_units: undefined,
     mortgage_free_and_clear: undefined,
+    tax_delinquent_year_min: undefined,
+    tax_delinquent_year_max: undefined,
   };
 
   const form = useForm<PreviewSearchFormValues>({

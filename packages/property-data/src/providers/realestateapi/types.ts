@@ -220,6 +220,8 @@ export type GetPropertySearchParams = {
   mortgage_free_and_clear?: boolean;
   free_clear?: boolean;
   property_use_code?: number[];
+  tax_delinquent_year_min?: number;
+  tax_delinquent_year_max?: number;
   city?: string;
   county?: string;
   state?: string;

@@ -73,6 +73,22 @@ export const searchFiltersSchema = z
       })
       .optional(),
     mortgage_free_and_clear: z.boolean().optional(),
+    tax_delinquent_year_min: z.coerce
+      .number()
+      .min(1900, "Year must be after 1900")
+      .max(
+        new Date().getFullYear(),
+        `Year must be before ${new Date().getFullYear() + 1}`,
+      )
+      .optional(),
+    tax_delinquent_year_max: z.coerce
+      .number()
+      .min(1900, "Year must be after 1900")
+      .max(
+        new Date().getFullYear(),
+        `Year must be before ${new Date().getFullYear() + 1}`,
+      )
+      .optional(),
   })
   .refine(
     (data) => {
@@ -140,6 +156,20 @@ export const searchFiltersSchema = z
     {
       message: "Minimum percentage must be less than or equal to maximum",
       path: ["loan_paid_off_percent_min"],
+    },
+  )
+  .refine(
+    (data) => {
+      // If both min and max are provided, ensure min <= max
+      if (data.tax_delinquent_year_min && data.tax_delinquent_year_max) {
+        return data.tax_delinquent_year_min <= data.tax_delinquent_year_max;
+      }
+      return true;
+    },
+    {
+      message:
+        "Minimum tax delinquent year must be less than or equal to maximum",
+      path: ["tax_delinquent_year_min"],
     },
   );
 

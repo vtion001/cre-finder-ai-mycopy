@@ -65,6 +65,12 @@ export const formatSearchParams = (params: GetPropertySearchParams) => {
     parts.push("Mortgage Free & Clear");
   }
 
+  if (params.tax_delinquent_year_min || params.tax_delinquent_year_max) {
+    const min = params.tax_delinquent_year_min || "Any";
+    const max = params.tax_delinquent_year_max || "Any";
+    parts.push(`Tax Delinquent: ${min} - ${max}`);
+  }
+
   return parts;
 };
 
