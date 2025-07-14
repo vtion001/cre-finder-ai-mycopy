@@ -32,6 +32,7 @@ export async function Table({
     asset_type,
     locations,
     map,
+    params: filters,
   } = searchParamsCache.all();
 
   const hasFilters = locations.length === 0;
@@ -47,6 +48,7 @@ export async function Table({
     to,
     sort,
     searchQuery: query,
+    filters: filters || undefined,
   });
 
   const loadingKey = JSON.stringify({
@@ -55,6 +57,7 @@ export async function Table({
     per_page,
     sort,
     query,
+    filters,
   });
 
   return (

@@ -34,11 +34,13 @@ import { useFormContext, useWatch } from "react-hook-form";
 
 interface PropertyFiltersSheetProps {
   onReset: () => void;
+  onApply?: () => void;
   className?: string;
 }
 
 export function PropertyFiltersSheet({
   onReset,
+  onApply,
   className,
 }: PropertyFiltersSheetProps) {
   const [open, setOpen] = useState(false);
@@ -264,7 +266,13 @@ export function PropertyFiltersSheet({
           </div>
 
           <SheetFooter className="mt-12">
-            <FilterActions onReset={onReset} onApply={() => setOpen(false)} />
+            <FilterActions
+              onReset={onReset}
+              onApply={() => {
+                setOpen(false);
+                onApply?.();
+              }}
+            />
           </SheetFooter>
         </SheetContent>
       </Sheet>
