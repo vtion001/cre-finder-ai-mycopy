@@ -6,7 +6,10 @@ export function getDashboardUrl() {
     return "https://app.crefinder.ai";
   }
 
-  if (process.env.VERCEL_ENV === "preview") {
+  if (
+    process.env.VERCEL_ENV === "preview" ||
+    process.env.VERCEL_ENV === "development"
+  ) {
     return `https://${process.env.VERCEL_URL}`;
   }
 
@@ -21,7 +24,10 @@ export function getMarketingUrl() {
     return "https://crefinder.ai";
   }
 
-  if (process.env.VERCEL_ENV === "preview") {
+  if (
+    process.env.VERCEL_ENV === "preview" ||
+    process.env.VERCEL_ENV === "development"
+  ) {
     return `https://${process.env.VERCEL_URL}`;
   }
 
