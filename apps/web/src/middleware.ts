@@ -1,5 +1,5 @@
-import { createClient } from "@v1/supabase/client";
 import { updateSession } from "@v1/supabase/middleware";
+import { getMarketingUrl } from "@v1/utils/environment";
 import { createI18nMiddleware } from "next-international/middleware";
 import { type NextRequest, NextResponse } from "next/server";
 
@@ -15,13 +15,6 @@ export async function middleware(request: NextRequest) {
     I18nMiddleware(request),
   );
 
-  const supabase = createClient();
-
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-
-  const url = new URL("/", request.url);
   const nextUrl = request.nextUrl;
 
   const pathnameLocale = nextUrl.pathname.split("/", 2)?.[1];
@@ -39,12 +32,19 @@ export async function middleware(request: NextRequest) {
   );
 
   if (!user && !isAuthPage && newUrl.pathname !== "/") {
-    const newUrl = new URL("/login", request.url);
+    // Check if request origin baseurl is getMarketingUrl, redirect to signup instead of login
+    const marketingUrl = getMarketingUrl();
+    const requestOrigin =
+      request.headers.get("origin") || request.headers.get("referer");
+    const isFromMarketing = requestOrigin?.startsWith(marketingUrl);
+
+    const redirectPath = isFromMarketing ? "/signup" : "/login";
+    const redirectUrl = new URL(redirectPath, request.url);
 
     if (pathnameWithoutLocale !== "/") {
-      newUrl.searchParams.append("return_to", pathnameWithoutLocale);
+      redirectUrl.searchParams.append("return_to", pathnameWithoutLocale);
     }
-    return NextResponse.redirect(newUrl);
+    return NextResponse.redirect(redirectUrl);
   }
 
   if (user && isAuthPage) {
