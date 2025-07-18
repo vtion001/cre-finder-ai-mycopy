@@ -1,9 +1,8 @@
-<h2>Confirm your signup</h2>
+<h2>Your Magic Link</h2>
 
-<p>Follow this link to confirm your user:</p>
+<p>Follow this link to login:</p>
 <p>
-  <a
-    href="{{ .SiteURL }}/api/auth/confirm?token_hash={{ .TokenHash }}&type=email&next=/dashboard"
-    >Confirm your email</a
-  >
+  <a href="{{ .RedirectTo }}?token_hash={{ .TokenHash }}&type=email">
+    Log In
+  </a>
 </p>
