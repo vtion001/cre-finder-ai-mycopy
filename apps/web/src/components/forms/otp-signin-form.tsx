@@ -13,6 +13,7 @@ import {
 } from "@v1/ui/form";
 import { Input } from "@v1/ui/input";
 import { toast } from "@v1/ui/sonner";
+import { getDashboardUrl } from "@v1/utils/environment";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -39,10 +40,13 @@ export function OtpSignInForm() {
   const onSubmit = async (values: Inputs) => {
     setIsLoading(true);
     try {
+      const redirectTo = new URL("/api/auth/confirm", getDashboardUrl());
+
       const { data, error } = await supabase.auth.signInWithOtp({
         email: values.email,
         options: {
           shouldCreateUser: true,
+          emailRedirectTo: redirectTo.toString(),
         },
       });
 
