@@ -9,6 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@v1/ui/card";
+import { getDashboardUrl } from "@v1/utils/environment";
 import { Check } from "lucide-react";
 const PricingSection = () => {
   const tiers = [
@@ -96,7 +97,7 @@ const PricingSection = () => {
                   onClick={() =>
                     window.open(
                       tier.mostPopular
-                        ? "https://app.crefinder.ai/dashboard/search"
+                        ? `${getDashboardUrl()}/dashboard/search`
                         : "https://cal.com/jaceperry/crefinder",
                       "_blank",
                     )
