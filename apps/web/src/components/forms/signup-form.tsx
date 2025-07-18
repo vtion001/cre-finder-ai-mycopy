@@ -23,6 +23,7 @@ import {
   SelectValue,
 } from "@v1/ui/select";
 import { toast } from "@v1/ui/sonner";
+import { getDashboardUrl } from "@v1/utils/environment";
 import { PhoneNumberUtil } from "google-libphonenumber";
 import Link from "next/link";
 import { useState } from "react";
@@ -91,6 +92,8 @@ export function SignUpForm() {
     try {
       const fullName = `${values.firstName} ${values.lastName}`.trim();
 
+      const redirectTo = new URL("/api/auth/confirm", getDashboardUrl());
+
       const { error } = await supabase.auth.signUp({
         email: values.email,
         password: values.password,
@@ -100,6 +103,7 @@ export function SignUpForm() {
             phone_number: values.phoneNumber,
             role: values.role,
           },
+          emailRedirectTo: redirectTo.toString(),
         },
       });
 
