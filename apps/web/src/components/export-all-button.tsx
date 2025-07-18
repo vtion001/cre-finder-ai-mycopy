@@ -11,18 +11,18 @@ const actions = ["export-csv", "export-xlsx"] as const;
 
 type Action = (typeof actions)[number];
 
-interface ExportButtonProps {
+interface ExportAllProps {
   assetTypeName: string;
   assetLicenseId: string;
   locations: string[];
   className?: string;
 }
 
-export function DownloadButton({
+export function ExportAll({
   assetTypeName,
   assetLicenseId,
   locations,
-}: ExportButtonProps) {
+}: ExportAllProps) {
   const [currentAction, setCurrentAction] = useState<Action | null>(null);
 
   const trpc = useTRPC();

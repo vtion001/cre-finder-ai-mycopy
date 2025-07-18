@@ -1,5 +1,6 @@
 "use client";
 
+import { ExportAll } from "@/components/export-all-button";
 import {
   type PaginationState,
   type RowSelectionState,
@@ -10,10 +11,8 @@ import {
   getPaginationRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import type { Tables } from "@v1/supabase/types";
-
-import { DownloadButton } from "@/components/download-button";
 import type { getPropertyRecordsQuery } from "@v1/supabase/queries";
+import type { Tables } from "@v1/supabase/types";
 import { ScrollArea, ScrollBar } from "@v1/ui/scroll-area";
 import { Table, TableBody, TableCell, TableRow } from "@v1/ui/table";
 import { parseAsInteger, useQueryState } from "nuqs";
@@ -143,11 +142,13 @@ export function DataTable({
       </div>
 
       <div className="flex-shrink-0 flex flex-row items-center w-full">
-        <DownloadButton
-          assetTypeName={assetTypeName}
-          assetLicenseId={assetLicenseId}
-          locations={locations}
-        />
+        {table.getFilteredSelectedRowModel().rows.length === 0 ? (
+          <ExportAll
+            assetTypeName={assetTypeName}
+            assetLicenseId={assetLicenseId}
+            locations={locations}
+          />
+        ) : null}
 
         <DataTablePagination table={table} total={meta.count || 0} />
 
