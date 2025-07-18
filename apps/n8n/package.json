@@ -1,0 +1,27 @@
+{
+  "name": "@v1/n8n",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "setup": "bash setup.sh",
+    "dev": "docker-compose up -d",
+    "start": "docker-compose up -d",
+    "start:prod": "docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d",
+    "stop": "docker-compose down",
+    "stop:prod": "docker-compose -f docker-compose.yml -f docker-compose.prod.yml down",
+    "restart": "docker-compose restart",
+    "restart:prod": "docker-compose -f docker-compose.yml -f docker-compose.prod.yml restart",
+    "logs": "docker-compose logs -f",
+    "logs:prod": "docker-compose -f docker-compose.yml -f docker-compose.prod.yml logs -f",
+    "clean": "docker-compose down -v && docker system prune -f",
+    "clean:prod": "docker-compose -f docker-compose.yml -f docker-compose.prod.yml down -v && docker system prune -f",
+    "status": "docker-compose ps",
+    "shell": "docker-compose exec n8n /bin/sh",
+    "health": "bash healthcheck.sh",
+    "backup": "docker-compose exec n8n n8n export:workflow --backup --output=/home/node/.n8n/backups/",
+    "restore": "docker-compose exec n8n n8n import:workflow --input=/home/node/.n8n/backups/"
+  },
+  "devDependencies": {
+    "docker-compose": "^0.24.8"
+  }
+}
