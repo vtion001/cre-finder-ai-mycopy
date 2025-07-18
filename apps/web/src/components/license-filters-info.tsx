@@ -53,7 +53,6 @@ export function LicenseFiltersInfo({
           className="h-12 px-4 gap-2 border-muted-foreground/20 text-muted-foreground hover:text-foreground"
         >
           <IconInfoCircleFilled className="h-4 w-4" />
-          <ChevronDownIcon className="h-4 w-4" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-96" align="end">
