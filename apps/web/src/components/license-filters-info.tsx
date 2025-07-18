@@ -1,5 +1,6 @@
 "use client";
 
+import { IconInfoCircleFilled } from "@tabler/icons-react";
 import type { GetPropertySearchParams } from "@v1/property-data/types";
 import { Button } from "@v1/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@v1/ui/popover";
@@ -51,7 +52,7 @@ export function LicenseFiltersInfo({
           type="button"
           className="h-12 px-4 gap-2 border-muted-foreground/20 text-muted-foreground hover:text-foreground"
         >
-          <FilterIcon className="h-4 w-4" />
+          <IconInfoCircleFilled className="h-4 w-4" />
           <ChevronDownIcon className="h-4 w-4" />
         </Button>
       </PopoverTrigger>
