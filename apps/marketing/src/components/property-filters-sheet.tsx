@@ -60,6 +60,8 @@ export function PropertyFiltersSheet({
       "loan_paid_off_percent_max",
       "number_of_units",
       "mortgage_free_and_clear",
+      "tax_delinquent_year_min",
+      "tax_delinquent_year_max",
       "asset_type_slug",
     ],
   });
@@ -77,6 +79,8 @@ export function PropertyFiltersSheet({
     loan_paid_off_percent_max,
     number_of_units,
     mortgage_free_and_clear,
+    tax_delinquent_year_min,
+    tax_delinquent_year_max,
     asset_type_slug,
   ] = watchedValues;
 
@@ -94,7 +98,9 @@ export function PropertyFiltersSheet({
       loan_paid_off_percent_min ||
       loan_paid_off_percent_max ||
       number_of_units ||
-      mortgage_free_and_clear
+      mortgage_free_and_clear ||
+      tax_delinquent_year_min ||
+      tax_delinquent_year_max
     );
   };
 
@@ -108,6 +114,7 @@ export function PropertyFiltersSheet({
     if (loan_paid_off_percent_min || loan_paid_off_percent_max) count++;
     if (number_of_units) count++;
     if (mortgage_free_and_clear) count++;
+    if (tax_delinquent_year_min || tax_delinquent_year_max) count++;
     return count;
   };
 
@@ -192,6 +199,17 @@ export function PropertyFiltersSheet({
               maxValue={100}
               minPlaceholder="Min %"
               maxPlaceholder="Max %"
+            />
+
+            <InlineRangeFilter
+              control={control}
+              minFieldName="tax_delinquent_year_min"
+              maxFieldName="tax_delinquent_year_max"
+              label="Tax Delinquent Year"
+              minValue={1900}
+              maxValue={new Date().getFullYear()}
+              minPlaceholder="Min Year"
+              maxPlaceholder="Max Year"
             />
 
             {isMultiFamilyAssetType() && (

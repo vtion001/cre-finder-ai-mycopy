@@ -1,4 +1,8 @@
 export function getDashboardUrl() {
+  if (process.env.NEXT_PUBLIC_APP_URL) {
+    return process.env.NEXT_PUBLIC_APP_URL;
+  }
+
   if (
     process.env.VERCEL_ENV === "production" ||
     process.env.NODE_ENV === "production"
@@ -6,7 +10,10 @@ export function getDashboardUrl() {
     return "https://app.crefinder.ai";
   }
 
-  if (process.env.VERCEL_ENV === "preview") {
+  if (
+    process.env.VERCEL_ENV === "preview" ||
+    process.env.VERCEL_ENV === "development"
+  ) {
     return `https://${process.env.VERCEL_URL}`;
   }
 
@@ -14,6 +21,10 @@ export function getDashboardUrl() {
 }
 
 export function getMarketingUrl() {
+  if (process.env.NEXT_PUBLIC_MARKETING_URL) {
+    return process.env.NEXT_PUBLIC_MARKETING_URL;
+  }
+
   if (
     process.env.VERCEL_ENV === "production" ||
     process.env.NODE_ENV === "production"
@@ -21,7 +32,10 @@ export function getMarketingUrl() {
     return "https://crefinder.ai";
   }
 
-  if (process.env.VERCEL_ENV === "preview") {
+  if (
+    process.env.VERCEL_ENV === "preview" ||
+    process.env.VERCEL_ENV === "development"
+  ) {
     return `https://${process.env.VERCEL_URL}`;
   }
 

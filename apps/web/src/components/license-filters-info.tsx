@@ -1,5 +1,6 @@
 "use client";
 
+import { IconInfoCircleFilled } from "@tabler/icons-react";
 import type { GetPropertySearchParams } from "@v1/property-data/types";
 import { Button } from "@v1/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@v1/ui/popover";
@@ -31,7 +32,9 @@ export function LicenseFiltersInfo({
     searchParams.loan_paid_off_percent_min ||
     searchParams.loan_paid_off_percent_max ||
     searchParams.number_of_units ||
-    searchParams.mortgage_free_and_clear
+    searchParams.mortgage_free_and_clear ||
+    searchParams.tax_delinquent_year_min ||
+    searchParams.tax_delinquent_year_max
   );
 
   // Don't render if no filters are set
@@ -49,8 +52,7 @@ export function LicenseFiltersInfo({
           type="button"
           className="h-12 px-4 gap-2 border-muted-foreground/20 text-muted-foreground hover:text-foreground"
         >
-          <FilterIcon className="h-4 w-4" />
-          <ChevronDownIcon className="h-4 w-4" />
+          <IconInfoCircleFilled className="h-4 w-4" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-96" align="end">

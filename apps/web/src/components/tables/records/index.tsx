@@ -1,12 +1,8 @@
 import { getPropertyRecords } from "@v1/supabase/cached-queries";
-import { ScrollArea, ScrollBar } from "@v1/ui/scroll-area";
 import { searchParamsCache } from "@v1/utils/nuqs/property-search-params";
 import { Suspense } from "react";
 import { DataTable } from "./data-table";
-import { DataTablePagination } from "./data-table-pagination";
 
-import { DownloadButton } from "@/components/download-button";
-import { EmptyState, NoResults } from "./empty-states";
 import { Loading } from "./loading";
 
 type Props = {
@@ -32,6 +28,7 @@ export async function Table({
     asset_type,
     locations,
     map,
+    params: filters,
   } = searchParamsCache.all();
 
   const hasFilters = locations.length === 0;
@@ -47,6 +44,7 @@ export async function Table({
     to,
     sort,
     searchQuery: query,
+    filters: filters || undefined,
   });
 
   const loadingKey = JSON.stringify({
@@ -55,6 +53,7 @@ export async function Table({
     per_page,
     sort,
     query,
+    filters,
   });
 
   return (

@@ -1,0 +1,10 @@
+# Development overrides
+services:
+  n8n:
+    environment:
+      - NODE_ENV=development
+      - N8N_LOG_LEVEL=debug
+      - N8N_DIAGNOSTICS_ENABLED=true
+    # Uncomment to enable file watching for development
+    # volumes:
+    #   - ./custom-nodes:/home/node/.n8n/custom
