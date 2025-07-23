@@ -233,8 +233,8 @@ export async function checkoutLicenseWithStripe({
     );
 
     const oneTimeProduct = await stripe.products.create({
-      name: "First Month Adjustment",
-      description: `One-time licensing fee for ${totalPropertyCount} properties`,
+      name: `One-time licensing fee for ${totalPropertyCount} properties`,
+      description: "First Month Adjustment",
     });
 
     const oneTimeFee = await stripe.prices.create({
@@ -246,8 +246,8 @@ export async function checkoutLicenseWithStripe({
     const recurringPrices = await Promise.all(
       propertyCounts.map(async (propertyCount) => {
         const product = await stripe.products.create({
-          name: `${propertyCount.assetTypeName} - ${propertyCount.formattedLocation}`,
-          description: "Exclusive licensing.",
+          name: "Exclusive licensing.",
+          description: `${propertyCount.assetTypeName} - ${propertyCount.formattedLocation}`,
         });
         return stripe.prices.create({
           unit_amount: propertyCount.resultCount * 50, // $0.5 per property per month
