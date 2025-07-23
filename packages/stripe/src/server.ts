@@ -245,9 +245,9 @@ export async function checkoutLicenseWithStripe({
 
     const recurringPrices = await Promise.all(
       propertyCounts.map(async (propertyCount) => {
-        const monthlyAmount = (propertyCount.resultCount * 50) / 100; // Convert to dollars
         const product = await stripe.products.create({
           name: `${propertyCount.assetTypeName} - ${propertyCount.formattedLocation}`,
+          description: "Exclusive licensing billed monthly",
         });
         return stripe.prices.create({
           unit_amount: propertyCount.resultCount * 50, // $0.5 per property per month
