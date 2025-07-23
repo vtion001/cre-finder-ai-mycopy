@@ -247,7 +247,7 @@ export async function checkoutLicenseWithStripe({
       propertyCounts.map(async (propertyCount) => {
         const product = await stripe.products.create({
           name: `${propertyCount.assetTypeName} - ${propertyCount.formattedLocation}`,
-          description: "Exclusive licensing billed monthly",
+          description: "Exclusive licensing.",
         });
         return stripe.prices.create({
           unit_amount: propertyCount.resultCount * 50, // $0.5 per property per month
