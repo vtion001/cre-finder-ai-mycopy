@@ -233,7 +233,8 @@ export async function checkoutLicenseWithStripe({
     );
 
     const oneTimeProduct = await stripe.products.create({
-      name: "Licensing Fee",
+      name: "First Month Adjustment",
+      description: `One-time licensing fee for ${totalPropertyCount} properties`,
     });
 
     const oneTimeFee = await stripe.prices.create({
@@ -244,6 +245,7 @@ export async function checkoutLicenseWithStripe({
 
     const recurringPrices = await Promise.all(
       propertyCounts.map(async (propertyCount) => {
+        const monthlyAmount = (propertyCount.resultCount * 50) / 100; // Convert to dollars
         const product = await stripe.products.create({
           name: `${propertyCount.assetTypeName} - ${propertyCount.formattedLocation}`,
         });
@@ -276,6 +278,12 @@ export async function checkoutLicenseWithStripe({
       mode: "subscription",
       cancel_url: getURL("/dashboard/search"),
       success_url: getURL(redirectPath),
+      custom_text: {
+        submit: {
+          message:
+            "Complete your purchase to access property data. You'll pay the full amount for the first month, then 50% off for all subsequent months.",
+        },
+      },
       metadata: {
         type: "license",
         userId: user.id,
