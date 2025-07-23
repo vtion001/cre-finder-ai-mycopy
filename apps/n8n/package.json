@@ -19,9 +19,16 @@
     "shell": "docker-compose exec n8n /bin/sh",
     "health": "bash healthcheck.sh",
     "backup": "docker-compose exec n8n n8n export:workflow --backup --output=/home/node/.n8n/backups/",
-    "restore": "docker-compose exec n8n n8n import:workflow --input=/home/node/.n8n/backups/"
+    "restore": "docker-compose exec n8n n8n import:workflow --input=/home/node/.n8n/backups/",
+    "test:outbound": "node test-outbound-campaign.js"
   },
   "devDependencies": {
-    "docker-compose": "^0.24.8"
+    "docker-compose": "^0.24.8",
+    "@types/bun": "latest"
+  },
+  "module": "index.ts",
+  "type": "module",
+  "peerDependencies": {
+    "typescript": "^5"
   }
 }

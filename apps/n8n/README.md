@@ -72,6 +72,29 @@ This n8n instance can be used to automate workflows related to:
 - Data synchronization
 - Webhook handling
 
+### 🚀 Outbound Real Estate System
+
+A complete outbound marketing system is included that integrates:
+- **Twilio**: Voice calls and SMS messaging
+- **ElevenLabs**: AI-generated voice content
+- **OpenAI**: Personalized content generation
+- **Loops.so**: Professional email campaigns
+
+**Quick Start:**
+```bash
+# See detailed setup guide
+cat OUTBOUND_SETUP.md
+
+# Test the system
+bun run test:outbound
+```
+
+**Workflow Features:**
+- Automated voice calls with AI-generated scripts
+- Follow-up SMS messages
+- Personalized email campaigns
+- Complete lead tracking and analytics
+
 ## Troubleshooting
 
 - Check logs: `bun run logs`
