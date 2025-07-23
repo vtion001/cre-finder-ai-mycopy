@@ -246,7 +246,7 @@ export async function checkoutLicenseWithStripe({
     const recurringPrices = await Promise.all(
       propertyCounts.map(async (propertyCount) => {
         const product = await stripe.products.create({
-          name: "Exclusive licensing.",
+          name: "Exclusive licensing",
           description: `${propertyCount.assetTypeName} - ${propertyCount.formattedLocation}`,
         });
         return stripe.prices.create({
