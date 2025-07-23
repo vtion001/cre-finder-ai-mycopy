@@ -1,0 +1,2 @@
+# This file ensures the backups directory is tracked by git
+# n8n workflow backups will be stored here
