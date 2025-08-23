@@ -1,3 +1,4 @@
+import { createClient } from "@v1/supabase/client";
 import { updateSession } from "@v1/supabase/middleware";
 import { getMarketingUrl } from "@v1/utils/environment";
 import { createI18nMiddleware } from "next-international/middleware";
@@ -14,6 +15,12 @@ export async function middleware(request: NextRequest) {
     request,
     I18nMiddleware(request),
   );
+
+  const supabase = createClient();
+
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
 
   const nextUrl = request.nextUrl;
 
@@ -48,7 +55,7 @@ export async function middleware(request: NextRequest) {
   }
 
   if (user && isAuthPage) {
-    return NextResponse.redirect(new URL("/dashboard", request.url));
+    return NextResponse.redirect(new URL("/dashboard/search", request.url));
   }
 
   return response;

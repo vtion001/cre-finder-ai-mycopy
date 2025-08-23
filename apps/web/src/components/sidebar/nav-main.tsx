@@ -18,7 +18,28 @@ import {
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const items = [] as {
+const items = [
+  {
+    title: "Search",
+    url: "/dashboard/search",
+    icon: IconSearch,
+  },
+  {
+    title: "VAPI Test",
+    url: "/dashboard/vapi-test", 
+    icon: IconClipboard,
+  },
+  {
+    title: "Twilio Test",
+    url: "/dashboard/twilio-test",
+    icon: IconClipboardList,
+  },
+  {
+    title: "Integrations",
+    url: "/dashboard/integrations",
+    icon: IconCreditCard,
+  },
+] as {
   title: string;
   url: string;
   icon: typeof IconHomeSearch;

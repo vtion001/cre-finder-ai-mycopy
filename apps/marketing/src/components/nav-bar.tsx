@@ -46,7 +46,7 @@ const NavBar = () => {
             </a>
 
             <div className="flex items-center space-x-3">
-              <Link href={`${getDashboardUrl()}/signup`}>
+              <Link href={`${getDashboardUrl()}/en/login`}>
                 <Button
                   variant="outline"
                   className="text-gray-600 border-gray-300 hover:text-[#0072FF] hover:border-[#0072FF]"

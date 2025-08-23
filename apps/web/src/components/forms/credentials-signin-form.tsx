@@ -55,7 +55,7 @@ export function CredentialsSignInForm() {
         toast.error("Invalid email or password");
       } else {
         toast.success("Signed in successfully");
-        router.push("/dashboard");
+        router.push("/dashboard/search");
       }
     } finally {
       setIsLoading(false);

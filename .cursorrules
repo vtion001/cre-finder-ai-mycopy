@@ -1,0 +1,31 @@
+# CRITICAL RULES FOR THIS PROJECT
+
+## NEVER DO THE FOLLOWING:
+1. Never delete or overwrite entire files without explicit permission
+2. Never modify package.json dependencies without explaining each change
+3. Never change database schemas without confirmation
+4. Never modify authentication logic without detailed explanation
+5. Never restructure the project directory without permission
+6. Never delete or modify environment variables
+7. Never remove existing functionality when adding new features
+
+## ALWAYS DO THE FOLLOWING:
+1. Make incremental changes, not wholesale rewrites
+2. Preserve all existing functionality unless explicitly asked to remove
+3. Comment on significant changes before making them
+4. Ask for confirmation before deleting more than 10 lines
+5. Maintain backward compatibility
+6. Keep existing API endpoints functional
+7. Test changes don't break existing features
+
+## PROJECT STRUCTURE:
+- Frontend: [Your framework]
+- Backend: [Your framework]
+- Database: [Your database]
+- Key files that must not be deleted: [List critical files]
+
+## WHEN MAKING CHANGES:
+- Add new code rather than replacing existing code
+- Use feature flags for major changes
+- Create new components/files rather than overwriting
+- Keep deprecated code commented rather than deleted

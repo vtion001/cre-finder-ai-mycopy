@@ -31,6 +31,8 @@
     "./cached-queries": "./src/queries/cached-queries.ts",
     "./stripe": "./src/queries/stripe/index.ts",
     "./stripe-admin": "./src/queries/stripe/admin.ts",
-    "./types": "./src/types/index.ts"
+    "./types": "./src/types/index.ts",
+    "./lib/integrations": "./src/lib/integrations.ts",
+    "./validations/integrations": "./src/validations/integrations.ts"
   }
 }
