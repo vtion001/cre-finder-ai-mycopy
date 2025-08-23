@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@v1/ui/card";
 import { Badge } from "@v1/ui/badge";
 import { Button } from "@v1/ui/button";
-import { RefreshCw, CheckCircle2, XCircle, AlertCircle } from "lucide-react";
+import { CheckCircle2, XCircle, AlertCircle } from "lucide-react";
 import { toast } from "@v1/ui/sonner";
 
 interface IntegrationStatus {
@@ -22,7 +22,6 @@ interface IntegrationStatusDashboardProps {
 export function IntegrationStatusDashboard({ userId }: IntegrationStatusDashboardProps) {
   const [statuses, setStatuses] = useState<IntegrationStatus[]>([]);
   const [loading, setLoading] = useState(true);
-  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     fetchStatuses();
@@ -44,17 +43,7 @@ export function IntegrationStatusDashboard({ userId }: IntegrationStatusDashboar
     }
   };
 
-  const refreshStatuses = async () => {
-    setRefreshing(true);
-    try {
-      await fetchStatuses();
-      toast.success("Integration statuses refreshed");
-    } catch (error) {
-      toast.error("Failed to refresh statuses");
-    } finally {
-      setRefreshing(false);
-    }
-  };
+
 
   const testIntegration = async (integrationType: string) => {
     try {
@@ -107,15 +96,6 @@ export function IntegrationStatusDashboard({ userId }: IntegrationStatusDashboar
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h3 className="text-lg font-semibold">Integration Status Dashboard</h3>
-        <Button
-          onClick={refreshStatuses}
-          disabled={refreshing}
-          variant="outline"
-          size="sm"
-        >
-          <RefreshCw className={`h-4 w-4 mr-2 ${refreshing ? "animate-spin" : ""}`} />
-          Refresh
-        </Button>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
