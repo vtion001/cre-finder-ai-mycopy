@@ -57,9 +57,9 @@ export interface IntegrationStatus {
 // Form data types (without sensitive fields for frontend)
 export interface VapiConfigFormData {
   apiKey: string;
-  organization?: string;
+  organization: string; // Required by database schema
   assistantId: string;
-  phoneNumber?: string;
+  phoneNumber: string; // Required by database schema
   webhookUrl?: string;
   customPrompt?: string;
 }
@@ -76,7 +76,7 @@ export interface TwilioConfigFormData {
 export interface SendGridConfigFormData {
   apiKey: string;
   fromEmail: string;
-  fromName?: string;
+  fromName: string; // Required by database schema
   templateId?: string;
   webhookUrl?: string;
   customSubject?: string;

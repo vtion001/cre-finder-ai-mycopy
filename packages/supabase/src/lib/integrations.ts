@@ -48,6 +48,14 @@ export class IntegrationManager {
       console.log('=== IntegrationManager.saveVapiConfig Debug ===');
       console.log('1. Input config:', { ...config, apiKey: config.apiKey ? '***' : 'undefined' });
       
+      // Validate required fields
+      if (!config.apiKey || !config.organization || !config.assistantId || !config.phoneNumber) {
+        return { 
+          success: false, 
+          error: 'Missing required fields: apiKey, organization, assistantId, and phoneNumber are required' 
+        };
+      }
+      
       // Map camelCase to snake_case for database
       const dbConfig = {
         api_key: config.apiKey,
@@ -56,6 +64,7 @@ export class IntegrationManager {
         phone_number: config.phoneNumber,
         webhook_url: config.webhookUrl || null,
         custom_prompt: config.customPrompt || null,
+        is_active: true, // Ensure this is set
       };
       
       console.log('2. Mapped dbConfig:', { ...dbConfig, api_key: dbConfig.api_key ? '***' : 'undefined' });
@@ -85,11 +94,10 @@ export class IntegrationManager {
         .select()
         .single();
       
-      console.log('5. Database operation result:', { success: !error, data: data ? 'Data returned' : 'No data', error: error?.message });
-
-      if (error) {
-        console.error('Error upserting VAPI config:', error);
-        return { success: false, error: error.message };
+      // Verify all required fields were saved
+      if (!data || !data.api_key || !data.organization || !data.assistant_id || !data.phone_number) {
+        console.error('VAPI config saved but missing required fields:', data);
+        return { success: false, error: 'Configuration saved but missing required fields' };
       }
 
       // Update integration status
@@ -126,6 +134,14 @@ export class IntegrationManager {
 
   async saveTwilioConfig(config: TwilioConfigFormData): Promise<{ success: boolean; configId?: string; error?: string }> {
     try {
+      // Validate required fields
+      if (!config.accountSid || !config.authToken || !config.phoneNumber) {
+        return { 
+          success: false, 
+          error: 'Missing required fields: accountSid, authToken, and phoneNumber are required' 
+        };
+      }
+      
       // Map camelCase to snake_case for database
       const dbConfig = {
         account_sid: config.accountSid,
@@ -134,6 +150,7 @@ export class IntegrationManager {
         messaging_service_sid: config.messagingServiceSid || null,
         webhook_url: config.webhookUrl || null,
         custom_message: config.customMessage || null,
+        is_active: true, // Ensure this is set
       };
 
       // Use UPSERT pattern with admin client to bypass RLS
@@ -156,6 +173,12 @@ export class IntegrationManager {
       if (error) {
         console.error('Error upserting Twilio config:', error);
         return { success: false, error: error.message };
+      }
+
+      // Verify all required fields were saved
+      if (!data || !data.account_sid || !data.auth_token || !data.phone_number) {
+        console.error('Twilio config saved but missing required fields:', data);
+        return { success: false, error: 'Configuration saved but missing required fields' };
       }
 
       // Update integration status
@@ -192,6 +215,14 @@ export class IntegrationManager {
 
   async saveSendGridConfig(config: SendGridConfigFormData): Promise<{ success: boolean; configId?: string; error?: string }> {
     try {
+      // Validate required fields
+      if (!config.apiKey || !config.fromEmail || !config.fromName) {
+        return { 
+          success: false, 
+          error: 'Missing required fields: apiKey, fromEmail, and fromName are required' 
+        };
+      }
+      
       // Map camelCase to snake_case for database
       const dbConfig = {
         api_key: config.apiKey,
@@ -200,53 +231,41 @@ export class IntegrationManager {
         template_id: config.templateId || null,
         webhook_url: config.webhookUrl || null,
         custom_subject: config.customSubject || null,
+        is_active: true, // Ensure this is set
       };
 
-      // Check if config already exists
-      const existingConfig = await this.getSendGridConfig();
+      // Use UPSERT pattern for consistency with other integrations
+      const { data, error } = await this.supabase
+        .from('sendgrid_configs')
+        .upsert(
+          { 
+            user_id: this.userId, 
+            ...dbConfig, 
+            updated_at: new Date().toISOString() 
+          },
+          { 
+            onConflict: 'user_id', 
+            ignoreDuplicates: false 
+          }
+        )
+        .select()
+        .single();
 
-      if (existingConfig) {
-        // Update existing config
-        const { data, error } = await this.supabase
-          .from('sendgrid_configs')
-          .update({
-            ...dbConfig,
-            updated_at: new Date().toISOString(),
-          })
-          .eq('user_id', this.userId)
-          .select()
-          .single();
-
-        if (error) {
-          console.error('Error updating SendGrid config:', error);
-          return { success: false, error: error.message };
-        }
-
-        // Update integration status
-        await this.updateIntegrationStatus('sendgrid', true);
-        
-        return { success: true, configId: data.id };
-      } else {
-        // Create new config
-        const { data, error } = await this.supabase
-          .from('sendgrid_configs')
-          .insert({
-            user_id: this.userId,
-            ...dbConfig,
-          })
-          .select()
-          .single();
-
-        if (error) {
-          console.error('Error creating SendGrid config:', error);
-          return { success: false, error: error.message };
-        }
-
-        // Create integration status
-        await this.updateIntegrationStatus('sendgrid', true);
-        
-        return { success: true, configId: data.id };
+      if (error) {
+        console.error('Error upserting SendGrid config:', error);
+        return { success: false, error: error.message };
       }
+
+      // Verify all required fields were saved
+      if (!data || !data.api_key || !data.from_email || !data.from_name) {
+        console.error('SendGrid config saved but missing required fields:', data);
+        return { success: false, error: 'Configuration saved but missing required fields' };
+      }
+
+      // Update integration status
+      await this.updateIntegrationStatus('sendgrid', true);
+      
+      return { success: true, configId: data.id };
     } catch (error) {
       console.error('Error in saveSendGridConfig:', error);
       return { success: false, error: 'Failed to save SendGrid configuration' };
@@ -262,7 +281,7 @@ export class IntegrationManager {
       await this.ensureStatusEntriesExist();
       
       const { data, error } = await this.supabase
-        .from('integration_status')
+        .from('integration_statuses')
         .select('*')
         .eq('user_id', this.userId);
 
@@ -285,7 +304,7 @@ export class IntegrationManager {
       
       for (const type of integrationTypes) {
         await this.supabase
-          .from('integration_status')
+          .from('integration_statuses')
           .upsert({
             user_id: this.userId,
             integration_type: type,
@@ -311,7 +330,7 @@ export class IntegrationManager {
       console.log(`Test Status: ${testStatus}`);
       
       const { data, error } = await this.supabase
-        .from('integration_status')
+        .from('integration_statuses')
         .upsert({
           user_id: this.userId,
           integration_type: type,
@@ -337,7 +356,7 @@ export class IntegrationManager {
       const testStatus: 'success' | 'failed' = success ? 'success' : 'failed';
       
       const { error } = await this.supabase
-        .from('integration_status')
+        .from('integration_statuses')
         .upsert({
           user_id: this.userId,
           integration_type: type,

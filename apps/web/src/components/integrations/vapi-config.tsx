@@ -40,8 +40,8 @@ interface VAPIConfigProps {
 
 export function VAPIConfig({ onConfigUpdate }: VAPIConfigProps = {}) {
   const [config, setConfig] = useState<VAPIConfig>({
-    apiKey: '4d8569e3-2b82-4a7d-b000-fdb79dcddb2c',
-    assistantId: 'ed68dbc7-19bd-4bab-852a-17fa11e9aa97',
+    apiKey: '',
+    assistantId: '',
     organization: '',
     phoneNumber: '',
     webhookUrl: '',
@@ -49,7 +49,7 @@ export function VAPIConfig({ onConfigUpdate }: VAPIConfigProps = {}) {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingConfig, setIsLoadingConfig] = useState(true);
-  const [status, setStatus] = useState<'configured' | 'not-configured'>('configured');
+  const [status, setStatus] = useState<'configured' | 'not-configured'>('not-configured');
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   const [testResult, setTestResult] = useState<{ success: boolean; message: string } | null>(null);
 

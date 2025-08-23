@@ -29,11 +29,6 @@ export function IntegrationsPage() {
   });
 
   const [isLoading, setIsLoading] = useState(false);
-
-  // Load integration statuses on component mount
-  useEffect(() => {
-    refreshIntegrationStatuses();
-  }, []);
   
   // Dialog state management
   const [dialogStates, setDialogStates] = useState({
@@ -42,7 +37,7 @@ export function IntegrationsPage() {
     sendgrid: false,
   });
 
-  // Integration data with your configured credentials
+  // Mock data for demonstration
   const integrations = [
     {
       id: "vapi",
@@ -51,12 +46,12 @@ export function IntegrationsPage() {
       icon: <Mic className="h-5 w-5" />,
       iconBg: "bg-blue-100",
       iconColor: "text-blue-600",
-      isConfigured: true,
-      status: "Configured",
+      isConfigured: false,
+      status: "Not configured",
       fields: [
-        { label: "API Key", value: "4d8569e3-2b82-4a7d-b000-fdb79dcddb2c" },
+        { label: "API Key", value: "Not set" },
         { label: "Organization", value: "Not set" },
-        { label: "Assistant ID", value: "ed68dbc7-19bd-4bab-852a-17fa11e9aa97" },
+        { label: "Assistant ID", value: "Not set" },
         { label: "Phone Number", value: "Not set" }
       ]
     },
@@ -67,12 +62,12 @@ export function IntegrationsPage() {
       icon: <MessageSquare className="h-5 w-5" />,
       iconBg: "bg-green-100",
       iconColor: "text-green-600",
-      isConfigured: true,
-      status: "Configured",
+      isConfigured: false,
+      status: "Not configured",
       fields: [
-        { label: "Account SID", value: "AC3b1d6c487a62adb87700610e597e76db" },
-        { label: "Auth Token", value: "••••••••••••••••••••••••••••••••" },
-        { label: "Phone Number", value: "+19787081782" },
+        { label: "Account SID", value: "Not set" },
+        { label: "Auth Token", value: "Not set" },
+        { label: "Phone Number", value: "Not set" },
         { label: "Messaging Service", value: "Not set" }
       ]
     },
@@ -103,26 +98,8 @@ export function IntegrationsPage() {
   };
 
   const handleConfigSaved = () => {
-    // Refresh configurations from API
-    refreshIntegrationStatuses();
+    // TODO: Refresh configurations from API
     toast.success("Configuration saved successfully!");
-  };
-
-  const refreshIntegrationStatuses = async () => {
-    try {
-      const response = await fetch('/api/integrations/status', {
-        credentials: 'include'
-      });
-      
-      if (response.ok) {
-        const data = await response.json();
-        // Update integration statuses based on API response
-        // This will make the UI dynamic and show real-time status
-        console.log('Integration statuses refreshed:', data);
-      }
-    } catch (error) {
-      console.error('Failed to refresh integration statuses:', error);
-    }
   };
 
   const handleTest = (integrationId: string) => {
@@ -135,24 +112,6 @@ export function IntegrationsPage() {
 
   return (
     <div className="space-y-6">
-      {/* Header with refresh button */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-2xl font-bold tracking-tight">Integrations</h2>
-          <p className="text-muted-foreground">
-            Configure and manage your third-party service integrations
-          </p>
-        </div>
-        <Button 
-          onClick={refreshIntegrationStatuses}
-          variant="outline"
-          size="sm"
-        >
-          <Settings className="h-4 w-4 mr-2" />
-          Refresh Status
-        </Button>
-      </div>
-      
       <div className="grid gap-6">
         {integrations.map((integration) => (
           <Card key={integration.id} className="border">
@@ -261,11 +220,6 @@ export function IntegrationsPage() {
         isOpen={dialogStates.twilio}
         onOpenChange={(open) => setDialogStates(prev => ({ ...prev, twilio: open }))}
         onConfigSaved={handleConfigSaved}
-        initialConfig={{
-          accountSid: "AC3b1d6c487a62adb87700610e597e76db",
-          authToken: "b5f3c1e4d56281fb4de1f0c9480dd68e",
-          phoneNumber: "+19787081782"
-        }}
       />
       
       <SendGridConfigDialog

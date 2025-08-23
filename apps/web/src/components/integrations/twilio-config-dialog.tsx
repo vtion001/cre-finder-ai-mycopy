@@ -55,9 +55,9 @@ export function TwilioConfigDialog({
   } = useForm<TwilioConfigFormData>({
     resolver: zodResolver(twilioConfigSchema),
     defaultValues: initialConfig || {
-      accountSid: "AC3b1d6c487a62adb87700610e597e76db",
-      authToken: "b5f3c1e4d56281fb4de1f0c9480dd68e",
-      phoneNumber: "+19787081782",
+      accountSid: "",
+      authToken: "",
+      phoneNumber: "",
       messagingServiceSid: "",
       webhookUrl: "",
       customMessage: "",
