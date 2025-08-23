@@ -89,57 +89,7 @@ function IntegrationsPageComponent() {
     }
   ], []);
 
-  // Mock data for demonstration
-  const integrations = [
-    {
-      id: "vapi",
-      name: "VAPI",
-      description: "Voice AI integration for automated voice campaigns and real estate prospect calls",
-      icon: <Mic className="h-5 w-5" />,
-      iconBg: "bg-blue-100",
-      iconColor: "text-blue-600",
-      isConfigured: false,
-      status: "Not configured",
-      fields: [
-        { label: "API Key", value: "Not set" },
-        { label: "Organization", value: "Not set" },
-        { label: "Assistant ID", value: "Not set" },
-        { label: "Phone Number", value: "Not set" }
-      ]
-    },
-    {
-      id: "twilio",
-      name: "Twilio",
-      description: "SMS and voice communication platform for outreach campaigns",
-      icon: <MessageSquare className="h-5 w-5" />,
-      iconBg: "bg-green-100",
-      iconColor: "text-green-600",
-      isConfigured: false,
-      status: "Not configured",
-      fields: [
-        { label: "Account SID", value: "Not set" },
-        { label: "Auth Token", value: "Not set" },
-        { label: "Phone Number", value: "Not set" },
-        { label: "Messaging Service", value: "Not set" }
-      ]
-    },
-    {
-      id: "sendgrid",
-      name: "SendGrid",
-      description: "Email delivery and marketing platform for automated email campaigns",
-      icon: <Mail className="h-5 w-5" />,
-      iconBg: "bg-orange-100",
-      iconColor: "text-orange-600",
-      isConfigured: false,
-      status: "Not configured",
-      fields: [
-        { label: "API Key", value: "Not set" },
-        { label: "From Email", value: "Not set" },
-        { label: "From Name", value: "Not set" },
-        { label: "Template ID", value: "Not set" }
-      ]
-    }
-  ];
+
 
   const handleConfigure = useCallback((integrationId: string) => {
     setDialogStates(prev => ({ ...prev, [integrationId]: true }));
