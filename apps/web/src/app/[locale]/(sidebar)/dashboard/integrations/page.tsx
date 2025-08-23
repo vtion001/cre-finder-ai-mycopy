@@ -135,9 +135,6 @@ export default function IntegrationsPage() {
             Configure and manage your third-party service integrations
           </p>
         </div>
-        <Button onClick={loadUserAndStatuses} variant="outline">
-          Refresh Status
-        </Button>
       </div>
 
       {user && (
