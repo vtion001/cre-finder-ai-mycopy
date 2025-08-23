@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { toast } from "@v1/ui/sonner";
 import { Button } from "@v1/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@v1/ui/card";
@@ -21,7 +21,7 @@ import { VAPIConfig } from "./vapi-config";
 import { TwilioConfigDialog } from "./twilio-config-dialog";
 import { SendGridConfigDialog } from "./sendgrid-config-dialog";
 
-export function IntegrationsPage() {
+function IntegrationsPageComponent() {
   const [activeTab, setActiveTab] = useState("overview");
   const [configs, setConfigs] = useState<any>({});
   const [minimized, setMinimized] = useState<Record<string, boolean>>({
@@ -36,6 +36,58 @@ export function IntegrationsPage() {
     twilio: false,
     sendgrid: false,
   });
+
+  // Memoize integrations data to prevent unnecessary re-renders
+  const integrations = useMemo(() => [
+    {
+      id: "vapi",
+      name: "VAPI",
+      description: "Voice AI integration for automated voice campaigns and real estate prospect calls",
+      icon: <Mic className="h-5 w-5" />,
+      iconBg: "bg-blue-100",
+      iconColor: "text-blue-600",
+      isConfigured: false,
+      status: "Not configured",
+      fields: [
+        { label: "API Key", value: "Not set" },
+        { label: "Organization", value: "Not set" },
+        { label: "Assistant ID", value: "Not set" },
+        { label: "Phone Number", value: "Not set" }
+      ]
+    },
+    {
+      id: "twilio",
+      name: "Twilio",
+      description: "SMS and voice communication platform for outreach campaigns",
+      icon: <MessageSquare className="h-5 w-5" />,
+      iconBg: "bg-green-100",
+      iconColor: "text-green-600",
+      isConfigured: false,
+      status: "Not configured",
+      fields: [
+        { label: "Account SID", value: "Not set" },
+        { label: "Auth Token", value: "Not set" },
+        { label: "Phone Number", value: "Not set" },
+        { label: "Messaging Service", value: "Not set" }
+      ]
+    },
+    {
+      id: "sendgrid",
+      name: "SendGrid",
+      description: "Email delivery and marketing platform for automated email campaigns",
+      icon: <Mail className="h-5 w-5" />,
+      iconBg: "bg-orange-100",
+      iconColor: "text-orange-600",
+      isConfigured: false,
+      status: "Not configured",
+      fields: [
+        { label: "API Key", value: "Not set" },
+        { label: "From Email", value: "Not set" },
+        { label: "From Name", value: "Not set" },
+        { label: "Template ID", value: "Not set" }
+      ]
+    }
+  ], []);
 
   // Mock data for demonstration
   const integrations = [
@@ -89,32 +141,30 @@ export function IntegrationsPage() {
     }
   ];
 
-  const handleConfigure = (integrationId: string) => {
+  const handleConfigure = useCallback((integrationId: string) => {
     setDialogStates(prev => ({ ...prev, [integrationId]: true }));
-  };
+  }, []);
 
-  const handleDialogClose = (integrationId: string) => {
+  const handleDialogClose = useCallback((integrationId: string) => {
     setDialogStates(prev => ({ ...prev, [integrationId]: false }));
-  };
+  }, []);
 
-  const handleConfigSaved = () => {
+  const handleConfigSaved = useCallback(() => {
     // TODO: Refresh configurations from API
     toast.success("Configuration saved successfully!");
-  };
+  }, []);
 
-  const handleTabChange = (value: string) => {
+  const handleTabChange = useCallback((value: string) => {
     setActiveTab(value);
-  };
+  }, []);
 
-
-
-  const handleTest = (integrationId: string) => {
+  const handleTest = useCallback((integrationId: string) => {
     toast.info(`Test ${integrationId.toUpperCase()} - Testing functionality will be implemented`);
-  };
+  }, []);
 
-  const toggleMinimize = (integrationId: string) => {
+  const toggleMinimize = useCallback((integrationId: string) => {
     setMinimized(prev => ({ ...prev, [integrationId]: !prev[integrationId] }));
-  };
+  }, []);
 
   return (
     <div className="space-y-6">
@@ -372,3 +422,6 @@ export function IntegrationsPage() {
     </div>
   );
 }
+
+// Export the memoized component to prevent unnecessary re-renders
+export const IntegrationsPage = React.memo(IntegrationsPageComponent);
