@@ -14,8 +14,7 @@ import {
   ChevronDown,
   ChevronUp,
   CheckCircle2,
-  AlertCircle,
-  RefreshCw
+  AlertCircle
 } from "lucide-react";
 import { Badge } from "@v1/ui/badge";
 import { VAPIConfig } from "./vapi-config";
@@ -30,8 +29,6 @@ export function IntegrationsPage() {
     twilio: false,
     sendgrid: false,
   });
-
-  const [isLoading, setIsLoading] = useState(false);
   
   // Dialog state management
   const [dialogStates, setDialogStates] = useState({
@@ -109,14 +106,7 @@ export function IntegrationsPage() {
     setActiveTab(value);
   };
 
-  const handleRefreshStatus = () => {
-    setIsLoading(true);
-    // TODO: Implement actual refresh logic
-    setTimeout(() => {
-      setIsLoading(false);
-      toast.success("Integration status refreshed!");
-    }, 1000);
-  };
+
 
   const handleTest = (integrationId: string) => {
     toast.info(`Test ${integrationId.toUpperCase()} - Testing functionality will be implemented`);
@@ -136,14 +126,6 @@ export function IntegrationsPage() {
             Configure and manage your third-party service integrations.
           </p>
         </div>
-        <Button 
-          onClick={handleRefreshStatus} 
-          disabled={isLoading}
-          variant="outline"
-        >
-          <RefreshCw className={`h-4 w-4 mr-2 ${isLoading ? 'animate-spin' : ''}`} />
-          Refresh Status
-        </Button>
       </div>
 
       {/* Account Information */}
