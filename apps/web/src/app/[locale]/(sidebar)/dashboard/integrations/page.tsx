@@ -29,16 +29,12 @@ export default function IntegrationsPage() {
   const [integrationStatuses, setIntegrationStatuses] = useState<IntegrationStatus[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<string>("overview");
 
   const supabase = createClient();
 
   useEffect(() => {
     loadUserAndStatuses();
-    
-    // Set up interval to refresh status every 10 seconds
-    const interval = setInterval(loadUserAndStatuses, 10000);
-    
-    return () => clearInterval(interval);
   }, []);
 
   const loadUserAndStatuses = async () => {
@@ -153,7 +149,7 @@ export default function IntegrationsPage() {
         </Card>
       )}
 
-      <Tabs defaultValue="overview" className="space-y-4">
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
         <TabsList>
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="vapi">VAPI</TabsTrigger>
