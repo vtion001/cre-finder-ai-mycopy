@@ -30,10 +30,10 @@ export default function VapiTestPage() {
 
   // VAPI Configuration state
   const [vapiConfig, setVapiConfig] = useState({
-    apiKey: "a4db3265-19ad-4bfd-845d-9cfbc03ec200",
+          apiKey: process.env.NEXT_PUBLIC_VAPI_API_KEY || "your_vapi_api_key",
     organization: "CRE Finder AI",
-    assistantId: "ed68dbc7-19bd-4bab-852a-17fa11e9aa97",
-    phoneNumber: "+18643875469",
+    assistantId: process.env.NEXT_PUBLIC_VAPI_ASSISTANT_ID || "your_vapi_assistant_id",
+    phoneNumber: process.env.NEXT_PUBLIC_VAPI_PHONE_NUMBER || "your_vapi_phone_number",
     webhookUrl: "https://webhook.example.com/vapi",
     customPrompt: "You are a helpful real estate assistant for CRE Finder AI. Help qualify leads and provide property information."
   });

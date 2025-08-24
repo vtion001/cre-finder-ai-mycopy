@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS sendgrid_configs (
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
--- Insert default VAPI configuration
+-- Insert default VAPI configuration (placeholder values - replace with actual credentials in production)
 INSERT INTO vapi_configs (
     api_key,
     assistant_id,
@@ -52,16 +52,16 @@ INSERT INTO vapi_configs (
     custom_prompt,
     is_active
 ) VALUES (
-    'a4db3265-19ad-4bfd-845d-9cfbc03ec200',
-    'ed68dbc7-19bd-4bab-852a-17fa11e9aa97',
-    '+18643875469',
+    'your_vapi_api_key',
+    'your_vapi_assistant_id',
+    'your_vapi_phone_number',
     'CRE Finder AI',
     'https://webhook.example.com/vapi',
     'You are a helpful real estate assistant for CRE Finder AI. Help qualify leads and provide property information.',
     true
 ) ON CONFLICT DO NOTHING;
 
--- Insert default Twilio configuration
+-- Insert default Twilio configuration (placeholder values - replace with actual credentials in production)
 INSERT INTO twilio_configs (
     account_sid,
     auth_token,
@@ -71,9 +71,9 @@ INSERT INTO twilio_configs (
     custom_message,
     is_active
 ) VALUES (
-    'AC3b1d6c487a62adb87700610e597e76db',
-    'b5f3c1e4d56281fb4de1f0c9480dd68e',
-    '+19787081782',
+    'your_twilio_account_sid',
+    'your_twilio_auth_token',
+    'your_twilio_phone_number',
     '',
     'https://webhook.example.com/twilio',
     'Thank you for your interest in our properties. A CRE Finder AI representative will contact you soon.',

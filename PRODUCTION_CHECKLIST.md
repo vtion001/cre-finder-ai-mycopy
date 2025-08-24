@@ -11,8 +11,8 @@
 - [x] **Call Recording**: System, Analytics, Lead qualification
 
 ### ✅ **VAPI Integration (Fully Configured)**
-- [x] **API Key**: `a4db3265-19ad-4bfd-845d-9cfbc03ec200`
-- [x] **Assistant ID**: `ed68dbc7-19bd-4bab-852a-17fa11e9aa97`
+- [x] **API Key**: `your_vapi_api_key`
+- [x] **Assistant ID**: `your_vapi_assistant_id`
 - [x] **Phone Number**: `+1 (864) 387-5469` (for making outbound calls)
 - [x] **Test Page**: `/dashboard/vapi-test` working
 - [x] **Demo Ready**: Can call client at `(864) 477-4757`
@@ -48,9 +48,9 @@
 
 ### **VAPI (✅ Already Configured)**
 ```
-VAPI_API_KEY=a4db3265-19ad-4bfd-845d-9cfbc03ec200
-VAPI_ASSISTANT_ID=ed68dbc7-19bd-4bab-852a-17fa11e9aa97
-VAPI_PHONE_NUMBER=+18643875469
+VAPI_API_KEY=your_vapi_api_key
+VAPI_ASSISTANT_ID=your_vapi_assistant_id
+VAPI_PHONE_NUMBER=your_vapi_phone_number
 ```
 
 ### **Twilio (❌ Need Your Credentials)**
