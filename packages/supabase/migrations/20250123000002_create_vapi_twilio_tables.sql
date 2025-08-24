@@ -11,6 +11,8 @@ CREATE TABLE IF NOT EXISTS public.vapi_configs (
     phone_number TEXT NOT NULL,
     webhook_url TEXT,
     custom_prompt TEXT,
+    name TEXT,
+    is_test_config BOOLEAN DEFAULT false,
     is_active BOOLEAN DEFAULT true,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
@@ -26,6 +28,8 @@ CREATE TABLE IF NOT EXISTS public.twilio_configs (
     messaging_service_sid TEXT,
     webhook_url TEXT,
     custom_message TEXT,
+    name TEXT,
+    is_test_config BOOLEAN DEFAULT false,
     is_active BOOLEAN DEFAULT true,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
@@ -41,6 +45,8 @@ CREATE TABLE IF NOT EXISTS public.sendgrid_configs (
     template_id TEXT,
     webhook_url TEXT,
     custom_subject TEXT,
+    name TEXT,
+    is_test_config BOOLEAN DEFAULT false,
     is_active BOOLEAN DEFAULT true,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
