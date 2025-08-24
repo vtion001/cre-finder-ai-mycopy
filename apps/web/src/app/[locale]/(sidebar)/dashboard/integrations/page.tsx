@@ -10,6 +10,7 @@ import { Alert, AlertDescription } from '@v1/ui/alert';
 import { CheckCircle, XCircle, AlertCircle, Loader2 } from 'lucide-react';
 import { VAPIConfig } from '@/components/integrations/vapi-config';
 import { SendGridConfig } from '@/components/integrations/sendgrid-config';
+import { TwilioConfig } from '@/components/integrations/twilio-config';
 
 interface IntegrationStatus {
   integration_type: 'vapi' | 'twilio' | 'sendgrid';
@@ -267,22 +268,7 @@ export default function IntegrationsPage() {
         </TabsContent>
 
         <TabsContent value="twilio" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Twilio Configuration</CardTitle>
-              <CardDescription>
-                Manage your Twilio SMS and voice settings
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground mb-4">
-                Your Twilio integration is already configured. You can test and manage it from the dedicated Twilio test page.
-              </p>
-              <Button asChild>
-                <a href="/en/dashboard/twilio-test">Go to Twilio Test</a>
-              </Button>
-            </CardContent>
-          </Card>
+          <TwilioConfig onConfigUpdate={loadUserAndStatuses} />
         </TabsContent>
 
         <TabsContent value="sendgrid" className="space-y-4">
