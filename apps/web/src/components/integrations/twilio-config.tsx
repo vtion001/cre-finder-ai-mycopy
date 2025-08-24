@@ -115,7 +115,7 @@ export function TwilioConfig({
             </Label>
             <Input
               id="accountSid"
-              placeholder="AC..."
+              placeholder="Enter your Account SID"
               {...register("accountSid")}
               className={errors.accountSid ? "border-red-500" : ""}
             />
@@ -148,7 +148,7 @@ export function TwilioConfig({
             </Label>
             <Input
               id="phoneNumber"
-              placeholder="+1234567890"
+              placeholder="Enter phone number"
               {...register("phoneNumber")}
               className={errors.phoneNumber ? "border-red-500" : ""}
             />
@@ -163,7 +163,7 @@ export function TwilioConfig({
             </Label>
             <Input
               id="messagingServiceSid"
-              placeholder="MG..."
+              placeholder="Enter messaging service SID"
               {...register("messagingServiceSid")}
             />
           </div>

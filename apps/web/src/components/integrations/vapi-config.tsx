@@ -379,7 +379,7 @@ export function VAPIConfig({ onConfigUpdate }: VAPIConfigProps = {}) {
               type="tel"
               value={config.phoneNumber}
               onChange={(e) => setConfig({...config, phoneNumber: e.target.value})}
-              placeholder="+1234567890"
+              placeholder="Enter phone number"
               disabled={isLoadingConfig}
             />
             <p className="text-xs text-muted-foreground">
