@@ -324,6 +324,8 @@ export function SendGridConfig({ onConfigUpdate }: SendGridConfigProps = {}) {
               onChange={(e) => setConfig({...config, apiKey: e.target.value})}
               placeholder="SG...."
               disabled={isLoadingConfig}
+              name="sendgridApiKey"
+              autoComplete="off"
             />
             <p className="text-xs text-muted-foreground">
               Get this from your SendGrid dashboard
@@ -339,6 +341,8 @@ export function SendGridConfig({ onConfigUpdate }: SendGridConfigProps = {}) {
               onChange={(e) => setConfig({...config, fromEmail: e.target.value})}
               placeholder="noreply@yourdomain.com"
               disabled={isLoadingConfig}
+              name="sendgridFromEmail"
+              autoComplete="email"
             />
             <p className="text-xs text-muted-foreground">
               Must be verified in SendGrid
@@ -354,6 +358,8 @@ export function SendGridConfig({ onConfigUpdate }: SendGridConfigProps = {}) {
               onChange={(e) => setConfig({...config, fromName: e.target.value})}
               placeholder="Your Company Name"
               disabled={isLoadingConfig}
+              name="sendgridFromName"
+              autoComplete="name"
             />
             <p className="text-xs text-muted-foreground">
               Display name for your emails
@@ -369,6 +375,8 @@ export function SendGridConfig({ onConfigUpdate }: SendGridConfigProps = {}) {
               onChange={(e) => setConfig({...config, templateId: e.target.value})}
               placeholder="d-..."
               disabled={isLoadingConfig}
+              name="sendgridTemplateId"
+              autoComplete="off"
             />
             <p className="text-xs text-muted-foreground">
               SendGrid dynamic template ID
@@ -384,6 +392,8 @@ export function SendGridConfig({ onConfigUpdate }: SendGridConfigProps = {}) {
               onChange={(e) => setConfig({...config, webhookUrl: e.target.value})}
               placeholder="https://yourdomain.com/webhook"
               disabled={isLoadingConfig}
+              name="sendgridWebhookUrl"
+              autoComplete="url"
             />
             <p className="text-xs text-muted-foreground">
               Webhook endpoint for SendGrid events
@@ -399,6 +409,8 @@ export function SendGridConfig({ onConfigUpdate }: SendGridConfigProps = {}) {
               onChange={(e) => setConfig({...config, customSubject: e.target.value})}
               placeholder="Default email subject line"
               disabled={isLoadingConfig}
+              name="sendgridCustomSubject"
+              autoComplete="off"
             />
             <p className="text-xs text-muted-foreground">
               Default subject line for your emails

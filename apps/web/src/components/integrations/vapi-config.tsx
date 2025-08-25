@@ -341,6 +341,8 @@ export function VAPIConfig({ onConfigUpdate }: VAPIConfigProps = {}) {
               onChange={(e) => setConfig({...config, apiKey: e.target.value})}
               placeholder="sk_..."
               disabled={isLoadingConfig}
+              name="vapiApiKey"
+              autoComplete="off"
             />
             <p className="text-xs text-muted-foreground">
               Get this from your VAPI dashboard
@@ -356,6 +358,8 @@ export function VAPIConfig({ onConfigUpdate }: VAPIConfigProps = {}) {
               onChange={(e) => setConfig({...config, assistantId: e.target.value})}
               placeholder="asst_..."
               disabled={isLoadingConfig}
+              name="vapiAssistantId"
+              autoComplete="off"
             />
             <p className="text-xs text-muted-foreground">
               The ID of your VAPI assistant
@@ -371,6 +375,8 @@ export function VAPIConfig({ onConfigUpdate }: VAPIConfigProps = {}) {
               onChange={(e) => setConfig({...config, organization: e.target.value})}
               placeholder="org_..."
               disabled={isLoadingConfig}
+              name="vapiOrganization"
+              autoComplete="organization"
             />
             <p className="text-xs text-muted-foreground">
               Optional: Your VAPI organization ID
@@ -386,6 +392,8 @@ export function VAPIConfig({ onConfigUpdate }: VAPIConfigProps = {}) {
               onChange={(e) => setConfig({...config, phoneNumber: e.target.value})}
               placeholder="Enter phone number"
               disabled={isLoadingConfig}
+              name="vapiPhoneNumber"
+              autoComplete="tel"
             />
             <p className="text-xs text-muted-foreground">
               Optional: Your VAPI phone number
@@ -401,6 +409,8 @@ export function VAPIConfig({ onConfigUpdate }: VAPIConfigProps = {}) {
               onChange={(e) => setConfig({...config, webhookUrl: e.target.value})}
               placeholder="https://yourdomain.com/webhook"
               disabled={isLoadingConfig}
+              name="vapiWebhookUrl"
+              autoComplete="url"
             />
             <p className="text-xs text-muted-foreground">
               Optional: Webhook endpoint for VAPI events
@@ -416,6 +426,8 @@ export function VAPIConfig({ onConfigUpdate }: VAPIConfigProps = {}) {
               placeholder="Enter custom instructions for your VAPI assistant..."
               rows={3}
               disabled={isLoadingConfig}
+              name="vapiCustomPrompt"
+              autoComplete="off"
             />
             <p className="text-xs text-muted-foreground">
               Optional: Custom instructions for your voice AI assistant

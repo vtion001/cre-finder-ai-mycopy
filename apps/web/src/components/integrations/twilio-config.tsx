@@ -40,6 +40,7 @@ export function TwilioConfig({
     handleSubmit,
     formState: { errors, isValid },
     reset,
+    getValues,
   } = useForm<TwilioConfigFormData>({
     resolver: zodResolver(twilioConfigSchema),
     defaultValues: initialConfig || {
@@ -79,7 +80,10 @@ export function TwilioConfig({
       const result = await response.json();
       toast.success(result.message || "Twilio configuration saved successfully!");
       onConfigUpdate();
-      reset();
+      // Persist the saved values instead of clearing the form
+      const current = getValues();
+      const merged = { ...current, ...(result.config || {}) } as TwilioConfigFormData;
+      reset(merged);
     } catch (error) {
       console.error("Error saving Twilio config:", error);
       toast.error("Failed to save Twilio configuration. Please try again.");
@@ -118,6 +122,7 @@ export function TwilioConfig({
               placeholder="Enter your Account SID"
               {...register("accountSid")}
               className={errors.accountSid ? "border-red-500" : ""}
+              autoComplete="off"
             />
             {errors.accountSid && (
               <p className="text-sm text-red-500">{errors.accountSid.message}</p>
@@ -134,6 +139,7 @@ export function TwilioConfig({
               placeholder="Enter your auth token"
               {...register("authToken")}
               className={errors.authToken ? "border-red-500" : ""}
+              autoComplete="off"
             />
             {errors.authToken && (
               <p className="text-sm text-red-500">{errors.authToken.message}</p>
@@ -151,6 +157,7 @@ export function TwilioConfig({
               placeholder="Enter phone number"
               {...register("phoneNumber")}
               className={errors.phoneNumber ? "border-red-500" : ""}
+              autoComplete="tel"
             />
             {errors.phoneNumber && (
               <p className="text-sm text-red-500">{errors.phoneNumber.message}</p>
@@ -165,6 +172,7 @@ export function TwilioConfig({
               id="messagingServiceSid"
               placeholder="Enter messaging service SID"
               {...register("messagingServiceSid")}
+              autoComplete="off"
             />
           </div>
         </div>
@@ -179,6 +187,7 @@ export function TwilioConfig({
             placeholder="https://your-domain.com/webhook"
             {...register("webhookUrl")}
             className={errors.webhookUrl ? "border-red-500" : ""}
+            autoComplete="url"
           />
           {errors.webhookUrl && (
             <p className="text-sm text-red-500">{errors.webhookUrl.message}</p>
