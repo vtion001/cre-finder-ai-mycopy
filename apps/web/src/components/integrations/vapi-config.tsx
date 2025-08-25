@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { createClient } from '@v1/supabase/client';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@v1/ui/card';
 import { Button } from '@v1/ui/button';
@@ -55,11 +55,10 @@ export function VAPIConfig({ onConfigUpdate }: VAPIConfigProps = {}) {
 
   const supabase = createClient();
 
-  useEffect(() => {
-    loadConfig();
-  }, []);
+  const hasLoaded = useRef(false);
 
-  const loadConfig = async () => {
+  const loadConfig = useCallback(async () => {
+    if (hasLoaded.current) return;
     try {
       setIsLoadingConfig(true);
       const { data: { session }, error: sessionError } = await supabase.auth.getSession();
@@ -126,8 +125,13 @@ export function VAPIConfig({ onConfigUpdate }: VAPIConfigProps = {}) {
       setMessage({ type: 'error', text: `Error loading configuration: ${error instanceof Error ? error.message : 'Unknown error'}` });
     } finally {
       setIsLoadingConfig(false);
+      hasLoaded.current = true;
     }
-  };
+  }, [supabase]);
+
+  useEffect(() => {
+    loadConfig();
+  }, [loadConfig]);
 
   const saveConfig = async () => {
     setIsLoading(true);
@@ -177,6 +181,7 @@ export function VAPIConfig({ onConfigUpdate }: VAPIConfigProps = {}) {
         
         // Reload the configuration to get the latest state
         setTimeout(() => {
+          hasLoaded.current = false;
           loadConfig();
         }, 500);
         

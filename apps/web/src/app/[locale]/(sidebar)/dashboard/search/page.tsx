@@ -97,6 +97,9 @@ export default function SearchPage() {
           <form onSubmit={handleSearch} className="space-y-4">
             <div className="flex gap-2">
               <Input
+                id="search-query"
+                name="searchQuery"
+                aria-label="Search query"
                 placeholder="Search by location, property type, or features..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -107,9 +110,9 @@ export default function SearchPage() {
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
               <div>
-                <label className="text-sm font-medium">Property Type</label>
-                <Select value={filters.propertyType} onValueChange={(value) => setFilters({...filters, propertyType: value})}>
-                  <SelectTrigger>
+                <label htmlFor="property-type" className="text-sm font-medium">Property Type</label>
+                <Select name="propertyType" value={filters.propertyType} onValueChange={(value) => setFilters({...filters, propertyType: value})}>
+                  <SelectTrigger id="property-type">
                     <SelectValue placeholder="Any type" />
                   </SelectTrigger>
                   <SelectContent>
@@ -122,8 +125,10 @@ export default function SearchPage() {
               </div>
               
               <div>
-                <label className="text-sm font-medium">Min Price</label>
+                <label htmlFor="min-price" className="text-sm font-medium">Min Price</label>
                 <Input
+                  id="min-price"
+                  name="minPrice"
                   type="number"
                   placeholder="Min price"
                   value={filters.minPrice}
@@ -132,8 +137,10 @@ export default function SearchPage() {
               </div>
               
               <div>
-                <label className="text-sm font-medium">Max Price</label>
+                <label htmlFor="max-price" className="text-sm font-medium">Max Price</label>
                 <Input
+                  id="max-price"
+                  name="maxPrice"
                   type="number"
                   placeholder="Max price"
                   value={filters.maxPrice}
@@ -142,9 +149,9 @@ export default function SearchPage() {
               </div>
               
               <div>
-                <label className="text-sm font-medium">Bedrooms</label>
-                <Select value={filters.bedrooms} onValueChange={(value) => setFilters({...filters, bedrooms: value})}>
-                  <SelectTrigger>
+                <label htmlFor="bedrooms" className="text-sm font-medium">Bedrooms</label>
+                <Select name="bedrooms" value={filters.bedrooms} onValueChange={(value) => setFilters({...filters, bedrooms: value})}>
+                  <SelectTrigger id="bedrooms">
                     <SelectValue placeholder="Any" />
                   </SelectTrigger>
                   <SelectContent>
@@ -158,8 +165,10 @@ export default function SearchPage() {
               </div>
               
               <div>
-                <label className="text-sm font-medium">Location</label>
+                <label htmlFor="location" className="text-sm font-medium">Location</label>
                 <Input
+                  id="location"
+                  name="location"
                   placeholder="City or ZIP"
                   value={filters.location}
                   onChange={(e) => setFilters({...filters, location: e.target.value})}
