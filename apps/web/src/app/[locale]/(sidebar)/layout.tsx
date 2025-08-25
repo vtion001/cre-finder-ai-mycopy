@@ -15,22 +15,63 @@ export default async function SidebarLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // Use real authentication instead of mock data
-  const cachedUser = await getUser();
-  if (!cachedUser?.data) {
-    redirect("/login");
+  // DEVELOPMENT BYPASS: Set this to true to bypass authentication during development
+  const DEV_BYPASS_AUTH = process.env.NODE_ENV === "development" && process.env.DEV_BYPASS_AUTH === "true";
+  
+  let cachedUser: any = null;
+  let licenses: any[] = [];
+  
+  if (!DEV_BYPASS_AUTH) {
+    // Use real authentication instead of mock data
+    cachedUser = await getUser();
+    if (!cachedUser?.data) {
+      redirect("/login");
+    }
+    
+    const { data: licensesData } = await getUserLicensesByAssetType();
+    licenses = licensesData || [];
+  } else {
+    // Mock user data for development
+    cachedUser = {
+      data: {
+        id: "dev-user-123",
+        email: "dev@example.com",
+        full_name: "Development User",
+        avatar_url: null,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      }
+    };
+    
+    // Mock licenses for development
+    licenses = [
+      {
+        id: "dev-license-1",
+        asset_type_slug: "residential",
+        user_id: "dev-user-123",
+        is_active: true,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      },
+      {
+        id: "dev-license-2",
+        asset_type_slug: "commercial",
+        user_id: "dev-user-123",
+        is_active: true,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      }
+    ];
   }
   
   const cookieStore = cookies();
   const defaultOpen = cookieStore.get("sidebar_state")?.value === "true";
 
-  const { data: licenses } = await getUserLicensesByAssetType();
-
   return (
     <SidebarProvider defaultOpen={defaultOpen}>
       <AppSidebar
         user={cachedUser?.data}
-        licenses={licenses || []}
+        licenses={licenses}
         variant="sidebar"
       />
       <SidebarInset>

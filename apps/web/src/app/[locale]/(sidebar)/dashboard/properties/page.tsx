@@ -6,7 +6,57 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@v1/u
 import { Badge } from '@v1/ui/badge';
 import { Plus, Search, Filter, MapPin, Home, DollarSign, Bed, Bath, Square } from 'lucide-react';
 import { PropertyForm } from '@/components/properties/property-form';
-import type { Property, PropertyFormData } from '@v1/supabase/types/properties';
+// import type { Property, PropertyFormData } from '@v1/supabase/types/properties';
+
+// Temporary type definitions to get the app building
+interface Property {
+  id: string;
+  user_id: string;
+  title: string;
+  description: string;
+  property_type: string;
+  status: string;
+  price: number;
+  price_type: string;
+  bedrooms?: number;
+  bathrooms?: number;
+  square_feet?: number;
+  address_line_1: string;
+  city: string;
+  state: string;
+  zip_code: string;
+  country: string;
+  property_features: string[];
+  images: string[];
+  documents: string[];
+  contact_info: any;
+  is_featured: boolean;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+interface PropertyFormData {
+  title: string;
+  description: string;
+  property_type: string;
+  status: string;
+  price: number;
+  price_type: string;
+  bedrooms?: number;
+  bathrooms?: number;
+  square_feet?: number;
+  address_line_1: string;
+  city: string;
+  state: string;
+  zip_code: string;
+  country: string;
+  property_features: string[];
+  images: string[];
+  documents: string[];
+  contact_info: any;
+  is_featured?: boolean;
+}
 
 // Mock data for now - will be replaced with real API calls
 const mockProperties: Property[] = [

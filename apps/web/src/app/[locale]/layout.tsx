@@ -1,8 +1,4 @@
 import "@v1/ui/globals.css";
-import { cn } from "@v1/ui/cn";
-
-import { GeistMono } from "geist/font/mono";
-import { GeistSans } from "geist/font/sans";
 import type { Metadata } from "next";
 import { Providers } from "./providers";
 
@@ -17,23 +13,12 @@ export const viewport = {
   ],
 };
 
-export default function RootLayout({
+export default function LocaleLayout({
   children,
   params,
 }: Readonly<{
   children: React.ReactNode;
   params: { locale: string };
 }>) {
-  return (
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={cn(
-          `${GeistSans.variable} ${GeistMono.variable}`,
-          "antialiased",
-        )}
-      >
-        <Providers locale={params.locale}>{children}</Providers>
-      </body>
-    </html>
-  );
+  return <Providers locale={params.locale}>{children}</Providers>;
 }

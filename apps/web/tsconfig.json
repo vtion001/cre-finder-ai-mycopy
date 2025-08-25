@@ -3,7 +3,15 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@v1/supabase": ["../../packages/supabase/src"],
+      "@v1/ui": ["../../packages/ui/src"],
+      "@v1/trpc": ["../../packages/trpc/src"],
+      "@v1/utils": ["../../packages/utils/src"],
+      "@v1/property-data": ["../../packages/property-data/src"],
+      "@v1/jobs": ["../../packages/jobs/src"],
+      "@v1/stripe": ["../../packages/stripe/src"],
+      "@v1/logger": ["../../packages/logger/src"]
     },
     "strict": true
   },

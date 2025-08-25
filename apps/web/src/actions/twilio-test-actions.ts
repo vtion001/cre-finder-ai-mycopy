@@ -145,7 +145,7 @@ export async function testTwilioConfigurationAction(config: z.infer<typeof twili
     });
 
     // Use UPSERT to handle both create and update scenarios
-    const { data: savedConfig, error: upsertError } = await serviceClient
+    let { data: savedConfig, error: upsertError } = await serviceClient
       .from("twilio_configs")
       .upsert(dbConfig, {
         onConflict: 'user_id',

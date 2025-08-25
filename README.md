@@ -75,13 +75,14 @@ cre-finder-ai/
    bun dev
 
    # Or start specific apps
-   bun dev:web     # Web app only (port 3000)
+   bun dev:web     # Merged app (port 3001)
    ```
 
 ### Development URLs
 
-- **Web App**: http://localhost:3000
-- **Marketing Site**: http://localhost:3001
+- **Merged App**: http://localhost:3001
+- **Marketing Site**: http://localhost:3001/en
+- **Dashboard**: http://localhost:3001/en/dashboard
 - **Supabase Studio**: http://localhost:54323
 - **Supabase API**: http://localhost:54321
 

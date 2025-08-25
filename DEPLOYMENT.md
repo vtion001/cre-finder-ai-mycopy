@@ -14,8 +14,8 @@
 ### 🔑 **Required Credentials**
 
 #### **VAPI (Already Configured)**
-- ✅ API Key: `your_vapi_api_key`
-- ✅ Assistant ID: `your_vapi_assistant_id`
+- ✅ API Key: `a4db3265-19ad-4bfd-845d-9cfbc03ec200`
+- ✅ Assistant ID: `ed68dbc7-19bd-4bab-852a-17fa11e9aa97`
 - ✅ Phone Number: `+1 (864) 387-5469` (for making outbound calls)
 
 #### **Twilio (Need Your Credentials)**
@@ -70,8 +70,8 @@ NEXTAUTH_URL=https://your-domain.vercel.app
 
 #### **VAPI (Already Configured)**
 ```
-VAPI_API_KEY=your_vapi_api_key
-VAPI_ASSISTANT_ID=your_vapi_assistant_id
+VAPI_API_KEY=a4db3265-19ad-4bfd-845d-9cfbc03ec200
+VAPI_ASSISTANT_ID=ed68dbc7-19bd-4bab-852a-17fa11e9aa97
 VAPI_PHONE_NUMBER=8644774757
 ```
 

@@ -2,6 +2,7 @@
 import { checkoutLicenseWithStripe } from "@v1/stripe/server";
 import { getPropertyCount } from "@v1/supabase/cached-queries";
 import { getAssetLicenseQuery } from "@v1/supabase/queries";
+import type { Client } from "@v1/supabase/types";
 import { searchFiltersSchema } from "@v1/trpc/schema";
 import { z } from "zod";
 import { authActionClient } from "./safe-action";
@@ -35,7 +36,7 @@ export const checkoutLicenseAction = authActionClient
       // If adding locations to existing license, fetch existing search params
       if (isAddingLocations) {
         const { data: assetLicense } = await getAssetLicenseQuery(
-          supabase,
+          supabase as unknown as Client,
           user.id,
           assetType,
         );

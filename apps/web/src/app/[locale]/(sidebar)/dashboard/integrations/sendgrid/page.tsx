@@ -17,12 +17,17 @@ export default async function SendGridIntegrationsPage() {
   const supabase = createClient();
   
   // Get SendGrid integration config
+  interface SendGridConfig {
+    config: any;
+    updated_at: string;
+  }
+  
   const { data: sendgridConfig } = await supabase
     .from("integration_configs")
     .select("config, updated_at")
     .eq("user_id", user.data.id)
     .eq("provider", "sendgrid")
-    .single();
+    .single() as { data: SendGridConfig | null };
 
   const isConfigured = !!sendgridConfig?.config;
   const lastUpdated = sendgridConfig?.updated_at;

@@ -22,7 +22,7 @@ interface IntegrationStatus {
 
 interface User {
   id: string;
-  email: string;
+  email?: string;
 }
 
 export default function IntegrationsPage() {
@@ -33,10 +33,41 @@ export default function IntegrationsPage() {
   const [activeTab, setActiveTab] = useState<string>("overview");
 
   const supabase = createClient();
+  
+  // DEVELOPMENT BYPASS: Set this to true to bypass authentication during development
+  const DEV_BYPASS_AUTH = process.env.NODE_ENV === "development" && process.env.DEV_BYPASS_AUTH === "true";
 
   useEffect(() => {
-    loadUserAndStatuses();
-  }, []);
+    if (DEV_BYPASS_AUTH) {
+      // Mock data for development
+      setUser({
+        id: "dev-user-123",
+        email: "dev@example.com"
+      });
+      
+      setIntegrationStatuses([
+        {
+          integration_type: 'vapi',
+          is_configured: false,
+          test_status: 'never'
+        },
+        {
+          integration_type: 'twilio',
+          is_configured: false,
+          test_status: 'never'
+        },
+        {
+          integration_type: 'sendgrid',
+          is_configured: false,
+          test_status: 'never'
+        }
+      ]);
+      
+      setIsLoading(false);
+    } else {
+      loadUserAndStatuses();
+    }
+  }, [DEV_BYPASS_AUTH]);
 
   const loadUserAndStatuses = async () => {
     try {

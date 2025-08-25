@@ -1,6 +1,6 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { UserMetadata as DefaultUserMetadata } from "@supabase/supabase-js";
-import type { Database } from "./db";
+import type { Database } from "./database";
 
 /**
  * Module augmentation for `supabase` types.
@@ -14,6 +14,6 @@ declare module "@supabase/supabase-js" {
   }
 }
 
-export type Client = SupabaseClient<Database>;
+export type Client = SupabaseClient<Database, "public">;
 
-export * from "./db";
+export * from "./database";

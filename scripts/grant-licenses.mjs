@@ -126,7 +126,7 @@ async function main() {
 
   const summary = await api('GET', `/rest/v1/asset_licenses?select=id,asset_type_slug,location_licenses(id,location_internal_id,location_name,location_state)&user_id=eq.${userId}`, { anon, service });
   console.log(JSON.stringify(summary, null, 2));
-  console.log('\nSample Records URL: http://localhost:3000/en/dashboard/records?asset_type=residential&locations=c-fl-vero-beach');
+  console.log('\nSample Records URL: http://localhost:3001/en/dashboard/records?asset_type=residential&locations=c-fl-vero-beach');
 }
 
 main().catch(err => {

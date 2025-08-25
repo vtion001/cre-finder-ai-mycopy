@@ -3,12 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3001",
+    "dev": "next dev -p 3002",
     "build": "next build",
     "clean": "git clean -xdf .next .turbo node_modules",
     "lint": "biome lint",
     "format": "biome format --write .",
-    "start": "next start",
+    "start": "next start -p 3002",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

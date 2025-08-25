@@ -1,30 +1,33 @@
 {
-  "editor.defaultFormatter": "biomejs.biome",
-  "[javascript]": {
-    "editor.defaultFormatter": "biomejs.biome"
+  "npm.packageManager": "bun",
+  "terminal.integrated.defaultProfile.osx": "zsh",
+  "terminal.integrated.defaultProfile.linux": "bash",
+  "terminal.integrated.profiles.osx": {
+    "zsh": {
+      "path": "zsh",
+      "args": ["-l"]
+    }
   },
-  "[typescript]": {
-    "editor.defaultFormatter": "biomejs.biome"
+  "terminal.integrated.profiles.linux": {
+    "bash": {
+      "path": "bash",
+      "args": ["-l"]
+    }
   },
-  "[typescriptreact]": {
-    "editor.defaultFormatter": "biomejs.biome"
-  },
+  "typescript.preferences.preferTypeOnlyAutoImports": true,
   "editor.codeActionsOnSave": {
-    "quickfix.biome": "explicit",
-    "source.organizeImports.biome": "explicit"
+    "source.fixAll.eslint": "explicit"
   },
   "editor.formatOnSave": true,
-  "typescript.enablePromptUseWorkspaceTsdk": true,
-  "typescript.tsdk": "node_modules/typescript/lib",
-  "typescript.preferences.autoImportFileExcludePatterns": [
-    "next/router.d.ts",
-    "next/dist/client/router.d.ts"
-  ],
-  "terminal.integrated.localEchoStyle": "dim",
-  "search.exclude": {
-    "**/node_modules": true
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "files.associations": {
+    "*.lockb": "json"
   },
-  "[sql]": {
-    "editor.defaultFormatter": "cweijan.vscode-postgresql-client2"
-  }
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/.next": true,
+    "**/.turbo": true
+  },
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

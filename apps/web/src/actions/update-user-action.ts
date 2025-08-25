@@ -2,7 +2,7 @@
 
 import { updateLoopsContact } from "@/lib/loops";
 import { updateUser } from "@v1/supabase/mutations";
-import type { Enums } from "@v1/supabase/types";
+import type { Enums, Client } from "@v1/supabase/types";
 import {
   revalidatePath as nextRevalidatePath,
   revalidateTag,
@@ -33,7 +33,7 @@ export const updateUserAction = authActionClient
       parsedInput: { revalidatePath, email: newEmail, ...data },
       ctx: { user, supabase },
     }) => {
-      await updateUser(supabase, data);
+      await updateUser(supabase as unknown as Client, data);
 
       if (data.full_name) {
         await supabase.auth.updateUser({

@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const API = process.env.SUPABASE_API_URL || 'http://127.0.0.1:54321';
-const BASE = process.env.APP_BASE_URL || 'http://localhost:3000';
+const BASE = process.env.APP_BASE_URL || 'http://localhost:3001';
 const ADMIN_EMAIL = process.argv[2] || 'admin@local.test';
 const envPath = path.resolve(process.cwd(), 'apps/web/.env.local');
 
@@ -93,8 +93,8 @@ async function main() {
 
   console.log('Seeded demo property_records for admin user.');
   console.log('Try:');
-  console.log('  - http://localhost:3000/en/dashboard/records?asset_type=residential&locations=c-sc-greer');
-  console.log('  - http://localhost:3000/en/dashboard/records?asset_type=multi-family&locations=c-fl-vero-beach');
+  console.log('  - http://localhost:3001/en/dashboard/records?asset_type=residential&locations=c-sc-greer');
+  console.log('  - http://localhost:3001/en/dashboard/records?asset_type=multi-family&locations=c-fl-vero-beach');
 }
 
 main().catch((e) => { console.error(e); process.exit(1); });

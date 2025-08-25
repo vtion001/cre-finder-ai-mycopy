@@ -17,12 +17,17 @@ export default async function TwilioIntegrationsPage() {
   const supabase = createClient();
   
   // Get Twilio integration config
+  interface TwilioConfig {
+    config: any;
+    updated_at: string;
+  }
+  
   const { data: twilioConfig } = await supabase
     .from("integration_configs")
     .select("config, updated_at")
     .eq("user_id", user.data.id)
     .eq("provider", "twilio")
-    .single();
+    .single() as { data: TwilioConfig | null };
 
   const isConfigured = !!twilioConfig?.config;
   const lastUpdated = twilioConfig?.updated_at;

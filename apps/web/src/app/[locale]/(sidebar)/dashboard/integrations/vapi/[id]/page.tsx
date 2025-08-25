@@ -14,12 +14,22 @@ export default async function EditVapiAssistant({ params }: { params: { id: stri
   const { data: licenses } = await getUserLicensesByAssetType();
   const supabase = createClient();
   const isNew = params.id === "new";
+  
+  interface VapiAssistant {
+    id: string;
+    name: string;
+    model_parameters: any;
+    voice_parameters: any;
+    first_message: string;
+    system_prompt: string;
+  }
+  
   const existing = isNew ? null : (await supabase
     .from("vapi_assistants")
     .select("*")
     .eq("user_id", user.data.id)
     .eq("id", params.id)
-    .single()).data;
+    .single() as { data: VapiAssistant | null }).data;
 
   return (
     <>

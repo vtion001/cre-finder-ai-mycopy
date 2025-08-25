@@ -33,6 +33,8 @@
     "./stripe-admin": "./src/queries/stripe/admin.ts",
     "./types": "./src/types/index.ts",
     "./lib/integrations": "./src/lib/integrations.ts",
-    "./validations/integrations": "./src/validations/integrations.ts"
+    "./lib/properties": "./src/lib/properties.ts",
+    "./validations/integrations": "./src/validations/integrations.ts",
+    "./validations/campaigns": "./src/validations/campaigns.ts"
   }
 }

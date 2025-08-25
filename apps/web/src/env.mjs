@@ -7,7 +7,7 @@ export const env = createEnv({
       .string()
       .optional()
       .transform((v) => (v ? `https://${v}` : undefined)),
-    PORT: z.coerce.number().default(3000),
+    PORT: z.coerce.number().default(3001),
   },
   server: {
     TRIGGER_SECRET_KEY: z.string(),

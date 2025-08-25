@@ -17,22 +17,38 @@ export default async function VapiIntegrationsPage() {
   const supabase = createClient();
   
   // Get VAPI integration config
+  interface VapiConfig {
+    config: any;
+    updated_at: string;
+  }
+  
   const { data: vapiConfig } = await supabase
     .from("integration_configs")
     .select("config, updated_at")
     .eq("user_id", user.data.id)
     .eq("provider", "vapi")
-    .single();
+    .single() as { data: VapiConfig | null };
 
   const isConfigured = !!vapiConfig?.config;
   const lastUpdated = vapiConfig?.updated_at;
 
   // Get VAPI assistants
+  interface VapiAssistant {
+    id: string;
+    name: string;
+    vapi_assistant_id: string;
+    model_parameters: any;
+    voice_parameters: any;
+    first_message: string;
+    system_prompt: string;
+    created_at: string;
+  }
+  
   const { data: assistants } = await supabase
     .from("vapi_assistants")
     .select("id,name,vapi_assistant_id,model_parameters,voice_parameters,first_message,system_prompt,created_at")
     .eq("user_id", user.data.id)
-    .order("created_at", { ascending: false });
+    .order("created_at", { ascending: false }) as { data: VapiAssistant[] | null };
 
   return (
     <>

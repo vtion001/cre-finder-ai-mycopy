@@ -52,11 +52,24 @@ export function CredentialsSignInForm() {
       });
 
       if (error) {
-        toast.error("Invalid email or password");
-      } else {
-        toast.success("Signed in successfully");
-        router.push("/dashboard/search");
+        console.error("Supabase signInWithPassword error:", error);
+        toast.error(error.message || "Invalid email or password");
+        return;
       }
+
+      if (!data?.session) {
+        console.error("Supabase signInWithPassword: no session returned", data);
+        toast.error("Sign-in failed: no session established");
+        return;
+      }
+
+      toast.success("Signed in successfully");
+      router.push("/dashboard/search");
+    } catch (err) {
+      console.error("Supabase signInWithPassword exception:", err);
+      const message =
+        err instanceof Error ? err.message : "Network error during sign-in";
+      toast.error(message);
     } finally {
       setIsLoading(false);
     }
@@ -75,6 +88,7 @@ export function CredentialsSignInForm() {
                   placeholder="Email address"
                   type="email"
                   className="h-12 text-base"
+                  autoComplete="email"
                   {...field}
                 />
               </FormControl>
@@ -91,6 +105,7 @@ export function CredentialsSignInForm() {
                 <PasswordInput
                   placeholder="Password"
                   className="h-12 text-base"
+                  autoComplete="current-password"
                   {...field}
                 />
               </FormControl>

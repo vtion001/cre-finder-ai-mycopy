@@ -1,9 +1,10 @@
-import { getIntegrationConfig, upsertIntegrationConfig } from "@v1/supabase/cached-queries";
+import { getIntegrationConfigQuery, upsertIntegrationConfigQuery } from "@v1/supabase/queries";
 import { 
   validateConfigByProvider, 
   providerSchema,
   type Provider 
 } from "@v1/supabase/validations/integrations";
+import { createClient } from "@v1/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
@@ -22,7 +23,17 @@ export async function GET(
       );
     }
 
-    const result = await getIntegrationConfig(providerValidation.data);
+    const supabase = createClient();
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    
+    if (authError || !user) {
+      return NextResponse.json(
+        { error: "Unauthorized" },
+        { status: 401 }
+      );
+    }
+
+    const result = await getIntegrationConfigQuery(supabase, user.id, providerValidation.data);
     
     return NextResponse.json({
       config: result.data || {},
@@ -87,8 +98,18 @@ export async function POST(
         { status: 500 }
       );
     }
+
+    const supabase = createClient();
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
     
-    const result = await upsertIntegrationConfig(providerValidation.data, validationResult.data);
+    if (authError || !user) {
+      return NextResponse.json(
+        { error: "Unauthorized" },
+        { status: 401 }
+      );
+    }
+    
+    const result = await upsertIntegrationConfigQuery(supabase, user.id, providerValidation.data, validationResult.data);
 
     if (!result.data) {
       return NextResponse.json(
@@ -127,8 +148,18 @@ export async function PUT(
       );
     }
 
+    const supabase = createClient();
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    
+    if (authError || !user) {
+      return NextResponse.json(
+        { error: "Unauthorized" },
+        { status: 401 }
+      );
+    }
+
     // Get current config and validate it
-    const result = await getIntegrationConfig(providerValidation.data);
+    const result = await getIntegrationConfigQuery(supabase, user.id, providerValidation.data);
     
     if (!result.data) {
       return NextResponse.json(

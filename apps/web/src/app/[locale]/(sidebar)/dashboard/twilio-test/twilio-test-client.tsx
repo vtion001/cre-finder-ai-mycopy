@@ -91,7 +91,7 @@ export function TwilioTestClient({
       } else {
         addTestResult({
           success: false,
-          message: `Failed to save Twilio configuration: ${result.error || 'Unknown error'}`,
+          message: `Failed to save Twilio configuration: ${result.message || 'Unknown error'}`,
           details: result,
           timestamp: new Date().toLocaleTimeString()
         });
@@ -174,7 +174,7 @@ export function TwilioTestClient({
       } else {
         addTestResult({
           success: false,
-          message: `Failed to setup test data: ${result.error}`,
+          message: `Failed to setup test data: ${result.error || 'Unknown error'}`,
           details: result,
           timestamp: new Date().toLocaleTimeString()
         });

@@ -34,16 +34,38 @@ export async function middleware(request: NextRequest) {
   // Create a new URL without the locale in the pathname
   const newUrl = new URL(pathnameWithoutLocale || "/", request.url);
 
-  const isAuthPage = ["/login", "/signup", "/forgot-password"].includes(
+  const isAuthPage = ["/login", "/signup", "/forgot-password", "/auth/signin"].includes(
     newUrl.pathname,
   );
 
-  if (!user && !isAuthPage && newUrl.pathname !== "/") {
+  // DEVELOPMENT BYPASS: Check if we should bypass authentication
+  const DEV_BYPASS_AUTH = process.env.NODE_ENV === "development" && process.env.DEV_BYPASS_AUTH === "true";
+
+  // If in development mode and trying to access dashboard routes, allow access
+  if (DEV_BYPASS_AUTH && (
+    newUrl.pathname.startsWith("/dashboard") || 
+    newUrl.pathname.startsWith("/vapi-test") || 
+    newUrl.pathname.startsWith("/twilio-test") ||
+    newUrl.pathname.startsWith("/dev-dashboard")
+  )) {
+    return response;
+  }
+
+  if (!user && !isAuthPage && newUrl.pathname !== "/" && !DEV_BYPASS_AUTH) {
     // Check if request origin baseurl is getMarketingUrl, redirect to signup instead of login
     const marketingUrl = getMarketingUrl();
     const requestOrigin =
       request.headers.get("origin") || request.headers.get("referer");
     const isFromMarketing = requestOrigin?.startsWith(marketingUrl);
+
+    // For development routes, redirect to developer signin
+    if (newUrl.pathname.startsWith("/dashboard") || 
+        newUrl.pathname.startsWith("/vapi-test") || 
+        newUrl.pathname.startsWith("/twilio-test")) {
+      const redirectUrl = new URL("/auth/signin", request.url);
+      redirectUrl.searchParams.append("return_to", newUrl.pathname);
+      return NextResponse.redirect(redirectUrl);
+    }
 
     const redirectPath = isFromMarketing ? "/signup" : "/login";
     const redirectUrl = new URL(redirectPath, request.url);
