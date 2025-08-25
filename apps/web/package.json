@@ -15,6 +15,9 @@
   },
   "dependencies": {
     "@googlemaps/places": "^2.0.1",
+    "@radix-ui/react-dialog": "^1.1.15",
+    "@radix-ui/react-select": "^2.2.6",
+    "@radix-ui/react-tabs": "^1.1.13",
     "@tabler/icons-react": "^3.34.0",
     "@tanstack/react-query-devtools": "^5.80.7",
     "@tanstack/react-table": "^8.21.3",
@@ -27,10 +30,14 @@
     "@v1/property-data": "workspace:*",
     "@v1/supabase": "workspace:*",
     "@v1/ui": "workspace:*",
+    "bcryptjs": "^2.4.3",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
     "geist": "^1.4.2",
     "google-libphonenumber": "^3.2.40",
     "loops": "^5.0.1",
+    "lucide-react": "^0.541.0",
     "mapbox-gl": "^3.12.0",
     "maplibre-gl": "^5.6.0",
     "motion": "^12.19.1",
@@ -46,10 +53,10 @@
     "react-popper": "^2.3.0",
     "supabase": "^2.22.12",
     "table": "tanstack/react-table",
+    "tailwind-merge": "^3.3.1",
     "xlsx": "^0.18.5",
     "zod": "^3.25.56",
-    "zustand": "^5.0.4",
-    "bcryptjs": "^2.4.3"
+    "zustand": "^5.0.4"
   },
   "devDependencies": {
     "@types/google-libphonenumber": "^7.4.30",
