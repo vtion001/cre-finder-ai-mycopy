@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import type { Property } from '@/types/property';
 import PropertyDialog from './PropertyDialog';
+import { Phone } from 'lucide-react';
 
 interface PropertyListProps {
   properties: Property[];
@@ -29,8 +30,9 @@ export default function PropertyList({ properties }: PropertyListProps) {
       <div className="bg-white rounded-lg shadow overflow-hidden">
         <div className="grid grid-cols-12 gap-4 p-4 bg-gray-50 border-b text-sm font-medium text-gray-500">
           <div className="col-span-1">Select</div>
-          <div className="col-span-4">Address</div>
-          <div className="col-span-3">Owner</div>
+          <div className="col-span-3">Address</div>
+          <div className="col-span-2">Owner</div>
+          <div className="col-span-2">Phone</div>
           <div className="col-span-2">Type</div>
           <div className="col-span-1">Sq Ft</div>
           <div className="col-span-1 text-right">Value</div>
@@ -51,7 +53,7 @@ export default function PropertyList({ properties }: PropertyListProps) {
                   onChange={() => handlePropertySelect(property)}
                 />
               </div>
-              <div className="col-span-4">
+              <div className="col-span-3">
                 <label 
                   htmlFor={`property-${property.id}`}
                   className="font-medium cursor-pointer hover:text-blue-600"
@@ -59,7 +61,11 @@ export default function PropertyList({ properties }: PropertyListProps) {
                   {property.address}
                 </label>
               </div>
-              <div className="col-span-3 text-gray-600">{property.owner}</div>
+              <div className="col-span-2 text-gray-600">{property.owner}</div>
+              <div className="col-span-2 text-gray-600 flex items-center">
+                <Phone className="h-4 w-4 mr-1" />
+                {property.phone}
+              </div>
               <div className="col-span-2">
                 <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs">
                   {property.type}

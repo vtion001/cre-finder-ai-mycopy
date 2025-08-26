@@ -27,6 +27,7 @@ export default function SearchPage() {
       address: "935 12th St, Vero Beach, FL 32960",
       owner: "Wise Guy Ventures Llc",
       contactInfo: "Contact Available",
+      phone: "+1 (864) 477-4757",
       type: "Commercial",
       sqFt: "5,532",
       assessedValue: "$286.3K"
@@ -36,6 +37,7 @@ export default function SearchPage() {
       address: "1234 Ocean Dr, Vero Beach, FL 32963",
       owner: "Seaside Properties Inc",
       contactInfo: "Contact Available",
+      phone: "+1 (772) 234-5678",
       type: "Residential",
       sqFt: "3,210",
       assessedValue: "$425.7K"
@@ -45,6 +47,7 @@ export default function SearchPage() {
       address: "567 Palm Ave, Vero Beach, FL 32960",
       owner: "Beachfront Holdings LLC",
       contactInfo: "Contact Available",
+      phone: "+1 (772) 345-6789",
       type: "Commercial",
       sqFt: "7,850",
       assessedValue: "$1.2M"
@@ -54,6 +57,7 @@ export default function SearchPage() {
       address: "891 River Rd, Vero Beach, FL 32968",
       owner: "Riverside Investments",
       contactInfo: "Contact Available",
+      phone: "+1 (772) 456-7890",
       type: "Residential",
       sqFt: "2,450",
       assessedValue: "$312.5K"
@@ -63,6 +67,7 @@ export default function SearchPage() {
       address: "246 Beach Blvd, Vero Beach, FL 32963",
       owner: "Coastal Ventures Group",
       contactInfo: "Contact Available",
+      phone: "+1 (772) 567-8901",
       type: "Commercial",
       sqFt: "4,120",
       assessedValue: "$578.9K"

@@ -11,12 +11,21 @@ import { Label } from "@v1/ui/label";
 import { Textarea } from "@v1/ui/textarea";
 import { CheckCircle, Loader2, Settings } from "lucide-react";
 
-// Twilio Configuration Schema
+// Twilio Configuration Schema (mirror server rules)
 const twilioConfigSchema = z.object({
-  accountSid: z.string().min(1, "Account SID is required"),
-  authToken: z.string().min(1, "Auth Token is required"),
-  phoneNumber: z.string().min(1, "Phone Number is required"),
-  messagingServiceSid: z.string().optional(),
+  accountSid: z
+    .string()
+    .min(1, "Account SID is required")
+    .regex(/^AC[0-9a-f]{32}$/i, "Must match ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"),
+  authToken: z
+    .string()
+    .min(1, "Auth Token is required")
+    .regex(/^[0-9a-f]{32}$/i, "Must be 32 hex characters"),
+  phoneNumber: z
+    .string()
+    .min(1, "Phone Number is required")
+    .regex(/^\+?[1-9]\d{1,14}$/, "Must be in E.164 format"),
+  messagingServiceSid: z.string().regex(/^MG[0-9a-f]{32}$/i, "Must match MGxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx").optional(),
   webhookUrl: z.string().url("Must be a valid URL").optional().or(z.literal("")),
   customMessage: z.string().optional(),
 });

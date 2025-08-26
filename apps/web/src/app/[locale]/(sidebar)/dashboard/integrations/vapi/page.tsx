@@ -16,21 +16,16 @@ export default async function VapiIntegrationsPage() {
   const { data: licenses } = await getUserLicensesByAssetType();
   const supabase = createClient();
   
-  // Get VAPI integration config
-  interface VapiConfig {
-    config: any;
-    updated_at: string;
-  }
-  
-  const { data: vapiConfig } = await supabase
-    .from("integration_configs")
-    .select("config, updated_at")
+  // Get VAPI integration config (direct table to reflect actual storage)
+  const { data: vapiRow } = await supabase
+    .from("vapi_configs")
+    .select("id, updated_at")
     .eq("user_id", user.data.id)
-    .eq("provider", "vapi")
-    .single() as { data: VapiConfig | null };
+    .eq("is_active", true)
+    .single();
 
-  const isConfigured = !!vapiConfig?.config;
-  const lastUpdated = vapiConfig?.updated_at;
+  const isConfigured = !!vapiRow?.id;
+  const lastUpdated = vapiRow?.updated_at;
 
   // Get VAPI assistants
   interface VapiAssistant {

@@ -1,116 +1,210 @@
 import { NextResponse } from "next/server";
+import { z } from "zod";
 
-type Property = {
-  id: number;
-  address: string;
-  owner: string;
-  contactInfo: string;
-  type: string;
-  sqFt: string;
-  assessedValue: string;
-};
+// Local decrypt to avoid cross-package import issues
+import crypto from "crypto";
 
-function extractPhoneNumber(contactInfo: string): string | null {
-  const phoneRegex = /(\+?\d{1,3}[-.\s]?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4})/;
-  const match = contactInfo?.match(phoneRegex);
-  return match ? match[1] : null;
+const CRYPTO_ALGO = "aes-256-gcm";
+const IV_LENGTH = 12;
+
+function getEncryptionKey(): Buffer {
+  const secret = process.env.INTEGRATIONS_ENCRYPTION_KEY;
+  if (!secret) {
+    throw new Error("INTEGRATIONS_ENCRYPTION_KEY is not set");
+  }
+  const buf = Buffer.from(secret, "utf8");
+  return buf.length === 32 ? buf : crypto.createHash("sha256").update(buf).digest();
 }
 
-async function callVapi(property: Property) {
-  const apiKey = process.env.VAPI_API_KEY;
-  const assistantId = process.env.VAPI_ASSISTANT_ID;
-  const webhookUrl = process.env.VAPI_WEBHOOK_URL;
-
-  if (!apiKey || !assistantId) {
-    return { success: false, message: "VAPI configuration is incomplete" };
+function decryptString(payload: string): string {
+  const key = getEncryptionKey();
+  const parts = payload.split(".");
+  if (parts.length !== 3) {
+    throw new Error("Invalid encrypted payload format");
   }
+  const [ivB64, encB64, tagB64] = parts;
+  const iv = Buffer.from(ivB64, "base64");
+  const encrypted = Buffer.from(encB64, "base64");
+  const authTag = Buffer.from(tagB64, "base64");
+  const decipher = crypto.createDecipheriv(CRYPTO_ALGO, key, iv);
+  decipher.setAuthTag(authTag);
+  const decrypted = Buffer.concat([decipher.update(encrypted), decipher.final()]);
+  return decrypted.toString("utf8");
+}
 
-  const phoneNumber = extractPhoneNumber(property.contactInfo);
-  if (!phoneNumber) {
-    return { success: false, message: "No valid phone number in contact info" };
-  }
+const requestSchema = z.object({
+  property: z.object({
+    id: z.number(),
+    address: z.string(),
+    owner: z.string(),
+    contactInfo: z.string(),
+    phone: z.string(),
+    type: z.string(),
+    sqFt: z.string(),
+    assessedValue: z.string(),
+  }),
+});
 
+function normalizeUsPhone(phone: string): string | null {
+  if (!phone) return null;
+  const digits = phone.replace(/\D/g, "");
+  if (digits.length === 10) return `+1${digits}`;
+  if (digits.length === 11 && digits.startsWith("1")) return `+${digits}`;
+  return null;
+}
+
+async function sendVapiCallUsingSupabase(organizationId: string | null, userId: string | null, targetPhone: string, payload: any) {
   try {
+    const { createClient } = await import("@v1/supabase/server");
+    const supabase = createClient();
+    // Try by organization first, then fallback to user_id
+    let { data, error } = await supabase
+      .from('vapi_configs')
+      .select('api_key, assistant_id, webhook_url, custom_prompt')
+      .eq('organization', organizationId || '')
+      .eq('is_active', true)
+      .single();
+
+    if (error || !data) {
+      const res2 = await supabase
+        .from('vapi_configs')
+        .select('api_key, assistant_id, webhook_url, custom_prompt')
+        .eq('user_id', userId || '')
+        .eq('is_active', true)
+        .single();
+      data = res2.data as any;
+      error = res2.error as any;
+    }
+
+    if (error || !data) {
+      return { success: false, message: "VAPI not configured" };
+    }
+
     const res = await fetch("https://api.vapi.ai/call", {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${apiKey}`,
+        Authorization: `Bearer ${data.api_key}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        assistantId,
-        customer: { number: phoneNumber },
+        assistantId: data.assistant_id,
+        customer: { number: targetPhone },
         assistantOverrides: {
           variableValues: {
-            propertyAddress: property.address,
-            ownerName: property.owner,
-            propertyType: property.type,
-            assessedValue: property.assessedValue,
+            propertyAddress: payload.address,
+            ownerName: payload.owner,
+            propertyType: payload.type,
+            assessedValue: payload.assessedValue,
           },
+          ...(data.custom_prompt ? { firstMessage: data.custom_prompt } : {}),
         },
-        webhook: webhookUrl,
+        webhook: data.webhook_url,
       }),
     });
-    const data = await res.json().catch(() => ({}));
-    if (!res.ok) {
-      return { success: false, message: data?.message ?? "Failed to initiate VAPI call" };
-    }
-    return { success: true, message: `VAPI call initiated` };
-  } catch (err) {
-    return { success: false, message: err instanceof Error ? err.message : "VAPI error" };
+    const json = await res.json().catch(() => ({}));
+    if (!res.ok) return { success: false, message: json?.message ?? "VAPI call failed" };
+    return { success: true, message: `VAPI call initiated to ${targetPhone}` };
+  } catch (err: any) {
+    return { success: false, message: err?.message ?? "VAPI error" };
   }
 }
 
-async function sendTwilioSms(property: Property) {
-  const accountSid = process.env.TWILIO_ACCOUNT_SID;
-  const authToken = process.env.TWILIO_AUTH_TOKEN;
-  const fromNumber = process.env.TWILIO_PHONE_NUMBER;
-
-  if (!accountSid || !authToken || !fromNumber) {
-    return { success: false, message: "Twilio configuration is incomplete" };
-  }
-
-  const toNumber = extractPhoneNumber(property.contactInfo);
-  if (!toNumber) {
-    return { success: false, message: "No valid phone number in contact info" };
-  }
-
-  const body = `Hi ${property.owner},\n\nWe have information about your property at ${property.address} (${property.type}, ${property.sqFt} sq ft, assessed value ${property.assessedValue}).\n\nReply for more details.\n\nBest regards,\nCRE Finder Team`;
-
+async function sendTwilioSmsFromSupabase(userId: string | null, targetPhone: string, payload: any) {
   try {
-    const basic = Buffer.from(`${accountSid}:${authToken}`).toString("base64");
-    const res = await fetch(`https://api.twilio.com/2010-04-01/Accounts/${accountSid}/Messages.json`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        Authorization: `Basic ${basic}`,
+    const { createClient } = await import("@v1/supabase/server");
+    const supabase = createClient();
+    const { data, error } = await supabase
+      .from('twilio_configs')
+      .select('account_sid, auth_token, phone_number')
+      .eq('user_id', userId || '')
+      .eq('is_active', true)
+      .single();
+
+    if (error || !data) {
+      return { success: false, message: "Twilio not configured" };
+    }
+
+    const accountSid: string = data.account_sid as unknown as string;
+    const authTokenDecrypted: string = decryptString(String(data.auth_token));
+    const fromNumber: string = data.phone_number as unknown as string;
+
+    const body = `Hi ${payload.owner},\n\nWe have information about ${payload.address} (${payload.type}, ${payload.sqFt} sq ft, assessed value ${payload.assessedValue}). Reply for more details. - CRE Finder`;
+
+    const res = await fetch(
+      `https://api.twilio.com/2010-04-01/Accounts/${accountSid}/Messages.json`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          Authorization: `Basic ${Buffer.from(`${accountSid}:${authTokenDecrypted}`).toString("base64")}`,
+        },
+        body: new URLSearchParams({ To: targetPhone, From: fromNumber, Body: body }),
       },
-      body: new URLSearchParams({ To: toNumber, From: fromNumber, Body: body }),
-    });
-    const data = await res.json().catch(() => ({}));
-    if (!res.ok) {
-      return { success: false, message: data?.message ?? "Failed to send SMS" };
-    }
-    return { success: true, message: `SMS sent` };
-  } catch (err) {
-    return { success: false, message: err instanceof Error ? err.message : "Twilio error" };
+    );
+    const json = await res.json().catch(() => ({}));
+    if (!res.ok) return { success: false, message: json?.message ?? "SMS send failed" };
+    return { success: true, message: `SMS sent to ${targetPhone}` };
+  } catch (err: any) {
+    return { success: false, message: err?.message ?? "Twilio error" };
   }
 }
 
-export async function POST(request: Request) {
+export async function POST(req: Request) {
+  // Determine organization for the current user to fetch VAPI config
+  let organizationId: string | null = null;
+  let userId: string | null = null;
   try {
-    const { property } = (await request.json()) as { property: Property };
-    if (!property?.address || !property?.owner || !property?.contactInfo) {
-      return NextResponse.json({ error: "Invalid property payload" }, { status: 400 });
+    const { createClient } = await import("@v1/supabase/server");
+    const supabase = createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (user) {
+      userId = user.id;
+      const { data: userRow } = await supabase
+        .from('users')
+        .select('organization')
+        .eq('id', user.id)
+        .single();
+      organizationId = (userRow as any)?.organization ?? null;
     }
-
-    const [vapi, twilio] = await Promise.all([callVapi(property), sendTwilioSms(property)]);
-    const overallSuccess = Boolean(vapi?.success || twilio?.success);
-
-    return NextResponse.json({ vapi, twilio, overallSuccess });
-  } catch (err) {
-    return NextResponse.json({ error: "Bad request" }, { status: 400 });
+  } catch {}
+  const json = await req.json().catch(() => null);
+  const parsed = requestSchema.safeParse(json);
+  if (!parsed.success) {
+    return NextResponse.json(
+      { error: "Invalid request" },
+      { status: 400 },
+    );
   }
+  const property = parsed.data.property;
+  const normalized = normalizeUsPhone(property.phone);
+  if (!normalized) {
+    return NextResponse.json(
+      {
+        vapi: { success: false, message: "Invalid phone number" },
+        twilio: { success: false, message: "Invalid phone number" },
+        overallSuccess: false,
+      },
+      { status: 200 },
+    );
+  }
+
+  const [vapi, twilio] = await Promise.allSettled([
+    sendVapiCallUsingSupabase(organizationId, userId, normalized, property),
+    sendTwilioSmsFromSupabase(userId, normalized, property),
+  ]);
+
+  const vapiResult =
+    vapi.status === "fulfilled" ? vapi.value : { success: false, message: vapi.reason?.message ?? "VAPI failed" };
+  const twilioResult =
+    twilio.status === "fulfilled" ? twilio.value : { success: false, message: twilio.reason?.message ?? "Twilio failed" };
+
+  const overallSuccess = Boolean(vapiResult.success || twilioResult.success);
+
+  return NextResponse.json({
+    vapi: vapiResult,
+    twilio: twilioResult,
+    overallSuccess,
+  });
 }
-
-

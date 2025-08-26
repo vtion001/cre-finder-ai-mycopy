@@ -12,9 +12,9 @@ export const vapiConfigSchema = z.object({
 
 // Twilio Configuration Schema
 export const twilioConfigSchema = z.object({
-  accountSid: z.string().min(1, "Account SID is required").startsWith("AC", "Account SID must start with 'AC'"),
-  authToken: z.string().min(1, "Auth Token is required"),
-  phoneNumber: z.string().min(1, "Phone Number is required"),
+  accountSid: z.string().min(1, "Account SID is required").regex(/^AC[0-9a-f]{32}$/i, "Account SID must match ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"),
+  authToken: z.string().min(1, "Auth Token is required").regex(/^[0-9a-f]{32}$/i, "Auth Token must be 32 hex chars"),
+  phoneNumber: z.string().min(1, "Phone Number is required").regex(/^\+?[1-9]\d{1,14}$/, "Phone number must be in E.164 format"),
   messagingServiceSid: z.string().startsWith("MG", "Messaging Service SID must start with 'MG'").optional(),
   webhookUrl: z.string().url("Invalid webhook URL").optional().or(z.literal("")),
   customMessage: z.string().optional(),
@@ -22,9 +22,9 @@ export const twilioConfigSchema = z.object({
 
 // SendGrid Configuration Schema
 export const sendGridConfigSchema = z.object({
-  apiKey: z.string().min(1, "API Key is required").startsWith("SG.", "SendGrid API key must start with 'SG.'"),
+  apiKey: z.string().min(1, "API Key is required").regex(/^SG\.[A-Za-z0-9_\-]{10,}\.[A-Za-z0-9_\-]{20,}$/, "SendGrid API key must match SG.xxxxx.yyyyy format"),
   fromEmail: z.string().email("Invalid from email address"),
-  fromName: z.string().optional(),
+  fromName: z.string().min(1, "From Name is required"),
   replyToEmail: z.string().email("Invalid reply-to email address").optional(),
   templateId: z.string().optional(),
   webhookUrl: z.string().url("Invalid webhook URL").optional(),

@@ -16,21 +16,16 @@ export default async function TwilioIntegrationsPage() {
   const { data: licenses } = await getUserLicensesByAssetType();
   const supabase = createClient();
   
-  // Get Twilio integration config
-  interface TwilioConfig {
-    config: any;
-    updated_at: string;
-  }
-  
-  const { data: twilioConfig } = await supabase
-    .from("integration_configs")
-    .select("config, updated_at")
+  // Get Twilio integration config (direct table to reflect actual storage)
+  const { data: twilioRow } = await supabase
+    .from("twilio_configs")
+    .select("id, updated_at")
     .eq("user_id", user.data.id)
-    .eq("provider", "twilio")
-    .single() as { data: TwilioConfig | null };
+    .eq("is_active", true)
+    .single();
 
-  const isConfigured = !!twilioConfig?.config;
-  const lastUpdated = twilioConfig?.updated_at;
+  const isConfigured = !!twilioRow?.id;
+  const lastUpdated = twilioRow?.updated_at;
 
   return (
     <>

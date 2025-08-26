@@ -117,36 +117,80 @@ export async function POST(request: NextRequest) {
     console.log('=== VAPI API Route Debug ===');
     console.log('1. Raw request body received:', body);
     console.log('2. Request body keys:', Object.keys(body));
-    console.log('3. API Key present:', !!body.apiKey);
-    console.log('4. Assistant ID present:', !!body.assistantId);
-    console.log('5. Organization present:', !!body.organization);
-    console.log('6. Phone Number present:', !!body.phoneNumber);
-    
-    // Validate request body
-    const validation = vapiConfigSchema.safeParse(body);
+    console.log('3. Assistant ID present:', !!body.assistantId);
+
+    // Derive required fields for minimal setup
+    const userId = user.id;
+    console.log('Using user ID:', userId);
+    const supabase = createClient();
+
+    // Provided public key
+    const providedApiKey = 'a4db3265-19ad-4bfd-845d-9cfbc03ec200';
+
+    // Derive organization (string). Prefer users.organization if present, else fallback to userId
+    let organization = '' as string;
+    try {
+      const { data: userRow } = await supabase
+        .from('users')
+        .select('organization')
+        .eq('id', userId)
+        .single();
+      organization = (userRow as any)?.organization || userId;
+    } catch {
+      organization = userId;
+    }
+
+    // Derive phone number from Twilio config for this user
+    let phoneNumber = '' as string;
+    try {
+      const { data: twilio } = await supabase
+        .from('twilio_configs')
+        .select('phone_number')
+        .eq('user_id', userId)
+        .eq('is_active', true)
+        .single();
+      phoneNumber = (twilio as any)?.phone_number || '';
+    } catch {
+      phoneNumber = '';
+    }
+
+    if (!body.assistantId) {
+      return NextResponse.json(
+        { error: 'Assistant ID is required' },
+        { status: 400 }
+      );
+    }
+
+    if (!phoneNumber) {
+      return NextResponse.json(
+        { error: 'Twilio phone number not found. Please configure Twilio first.' },
+        { status: 400 }
+      );
+    }
+
+    // Build full config for persistence using existing validation & manager
+    const configToSave = {
+      apiKey: providedApiKey,
+      assistantId: String(body.assistantId),
+      organization,
+      phoneNumber,
+      webhookUrl: body.webhookUrl || '',
+      customPrompt: body.customPrompt || '',
+    };
+
+    // Validate with existing schema to keep behavior consistent
+    const validation = vapiConfigSchema.safeParse(configToSave);
     if (!validation.success) {
-      console.log('6. Validation failed:', validation.error.errors);
+      console.log('Validation failed:', validation.error.errors);
       return NextResponse.json(
         { error: "Invalid configuration data", details: validation.error.errors },
         { status: 400 }
       );
     }
 
-    const config = validation.data;
-    console.log('7. Validated config data:', { ...config, apiKey: config.apiKey ? '***' : 'undefined' });
-    
-    // Use real authenticated user ID
-    const userId = user.id;
-    console.log('Using user ID:', userId);
-    
-    // Create authenticated Supabase client
-    const supabase = createClient();
-    
-    // Create integration manager with authenticated client
     const integrationManager = createIntegrationManager(userId, supabase);
     console.log('Integration manager created for user:', userId);
-    
-    const result = await integrationManager.saveVapiConfig(config);
+    const result = await integrationManager.saveVapiConfig(validation.data);
     console.log('Save result:', result);
 
     if (!result.success) {

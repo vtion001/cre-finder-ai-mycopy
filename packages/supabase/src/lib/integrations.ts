@@ -1,4 +1,5 @@
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
+import { encryptString, decryptString } from './crypto';
 import type {
   VapiConfig,
   TwilioConfig,
@@ -145,7 +146,8 @@ export class IntegrationManager {
       // Map camelCase to snake_case for database
       const dbConfig = {
         account_sid: config.accountSid,
-        auth_token: config.authToken,
+        // Encrypt sensitive token at rest
+        auth_token: encryptString(config.authToken),
         phone_number: config.phoneNumber,
         messaging_service_sid: config.messagingServiceSid || null,
         webhook_url: config.webhookUrl || null,
@@ -225,7 +227,8 @@ export class IntegrationManager {
       
       // Map camelCase to snake_case for database
       const dbConfig = {
-        api_key: config.apiKey,
+        // Encrypt API key at rest
+        api_key: encryptString(config.apiKey),
         from_email: config.fromEmail,
         from_name: config.fromName,
         template_id: config.templateId || null,

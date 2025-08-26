@@ -8,8 +8,9 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
 } from '@/components/ui/dialog';
-import { CheckCircle, XCircle, AlertCircle } from 'lucide-react';
+import { CheckCircle, XCircle, AlertCircle, Phone } from 'lucide-react';
 
 interface PropertyDialogProps {
   property: Property;
@@ -66,6 +67,9 @@ export default function PropertyDialog({ property, isOpen, onClose }: PropertyDi
       <DialogContent className="max-w-2xl">
         <DialogHeader>
           <DialogTitle className="text-xl font-bold">Property Details</DialogTitle>
+          <DialogDescription>
+            View property information and send outreach via VAPI calls and Twilio SMS.
+          </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-6">
@@ -85,6 +89,10 @@ export default function PropertyDialog({ property, isOpen, onClose }: PropertyDi
             <div>
               <h3 className="text-sm font-medium text-gray-500">Contact Info</h3>
               <p className="font-medium">{property.contactInfo}</p>
+            </div>
+            <div>
+              <h3 className="text-sm font-medium text-gray-500">Phone</h3>
+              <p className="font-medium flex items-center"><Phone className="h-4 w-4 mr-1" />{property.phone}</p>
             </div>
             <div>
               <h3 className="text-sm font-medium text-gray-500">Type</h3>
